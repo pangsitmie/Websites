@@ -1,0 +1,164 @@
+<!-- JUMBOTRON -->
+    <!-- <div class="container-fluid">
+        <div class="row jumbotron">
+            <div class="col-xs 12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+                <p class="lead">the printing and typesetting industry. Lorem
+                    Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                    when an unknown printer took a galley of type and scrambled it to make 
+                    a type specimen book. It has survived not only five centuries, but also 
+                    the leap into electronic typesetting, remaining essentially</p>
+            </div>
+            <div class="col-xs 12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                <a href="#">
+                    <button type="button" class="btn btn-outline-secondary btn-lg">web hosting</button>
+                </a>
+            </div>
+        </div>
+    </div> -->
+
+
+<!-- IMAGE SLIDER -->
+    <div id="slides" class="carousel slide" data-rider="carousel ">
+        <ul class="carousel-indicators">
+            <li data-target="#slides" data-slide-to="0" class="active"></li>
+            <li data-target="#slides" data-slide-to="1"></li>
+            <li data-target="#slides" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/bg1.jpg" alt="">
+                <div class="carousel-caption">
+                    <h1 class="display-2">Bootstrap</h1>
+                    <h3>complete wensote ;ayout</h3>
+                    <button type="button" class="btn btn-outline-light btn-lg">View Demo</button>
+                    <button type="button" class="btn btn-primary btn-lg">Get started</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img/bg2.jpg" alt="">
+            </div>
+            <div class="carousel-item">
+                <img src="img/bg3.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+
+
+ <!-- WELCOME SECTION -->
+    <div class="container-fluid padding">
+        <div class="row text-center welcome ">
+            <div class="col-12">
+                <h1 class="display-4">Built with ease.</h1>
+            </div>
+            <hr>
+            <div class="col-12">
+                <p class="lead">Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                    when an unknown printer took a galley of type and scrambled it to make 
+                    a type specimen book. It has survived not only five centuri</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- THREE COLUM SECTION -->
+    <div class="container-fluid padding">
+        <div class="row text-center padding">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <i class="fa-solid fa-code"></i>
+                <h3>HTML5</h3>
+                <P class="lead"> build with the latest html</P>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <i class="fa-solid fa-bold"></i>
+                <h3>bootstrap</h3>
+                <P class="lead"> build with the latest html</P>
+            </div>
+            <div class="col-md-4">
+                <i class="fa-solid fa-code"></i>
+                <h3>css</h3>
+                <P class="lead"> build with the latest html</P>
+            </div>
+        </div>
+        <hr class="my-4">
+    </div>
+
+    
+    
+
+    <!-- FIXED IAMGE BACKGROUND -->
+    <figure>
+        <div class="fixed-wrap">
+            <div id="fixed">
+                 
+            </div>
+        </div>
+    </figure>
+
+    <!-- EMOJI SECTION -->
+    <button type="button" class="fun" data-toggle="collapse" data-target="#emoji">Click for fun</button>
+    <div id="emoji" class="collapse">
+        <div class="container-fluid padding">
+            <div class="row text-center">
+                <div class="col-sm-6 col-md-3">
+                    <img class="gif" src="img/gif/panda.gif">
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <img class="gif" src="img/gif/chicken.gif">
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <img class="gif" src="img/gif/poo.gif">
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <img class="gif" src="img/gif/unicorn.gif">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- MEET THE TEAM -->
+    <div class="container-fluid padding">
+        <div class="row welcome text-center">
+            <div class="col-12">
+                <h1 class="display-4">Meet the team</h1>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="container-fluid padding">
+        <div class="row padding">
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top"  src="img/team1.png" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">John doe</h4>
+                        <p class="card-text">joe is an internet enterprenuer almost 20 years</p>
+                        <a href="#" class="btn btn-outline-secondary"> see profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top"  src="img/team1.png" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">John doe</h4>
+                        <p class="card-text">joe is an internet enterprenuer almost 20 years</p>
+                        <a href="#" class="btn btn-outline-secondary"> see profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top"  src="img/team1.png" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">John doe</h4>
+                        <p class="card-text">joe is an internet enterprenuer almost 20 years</p>
+                        <a href="#" class="btn btn-outline-secondary"> see profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

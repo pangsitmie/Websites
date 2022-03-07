@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header>
+      <a href="#" class="logo">Logo</a>
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Work</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </header>
+
+    <!-- SECTION -->
+    <section>
+      <img src="stars.png" alt="" id="stars" />
+      <img src="moon.png" alt="" id="moon" />
+      <img src="mountains_behind.png" alt="" id="mountains_behind" />
+      <h2 id="text">Hi I am jeriel</h2>
+      <a href="#" id="btn">Explore</a>
+      <img src="mountains_front.png" alt="" id="mountains_front" />
+    </section>
+
+    <div class="sec" id="sec">
+      <h2>Paralax Scrolling Effects</h2>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero iusto,
+        saepe facilis blanditiis eius qui voluptatem eveniet aut culpa
+        reiciendis, eaque omnis dolor velit sit exercitationem quidem animi a
+        quibusdam. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet aut
+        culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam.Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam. Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam. Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam.Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam. <br /><br />Lorem, ipsum dolor sit amet consectetur
+        adipisicing elit. Vero iusto, saepe facilis blanditiis eius qui
+        voluptatem eveniet aut culpa reiciendis, eaque omnis dolor velit sit
+        exercitationem quidem animi a quibusdam. Lorem, ipsum dolor sit amet
+        consectetur adipisicing elit. Vero iusto, saepe facilis blanditiis eius
+        qui voluptatem eveniet aut culpa reiciendis, eaque omnis dolor velit sit
+        exercitationem quidem animi a quibusdam.Lorem, ipsum dolor sit amet
+        consectetur adipisicing elit. Vero iusto, saepe facilis blanditiis eius
+        qui voluptatem eveniet aut culpa reiciendis, eaque omnis dolor velit sit
+        exercitationem quidem animi a quibusdam. Lorem, ipsum dolor sit amet
+        consectetur adipisicing elit. Vero iusto, saepe facilis blanditiis eius
+        qui voluptatem eveniet aut culpa reiciendis, eaque omnis dolor velit sit
+        exercitationem quidem animi a quibusdam. Lorem, ipsum dolor sit amet
+        consectetur adipisicing elit. Vero iusto, saepe facilis blanditiis eius
+        qui voluptatem eveniet aut culpa reiciendis, eaque omnis dolor velit sit
+        exercitationem quidem animi a quibusdam.Lorem, ipsum dolor sit amet
+        consectetur adipisicing elit. Vero iusto, saepe facilis blanditiis eius
+        qui voluptatem eveniet aut culpa reiciendis, eaque omnis dolor velit sit
+        exercitationem quidem animi a quibusdam.<br /><br />
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero iusto,
+        saepe facilis blanditiis eius qui voluptatem eveniet aut culpa
+        reiciendis, eaque omnis dolor velit sit exercitationem quidem animi a
+        quibusdam. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet aut
+        culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam.Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam. Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam. Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam.Lorem, ipsum dolor sit amet consectetur adipisicing
+        elit. Vero iusto, saepe facilis blanditiis eius qui voluptatem eveniet
+        aut culpa reiciendis, eaque omnis dolor velit sit exercitationem quidem
+        animi a quibusdam.<br /><br />
+      </p>
+    </div>
+
+    <script>
+      let stars = document.getElementById("stars");
+      let moon = document.getElementById("moon");
+      let mountains_behind = document.getElementById("mountains_behind");
+      let mountains_front = document.getElementById("mountains_front");
+      let text = document.getElementById("text");
+      let btn = document.getElementById("btn");
+      let header = document.querySelector("header");
+
+      window.addEventListener("scroll", function () {
+        let value = window.scrollY;
+        stars.style.left = value * 0.5 + "px";
+        moon.style.top = value * 2.2 + "px";
+        mountains_behind.style.top = value * 0.5 + "px";
+        text.style.marginRight = value * 3 + "px";
+        text.style.marginTop = value * 1.5 + "px";
+        btn.style.marginTop = value * 1.5 + "px";
+        btn.style.opacity = value * 0.005;
+        header.style.top = value * 0.5 + "px";
+      });
+    </script>
+  </body>
+</html>
