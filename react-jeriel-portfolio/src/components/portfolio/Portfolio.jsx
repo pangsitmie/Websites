@@ -1,11 +1,11 @@
 import React from 'react'
 import './portfolio.css'
-import IMG1 from '../../assets/portfolio1.jpg'
+import IMG1 from '../../assets/tucope.jpg'
 import IMG2 from '../../assets/portfolio2.jpg'
-import IMG3 from '../../assets/portfolio3.jpg'
-import IMG4 from '../../assets/portfolio4.jpg'
-import IMG5 from '../../assets/portfolio5.png'
-import IMG6 from '../../assets/portfolio6.jpg'
+import IMG3 from '../../assets/coin_toss_kmeans.jpg'
+import IMG4 from '../../assets/MRI_kmeans.jpg'
+import IMG5 from '../../assets/coming_soon.jpg'
+import IMG6 from '../../assets/coming_soon.jpg'
 
 
 const data = [
@@ -40,14 +40,14 @@ const data = [
   {
     id:5,
     image: IMG5,
-    title: 'Crypto Currency Dashboard & Financial Visualization',
+    title: 'Wait For The Next Update :)',
     github: 'https://github.com',
     demo: 'https://github.com'
   },
   {
     id:6,
     image: IMG6,
-    title: 'Crypto Currency Dashboard & Financial Visualization',
+    title: 'Wait For The Next Update :)',
     github: 'https://github.com',
     demo: 'https://github.com'
   }
