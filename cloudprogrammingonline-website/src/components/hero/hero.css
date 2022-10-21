@@ -1,0 +1,53 @@
+.header__container {
+    text-align: center;
+    height: 100%;
+    position: relative;
+    padding: 20rem 0 25rem 0;
+}
+
+.hero-title {
+    font-size: 6rem;
+    font-weight: bold;
+}
+
+.about__content {
+    display: grid;
+    grid-template-columns: 60% 40%;
+
+}
+
+
+.content_left {
+    padding: 2rem 5rem;
+}
+
+.description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.content_right {
+    padding: 2rem 5rem;
+}
+
+.about__card {
+    border: 1px solid white;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.about__card h2 {
+    margin-top: 1rem;
+    font-size: 3rem;
+    letter-spacing: .5rem;
+}
+
+.about__card h5 {
+    font-size: 1rem;
+    letter-spacing: .2rem;
+}
+
+.btn-stroke {
+    margin-left: 2rem;
+}
