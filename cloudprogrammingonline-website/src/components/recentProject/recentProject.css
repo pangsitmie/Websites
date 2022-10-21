@@ -1,0 +1,107 @@
+.about__container {
+    display: grid;
+    grid-template-columns: 35% 50%;
+    gap: 15%;
+}
+
+.about__me {
+    width: 100%;
+    aspect-ratio: 1/0.7;
+    border-radius: 2rem;
+    background: linear-gradient(45deg, #1a192b, transparent, #1a192b);
+    /* background: #1a192b; */
+    place-items: center;
+    margin-bottom: 5rem;
+}
+
+.about__me-image {
+    position: relative;
+    border-radius: 2rem;
+    transition: var(--transition);
+    margin: auto;
+    display: flex;
+    top: -90px;
+}
+
+.about__me-image img {
+    width: 20rem;
+    height: 15rem;
+    margin: auto;
+}
+
+.project_btn_container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 1.5rem;
+}
+
+.project_btn_container h3 {
+    font-size: 2rem;
+}
+
+
+
+.recet_project_content {
+    align-items: center;
+    margin: auto;
+}
+
+.recet_project_content h2 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+}
+
+.about__me-image:hover {
+    transform: rotate(-10deg);
+    transition: var(--transition);
+}
+
+.description {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.description em {
+    font-style: normal;
+    color: var(--color-primary);
+}
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .about__container {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .about__me {
+        width: 50%;
+        margin: 2rem auto 4rem;
+    }
+
+    .recet_project_content p {
+        margin: 1rem 0 1.5rem;
+    }
+}
+
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .about__me {
+        width: 65%;
+        margin: 0 auto 3rem;
+    }
+
+    .about__cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .recet_project_content {
+        text-align: center;
+    }
+
+    .recet_project_content p {
+        margin: 1.5rem 0;
+    }
+}
