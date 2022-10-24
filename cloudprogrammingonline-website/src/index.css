@@ -24,7 +24,8 @@
     /* --color-bg: #FCF7FF;
     --color-bg-variant: #e3e3e3; */
     --color-primary: #61F8D4;
-    --color-pink: #FB71AE;
+    --color-pink: #281c72;
+    --color-purple: #260A2B;
     --color-primary-variant: rgba(77, 181, 255, 0.4);
     --color-white: #FFF;
     --color-black: #1C1C1C;
@@ -94,7 +95,7 @@ section>h2 {
 
 .btn {
     border-radius: 1rem;
-    padding: 1rem 2.5rem;
+    padding: 1rem 3rem;
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-white);
@@ -105,12 +106,24 @@ section>h2 {
 }
 
 .btn-fill-white {
+    border: 1px solid #BFA9DD;
     background: #BFA9DD;
     color: var(--color-white);
+}
+
+.btn-fill-white:hover {
+    background: transparent;
+    border-color: var(--color-purple);
 }
 
 .btn-stroke {
     background: transparent;
     border-color: var(--color-white);
-    border: 1px solid white;
+    border: 1px solid #BFA9DD;
+}
+
+.btn-stroke:hover {
+    background: transparent;
+    border-color: var(--color-purple);
+
 }

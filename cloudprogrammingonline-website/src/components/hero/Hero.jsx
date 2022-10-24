@@ -4,7 +4,8 @@ const Hero = () => {
     return (
         <div>
             <div className="container header__container">
-                <h1 className='hero-title'>雲程在線 <br></br>創意無限</h1>
+                <h1 className='hero-title'>雲程在線</h1>
+                <h2 className='hero-desc'>創意無限</h2>
             </div>
 
             <div className="container about__content">

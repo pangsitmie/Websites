@@ -2,11 +2,16 @@
     text-align: center;
     height: 100%;
     position: relative;
-    padding: 20rem 0 10rem 0;
+    padding: 20rem 0 15rem 0;
 }
 
 .hero-title {
-    font-size: 8rem;
+    font-size: 7.2rem;
+    font-weight: bold;
+}
+
+.hero-desc {
+    font-size: 5.5rem;
     font-weight: bold;
 }
 
@@ -20,8 +25,9 @@
 }
 
 .description {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 2rem;
+    letter-spacing: .05rem;
 }
 
 .content_right {

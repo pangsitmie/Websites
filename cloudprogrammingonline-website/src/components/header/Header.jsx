@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '../nav/Nav'
-import CLOUD3D from '../../assets/cloud3d.png'
+import CLOUD3D from '../../assets/cloud3d1.png'
 import Hero from '../hero/Hero'
 import './header.css'
 
