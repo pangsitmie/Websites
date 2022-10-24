@@ -10,10 +10,12 @@ const Hero = () => {
             <div className="container about__content">
                 <div className='content_left'>
                     <h2 className='description' >
-                        羅位陽育些常料現、東女相提兒遠：特的外才刻東是收血。除座去重定們生它行裡師福動原效關一、張前電香物了投時。有開立養麼書頭年萬人過治世的市次相家，和老電她不、
+                        雲程在線股份有限公司(以下簡稱雲程在線)為中台灣以實體遊戲機為基底，
+                        具備雲端運算、數位服務、虛實整合、雲端支付等多項軟、韌、硬體兼具之資訊研發公司，
+                        期望以台灣市場經驗領軍到全球各地。
                     </h2>
                     <div>
-                        <button className="btn btn-fill">關於我們</button>
+                        <button className="btn btn-fill-white">關於我們</button>
                         <button className='btn btn-stroke'>聯繫我們</button>
                     </div>
                 </div>

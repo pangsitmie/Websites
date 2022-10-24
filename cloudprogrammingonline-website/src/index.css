@@ -14,8 +14,9 @@
 
 /* #3BBA9C; */
 :root {
-    --color-bg: #010013;
-    --color-bg-variant: #112240;
+    /* --color-bg: #010013; */
+    --color-bg: #0F0E2A;
+    --color-bg-variant: #112540;
     /* --color-primary: #3BBA9C;
     --color-primary-variant: #707793; */
 
@@ -92,7 +93,7 @@ section>h2 {
 }
 
 .btn {
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     padding: 1rem 2.5rem;
     font-size: 1rem;
     font-weight: 600;
@@ -100,7 +101,12 @@ section>h2 {
 }
 
 .btn-fill {
-    background: var(--color-pink);
+    background: #1A192B;
+}
+
+.btn-fill-white {
+    background: #BFA9DD;
+    color: var(--color-white);
 }
 
 .btn-stroke {

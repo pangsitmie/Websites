@@ -8,7 +8,7 @@ const RecentProject = () => {
         <section id='about'>
             <div className="container about__container">
                 <div>
-                    <div className="about__me ">
+                    <div className="about__me2">
                         <div className='about__me-image'>
                             <img src={CLOUD_PURPLE} alt="yuncheng projcetss" />
                         </div>
@@ -17,9 +17,9 @@ const RecentProject = () => {
                             <button className='btn btn-fill'>進一步了解</button>
                         </div>
                     </div>
-                    <div className="about__me">
+                    <div className="about__me2">
                         <div className='about__me-image'>
-                            <img src={CART_PURPLE} alt="About Jeriel" />
+                            <img src={CART_PURPLE} alt="About yuncheng" />
                         </div>
                         <div className='project_btn_container'>
                             <h3>營銷支付</h3>
