@@ -24,7 +24,7 @@
     /* --color-bg: #FCF7FF;
     --color-bg-variant: #e3e3e3; */
     --color-primary: #61F8D4;
-    --color-pink: #281c72;
+    --color-blue: #281c72;
     --color-purple: #260A2B;
     --color-primary-variant: rgba(77, 181, 255, 0.4);
     --color-white: #FFF;
@@ -95,35 +95,55 @@ section>h2 {
 
 .btn {
     border-radius: 1rem;
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-white);
 }
 
 .btn-fill {
-    background: #1A192B;
+    border: 1px solid #1A192B;
+    background: rgb(26, 25, 43);
+    transition: var(--transition);
+}
+
+.btn-fill:hover {
+    background: var(--color-white);
+    border-color: linear-gradient(to right, #8B287B, #22305D);
+    color: #1A192B;
+    transition: var(--transition);
 }
 
 .btn-fill-white {
-    border: 1px solid #BFA9DD;
-    background: #BFA9DD;
-    color: var(--color-white);
+    border: 1px solid #cfc6dc;
+    background: #ffffff;
+    color: var(--color-black);
+    transition: var(--transition);
 }
 
 .btn-fill-white:hover {
-    background: transparent;
-    border-color: var(--color-purple);
+    background: linear-gradient(to right, #8B287B, #22305D);
+    border-color: var(--color-white);
+    color: var(--color-white);
+    transition: var(--transition);
 }
 
 .btn-stroke {
     background: transparent;
     border-color: var(--color-white);
     border: 1px solid #BFA9DD;
+    transition: var(--transition);
 }
 
 .btn-stroke:hover {
-    background: transparent;
-    border-color: var(--color-purple);
+    background: linear-gradient(to right, #8B287B, #22305D);
+    border-color: var(--color-white);
+    transition: var(--transition);
+}
 
+em {
+    /* color: linear-gradient(to right, #8B287B, #22305D); */
+    background: -webkit-linear-gradient(#eee, #8B287B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

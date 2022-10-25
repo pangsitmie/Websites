@@ -1,4 +1,5 @@
 import React from 'react'
+import Footer from './components/footer/Footer'
 import Header from './components/header/Header'
 import RecentProject from './components/recentProject/RecentProject'
 import Service from './components/service/Service'
@@ -10,6 +11,7 @@ const App = () => {
             <Header />
             <RecentProject />
             <Service />
+            <Footer />
         </>
     )
 }

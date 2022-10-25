@@ -1,25 +1,27 @@
 import React from 'react'
 import './service.css'
-import SERVICEBG from '../../assets/blog_single.jpeg'
-import IMG1 from '../../assets/blog_single.jpeg'
-import IMG2 from '../../assets/blog_single.jpeg'
-import IMG3 from '../../assets/blog_single.jpeg'
+import SERVICEBG from '../../assets/service.jpg'
+import TEAMBG from '../../assets/team.png'
+import CUSTOMERBG from '../../assets/customer.jpg'
+import FLOWCHART1 from '../../assets/flowchart1.png'
+
+
 const data = [
     {
         id: 1,
-        image: IMG1,
+        image: SERVICEBG,
         title: 'Our Service',
         desc: '哲煜能提供給您的服務？'
     },
     {
         id: 2,
-        image: IMG2,
+        image: TEAMBG,
         title: 'Our Team',
         desc: '為何要找哲煜科技？'
     },
     {
         id: 3,
-        image: IMG3,
+        image: CUSTOMERBG,
         title: 'Our Customer',
         desc: '哲煜的合作案例？'
     }
@@ -29,7 +31,7 @@ const Service = () => {
     return (
         <div className='service_container'>
             <div className="container ">
-                <h1 className='service-title'>我們正在做什麼, <br></br>以及我們公司如何幫助您改善業務</h1>
+                <h1 className='service-title'><em>我們正在做什麼,</em><br></br>以及我們公司如何幫助您改善業務</h1>
             </div>
 
             <div className="container">
@@ -38,23 +40,22 @@ const Service = () => {
                 </h2>
             </div>
 
-            <div style={{ backgroundImage: "url(./assets/blog_single.jpeg)" }} className="container service-block-container ">
+            <div className="container service-block-container ">
                 {
                     data.map(({ id, image, title, desc }) => {
                         return (
-                            <div key={id} className='portfolio__item'>
-                                {/* <div className="portfolio__item-image">
-                                    <img src={image} alt={title} />
-                                </div> */}
+                            <div style={{ backgroundImage: `url(${image})` }} key={id} className='portfolio__item'>
                                 <div className='service_content'>
                                     <h3>{title}</h3>
                                     <a target='_blank' rel="noreferrer">{desc}</a>
                                 </div>
-
                             </div>
                         )
                     })
                 }
+            </div>
+            <div className="flowchart_container">
+                <img src={FLOWCHART1} className="flowchart_image" alt="" />
             </div>
         </div>
     )

@@ -1,10 +1,10 @@
 .service_container {
     margin-top: 8rem;
-    min-height: 600rem;
+
 }
 
 .service-title {
-    font-size: 4.5rem;
+    font-size: 4.2rem;
     font-weight: bold;
     margin-bottom: 2rem;
 }
@@ -16,53 +16,68 @@
 }
 
 .portfolio__item {
-    background-color: var(--color-bg-variant);
-    padding: 1.2rem;
+    padding: .5rem;
     border: 1px solid transparent;
+    border-radius: 15px;
     transition: var(--transition);
-    min-height: 20rem;
+    min-height: 15rem;
+    background-size: 30rem;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .service_content {
-    border: 1px solid transparent;
+    border: 1px solid var(--color-white);
+    border-radius: 15px;
     position: relative;
-    bottom: -10rem;
+    bottom: -7rem;
     align-content: center;
     text-align: center;
-    background: white;
-    min-height: 12rem;
+    background: var(--color-bg);
+    min-height: 13rem;
 }
 
-.portfolio__item:hover {
+/* .portfolio__item:hover {
     border-color: var(--color-primary-variant);
     background: transparent;
-
-}
+} */
 
 .service_content:hover {
-    border-color: var(--color-primary-variant);
-    background: var(--color-bg);
+    background: linear-gradient(to top, #a33c91, #0b132c);
+    transform: scale(1.02)
 }
 
 .service_content:hover .portfolio__item {
     color: var(--color-white);
 }
 
-.portfolio__item-image {
-    width: 100px;
-    height: 200px;
-    overflow: hidden;
-}
 
 .portfolio__item h3 {
-    color: var(--color-bg-variant);
-    font-size: 1.5rem;
-    padding: 2.5rem 0 1rem 0;
+    font-size: 1.3rem;
+    padding: 2.5rem 0 1.8rem 0;
+    background: -webkit-linear-gradient(#eee, #8B287B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
 }
 
 
 .portfolio__item a {
-    color: var(--color-bg-variant);
-    font-size: 2rem;
-    padding: 0rem 0 1rem 0;
+    color: var(--color-white);
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flowchart_container {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 5rem;
+}
+
+.flowchart_image {
+    align-content: center;
+    width: 100%;
 }

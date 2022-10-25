@@ -1,0 +1,124 @@
+footer {
+    margin-top: 5rem;
+    width: 100%;
+    bottom: 0;
+    background: linear-gradient(to right, #8B287B, #22305D);
+    color: #fff;
+    padding: 3rem 3rem 1rem 3rem;
+    border-top-left-radius: 125px;
+    line-height: 20px;
+}
+
+footer a {
+    color: var(--color-white);
+}
+
+.footer__logo {
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding-top: .5rem;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contanct_container {
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+
+.footer_menu {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.footer_menu p:hover {
+    background: -webkit-linear-gradient(#eee, #ed69d7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.col h3 {
+    padding: .2rem;
+    font-size: 1.1rem;
+    width: auto;
+    margin-bottom: 1rem;
+    position: relative;
+    font-weight: bold;
+}
+
+.col p {
+    margin-top: .5rem;
+    font-size: .9rem;
+}
+
+.permalinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0 auto 3rem;
+}
+
+.footer__socials {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    margin-bottom: 4rem;
+}
+
+.footer__socials a {
+    background-color: var(--color-bg);
+    /* background: linear-gradient(to right, #8B287B, #22305D); */
+    color: var(--color-white);
+    padding: 0.8rem 1rem;
+    border-radius: 0.7rem;
+    display: flex;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.footer__socials p {
+    background-color: transparent;
+    /* background: linear-gradient(to right, #8B287B, #22305D); */
+    color: var(--color-white);
+    padding: 0.8rem 1.4rem;
+    border-radius: 0.7rem;
+    display: flex;
+    font-size: .8rem;
+    border: 1px solid var(--color-white);
+    transition: var(--transition);
+}
+
+.footer__socials a:hover {
+    background-color: transparent;
+    color: var(--color-white);
+    border-color: var(--color-white);
+    transition: var(--transition);
+}
+
+.footer__copyright {
+    margin-top: 5rem;
+    margin-bottom: .5rem;
+    font-size: 1rem;
+    color: var(--color-white);
+    text-align: center;
+}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .permalinks {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .footer__socials {
+        margin-bottom: 2.6rem;
+    }
+}

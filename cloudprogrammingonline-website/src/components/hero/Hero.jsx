@@ -5,7 +5,7 @@ const Hero = () => {
         <div>
             <div className="container header__container">
                 <h1 className='hero-title'>雲程在線</h1>
-                <h2 className='hero-desc'>創意無限</h2>
+                <h2 className='hero-desc'><em>創意無限</em></h2>
             </div>
 
             <div className="container about__content">
@@ -23,7 +23,7 @@ const Hero = () => {
                 <div className='content_right'>
                     <article className='about__card'>
                         <h5>最新產品</h5>
-                        <h2 className='latest_app_title'>滿天星</h2>
+                        <h2 className='latest_app_title'><em>滿天星</em></h2>
                     </article>
                 </div>
             </div>
