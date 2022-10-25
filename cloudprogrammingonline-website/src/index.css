@@ -33,11 +33,16 @@
     --color-dark: rgba(0, 0, 0, 0.7);
 
     --transition: all 400ms ease;
-    ;
+    --speed: 500ms;
 
     --container-width-lg: 75%;
     --container-width-md: 86%;
     --container-width-sm: 90%;
+
+    --border: 1px solid transparent;
+    --border-radius: 0.7rem;
+
+    --nav-size: 60px;
 }
 
 html {
@@ -54,6 +59,7 @@ body {
     background: var(--color-bg);
     color: var(--color-white);
     line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* General Syyles */

@@ -1,17 +1,12 @@
-.logo {
-    width: 10rem;
-    height: 2rem;
-}
-
 header {
     height: 100px;
-    padding: 3rem 10rem;
+    padding: 1rem 8rem;
     color: var(--color-white);
 }
 
-nav {
-    float: right;
-    align-items: center;
+.logo {
+    width: 10rem;
+    height: 2rem;
 }
 
 ul {
@@ -23,6 +18,21 @@ nav a {
     color: var(--color-white);
     font-size: 1.1rem;
     font-weight: 500;
+}
+
+.navbar {
+    height: var(--nav-size);
+    padding: 1rem 1rem;
+    border-bottom: var(--border);
+    align-content: center;
+}
+
+.navbar-nav {
+    max-width: 100%;
+    height: 100%;
+    display: inline-flex;
+    float: right;
+    justify-content: flex-end;
 }
 
 nav a:hover {

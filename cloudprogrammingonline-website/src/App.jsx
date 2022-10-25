@@ -1,4 +1,5 @@
 import React from 'react'
+import DropdownMenu from './components/dropdown/DropdownMenu'
 import Footer from './components/footer/Footer'
 import Header from './components/header/Header'
 import RecentProject from './components/recentProject/RecentProject'
