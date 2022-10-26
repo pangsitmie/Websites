@@ -19,16 +19,21 @@ const Nav = () => {
         <header>
             <Navbar>
                 <NavItem title="商業合作">
-                    <DropdownMenu title="商業合作"></DropdownMenu>
+                    <DropdownMenu goToMenu="0"></DropdownMenu>
                 </NavItem>
 
-                <NavItem title="服務平台" />
-                <NavItem title="遊戲娛樂" />
+                <NavItem title="服務平台">
+                    <DropdownMenu goToMenu="1"></DropdownMenu>
+                </NavItem>
+
+                <NavItem title="遊戲娛樂">
+                    <DropdownMenu idx="2"></DropdownMenu>
+                </NavItem>
                 <NavItem title="多媒體設計" />
                 <NavItem title="關於我們" />
 
-                <NavItem title="Lang">
-                    <DropdownMenu></DropdownMenu>
+                <NavItem title="語言">
+
                 </NavItem>
             </Navbar>
         </header>
@@ -46,11 +51,15 @@ function Navbar(props) {
 }
 
 function NavItem(props) {
+    const [activeMenu, setActiveMenu] = useState('main');
+
     const [open, setOpen] = useState(false);
+    const [menuHeight, setMenuHeight] = useState(null);
+    const dropdownRef = useRef(null);
 
     return (
         <li className="nav-item">
-            <a href="#" className="icon-button" onClick={() => setOpen(!open)}>
+            <a href="#" className="icon-button" onClick={() => setOpen(!open) && props.goToMenu && setActiveMenu(props.goToMenu)}>
                 {props.title}
             </a>
 
@@ -59,14 +68,16 @@ function NavItem(props) {
     );
 }
 
-function DropdownMenu() {
+function DropdownMenu(props) {
     const [activeMenu, setActiveMenu] = useState('main');
+    // const [activeMenu, setActiveMenu] = useState('商業合作');
+
     const [menuHeight, setMenuHeight] = useState(null);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
         setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [])
+    }, [activeMenu])
 
     function calcHeight(el) {
         const height = el.offsetHeight;
@@ -76,15 +87,42 @@ function DropdownMenu() {
     function DropdownItem(props) {
         return (
             <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-                <span className="icon-button">{props.leftIcon}</span>
                 {props.children}
-                <span className="icon-right">{props.rightIcon}</span>
             </a>
         );
     }
 
     return (
         <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+            <CSSTransition
+                in={activeMenu === '0'}
+                timeout={500}
+                classNames="menu-primary"
+                unmountOnExit
+                onEnter={calcHeight}>
+                <div className="menu">
+                    <DropdownItem>LINE吸粉服務</DropdownItem>
+                    <DropdownItem goToMenu="1">
+                        查帳系統
+                    </DropdownItem>
+                    <DropdownItem goToMenu="animals">
+                        Animals
+                    </DropdownItem>
+                </div>
+            </CSSTransition>
+
+            <CSSTransition
+                in={activeMenu === '1'}
+                timeout={500}
+                classNames="menu-primary"
+                unmountOnExit
+                onEnter={calcHeight}>
+                <div className="menu">
+                    <DropdownItem>營銷系統</DropdownItem>
+                    <DropdownItem>小弟外送平台</DropdownItem>
+                    <DropdownItem>格子舖</DropdownItem>
+                </div>
+            </CSSTransition>
 
             <CSSTransition
                 in={activeMenu === 'main'}
@@ -93,19 +131,15 @@ function DropdownMenu() {
                 unmountOnExit
                 onEnter={calcHeight}>
                 <div className="menu">
-                    <DropdownItem>My Profile</DropdownItem>
-                    <DropdownItem
-                        goToMenu="settings">
-                        Settings
-                    </DropdownItem>
-                    <DropdownItem
-                        goToMenu="animals">
-                        Animals
-                    </DropdownItem>
-
+                    <DropdownItem>iPickPro</DropdownItem>
+                    <DropdownItem>小弟外送平台</DropdownItem>
+                    <DropdownItem>遊樂城APP建置</DropdownItem>
                 </div>
             </CSSTransition>
 
+
+
+            {/* ====================MULTI LEVEL DROPDOWN ==========================================*/}
             <CSSTransition
                 in={activeMenu === 'settings'}
                 timeout={500}

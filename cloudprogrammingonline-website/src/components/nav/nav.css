@@ -68,6 +68,62 @@ header .nav-btn {
     /* user vertical-align bottom for react icons so it can be straight with other text */
 }
 
+/* Dropdown Menu */
+
+.dropdown {
+    position: absolute;
+    top: 70px;
+    width: 200px;
+    transform: translateX(-25%);
+    background-color: rgba(221, 216, 213, 0.15);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
+.menu {
+    padding: 5px;
+    width: 100%;
+}
+
+.menu-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: var(--speed);
+    margin: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    justify-content: center;
+}
+
+.menu-item:hover {
+    color: white;
+}
+
+/* CSSTransition classes  */
+.menu-primary-enter {
+    position: absolute;
+    transform: translateX(-110%);
+}
+
+.menu-primary-enter-active {
+    transform: translateX(0%);
+    transition: all var(--speed) ease;
+}
+
+.menu-primary-exit {
+    position: absolute;
+}
+
+.menu-primary-exit-active {
+    transform: translateX(-110%);
+    transition: all var(--speed) ease;
+}
+
+
 @media only screen and (max-width: 1024px) {
     header .nav-btn {
         visibility: visible;
