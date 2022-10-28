@@ -16,8 +16,8 @@ const Hero = () => {
                         期望以台灣市場經驗領軍到全球各地。
                     </h2>
                     <div>
-                        <button className="btn btn-fill-white">關於我們</button>
-                        <button className='btn btn-stroke'>聯繫我們</button>
+                        <button className="btn btn-fill-white glow-on-hover">關於我們</button>
+                        <button className='btn btn-stroke glow-on-hover'>聯繫我們</button>
                     </div>
                 </div>
                 <div className='content_right'>
