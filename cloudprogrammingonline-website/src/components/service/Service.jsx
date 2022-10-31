@@ -35,7 +35,7 @@ const Service = () => {
             </div>
 
             <div className="container">
-                <h2 className='description' >
+                <h2 className='service-desc' >
                     羅位陽育些常料現、東女相提兒遠：特的外才刻東是收血。除座去重定們生它行裡師福動原效關一、張前電香物了投時。有開立養麼書頭年萬人過治世的市次相家，和老電她不、
                 </h2>
             </div>
@@ -44,7 +44,7 @@ const Service = () => {
                 {
                     data.map(({ id, image, title, desc }) => {
                         return (
-                            <div style={{ backgroundImage: `url(${image})` }} key={id} className='portfolio__item'>
+                            <div style={{ backgroundImage: `url(${image})` }} key={id} className='portfolio__item '>
                                 <div className='service_content'>
                                     <h3>{title}</h3>
                                     <a target='_blank' rel="noreferrer">{desc}</a>

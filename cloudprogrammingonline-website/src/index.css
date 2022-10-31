@@ -15,7 +15,7 @@
 /* #3BBA9C; */
 :root {
     /* --color-bg: #010013; */
-    --color-bg: #0F0E2A;
+    --color-bg: #030306;
     --color-bg-variant: #112540;
     /* --color-primary: #3BBA9C;
     --color-primary-variant: #707793; */
@@ -40,9 +40,7 @@
     --container-width-sm: 90%;
 
     --border: 1px solid transparent;
-    --border-radius: 0.7rem;
-
-    --nav-size: 60px;
+    --border-radius: 0.65rem;
 }
 
 html {
@@ -80,6 +78,10 @@ h1 {
     font-size: 2.8rem;
 }
 
+p {
+    font-size: 1.1rem;
+}
+
 section {
     margin-top: 8rem;
 }
@@ -100,11 +102,12 @@ section>h2 {
 }
 
 .btn {
-    border-radius: 1rem;
+    border-radius: 15rem;
     padding: 1rem 2rem;
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-white);
+    z-index: 10000;
 }
 
 .btn-fill {
@@ -158,13 +161,12 @@ section>h2 {
     cursor: pointer;
     position: relative;
     z-index: 0;
-    border-radius: 10px;
     border-color: var(--color-white);
 }
 
 .glow-on-hover:before {
     content: '';
-    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background: linear-gradient(45deg, #260A2B, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #260A2B);
     position: absolute;
     top: -2px;
     left: -2px;
@@ -176,7 +178,7 @@ section>h2 {
     animation: glowing 20s linear infinite;
     opacity: 0;
     transition: opacity .3s ease-in-out;
-    border-radius: 10px;
+    border-radius: 15rem;
 }
 
 .glow-on-hover:active {
@@ -201,7 +203,7 @@ section>h2 {
     border-color: var(--color-white);
     left: 0;
     top: 0;
-    border-radius: 10px;
+    border-radius: 15rem;
 }
 
 @keyframes glowing {
@@ -223,4 +225,41 @@ em {
     background: -webkit-linear-gradient(#eee, #8B287B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.clearfix {
+    clear: both;
+}
+
+
+
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .container {
+        width: var(--container-width-md);
+    }
+
+    section {
+        margin-top: 6rem;
+    }
+}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .container {
+        width: var(--container-width-sm);
+    }
+
+    section>h2 {
+        margin-bottom: 2rem;
+    }
+
+    .text-title {
+        font-size: 35px;
+    }
+
+    .text-subtitle {
+        font-size: 15px;
+    }
 }

@@ -1,0 +1,8 @@
+.background_cloud {
+    position: absolute;
+    width: 140rem;
+    height: 89rem;
+    left: -10rem;
+    top: -13rem;
+    z-index: -1;
+}

@@ -1,179 +1,129 @@
-import React from 'react'
 import './nav.css'
-import { FaBars, FaTimes } from "react-icons/fa"
-import { TbWorld } from "react-icons/tb"
 import LOGOFULL from '../../assets/logo_full.png'
-import { useState, useEffect, useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import React, { useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import { FiAlignRight, FiXCircle, FiChevronDown } from "react-icons/fi";
 
 const Nav = () => {
-    // const navRef = useRef();
+    const [isMenu, setisMenu] = useState(false);
+    const [isResponsiveclose, setResponsiveclose] = useState(false);
+    const toggleClass = () => {
+        setisMenu(isMenu === false ? true : false);
+        setResponsiveclose(isResponsiveclose === false ? true : false);
+    };
 
-    // const showNavbar = () => {
-    //     navRef.current.classList.toggle("responsive_nav");
-    // }
+    let boxClass = ["main-menu menu-right menuq1"];
+    if (isMenu) {
+        boxClass.push('menuq2');
+    } else {
+        boxClass.push('');
+    }
 
-    // const [activeNav, setActiveNav] = useState('#')
+    const [isMenuSubMenu1, setMenuSubMenu1] = useState(false);
+    const [isMenuSubMenu2, setMenuSubMenu2] = useState(false);
+    const [isMenuSubMenu3, setMenuSubMenu3] = useState(false);
+
+    const toggleSubmenu1 = () => {
+        setMenuSubMenu1(isMenuSubMenu1 === false ? true : false);
+    };
+
+    const toggleSubmenu2 = () => {
+        setMenuSubMenu2(isMenuSubMenu2 === false ? true : false);
+    };
+
+    const toggleSubmenu3 = () => {
+        setMenuSubMenu3(isMenuSubMenu3 === false ? true : false);
+    };
+
+    let boxClassSubMenu1 = ["sub__menus"];
+    if (isMenuSubMenu1) {
+        boxClassSubMenu1.push('sub__menus__Active');
+    } else {
+        boxClassSubMenu1.push('');
+    }
+
+    let boxClassSubMenu2 = ["sub__menus"];
+    if (isMenuSubMenu2) {
+        boxClassSubMenu2.push('sub__menus__Active');
+    } else {
+        boxClassSubMenu2.push('');
+    }
+
+    let boxClassSubMenu3 = ["sub__menus"];
+    if (isMenuSubMenu3) {
+        boxClassSubMenu3.push('sub__menus__Active');
+    } else {
+        boxClassSubMenu3.push('');
+    }
 
     return (
-        <header>
-            <Navbar>
-                <NavItem title="商業合作">
-                    <DropdownMenu goToMenu="0"></DropdownMenu>
-                </NavItem>
+        <header className="header__middle">
+            <div className="container">
+                <div className="row">
 
-                <NavItem title="服務平台">
-                    <DropdownMenu goToMenu="1"></DropdownMenu>
-                </NavItem>
+                    {/* Add Logo  */}
+                    <div className="header__middle__logo">
+                        <NavLink exact activeClassName='is-active' to="/">
+                            <img src={LOGOFULL} alt="logo" />
+                        </NavLink>
+                    </div>
 
-                <NavItem title="遊戲娛樂">
-                    <DropdownMenu idx="2"></DropdownMenu>
-                </NavItem>
-                <NavItem title="多媒體設計" />
-                <NavItem title="關於我們" />
+                    <div className="header__middle__menus">
+                        <nav className="main-nav " >
 
-                <NavItem title="語言">
+                            {/* Responsive Menu Button */}
+                            {isResponsiveclose === true ? <>
+                                <span className="menubar__button" style={{ display: 'none' }} onClick={toggleClass} > <FiXCircle />   </span>
+                            </> : <>
+                                <span className="menubar__button" style={{ display: 'none' }} onClick={toggleClass} > <FiAlignRight />   </span>
+                            </>}
 
-                </NavItem>
-            </Navbar>
+
+                            <ul className={boxClass.join(' ')}>
+                                <li className="menu-item" >
+                                    <NavLink exact activeClassName='is-active' onClick={toggleClass} to={`/`}> Home </NavLink>
+                                </li>
+
+                                {/* 商務合作 MENU ITEM */}
+                                <li onClick={toggleSubmenu1} className="menu-item sub__menus__arrows" > <Link to="#">商務合作<FiChevronDown /> </Link>
+                                    <ul className={boxClassSubMenu1.join(' ')} >
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/line`}>LINE吸粉服務</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/search-system`}>查帳系統</NavLink> </li>
+                                    </ul>
+                                </li>
+
+                                {/* 服務平台 MENU ITEM */}
+                                <li onClick={toggleSubmenu2} className="menu-item sub__menus__arrows" > <Link to="#">服務平台<FiChevronDown /> </Link>
+                                    <ul className={boxClassSubMenu2.join(' ')} >
+                                        <li> <NavLink onClick={toggleClass} activeClassName='is-active' to={`/marketing-system`}>營銷系統</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/xiaodi`}>小弟外送平台</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/block-store`}>格子舖</NavLink> </li>
+                                    </ul>
+                                </li>
+
+                                {/* 遊戲娛樂 MENU ITEM */}
+                                <li onClick={toggleSubmenu3} className="menu-item sub__menus__arrows" > <Link to="#">遊戲娛樂<FiChevronDown /> </Link>
+                                    <ul className={boxClassSubMenu3.join(' ')} >
+                                        <li> <NavLink onClick={toggleClass} activeClassName='is-active' to={`/ipickpro`}>iPickPro</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/galaxy-city`}>遊樂城APP建置</NavLink> </li>
+                                    </ul>
+                                </li>
+
+                                {/* 多媒體設計 MENU ITEM */}
+                                <li className="menu-item" ><NavLink onClick={toggleClass} activeClassName='is-active' to={`/media-design`}>多媒體設計</NavLink> </li>
+
+                                {/* 多媒體設計 MENU ITEM */}
+                                <li className="menu-item" ><NavLink onClick={toggleClass} activeClassName='is-active' to={`/About`}>關於我們</NavLink> </li>
+                            </ul>
+
+
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
         </header>
     )
 }
 
-
-function Navbar(props) {
-    return (
-        <nav className="navbar">
-            <a href="/#" ><img src={LOGOFULL} className="logo" alt="me" /></a>
-            <ul className="navbar-nav">{props.children}</ul>
-        </nav>
-    );
-}
-
-function NavItem(props) {
-    const [activeMenu, setActiveMenu] = useState('main');
-
-    const [open, setOpen] = useState(false);
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
-
-    return (
-        <li className="nav-item">
-            <a href="#" className="icon-button" onClick={() => setOpen(!open) && props.goToMenu && setActiveMenu(props.goToMenu)}>
-                {props.title}
-            </a>
-
-            {open && props.children}
-        </li>
-    );
-}
-
-function DropdownMenu(props) {
-    const [activeMenu, setActiveMenu] = useState('main');
-    // const [activeMenu, setActiveMenu] = useState('商業合作');
-
-    const [menuHeight, setMenuHeight] = useState(null);
-    const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        setMenuHeight(dropdownRef.current?.firstChild.offsetHeight)
-    }, [activeMenu])
-
-    function calcHeight(el) {
-        const height = el.offsetHeight;
-        setMenuHeight(height);
-    }
-
-    function DropdownItem(props) {
-        return (
-            <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-                {props.children}
-            </a>
-        );
-    }
-
-    return (
-        <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
-            <CSSTransition
-                in={activeMenu === '0'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>LINE吸粉服務</DropdownItem>
-                    <DropdownItem goToMenu="1">
-                        查帳系統
-                    </DropdownItem>
-                    <DropdownItem goToMenu="animals">
-                        Animals
-                    </DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === '1'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>營銷系統</DropdownItem>
-                    <DropdownItem>小弟外送平台</DropdownItem>
-                    <DropdownItem>格子舖</DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'main'}
-                timeout={500}
-                classNames="menu-primary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem>iPickPro</DropdownItem>
-                    <DropdownItem>小弟外送平台</DropdownItem>
-                    <DropdownItem>遊樂城APP建置</DropdownItem>
-                </div>
-            </CSSTransition>
-
-
-
-            {/* ====================MULTI LEVEL DROPDOWN ==========================================*/}
-            <CSSTransition
-                in={activeMenu === 'settings'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main" >
-                        <h2>My Tutorial</h2>
-                    </DropdownItem>
-                    <DropdownItem >HTML</DropdownItem>
-                    <DropdownItem >CSS</DropdownItem>
-                    <DropdownItem >JavaScript</DropdownItem>
-                    <DropdownItem >Awesome!</DropdownItem>
-                </div>
-            </CSSTransition>
-
-            <CSSTransition
-                in={activeMenu === 'animals'}
-                timeout={500}
-                classNames="menu-secondary"
-                unmountOnExit
-                onEnter={calcHeight}>
-                <div className="menu">
-                    <DropdownItem goToMenu="main">
-                        <h2>Animals</h2>
-                    </DropdownItem>
-                    <DropdownItem >Kangaroo</DropdownItem>
-                    <DropdownItem >Frog</DropdownItem>
-                    <DropdownItem >Horse?</DropdownItem>
-                    <DropdownItem >Hedgehog</DropdownItem>
-                </div>
-            </CSSTransition>
-        </div>
-    );
-}
 export default Nav
