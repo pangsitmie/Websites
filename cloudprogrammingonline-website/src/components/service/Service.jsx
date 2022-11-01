@@ -5,7 +5,7 @@ import './service.css'
 import SERVICEBG from '../../assets/service.jpg'
 import TEAMBG from '../../assets/team.png'
 import CUSTOMERBG from '../../assets/customer.jpg'
-import FLOWCHART1 from '../../assets/flowchart1.png'
+import FLOWCHART from '../../assets/flowchart2.png'
 
 
 const data = [
@@ -41,7 +41,8 @@ const Service = () => {
 
                 <div className="container">
                     <h2 className='service-desc' >
-                        羅位陽育些常料現、東女相提兒遠：特的外才刻東是收血。除座去重定們生它行裡師福動原效關一、張前電香物了投時。有開立養麼書頭年萬人過治世的市次相家，和老電她不、
+                        Winpro cloud是為中台灣以實體遊戲機為基底, 具備雲端運算、數位服務、虛實整合、雲端支付等多項軟、韌、硬體兼具之資訊研發公司
+                        我們擁有自己的工程師團隊，專門根據您的需求客製化設計線上平台或應用程序。
                     </h2>
                 </div>
             </div>
@@ -61,7 +62,7 @@ const Service = () => {
                 }
             </div>
             <div className="flowchart_container">
-                <img src={FLOWCHART1} className="flowchart_image" alt="" />
+                <img src={FLOWCHART} className="flowchart_image" alt="" />
             </div>
         </div>
     )
