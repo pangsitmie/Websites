@@ -1,13 +1,18 @@
 import React from 'react'
+import { useInView } from 'react-intersection-observer';
 import CLOUD_PURPLE from '../../assets/cloudpurple.png'
 import CART_PURPLE from '../../assets/cartpurple.png'
 
 import './recentProject.css'
 const RecentProject = () => {
+    const { ref, inView } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
+    const { ref: proj1, inView: inView1 } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
+    const { ref: proj2, inView: inView2 } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
+
     return (
-        <section id='about'>
-            <div className='container recet_project_content'>
-                <h2 className=''>我們最近的專案</h2>
+        <section id='about' >
+            <div className={`container recet_project_content hidden ${inView ? 'show' : ' '}`} ref={ref}>
+                <h2 >我們最近的專案</h2>
 
                 <p>
                     羅位陽育些常料現、東女相提兒遠：特的外才刻東是收血。除座去重定們生它行裡師福動原效關一、張前電香物了投時。有開立養麼書頭年萬人過治世的市次相家，和老電她不、
@@ -20,7 +25,7 @@ const RecentProject = () => {
             </div>
 
             {/* project1 */}
-            <div className="container about__container">
+            <div className={`container about__container hidden ${inView1 ? 'show' : ' '}`} ref={proj1}>
                 <div className="project_card">
                     <div className='project_card-image'>
                         <img src={CLOUD_PURPLE} alt="yuncheng projcetss" />
@@ -40,7 +45,7 @@ const RecentProject = () => {
             </div>
 
             {/* project2 */}
-            <div className="container about__container">
+            <div className={`container about__container hidden ${inView2 ? 'show' : ' '}`} ref={proj2}>
                 <div className='project_desc'>
                     <h2>營銷支付</h2>
                     <p>

@@ -40,7 +40,10 @@
     text-align: center;
     background: var(--color-bg);
     min-height: 9rem;
+    cursor: pointer;
 }
+
+
 
 /*  GLOW EFFECT JUST CHANGE THE border radius */
 .service_content:before {

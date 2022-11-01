@@ -16,6 +16,21 @@ import GalaxyCity from './components/galaxyCityPage/GalaxyCity'
 // shortcut is "rafce"
 //header already contains cloud3d, nav, and hero components
 const App = () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            console.log(entry)
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+            else {
+                entry.target.classList.remove('show');
+            }
+        })
+    });
+
+    const hiddenElements = document.querySelectorAll('hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
+
     return (
         <>
             <Router basename="/">

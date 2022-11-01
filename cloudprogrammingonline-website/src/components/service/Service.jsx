@@ -1,4 +1,6 @@
 import React from 'react'
+import { useInView } from 'react-intersection-observer';
+
 import './service.css'
 import SERVICEBG from '../../assets/service.jpg'
 import TEAMBG from '../../assets/team.png'
@@ -28,19 +30,23 @@ const data = [
 ]
 
 const Service = () => {
+    const { ref, inView } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
+    const { ref: div1, inView: inView1 } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
     return (
         <div className='service_container'>
-            <div className="container ">
-                <h1 className='service-title'><em>我們正在做什麼,</em><br></br>以及我們公司如何幫助您改善業務</h1>
+            <div className={`hidden ${inView ? 'show' : ' '}`} ref={ref}>
+                <div className="container ">
+                    <h1 className='service-title'><em>我們正在做什麼,</em><br></br>以及我們公司如何幫助您改善業務</h1>
+                </div>
+
+                <div className="container">
+                    <h2 className='service-desc' >
+                        羅位陽育些常料現、東女相提兒遠：特的外才刻東是收血。除座去重定們生它行裡師福動原效關一、張前電香物了投時。有開立養麼書頭年萬人過治世的市次相家，和老電她不、
+                    </h2>
+                </div>
             </div>
 
-            <div className="container">
-                <h2 className='service-desc' >
-                    羅位陽育些常料現、東女相提兒遠：特的外才刻東是收血。除座去重定們生它行裡師福動原效關一、張前電香物了投時。有開立養麼書頭年萬人過治世的市次相家，和老電她不、
-                </h2>
-            </div>
-
-            <div className="container service-block-container ">
+            <div className={`container service-block-container hidden ${inView1 ? 'show' : ' '}`} ref={div1}>
                 {
                     data.map(({ id, image, title, desc }) => {
                         return (

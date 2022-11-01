@@ -103,7 +103,7 @@ section>h2 {
 
 .btn {
     border-radius: 15rem;
-    padding: 1rem 2rem;
+    padding: 0rem 2rem;
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-white);
@@ -166,7 +166,7 @@ section>h2 {
 
 .glow-on-hover:before {
     content: '';
-    background: linear-gradient(45deg, #260A2B, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #260A2B);
+    background: linear-gradient(45deg, #722081, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #722081);
     position: absolute;
     top: -2px;
     left: -2px;
@@ -232,6 +232,25 @@ em {
 }
 
 
+
+.hidden {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(20%);
+    transition: all 1s;
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
+@media(prefers-reduce-motion) {
+    .hidden {
+        transition: none;
+    }
+}
 
 
 /* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
