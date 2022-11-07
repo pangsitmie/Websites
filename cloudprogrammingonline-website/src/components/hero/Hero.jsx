@@ -7,7 +7,7 @@ const Hero = () => {
 
         <div className="container header__container">
             <h1 className='hero-title'>雲程在線</h1>
-            <h2 className='hero-desc'><em>創意無限</em></h2>
+            <h2 className='hero-desc'>創意無限</h2>
 
             <h3 className='description'>
                 雲程在線股份有限公司(以下簡稱雲程在線)為中台灣以實體遊戲機為基底，
