@@ -1,0 +1,149 @@
+.xiaodi_blob {
+    position: absolute;
+    z-index: -1;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: -2rem;
+    padding: 5rem;
+    text-align: center;
+}
+
+.xiaodi_hero-title {
+    font-size: 7.1rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#000000, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.xiaodi_description {
+    font-size: 1.5rem;
+    margin: 2rem 2rem 5rem 2rem;
+    letter-spacing: .05rem;
+    padding: 0 5rem;
+}
+
+.xiaodi_button_container a {
+    color: white;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.button_icon {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+/* DIV1 */
+.xiaodi_order_container {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+}
+
+.carousel_title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.carousel_desc {
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+.carousel_container {
+    padding-top: 10rem;
+    display: grid;
+    grid-template-columns: 55% 40%;
+    gap: 5%;
+}
+
+.carousel_container_3 {
+    padding-top: 10rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5rem;
+}
+
+.carousel_desc_item h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: .7rem;
+    text-align: justify;
+}
+
+.carousel_desc_item p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
+.carousel_img {
+    background-color: red;
+}
+
+/* RESTO */
+.resto_container {
+    padding-top: 10rem;
+}
+
+.resto_content {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    align-items: center;
+    gap: 10%;
+}
+
+.resto_img {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.resto_content_desc p {
+    font-size: 1.5rem;
+}
+
+
+.delivery_container {
+    padding-top: 15rem;
+    padding-bottom: 15rem;
+}
+
+.delivery_title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.delivery_desc {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    margin-bottom: 7rem;
+}
+
+.homie_img_container {
+    display: flex;
+}
+
+.homie_img {
+    width: 70%;
+    margin: auto;
+}

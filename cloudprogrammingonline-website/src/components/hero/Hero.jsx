@@ -16,7 +16,6 @@ const Hero = () => {
             </h3>
 
             <button className={`btn btn-fill-white glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>聯繫我們</button>
-
         </div>
 
 

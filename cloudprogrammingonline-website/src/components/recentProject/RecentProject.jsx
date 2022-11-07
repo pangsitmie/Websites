@@ -1,13 +1,13 @@
 import React from 'react'
 import { useInView } from 'react-intersection-observer';
-import CLOUD_PURPLE from '../../assets/cloudpurple.png'
-import CART_PURPLE from '../../assets/cartpurple.png'
+import IMG1 from '../../assets/recentProject1.png'
+import IMG2 from '../../assets/recentProject2.png'
 
 import './recentProject.css'
 const RecentProject = () => {
-    const { ref, inView } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
-    const { ref: proj1, inView: inView1 } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
-    const { ref: proj2, inView: inView2 } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
+    const { ref, inView } = useInView({ trackVisibility: true, delay: 100 });
+    const { ref: proj1, inView: inView1 } = useInView({ trackVisibility: true, delay: 100 });
+    const { ref: proj2, inView: inView2 } = useInView({ trackVisibility: true, delay: 100 });
 
     return (
         <section id='about' >
@@ -22,13 +22,8 @@ const RecentProject = () => {
 
             {/* project1 */}
             <div className={`container about__container hidden ${inView1 ? 'show' : ' '}`} ref={proj1}>
-                <div className="project_card">
-                    <div className='project_card-image'>
-                        <img src={CLOUD_PURPLE} alt="yuncheng projcetss" />
-                    </div>
-                    <div className='project_btn_container'>
-                        <h3>滿天星</h3>
-                    </div>
+                <div className="project_card" style={{ backgroundImage: `url(${IMG1})` }}>
+                    <h3>滿天星</h3>
                 </div>
 
                 <div className='project_desc'>
@@ -50,13 +45,8 @@ const RecentProject = () => {
                     <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
                 </div>
 
-                <div className="project_card">
-                    <div className='project_card-image'>
-                        <img src={CART_PURPLE} alt="yuncheng projcetss" />
-                    </div>
-                    <div className='project_btn_container'>
-                        <h3>營銷支付</h3>
-                    </div>
+                <div className="project_card" style={{ backgroundImage: `url(${IMG2})` }}>
+                    <h3>營銷支付</h3>
                 </div>
             </div>
 

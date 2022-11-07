@@ -8,19 +8,21 @@
 
 .project_card {
     width: 100%;
-    aspect-ratio: 1/0.5;
+    aspect-ratio: 1/0.55;
+    background-size: 33rem;
+    min-height: 15rem;
     border-radius: 2rem;
-    background: linear-gradient(45deg, #8B287B, #061644);
-    place-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: .5rem 2rem;
+    justify-content: baseline;
+    display: flex;
+    height: 100%;
 }
 
-.project_card-image {
-    position: relative;
-    border-radius: 2rem;
-    transition: var(--transition);
-    margin: auto;
-    display: flex;
-    top: -90px;
+.project_card h3 {
+    font-size: 1.8rem;
+    align-self: flex-end;
 }
 
 .project_card-image img {
@@ -29,11 +31,7 @@
     margin: auto;
 }
 
-.project_btn_container {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    padding: 1.5rem;
-}
+
 
 .project_btn_container h3 {
     font-size: 1.7rem;
@@ -44,6 +42,7 @@
 
 
 .recet_project_content {
+    padding-right: 15rem;
     align-items: center;
     margin: auto;
 }
