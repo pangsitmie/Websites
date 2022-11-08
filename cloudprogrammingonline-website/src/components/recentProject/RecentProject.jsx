@@ -23,11 +23,11 @@ const RecentProject = () => {
             {/* project1 */}
             <div className={`container about__container hidden ${inView1 ? 'show' : ' '}`} ref={proj1}>
                 <div className="project_card" style={{ backgroundImage: `url(${IMG1})` }}>
-                    <h3>滿天星</h3>
+
                 </div>
 
                 <div className='project_desc'>
-                    <h2>滿天星</h2>
+                    <h2>傳奇レジェンド</h2>
                     <p>
                         結合聊天室及物聯控制/視訊串流/商城購物為一體的平台式APP架構, 虛實整合遠距視訊遊戲機
                     </p>
@@ -46,7 +46,7 @@ const RecentProject = () => {
                 </div>
 
                 <div className="project_card" style={{ backgroundImage: `url(${IMG2})` }}>
-                    <h3>營銷支付</h3>
+
                 </div>
             </div>
 

@@ -6,22 +6,49 @@ import IMG3 from '../../assets/line3.png'
 import IMG4 from '../../assets/line4.png'
 import LINE_IMG from '../../assets/line_img.png'
 import LINE_SPECIALTY from '../../assets/我們的特色.png'
+import LINE_SERVICE from '../../assets/line_service_img.png'
+import LINE_HERO from '../../assets/line_hero.png'
+import LINE_INTRO from '../../assets/line_intro.png'
+import SEARCH_ICON from '../../assets/search_icon.png'
+import VERIFIED_ICON from '../../assets/verified_icon.png'
+
+import { useState, useEffect } from 'react';
 
 const Line = () => {
+
+    const [scrollValue, setScrollValue] = useState(0);
+
+    useEffect(() => {
+
+        const onScroll = (e) => {
+            setScrollValue(e.target.documentElement.scrollTop);
+        };
+
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+
+    }, [scrollValue]);
+
+
     return (
         <div className='container' >
             {/* HERO SECTION */}
             <div className='header__container'>
-                <h1 className='line_hero_title'>娃娃機 X <span className='line_span'>LINE@</span></h1>
-                <h3 className='line_hero_description'>
-                    精確的數據統計-協助市場分析
-                </h3>
+                <img className='line_hero_img' src={LINE_HERO} alt="" />
+                <div className='hero_title_container'>
+                    <h1 className='line_hero_title'>娃娃機 x LINE</h1>
+                    <h2 className='line_hero_title'>吸粉服務</h2>
+                    <h3 className='line_hero_description'>
+                        精確的數據統計-協助市場分析
+                    </h3>
+                </div>
+
             </div>
 
 
             {/* LINE INTRODUCTION */}
             <div className='line_intro_container'>
-                <h3 className='line_title'>產品介紹</h3>
+                {/* <h3 className='line_title'>產品介紹</h3> */}
 
                 <div className='line_container_3'>
                     <div className=''>
@@ -38,8 +65,9 @@ const Line = () => {
                         </div>
                     </div>
 
-                    <div className='line_intro_img'>
-                        <h3 className='line_title vertical'>產品介紹</h3>
+                    <div className='line_intro_img_container'>
+                        {/* <h3 className='line_title vertical'>產品介紹</h3> */}
+                        <img className='line_intro_img' src={LINE_INTRO} alt="" />
                     </div>
 
                     <div className=''>
@@ -58,18 +86,19 @@ const Line = () => {
             </div>
 
             {/* LINE SPECIAL */}
-            <div>
-                <img src={LINE_SPECIALTY} alt="" />
+            <div className='line_special'>
+                {/*  */}
+                <div className='line_scroll_container'>
+                    <img className='line_specialty_img' src={LINE_SPECIALTY} style={{ transform: `translateX(${scrollValue * -0.25}px)` }} />
+                </div>
                 <div className='line_special_content'>
-
                     <div className='line_special_desc'>
-
                         <div>
-                            <h4>我們有專人客製化適合您的方案</h4>
+                            <h3>我們有專人客製化適合您的方案</h3>
                             <p>我們有專人客製化適合您的方案我們有專人客製化適合您的方案我們有專人客製化適合您的方案</p>
                         </div>
                         <div>
-                            <h4>我們有專人客製化適合您的方案</h4>
+                            <h3>我們有專人客製化適合您的方案</h3>
                             <p>我們有專人客製化適合您的方案我們有專人客製化適合您的方案我們有專人客製化適合您的方案</p>
                         </div>
                     </div>
@@ -78,6 +107,34 @@ const Line = () => {
                         <img src={LINE_IMG} alt="" />
                     </div>
                 </div>
+            </div>
+
+            {/* LINE SERVICE */}
+            <div className='line_service'>
+                <div>
+                    <img className='line_service_img' src={LINE_SERVICE} style={{ transform: `translateX(${scrollValue * 0.22}px)` }} />
+                </div>
+                <div className='column_2'>
+                    <div className='line_service_card'>
+                        <div className='line_service_card_top'>
+                            <h3>客製化官方帳號</h3>
+                            <img className='line_service_icon' src={SEARCH_ICON} alt="" />
+                        </div>
+
+                        <p>替店家建立專屬的官方LINE BOT生活圈, 店家可利用LINE BOT進行吸粉活動過LINE BOT後台管理與分析消費者數據。
+                        </p>
+                    </div>
+
+                    <div className='line_service_card'>
+                        <div className='line_service_card_top'>
+                            <h3>吸粉服務</h3>
+                            <img className='line_service_icon' src={VERIFIED_ICON} alt="" />
+                        </div>
+                        <p>透過掃描機台QR馬並免費遊玩乙次, 使消費者加入店家LINE官方帳號後,
+                            即可獲得店家預設之優惠活動。</p>
+                    </div>
+                </div>
+
 
             </div>
 

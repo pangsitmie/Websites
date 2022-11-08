@@ -76,7 +76,6 @@ h5 {
 
 h1 {
     font-size: 2.8rem;
-    text-shadow: white -1px 1px;
 }
 
 p {
@@ -155,11 +154,11 @@ section>h2 {
 /* BUTTON GLOW EFFECT */
 .glow-on-hover {
     width: 220px;
-    height: 50px;
-    border: 1px solid #BFA9DD;
+    height: 60px;
+    border: 1px solid #dbd0eb;
     outline: none;
     color: #fff;
-    background: #111;
+    background: transparent;
     cursor: pointer;
     position: relative;
     z-index: 0;

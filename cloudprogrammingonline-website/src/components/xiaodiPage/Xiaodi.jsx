@@ -7,17 +7,57 @@ import { useInView } from 'react-intersection-observer';
 import XIAODI_BLOB_ANIM from '../../assets/blobanimation.svg'
 import RESTO_IMG from '../../assets/homieatRestaurant.png'
 import HOMIE_SERVICE from '../../assets/homieatService.png'
+import XIAODI_01 from '../../assets/xiaodi_01.png'
+import XIAODI_02 from '../../assets/xiaodi_02.png'
+import XIAODI_03 from '../../assets/xiaodi_03.png'
+import XIAODI_04 from '../../assets/xiaodi_04.png'
+import XIAODI_05 from '../../assets/xiaodi_05.png'
+
+import { Component } from "react";
+import Slider from "react-slick";
+
+// Import css files
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Xiaodi = () => {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 600,
+                settings: {
+                    arrows: true,
+                    variableWidth: true
+                }
+            },
+            {
+                breakpoint: 345,
+                settings: {
+                    arrows: true,
+                    variableWidth: true
+                }
+            }
+        ],
+
+    };
+
     const { ref: visibleRef, inView: elementIsVisible } = useInView();
+
     return (
         <div className="container">
+
             {/* HERO SECTION */}
             <div className='header__container'>
                 <img className='xiaodi_blob' src={XIAODI_BLOB_ANIM} alt="" />
                 <h1 className='xiaodi_hero-title'>小弟外送</h1>
                 <h3 className='xiaodi_description'>
-                    小弟外送是一個利用網路能夠在幾十分鐘內提供餐飲外送服務並讓使用者透過手機應用程式在線上訂餐
+                    小弟外送是一個利用網路能夠在幾十分鐘內提供餐飲外送服務
+                    <br />並讓使用者透過手機應用程式在線上訂餐
                 </h3>
                 <div className='xiaodi_button_container'>
                     <button className={`btn glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
@@ -32,6 +72,7 @@ const Xiaodi = () => {
                     </button>
                 </div>
             </div>
+            {/* DIVVVV */}
 
             {/* DIV 1 */}
             <div className='xiaodi_order_container'>
@@ -40,7 +81,25 @@ const Xiaodi = () => {
 
                 <div className='carousel_container'>
                     <div className='carousel_img'>
-                        <p>Carousel</p>
+                        <div>
+                            <Slider {...settings}>
+                                <div >
+                                    <img src={XIAODI_01} alt="" />
+                                </div>
+                                <div>
+                                    <img src={XIAODI_02} alt="" />
+                                </div >
+                                <div >
+                                    <img src={XIAODI_03} alt="" />
+                                </div>
+                                <div>
+                                    <img src={XIAODI_04} alt="" />
+                                </div>
+                                <div>
+                                    <img src={XIAODI_05} alt="" />
+                                </div>
+                            </Slider>
+                        </div>
                     </div>
                     <div className='carrousel_desc'>
                         <div className='carousel_desc_item'>
@@ -76,34 +135,52 @@ const Xiaodi = () => {
 
                 <div className='carousel_container_3'>
                     <div className='carrousel_desc'>
-                        <div className='carousel_desc_item'>
+                        <div className='carousel_desc_item2'>
                             <h3>彈性上下線機制</h3>
                             <p>輕鬆利用空閒時間，賺取額外費用</p>
                         </div>
-                        <div className='carousel_desc_item'>
+                        <div className='carousel_desc_item2'>
                             <h3>簡易操作</h3>
                             <p>接單、拒單、上線、離線一鍵點擊，快速又簡易</p>
                         </div>
-                        <div className='carousel_desc_item'>
+                        <div className='carousel_desc_item2'>
                             <h3>推播功能</h3>
                             <p>餐點狀態資訊不漏接</p>
                         </div>
                     </div>
 
-                    <div className='carousel_img'>
-                        <p>Carousel</p>
+                    <div className='carousel_img_2'>
+                        <Slider {...settings}>
+                            <div >
+                                <img src={XIAODI_01} alt="" />
+                            </div>
+                            <div>
+                                <img src={XIAODI_02} alt="" />
+                            </div >
+                            <div >
+                                <img src={XIAODI_03} alt="" />
+                            </div>
+                            <div>
+                                <img src={XIAODI_04} alt="" />
+                            </div>
+                            <div>
+                                <img src={XIAODI_05} alt="" />
+                            </div>
+                        </Slider>
+
                     </div>
 
+
                     <div className='carrousel_desc'>
-                        <div className='carousel_desc_item'>
+                        <div className='carousel_desc_item2'>
                             <h3>精準定位</h3>
                             <p>顯示外送距離，隨時掌握路段。</p>
                         </div>
-                        <div className='carousel_desc_item'>
+                        <div className='carousel_desc_item2'>
                             <h3>天氣預報</h3>
                             <p>可預先查閱氣象預報功能，以安排自己的外送攻略。</p>
                         </div>
-                        <div className='carousel_desc_item'>
+                        <div className='carousel_desc_item2'>
                             <h3>收益圖表</h3>
                             <p>追蹤費用明細更一目了然，方便查看詳細的收益明細。</p>
                         </div>

@@ -5,9 +5,9 @@
     margin-right: auto;
     left: 0;
     right: 0;
-    top: -2rem;
-    padding: 5rem;
+    top: -4rem;
     text-align: center;
+    width: 80%;
 }
 
 .xiaodi_hero-title {
@@ -23,6 +23,7 @@
     margin: 2rem 2rem 5rem 2rem;
     letter-spacing: .05rem;
     padding: 0 5rem;
+    color: #573100;
 }
 
 .xiaodi_button_container a {
@@ -40,7 +41,7 @@
 
 /* DIV1 */
 .xiaodi_order_container {
-    padding-top: 10rem;
+    padding-top: 15rem;
     padding-bottom: 10rem;
 }
 
@@ -61,8 +62,8 @@
 .carousel_container {
     padding-top: 10rem;
     display: grid;
-    grid-template-columns: 55% 40%;
-    gap: 5%;
+    grid-template-columns: 50% 40%;
+    gap: 10%;
 }
 
 .carousel_container_3 {
@@ -72,7 +73,12 @@
     gap: 5rem;
 }
 
-.carousel_desc_item h3 {
+.carousel_desc_item2 {
+    margin-bottom: 7rem;
+}
+
+.carousel_desc_item h3,
+.carousel_desc_item2 h3 {
     font-size: 2rem;
     font-weight: bold;
     background: -webkit-linear-gradient(#FDE18A, #ED8E29);
@@ -80,18 +86,49 @@
     -webkit-text-fill-color: transparent;
     margin-bottom: .7rem;
     text-align: justify;
+
 }
 
-.carousel_desc_item p {
+.carousel_desc_item p,
+.carousel_desc_item2 p {
     font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 2rem;
     text-align: justify;
 }
 
+/* carousel slick*/
 .carousel_img {
-    background-color: red;
+    display: block;
 }
+
+.carousel_img_2 {
+    display: block;
+    width: 55vh;
+}
+
+.slick-slide {
+    box-sizing: border-box;
+    margin: auto;
+}
+
+.slick-slide img {
+    height: 90vh;
+    margin: auto;
+    left: auto;
+    right: auto;
+}
+
+.slick-dots li button:before {
+    color: gray !important;
+}
+
+.slick-dots li.slick-active button:before {
+    color: orange !important;
+}
+
+
+
 
 /* RESTO */
 .resto_container {

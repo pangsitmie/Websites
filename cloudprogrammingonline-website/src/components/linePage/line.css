@@ -1,22 +1,20 @@
-.line_hero {
-    width: 100%;
-    background-size: 100rem;
-    min-height: 50rem;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100%;
-    align-content: center;
-    padding: 5rem;
-    position: relative;
+.line_hero_img {
+    position: absolute;
+    z-index: -1;
+    top: 6rem;
+    left: 35rem;
+    width: 60%;
 }
 
-.line_hero h1 {
-    font-size: 7rem;
-    font-weight: bold;
-    background: red;
-    position: absolute;
-    top: 50%;
+.header__container {
+    align-items: center;
+    justify-content: center;
 }
+
+.hero_title_container {
+    margin-top: 3rem;
+}
+
 
 .line_span {
     background: -webkit-linear-gradient(#FFFFFF, #20C92F);
@@ -25,18 +23,22 @@
 }
 
 .line_hero_title {
-    font-size: 7.1rem;
+    font-size: 4.5rem;
+    font-weight: bold;
     text-align: left;
+    letter-spacing: 0;
+    line-height: 6rem;
 }
 
+
 .line_hero_description {
-    font-size: 2rem;
-    letter-spacing: .05rem;
+    margin-top: 3rem;
+    font-size: 1.6rem;
     text-align: left;
 }
 
 .line_intro_container {
-    padding-top: 10rem;
+    margin-top: 5rem;
     padding-bottom: 10rem;
 }
 
@@ -64,10 +66,15 @@
     text-align: justify;
 }
 
+.line_intro_img_container {
+    display: block;
+    margin: auto;
+
+}
+
 .line_intro_img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 2rem;
+    width: 15vh;
 }
 
 .vertical {
@@ -81,7 +88,7 @@
 
 .line_card_img {
     width: 100%;
-    height: 11rem;
+    height: auto;
     margin: auto;
 }
 
@@ -99,8 +106,83 @@
     min-height: 5em;
 }
 
+.line_special {
+    margin-top: 8rem;
+}
+
 .line_special_content {
+    margin-top: 5rem;
     display: grid;
     grid-template-columns: 45% 45%;
     gap: 10%;
+}
+
+.line_scroll_container {
+    display: flex;
+    justify-content: right;
+}
+
+.line_specialty_img {
+    width: 55%;
+}
+
+.line_service_img {
+    width: 45%;
+}
+
+.line_special_desc h3 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.line_special_desc p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+}
+
+/* LINE SERVICE */
+.line_service {
+    margin-top: 8rem;
+}
+
+.line_service h2 {
+    font-size: 7rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.column_2 {
+    margin-top: 5rem;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 10%;
+}
+
+.line_service_card {
+    padding: 1.5rem;
+    border: 1px solid white;
+    border-radius: 15px;
+}
+
+.line_service_card_top {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.line_service_icon {
+    width: 10vh;
+}
+
+.line_service_card h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.line_service_card p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
 }
