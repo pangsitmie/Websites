@@ -15,7 +15,8 @@ const Hero = () => {
                 期望以台灣市場經驗領軍到全球各地。
             </h3>
 
-            <button className={`btn btn-fill-white glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>聯繫我們</button>
+            <button className={`btn btn-fill-white glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
+                <a href='mailto:cloudprogramingservice@gmail.com'>聯繫我們</a></button>
         </div>
 
 

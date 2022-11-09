@@ -7,11 +7,19 @@ import { useInView } from 'react-intersection-observer';
 import XIAODI_BLOB_ANIM from '../../assets/blobanimation.svg'
 import RESTO_IMG from '../../assets/homieatRestaurant.png'
 import HOMIE_SERVICE from '../../assets/homieatService.png'
+
 import XIAODI_01 from '../../assets/xiaodi_01.png'
 import XIAODI_02 from '../../assets/xiaodi_02.png'
 import XIAODI_03 from '../../assets/xiaodi_03.png'
 import XIAODI_04 from '../../assets/xiaodi_04.png'
 import XIAODI_05 from '../../assets/xiaodi_05.png'
+
+import DELIVERY_1 from '../../assets/delivery_1.png'
+import DELIVERY_2 from '../../assets/delivery_2.png'
+import DELIVERY_3 from '../../assets/delivery_3.png'
+import DELIVERY_4 from '../../assets/delivery_4.png'
+import DELIVERY_5 from '../../assets/delivery_5.png'
+import DELIVERY_6 from '../../assets/delivery_6.png'
 
 import { Component } from "react";
 import Slider from "react-slick";
@@ -61,12 +69,12 @@ const Xiaodi = () => {
                 </h3>
                 <div className='xiaodi_button_container'>
                     <button className={`btn glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                        <a href="">
+                        <a href="https://play.google.com/store/apps/details?id=com.winpro.winproeat.consumer">
                             <IoLogoGooglePlaystore className='button_icon' />Play Store
                         </a>
                     </button>
                     <button className={`btn btn-fill-white glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                        <a href="">
+                        <a href="https://apps.apple.com/tw/app/%E5%B0%8F%E5%BC%9F%E5%A4%96%E9%80%81/id1513518654?l=en">
                             <SiAppstore className='button_icon' />App Store
                         </a>
                     </button>
@@ -152,19 +160,22 @@ const Xiaodi = () => {
                     <div className='carousel_img_2'>
                         <Slider {...settings}>
                             <div >
-                                <img src={XIAODI_01} alt="" />
+                                <img src={DELIVERY_1} alt="" />
                             </div>
                             <div>
-                                <img src={XIAODI_02} alt="" />
+                                <img src={DELIVERY_2} alt="" />
                             </div >
                             <div >
-                                <img src={XIAODI_03} alt="" />
+                                <img src={DELIVERY_3} alt="" />
                             </div>
                             <div>
-                                <img src={XIAODI_04} alt="" />
+                                <img src={DELIVERY_4} alt="" />
                             </div>
                             <div>
-                                <img src={XIAODI_05} alt="" />
+                                <img src={DELIVERY_5} alt="" />
+                            </div>
+                            <div>
+                                <img src={DELIVERY_6} alt="" />
                             </div>
                         </Slider>
 

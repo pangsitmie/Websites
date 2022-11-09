@@ -111,6 +111,8 @@ section>h2 {
     margin: 1rem;
 }
 
+
+
 .btn-fill {
     border: 1px solid #1A192B;
     background: rgb(26, 25, 43);
@@ -139,15 +141,20 @@ section>h2 {
 }
 
 .btn-stroke {
+    width: 220px;
+    height: 60px;
+    border: 1px solid #dbd0eb;
+    outline: none;
+    color: #ffffff;
     background: transparent;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
     border-color: var(--color-white);
-    border: 1px solid #BFA9DD;
-    transition: var(--transition);
 }
 
 .btn-stroke:hover {
-    background: linear-gradient(to right, #8B287B, #22305D);
-    border-color: var(--color-white);
+    border-color: linear-gradient(to right, #8B287B, #22305D);
     transition: var(--transition);
 }
 
@@ -157,12 +164,24 @@ section>h2 {
     height: 60px;
     border: 1px solid #dbd0eb;
     outline: none;
-    color: #fff;
+    color: #ffffff;
     background: transparent;
     cursor: pointer;
     position: relative;
     z-index: 0;
     border-color: var(--color-white);
+}
+
+
+a,
+a:link,
+a:visited,
+a:focus,
+a:hover,
+a:active {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .glow-on-hover:before {
@@ -187,7 +206,7 @@ section>h2 {
 }
 
 .glow-on-hover:active:after {
-    background: transparent;
+    background: var(--color-bg);
 }
 
 .glow-on-hover:hover:before {

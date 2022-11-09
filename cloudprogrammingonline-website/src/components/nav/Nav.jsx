@@ -64,7 +64,8 @@ const Nav = () => {
                     {/* Add Logo  */}
                     <div className="header__middle__logo">
                         <NavLink exact activeClassName='is-active' to="/">
-                            <img src={LOGOFULL} alt="logo" />
+                            <a href="/"><img src={LOGOFULL} alt="logo" /></a>
+
                         </NavLink>
                     </div>
 
@@ -80,9 +81,9 @@ const Nav = () => {
 
 
                             <ul className={boxClass.join(' ')}>
-                                <li className="menu-item" >
+                                {/* <li className="menu-item" >
                                     <NavLink exact activeClassName='is-active' onClick={toggleClass} to={`/`}> Home </NavLink>
-                                </li>
+                                </li> */}
 
                                 {/* 商務合作 MENU ITEM */}
                                 <li onClick={toggleSubmenu1} className="menu-item sub__menus__arrows" > <Link to="#">商務合作<FiChevronDown /> </Link>
