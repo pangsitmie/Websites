@@ -13,6 +13,7 @@ import Xiaodi from './components/xiaodiPage/Xiaodi'
 import GalaxyCity from './components/galaxyCityPage/GalaxyCity'
 import BlockStore from './components/blockStore/BlockStore'
 import MediaDesign from './components/mediaDesign/MediaDesign'
+import Maintenance from './components/maintenance/Maintenance'
 
 
 // shortcut is "rafce"
@@ -54,6 +55,10 @@ const App = () => {
                     <Route path='/galaxy-city' element={<GalaxyCity />} />
 
                     <Route path='/media-design' element={<MediaDesign />} />
+
+                    <Route path='/404' element={<Home />} />
+                    <Route path='*' element={<Home />} />
+
                 </Routes>
                 <Footer />
             </Router>
