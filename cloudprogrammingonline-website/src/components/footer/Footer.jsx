@@ -21,25 +21,25 @@ const Footer = () => {
       <div className='footer_menu'>
         <div className='col'>
           <h3>商務合作</h3>
-          <a href="/#"><p>LINE吸粉服務</p></a>
-          <a href="/#"><p>查帳系統</p></a>
+          <a href="/line"><p>LINE吸粉服務</p></a>
+          <a href="/search-system"><p>查帳系統</p></a>
         </div>
         <div className='col'>
           <h3>服務平台</h3>
-          <a href="/#"><p>營銷系統</p></a>
-          <a href="/#"><p>小弟外送平台</p></a>
-          <a href="/#"><p>格子舖</p></a>
+          <a href="/marketing-system"><p>營銷系統</p></a>
+          <a href="/xiaodi"><p>小弟外送平台</p></a>
+          <a href="/block-store"><p>格子舖</p></a>
         </div>
         <div className='col'>
           <h3>遊戲娛樂</h3>
-          <a href="/#"><p>iPickPro</p></a>
-          <a href="/#"><p>遊樂城APP建置</p></a>
+          <a href="/ipickpro"><p>iPickPro</p></a>
+          <a href="/galaxy-city"><p>遊樂城APP建置</p></a>
         </div>
         <div className='col'>
-          <h3>多媒體設計</h3>
+          <a href="/media-design"><h3>多媒體設計</h3></a>
         </div>
         <div className='col'>
-          <h3>關於我們</h3>
+          <a href="/about"><h3>關於我們</h3></a>
         </div>
       </div>
 

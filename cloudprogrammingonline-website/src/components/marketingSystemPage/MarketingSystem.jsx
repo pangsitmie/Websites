@@ -1,8 +1,11 @@
 import React from 'react'
+import Maintenance from '../maintenance/Maintenance'
 
 const MarketingSystem = () => {
     return (
-        <div>MarketingSystem</div>
+        <div>
+            <Maintenance />
+        </div>
     )
 }
 

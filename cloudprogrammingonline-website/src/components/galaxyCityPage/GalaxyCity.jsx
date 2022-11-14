@@ -1,12 +1,19 @@
 import React from 'react'
 import GALAXY_HERO from '../../assets/galaxy_hero.png'
-import GALAXY_BLOB from '../../assets/galaxy_blob.svg'
-import GALAXY_GRADIENT from '../../assets/galaxy_gradient.png'
-import FLOWCHART from '../../assets/flowchart2.png'
+import FLOWCHART from '../../assets/flow_chart.png'
 import POLLY_WHITE from '../../assets/polly_white.png'
 import APPLE_CHIP from '../../assets/apple_chip.jpg'
 import CHAT_ICON from '../../assets/chat_icon.png'
 import GRADIENT_RIGHT from '../../assets/gradient_right.png'
+import GALAXY_GAME1 from '../../assets/galaxy_game1.png'
+import GALAXY_GAME2 from '../../assets/galaxy_game2.png'
+import GALAXY_GAME3 from '../../assets/galaxy_game3.png'
+import GALAXY_DOWNLOAD from '../../assets/galaxy_download.png'
+
+import SLOT_MACHINE1 from '../../assets/slot_machine1.png'
+import SLOT_MACHINE2 from '../../assets/slot_machine2.png'
+
+
 import { SiAppstore } from 'react-icons/si'
 import { IoLogoGooglePlaystore } from 'react-icons/io5'
 import { useState, useEffect } from 'react';
@@ -35,29 +42,33 @@ const GalaxyCity = () => {
     // RETURN DIV
     return (
         <div className='container'>
+            <img className='gradient_right' src={GRADIENT_RIGHT} alt="" />
             <div className='galaxy_hero_content'>
                 <h3 className='galaxy_tag'>有你自己</h3>
                 <h1 className='galaxy_title'>遊樂城APP</h1>
                 <img className='galaxy_hero_img' src={GALAXY_HERO} />
-                <img className='galaxy_gradient' src={GALAXY_GRADIENT} />
             </div>
 
             {/* FLOWCHART */}
             <div className='galaxy_flowchart'>
-                <h1>FLOW</h1>
                 <img className='galaxy_flowchart_img' src={FLOWCHART} alt="" />
             </div>
 
             {/* CONTENT1 */}
             <div className='iot_content'>
                 <h1>物聯網系統</h1>
-                <h2>使用網路直播與遠端IoT系統</h2>
-                <div className='galaxy_col2_6040'>
+                <h2>使用網路直播與</h2>
+                <h3>遠端IoT系統</h3>
+                <div className='galaxy_col2_5050'>
                     <div className='col_img_container'>
-                        <img className='polly_white_img' src={POLLY_WHITE} style={{ transform: `rotate(${scrollValue * -0.25}deg) scale(${scrollValue / 900})` }} />
+                        <img className='polly_white_img' src={POLLY_WHITE} style={{ transform: `rotate(${scrollValue * -0.3}deg) scale(${scrollValue / 900})` }} />
                     </div>
                     <div>
-                        <p className='iot_desc1'>讓玩家可以透過手機、電腦、平板等通訊工具實際操作娛樂機台 達成遠端遊玩的效果。</p>
+                        <p className='iot_desc1'>
+                            讓玩家可以透過手機、電腦、平板等通訊工具實際操作娛樂機台 達成遠端遊玩的效果。
+                            <br /><br />
+                            通過使用我們的物聯網系統，您可以實時控制您的機器。您操作手機介面時，同時也在操作實體機台
+                        </p>
                     </div>
                 </div>
             </div>
@@ -70,9 +81,8 @@ const GalaxyCity = () => {
                         <p className='machine_desc'>透過物聯網技術，能夠讓消費者不限時間與地點限制，想遊玩時連上網路即可立即體驗經典機台所帶來的趣味性</p>
                     </div>
                     <div className='col_img_container'>
-                        <img className='machine_img' src={APPLE_CHIP} />
+                        <img className='machine_img' src={SLOT_MACHINE2} />
                     </div>
-
                 </div>
             </div>
 
@@ -84,13 +94,13 @@ const GalaxyCity = () => {
                 </p>
                 <div className='galaxy_col3'>
                     <div className='galaxy_game_img_container'>
-                        <img src={APPLE_CHIP} alt="" />
+                        <img src={GALAXY_GAME1} alt="" />
                     </div>
                     <div className='galaxy_game_img_container'>
-                        <img src={APPLE_CHIP} alt="" />
+                        <img src={GALAXY_GAME2} alt="" />
                     </div>
                     <div className='galaxy_game_img_container'>
-                        <img src={APPLE_CHIP} alt="" />
+                        <img src={GALAXY_GAME3} alt="" />
                     </div>
                 </div>
             </div>
@@ -129,8 +139,9 @@ const GalaxyCity = () => {
             <div className='galaxy_content5_container'>
                 <div className='galaxy_col2'>
                     <div className='galaxy_experience'>
-                        <h2>立即體驗</h2>
-                        <img src={APPLE_CHIP} alt="" />
+                        <h2>立即體驗<br />我們的APP
+                        </h2>
+                        <img src={GALAXY_DOWNLOAD} alt="" />
                         <div className='galaxy_exp_btn_container'>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
                                 <a href="">
@@ -147,11 +158,7 @@ const GalaxyCity = () => {
                     </div>
                     <div className='galaxy_contact'>
                         <h2>想打造一個您專屬的app嗎?</h2>
-                        <div className='galaxy_contact_img_container'>
-                            <img src={CHAT_ICON} alt="" />
-                        </div>
-
-
+                        <img src={CHAT_ICON} alt="" />
                         <div className='galaxy_contact_btn_container'>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
                                 <a href="">

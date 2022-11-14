@@ -5,7 +5,7 @@ import './service.css'
 import SERVICEBG from '../../assets/service.jpg'
 import TEAMBG from '../../assets/team.png'
 import CUSTOMERBG from '../../assets/customer.jpg'
-import FLOWCHART from '../../assets/flowchart2.png'
+import FLOWCHART from '../../assets/flow_chart.png'
 
 
 const data = [
@@ -31,7 +31,6 @@ const data = [
 
 const Service = () => {
     const { ref, inView } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
-    const { ref: div1, inView: inView1 } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
     return (
         <div className='service_container'>
             <div className={`hidden ${inView ? 'show' : ' '}`} ref={ref}>
@@ -47,7 +46,7 @@ const Service = () => {
                 </div>
             </div>
 
-            <div className={`container service-block-container hidden ${inView1 ? 'show' : ' '}`} ref={div1}>
+            <div className="container service-block-container">
                 {
                     data.map(({ id, image, title, desc }) => {
                         return (

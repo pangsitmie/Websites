@@ -31,7 +31,10 @@ const RecentProject = () => {
                     <p>
                         結合聊天室及物聯控制/視訊串流/商城購物為一體的平台式APP架構, 虛實整合遠距視訊遊戲機
                     </p>
-                    <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
+                    <a href="/galaxy-city">
+                        <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
+                    </a>
+
                 </div>
             </div>
 
@@ -42,7 +45,9 @@ const RecentProject = () => {
                     <p>
                         導入自助選務販賣機雲端支付功能且具備廣告推播、查帳，此系統整合了實體機台與雲端運算。
                     </p>
-                    <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
+                    <a href="/marketing-system">
+                        <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
+                    </a>
                 </div>
 
                 <div className="project_card" style={{ backgroundImage: `url(${IMG2})` }}>

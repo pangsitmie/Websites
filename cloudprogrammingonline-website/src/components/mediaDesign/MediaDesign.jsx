@@ -1,8 +1,7 @@
 import React from 'react'
 import Maintenance from '../maintenance/Maintenance'
-import "./about.css"
 
-const About = () => {
+const MediaDesign = () => {
     return (
         <div>
             <Maintenance />
@@ -10,4 +9,4 @@ const About = () => {
     )
 }
 
-export default About
+export default MediaDesign

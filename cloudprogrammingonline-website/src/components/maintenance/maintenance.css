@@ -1,0 +1,39 @@
+.maintenance {
+    /* margin-top: -5rem; */
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+
+.maintenance_left {
+    margin-top: 1rem;
+    margin: auto;
+}
+
+.maintenance_left h2 {
+    font-size: 5.5rem;
+    text-align: left;
+    font-weight: bold;
+}
+
+.maintenance_left h3 {
+    font-size: 1.8rem;
+    text-align: left;
+    font-weight: bold;
+}
+
+.maintenance_left p {
+    font-size: 1.3rem;
+    color: #cecece;
+    margin-top: 2rem;
+    font-weight: 400;
+    text-align: left;
+}
+
+.maintenance_right img {
+    width: 110%;
+}
+
+.btn_maintenance {
+    margin: 0;
+    float: left;
+}

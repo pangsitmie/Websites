@@ -11,6 +11,8 @@ import MarketingSystem from './components/marketingSystemPage/MarketingSystem'
 import Ipickpro from './components/ipickproPage/Ipickpro'
 import Xiaodi from './components/xiaodiPage/Xiaodi'
 import GalaxyCity from './components/galaxyCityPage/GalaxyCity'
+import BlockStore from './components/blockStore/BlockStore'
+import MediaDesign from './components/mediaDesign/MediaDesign'
 
 
 // shortcut is "rafce"
@@ -45,10 +47,13 @@ const App = () => {
                     {/* 服務平台 */}
                     <Route path='/marketing-system' element={<MarketingSystem />} />
                     <Route path='/xiaodi' element={<Xiaodi />} />
+                    <Route path='/block-store' element={<BlockStore />} />
 
                     {/* 遊戲娛樂 */}
                     <Route path='/ipickpro' element={<Ipickpro />} />
                     <Route path='/galaxy-city' element={<GalaxyCity />} />
+
+                    <Route path='/media-design' element={<MediaDesign />} />
                 </Routes>
                 <Footer />
             </Router>

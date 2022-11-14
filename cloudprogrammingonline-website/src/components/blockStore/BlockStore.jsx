@@ -1,8 +1,8 @@
 import React from 'react'
 import Maintenance from '../maintenance/Maintenance'
-import "./about.css"
+import "./blockStore.css"
 
-const About = () => {
+const BlockStore = () => {
     return (
         <div>
             <Maintenance />
@@ -10,4 +10,4 @@ const About = () => {
     )
 }
 
-export default About
+export default BlockStore
