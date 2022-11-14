@@ -144,12 +144,12 @@ const GalaxyCity = () => {
                         <img src={GALAXY_DOWNLOAD} alt="" />
                         <div className='galaxy_exp_btn_container'>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="">
+                                <a href="#">
                                     <IoLogoGooglePlaystore className='button_icon' />Play Store
                                 </a>
                             </button>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="">
+                                <a href="#">
                                     <SiAppstore className='button_icon' />App Store
                                 </a>
                             </button>

@@ -25,13 +25,9 @@ const iPickPro = () => {
 
                 <h1>iPickPro</h1>
                 <div className='xiaodi_button_container'>
-                    <button className={"btn glow-on-hover"} >
-                        <a href="https://play.google.com/store/apps/details?id=com.winpro.winproeat.consumer">
-                            <IoLogoGooglePlaystore className='button_icon' />Play Store
-                        </a>
-                    </button>
+
                     <button className={"btn glow-on-hover"}>
-                        <a href="https://apps.apple.com/tw/app/%E5%B0%8F%E5%BC%9F%E5%A4%96%E9%80%81/id1513518654?l=en">
+                        <a href="https://apps.apple.com/tw/app/ipickpro/id1414137182?l=en">
                             <SiAppstore className='button_icon' />App Store
                         </a>
                     </button>

@@ -1,5 +1,6 @@
 {
-  "name": "cloudprogrammingonline-website",
+  "name": "cloudprogrammingonline",
+  "homepage": "https://cloudprogrammingonline.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
