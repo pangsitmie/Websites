@@ -4,7 +4,6 @@ import './hero.css'
 const Hero = () => {
     const { ref: visibleRef, inView: elementIsVisible } = useInView();
     return (
-
         <div className="container header__container">
             <h1 className='hero-title'>雲程在線</h1>
             <h2 className='hero-desc'>創意無限</h2>
@@ -22,9 +21,6 @@ const Hero = () => {
                 </button>
             </a>
         </div>
-
-
-
     )
 }
 

@@ -98,7 +98,7 @@ const Nav = () => {
                                     <ul className={boxClassSubMenu2.join(' ')} >
                                         <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/marketing-system`}>營銷系統</NavLink> </li>
                                         <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/xiaodi`}>小弟外送平台</NavLink> </li>
-                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/block-store`}>格子舖</NavLink> </li>
+                                        {/* <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/block-store`}>格子舖</NavLink> </li> */}
                                     </ul>
                                 </li>
 

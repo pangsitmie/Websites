@@ -134,3 +134,34 @@
     align-content: center;
     width: 70%;
 }
+
+
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .header__container {
+        width: var(--container-width-md);
+    }
+
+    section {
+        margin-top: 6rem;
+    }
+}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .service_container h1 {
+        font-size: 2.5rem;
+    }
+
+    .service-block-container {
+        grid-template-columns: 1fr;
+        gap: 6rem;
+    }
+
+    .service_content {
+        margin-bottom: 3rem;
+    }
+
+
+}

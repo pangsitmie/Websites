@@ -15,7 +15,8 @@
 /* #3BBA9C; */
 :root {
     /* --color-bg: #010013; */
-    --color-bg: #030306;
+    /* --color-bg: #191931; */
+    --color-bg: #080813;
     --color-bg-variant: #112540;
     /* --color-primary: #3BBA9C;
     --color-primary-variant: #707793; */
@@ -296,5 +297,10 @@ em {
 
     .text-subtitle {
         font-size: 15px;
+    }
+
+    p {
+        font-size: 1.3rem;
+        line-height: 2.5rem;
     }
 }

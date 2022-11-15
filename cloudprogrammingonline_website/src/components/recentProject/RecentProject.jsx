@@ -34,7 +34,6 @@ const RecentProject = () => {
                     <a href="/galaxy-city">
                         <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
                     </a>
-
                 </div>
             </div>
 

@@ -86,23 +86,45 @@
 }
 
 
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .header__container {
+        width: var(--container-width-md);
+    }
+
+    section {
+        margin-top: 6rem;
+    }
+}
+
 /* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
 @media screen and (max-width: 600px) {
-    .about__me {
-        width: 65%;
-        margin: 0 auto 3rem;
-    }
-
-    .about__cards {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-
     .recet_project_content {
-        text-align: center;
+        padding: 1rem;
     }
 
-    .recet_project_content p {
-        margin: 1.5rem 0;
+    .recet_project_content h2 {
+        font-size: 3rem;
+    }
+
+    .about__container {
+        width: var(--container-width-sm);
+        margin-bottom: 1rem;
+        padding: 0;
+    }
+
+    .project_card {
+        width: 100%;
+        aspect-ratio: 1/0.55;
+        background-size: 100%;
+        min-height: auto;
+        border-radius: 2rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 1rem 0;
+        justify-content: baseline;
+        display: flex;
+        height: auto;
     }
 }

@@ -2,9 +2,9 @@
     width: 100%;
     background-size: 100%;
     min-height: 100vh;
-    background-repeat: no-repeat;
     background-position: center;
-    justify-content: baseline;
+    z-index: -1;
+    background-image: url("../../assets/about_bg-min.webp");
     padding: 0 10rem;
 }
 
@@ -12,9 +12,13 @@
     padding: 13rem 5rem 10rem 0;
 }
 
-.about_hero h1 {
+.about_hero_content h1 {
     font-size: 7rem;
     font-weight: bold;
+}
+
+.about_hero_content h2 {
+    margin-top: 2rem;
 }
 
 .about_flow {

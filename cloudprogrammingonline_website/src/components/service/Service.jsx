@@ -13,19 +13,19 @@ const data = [
         id: 1,
         image: SERVICEBG,
         title: 'Our Service',
-        desc: '哲煜能提供給您的服務？'
+        desc: '雲程能提供給您的服務？'
     },
     {
         id: 2,
         image: TEAMBG,
         title: 'Our Team',
-        desc: '為何要找哲煜科技？'
+        desc: '為何要找雲程在線？'
     },
     {
         id: 3,
         image: CUSTOMERBG,
         title: 'Our Customer',
-        desc: '哲煜的合作案例？'
+        desc: '雲程的合作案例？'
     }
 ]
 
@@ -39,10 +39,10 @@ const Service = () => {
                 </div>
 
                 <div className="container">
-                    <h2 className='service-desc' >
+                    <p className='service-desc' >
                         Winpro cloud是為中台灣以實體遊戲機為基底, 具備雲端運算、數位服務、虛實整合、雲端支付等多項軟、韌、硬體兼具之資訊研發公司
                         我們擁有自己的工程師團隊，專門根據您的需求客製化設計線上平台或應用程序。
-                    </h2>
+                    </p>
                 </div>
             </div>
 

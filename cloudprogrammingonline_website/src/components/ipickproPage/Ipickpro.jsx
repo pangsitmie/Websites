@@ -4,7 +4,7 @@ import YoutubeEmbed from '../youtubeEmbed/YoutubeEmbed'
 import { SiAppstore } from 'react-icons/si'
 
 
-import GALAXY_GRADIENT from '../../assets/galaxy_gradient.png'
+import GALAXY_GRADIENT from '../../assets/galaxy_gradient-min.webp'
 import IPICKPRO_HERO from '../../assets/ipickpro_hero.png'
 import IPICK_FEATURE1 from '../../assets/ipick_feature1.png'
 import IPICK_FEATURE2 from '../../assets/IPICK_FEATURE2.png'

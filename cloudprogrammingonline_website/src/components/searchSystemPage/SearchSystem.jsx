@@ -8,10 +8,14 @@ import MULTIPLE_LANGUAGE from '../../assets/MULTIPLE_LANGUAGE.png'
 import INTERNET_ICON from '../../assets/INTERNET_ICON.png'
 import SLOT_MACHINE1 from '../../assets/slot_machine1.png'
 
+import { useInView } from 'react-intersection-observer';
 
 
 import "./searchSystem.css"
 const SearchSystem = () => {
+    const { ref, inView } = useInView({ trackVisibility: true, delay: 100 });
+    const { ref: ref2, inView: inView2 } = useInView({ trackVisibility: true, delay: 100 });
+    const { ref: ref3, inView: inView3 } = useInView({ trackVisibility: true, delay: 100 });
     return (
         <div className='container'>
             <div className='container'>
@@ -24,7 +28,7 @@ const SearchSystem = () => {
             </div>
 
             {/* APP SERVICE TEXT */}
-            <div className='search_service_text'>
+            <div className={`search_service_text hidden ${inView ? 'show' : ' '}`} ref={ref}>
                 <h2>APP主控平台提供服務</h2>
                 <p>即時提供管理所需報表及提升財務、庫存的管理作業效率，提供數據安全備份及彈性運算。即時洞察客戶需求及商機</p>
             </div>
@@ -35,7 +39,7 @@ const SearchSystem = () => {
                     <img src={SLOT_MACHINE1} alt="" />
                 </div>
                 <div className='search_revenue_desc'>
-                    <div>
+                    <div className={`hidden ${inView2 ? 'show' : ' '}`} ref={ref2}>
                         <h2>機台營收 <br /> 詳情查詢</h2>
                         <p>當單獨查詢機台營收狀況時，列表會列出該機台當日收入支出與總收入支出與品項等資訊，使管理者能夠打造個人的專屬風格</p>
                     </div>
@@ -49,7 +53,7 @@ const SearchSystem = () => {
                     <p>目前支援繁簡體中文, 英文,  以及越南文</p>
                 </div>
                 <div className='search_language_img'>
-                    <img src={MULTIPLE_LANGUAGE} alt="" />
+                    <img className={`hidden ${inView3 ? 'show' : ' '}`} ref={ref3} src={MULTIPLE_LANGUAGE} alt="" />
                 </div>
             </div>
 
@@ -61,9 +65,6 @@ const SearchSystem = () => {
                 </div>
                 <p>只需簡單的開發，即可設備快速連網，便捷高效</p>
             </div>
-
-
-
 
 
             {/* div3 */}

@@ -2,8 +2,8 @@ import React from 'react'
 import RecentProject from '../../components/recentProject/RecentProject'
 import Service from '../../components/service/Service'
 import Hero from '../hero/Hero'
-import CLOUD3D from '../../assets/cloud3d.png'
-import PURPLE_GRADIENT from '../../assets/purple_gradient.png'
+import CLOUD3D from '../../assets/cloud3d-min.webp'
+import PURPLE_GRADIENT from '../../assets/purple_gradient-min.webp'
 import './home.css'
 const Home = () => {
     return (
@@ -14,7 +14,6 @@ const Home = () => {
             <RecentProject />
             <Service />
         </div>
-
     )
 }
 
