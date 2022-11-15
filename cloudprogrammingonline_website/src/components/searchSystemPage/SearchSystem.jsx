@@ -4,8 +4,9 @@ import DATABASE_ICON from '../../assets/DATABASE_ICON.png'
 import SEARCH3D_ICON from '../../assets/SEARCH3D_ICON.png'
 import MANAGE_SYSTEM from '../../assets/MANAGE_SYSTEM.png'
 import BACKEND_SYSTEM from '../../assets/BACKEND_SYSTEM.png'
-import MULTIPLE_LANGUAGE from '../../assets/MULTIPLE_LANGUAGE.png'
-import INTERNET_ICON from '../../assets/INTERNET_ICON.png'
+// import MULTIPLE_LANGUAGE from '../../assets/MULTIPLE_LANGUAGE.png'
+import MULTIPLE_LANGUAGE from '../../assets/language_gradient.gif'
+import INTERNET_ICON from '../../assets/wifi_green.gif'
 import SLOT_MACHINE1 from '../../assets/slot_machine1.png'
 
 import { useInView } from 'react-intersection-observer';

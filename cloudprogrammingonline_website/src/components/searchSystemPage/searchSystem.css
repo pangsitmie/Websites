@@ -49,11 +49,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem 7rem;
+    padding: 2rem 4rem;
 }
 
 .search_internet_img img {
-    width: 30%;
+    width: 50%;
 }
 
 .search_internet p {

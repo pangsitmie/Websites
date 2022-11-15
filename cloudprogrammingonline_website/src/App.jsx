@@ -48,7 +48,7 @@ const App = () => {
                     {/* 服務平台 */}
                     <Route path='/marketing-system' element={<MarketingSystem />} />
                     <Route path='/xiaodi' element={<Xiaodi />} />
-                    <Route path='/block-store' element={<BlockStore />} />
+                    {/* <Route path='/block-store' element={<BlockStore />} /> */}
 
                     {/* 遊戲娛樂 */}
                     <Route path='/ipickpro' element={<Ipickpro />} />
