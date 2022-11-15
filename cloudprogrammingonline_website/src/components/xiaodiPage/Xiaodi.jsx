@@ -21,7 +21,6 @@ import DELIVERY_4 from '../../assets/delivery_4.png'
 import DELIVERY_5 from '../../assets/delivery_5.png'
 import DELIVERY_6 from '../../assets/delivery_6.png'
 
-import { Component } from "react";
 import Slider from "react-slick";
 
 // Import css files
@@ -68,12 +67,12 @@ const Xiaodi = () => {
                     <br />並讓使用者透過手機應用程式在線上訂餐
                 </h3>
                 <div className='xiaodi_button_container'>
-                    <button className={`btn glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
+                    <button className={`btn glow-on-hover xiaodi_btn hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
                         <a href="https://play.google.com/store/apps/details?id=com.winpro.winproeat.consumer">
-                            <IoLogoGooglePlaystore className='button_icon' />Play Store
+                            <li><IoLogoGooglePlaystore className='button_icon' /></li>Play Store
                         </a>
                     </button>
-                    <button className={`btn btn-fill-white glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
+                    <button className={`btn btn-fill-white xiaodi_btn glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
                         <a href="https://apps.apple.com/tw/app/%E5%B0%8F%E5%BC%9F%E5%A4%96%E9%80%81/id1513518654?l=en">
                             <SiAppstore className='button_icon' />App Store
                         </a>

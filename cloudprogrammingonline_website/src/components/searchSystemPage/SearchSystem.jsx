@@ -14,7 +14,6 @@ import "./searchSystem.css"
 const SearchSystem = () => {
     return (
         <div className='container'>
-            {/* <Maintenance /> */}
             <div className='container'>
                 <div className='header__container'>
                     <h3 className='search_description'>
@@ -22,17 +21,25 @@ const SearchSystem = () => {
                     </h3>
                     <h1 className='search_hero-title'>查帳系統</h1>
                 </div>
-
             </div>
 
+            {/* APP SERVICE TEXT */}
+            <div className='search_service_text'>
+                <h2>APP主控平台提供服務</h2>
+                <p>即時提供管理所需報表及提升財務、庫存的管理作業效率，提供數據安全備份及彈性運算。即時洞察客戶需求及商機</p>
+            </div>
 
-            {/* DIV INTERNET */}
-            <div className='search_internet'>
-                <h2>快速連網</h2>
-                <div className='search_internet_img'>
-                    <img src={INTERNET_ICON} alt="" />
+            {/* DIV MACHINE REVENUE */}
+            <div className='search_revenue'>
+                <div className='search_revenue_img'>
+                    <img src={SLOT_MACHINE1} alt="" />
                 </div>
-                <p>只需簡單的開發，即可設備快速連網，便捷高效</p>
+                <div className='search_revenue_desc'>
+                    <div>
+                        <h2>機台營收 <br /> 詳情查詢</h2>
+                        <p>當單獨查詢機台營收狀況時，列表會列出該機台當日收入支出與總收入支出與品項等資訊，使管理者能夠打造個人的專屬風格</p>
+                    </div>
+                </div>
             </div>
 
             {/* DIV MULTIPLE LANGUAGE */}
@@ -46,20 +53,18 @@ const SearchSystem = () => {
                 </div>
             </div>
 
-            {/* DIV MACHINE REVENUE */}
-            <div className='search_revenue'>
-                <div className='search_revenue_img'>
-                    <img src={SLOT_MACHINE1} alt="" />
+            {/* DIV INTERNET */}
+            <div className='search_internet'>
+                <h2>快速連網</h2>
+                <div className='search_internet_img'>
+                    <img src={INTERNET_ICON} alt="" />
                 </div>
-                <div className='search_revenue_desc'>
-                    <div>
-                        <h2>機台營收 <br /> 詳情查詢</h2>
-                        <p>當單獨查詢機台營收狀況時，列表會列出該機台當日收入支出與總收入支出與品項等資訊，使管理者能夠打造個人的專屬風格</p>
-                    </div>
-
-                </div>
-
+                <p>只需簡單的開發，即可設備快速連網，便捷高效</p>
             </div>
+
+
+
+
 
             {/* div3 */}
             <div className='search_feature2'>

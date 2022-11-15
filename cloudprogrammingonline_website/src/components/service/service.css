@@ -1,6 +1,5 @@
 .service_container {
-    margin-top: 8rem;
-
+    margin: 15rem 0rem;
 }
 
 .service-title {
@@ -125,14 +124,13 @@
 }
 
 .flowchart_container {
-    margin-top: 5rem;
+    margin-top: 20rem;
     display: flex;
     justify-content: center;
-    width: 100%;
     padding: 5rem;
 }
 
 .flowchart_image {
     align-content: center;
-    width: 80%;
+    width: 70%;
 }

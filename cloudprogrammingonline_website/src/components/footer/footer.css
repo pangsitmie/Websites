@@ -37,8 +37,12 @@ footer a {
     text-align: center;
 }
 
+.footer_menu p {
+    color: #cecece;
+}
+
 .footer_menu p:hover {
-    background: -webkit-linear-gradient(#eee, #ed69d7);
+    background: -webkit-linear-gradient(#cecece, #ffffff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

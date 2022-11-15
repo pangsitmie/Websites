@@ -4,13 +4,13 @@ import IMG1 from '../../assets/line1.png'
 import IMG2 from '../../assets/line2.png'
 import IMG3 from '../../assets/line3.png'
 import IMG4 from '../../assets/line4.png'
-import LINE_IMG from '../../assets/line_img.png'
 import LINE_SPECIALTY from '../../assets/我們的特色.png'
 import LINE_SERVICE from '../../assets/line_service_img.png'
 import LINE_HERO from '../../assets/line_hero.png'
 import LINE_INTRO from '../../assets/line_intro.png'
 import SEARCH_ICON from '../../assets/search_icon.png'
 import VERIFIED_ICON from '../../assets/verified_icon.png'
+import MEDAL_ICON from '../../assets/MEDAL_ICON.png'
 
 import { useState, useEffect } from 'react';
 
@@ -89,7 +89,7 @@ const Line = () => {
             <div className='line_special'>
                 {/*  */}
                 <div className='line_scroll_container'>
-                    <img className='line_specialty_img' src={LINE_SPECIALTY} style={{ transform: `translateX(${scrollValue * -0.25}px)` }} />
+                    <img className='line_specialty_img' src={LINE_SPECIALTY} style={{ transform: `translateX(${scrollValue * -0.25}px)` }} alt='' />
                 </div>
                 <div className='line_special_content'>
                     <div className='line_special_desc'>
@@ -104,7 +104,7 @@ const Line = () => {
                     </div>
 
                     <div className='line_special_img'>
-                        <img src={LINE_IMG} alt="" />
+                        <img src={MEDAL_ICON} alt="" />
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@ const Line = () => {
             {/* LINE SERVICE */}
             <div className='line_service'>
                 <div>
-                    <img className='line_service_img' src={LINE_SERVICE} style={{ transform: `translateX(${scrollValue * 0.22}px)` }} />
+                    <img className='line_service_img' src={LINE_SERVICE} style={{ transform: `translateX(${scrollValue * 0.22}px)` }} alt='' />
                 </div>
                 <div className='column_2'>
                     <div className='line_service_card'>

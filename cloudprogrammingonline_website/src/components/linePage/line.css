@@ -92,6 +92,16 @@
     margin: auto;
 }
 
+.line_special_img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.line_special_img img {
+    width: 60%;
+}
+
 .line_card h3 {
     margin: 1rem 0;
     background: -webkit-linear-gradient(#FFF, #20C92F);
@@ -128,6 +138,10 @@
 
 .line_service_img {
     width: 45%;
+}
+
+.line_special_desc {
+    padding-top: 5rem;
 }
 
 .line_special_desc h3 {

@@ -2,15 +2,12 @@ import React from 'react'
 import GALAXY_HERO from '../../assets/galaxy_hero.png'
 import FLOWCHART from '../../assets/flow_chart.png'
 import POLLY_WHITE from '../../assets/polly_white.png'
-import APPLE_CHIP from '../../assets/apple_chip.jpg'
 import CHAT_ICON from '../../assets/chat_icon.png'
 import GRADIENT_RIGHT from '../../assets/gradient_right.png'
 import GALAXY_GAME1 from '../../assets/galaxy_game1.png'
 import GALAXY_GAME2 from '../../assets/galaxy_game2.png'
 import GALAXY_GAME3 from '../../assets/galaxy_game3.png'
 import GALAXY_DOWNLOAD from '../../assets/galaxy_download.png'
-
-import SLOT_MACHINE1 from '../../assets/slot_machine1.png'
 import SLOT_MACHINE2 from '../../assets/slot_machine2.png'
 
 
@@ -46,7 +43,7 @@ const GalaxyCity = () => {
             <div className='galaxy_hero_content'>
                 <h3 className='galaxy_tag'>有你自己</h3>
                 <h1 className='galaxy_title'>遊樂城APP</h1>
-                <img className='galaxy_hero_img' src={GALAXY_HERO} />
+                <img className='galaxy_hero_img' src={GALAXY_HERO} alt="" />
             </div>
 
             {/* FLOWCHART */}
@@ -61,7 +58,7 @@ const GalaxyCity = () => {
                 <h3>遠端IoT系統</h3>
                 <div className='galaxy_col2_5050'>
                     <div className='col_img_container'>
-                        <img className='polly_white_img' src={POLLY_WHITE} style={{ transform: `rotate(${scrollValue * -0.3}deg) scale(${scrollValue / 900})` }} />
+                        <img className='polly_white_img' src={POLLY_WHITE} style={{ transform: `rotate(${scrollValue * -0.3}deg) scale(${scrollValue / 900})` }} alt="" />
                     </div>
                     <div>
                         <p className='iot_desc1'>
@@ -81,7 +78,7 @@ const GalaxyCity = () => {
                         <p className='machine_desc'>透過物聯網技術，能夠讓消費者不限時間與地點限制，想遊玩時連上網路即可立即體驗經典機台所帶來的趣味性</p>
                     </div>
                     <div className='col_img_container'>
-                        <img className='machine_img' src={SLOT_MACHINE2} />
+                        <img className='machine_img' src={SLOT_MACHINE2} alt="" />
                     </div>
                 </div>
             </div>
@@ -144,12 +141,12 @@ const GalaxyCity = () => {
                         <img src={GALAXY_DOWNLOAD} alt="" />
                         <div className='galaxy_exp_btn_container'>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="#">
+                                <a href="/#">
                                     <IoLogoGooglePlaystore className='button_icon' />Play Store
                                 </a>
                             </button>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="#">
+                                <a href="/#">
                                     <SiAppstore className='button_icon' />App Store
                                 </a>
                             </button>
@@ -161,7 +158,7 @@ const GalaxyCity = () => {
                         <img src={CHAT_ICON} alt="" />
                         <div className='galaxy_contact_btn_container'>
                             <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="">
+                                <a href="/#">
                                     聯絡我們
                                 </a>
                             </button>

@@ -53,7 +53,7 @@ const Service = () => {
                             <div style={{ backgroundImage: `url(${image})` }} key={id} className='portfolio__item '>
                                 <div className='service_content'>
                                     <h3>{title}</h3>
-                                    <a target='_blank' rel="noreferrer">{desc}</a>
+                                    <a href='/#'>{desc}</a>
                                 </div>
                             </div>
                         )

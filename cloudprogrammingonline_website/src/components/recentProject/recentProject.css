@@ -9,7 +9,7 @@
 .project_card {
     width: 100%;
     aspect-ratio: 1/0.55;
-    background-size: 33rem;
+    background-size: 100%;
     min-height: 15rem;
     border-radius: 2rem;
     background-repeat: no-repeat;
@@ -17,20 +17,8 @@
     padding: .5rem 2rem;
     justify-content: baseline;
     display: flex;
-    height: 100%;
+    height: auto;
 }
-
-.project_card h3 {
-    font-size: 1.8rem;
-    align-self: flex-end;
-}
-
-.project_card-image img {
-    width: 16rem;
-    height: 12rem;
-    margin: auto;
-}
-
 
 
 .project_btn_container h3 {

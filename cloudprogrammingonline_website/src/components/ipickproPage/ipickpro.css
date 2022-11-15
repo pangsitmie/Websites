@@ -40,13 +40,14 @@
 /* FEATURE 1 */
 .ipick_feature1 {
     margin-top: 10rem;
-    background: linear-gradient(180deg, #213043, rgba(59, 7, 78, .25));
-    border-radius: 3rem;
+    background: linear-gradient(180deg, #213043, #72057e);
+    border-radius: 1.5rem;
     padding: 2rem;
 }
 
 .ipick_feature1 h2 {
     font-size: 2.5rem;
+    font-weight: bold;
     text-align: center;
     background: -webkit-linear-gradient(90deg, #6C4EDB, #DE85F2);
     -webkit-background-clip: text;
@@ -72,7 +73,7 @@
 }
 
 .ipick_feature_card {
-    border-radius: 3rem;
+    border-radius: 1.5rem;
     padding: 2rem;
 }
 
@@ -90,6 +91,7 @@
 
 .ipick_feature_card h2 {
     font-size: 2.5rem;
+    font-weight: bo;
     background: -webkit-linear-gradient(90deg, #6C4EDB, #DE85F2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -118,25 +120,33 @@
 }
 
 .ipick_advantage h2 {
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: bold;
     margin-bottom: 5rem;
 }
 
 .ipick_advantage_col {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 40% 40%;
+    gap: 20%;
+}
+
+.ipick_advantage_item {
+    margin-bottom: 5rem;
 }
 
 .ipick_advantage_item h3 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    margin-bottom: .5rem;
     font-weight: bold;
+    background: -webkit-linear-gradient(90deg, #6C4EDB, #DE85F2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .ipick_advantage_item p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+    font-size: 1.4rem;
+    margin-bottom: 3rem;
 }
 
 .ipick_advantage_img_container {

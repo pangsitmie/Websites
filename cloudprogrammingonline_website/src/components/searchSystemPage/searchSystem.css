@@ -13,6 +13,27 @@
     color: #cecece;
 }
 
+/* SERACH SERVICE */
+.search_service_text {
+    padding: 10rem 0;
+}
+
+.search_service_text h2 {
+    font-size: 6rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#f1f1f1, var(--color-bg));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.search_service_text p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #bababa;
+    text-align: center;
+}
+
 /* SEARCH INTERNET */
 .search_internet {
     margin: 10rem 0;

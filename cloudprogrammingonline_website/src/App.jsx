@@ -4,7 +4,7 @@ import Footer from './components/footer/Footer'
 import Home from './components/home/Home'
 import Nav from './components/nav/Nav'
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Line from './components/linePage/Line'
 import SearchSystem from './components/searchSystemPage/SearchSystem'
 import MarketingSystem from './components/marketingSystemPage/MarketingSystem'
@@ -56,7 +56,7 @@ const App = () => {
 
                     <Route path='/media-design' element={<MediaDesign />} />
 
-                    <Route path='/404' element={<Home />} />
+                    <Route path='/404' element={<Maintenance />} />
                     <Route path='*' element={<Home />} />
 
                 </Routes>
