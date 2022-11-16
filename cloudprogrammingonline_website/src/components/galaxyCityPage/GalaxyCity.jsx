@@ -17,8 +17,12 @@ import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import './galaxyCity.css'
+import { useTranslation } from 'react-i18next'
 
 const GalaxyCity = () => {
+    //translataion
+    const { t } = useTranslation();
+
     // SCROLL VIEWER
     const [scrollValue, setScrollValue] = useState(0);
 
@@ -42,8 +46,8 @@ const GalaxyCity = () => {
         <div className='container'>
             <img className='gradient_right' src={GRADIENT_RIGHT} alt="" />
             <div className='galaxy_hero_content'>
-                <h3 className='galaxy_tag'>有你自己</h3>
-                <h1 className='galaxy_title'>遊樂城APP</h1>
+                <h3 className='galaxy_tag'>{t('galaxy_tag')}</h3>
+                <h1 className='galaxy_title'>{t('galaxy_title')}</h1>
                 <img className='galaxy_hero_img' src={GALAXY_HERO} alt="" />
             </div>
 
@@ -54,18 +58,17 @@ const GalaxyCity = () => {
 
             {/* CONTENT1 */}
             <div className='iot_content'>
-                <h1>物聯網系統</h1>
-                <h2>使用網路直播與</h2>
-                <h3>遠端IoT系統</h3>
+                <h1>{t('iot_content_h1')}</h1>
+                <h2>{t('iot_content_h2')}</h2>
                 <div className='galaxy_col2_5050'>
                     <div className='col_img_container'>
                         <img className='polly_white_img' src={POLLY_WHITE} style={{ transform: `rotate(${scrollValue * -0.3}deg) scale(${scrollValue / 900})` }} alt="" />
                     </div>
                     <div>
                         <p className='iot_desc1'>
-                            讓玩家可以透過手機、電腦、平板等通訊工具實際操作娛樂機台 達成遠端遊玩的效果。
+                            {t('iot_desc1')}
                             <br /><br />
-                            通過使用我們的物聯網系統，您可以實時控制您的機器。您操作手機介面時，同時也在操作實體機台
+                            {t('iot_desc1_2')}
                         </p>
                     </div>
                 </div>
@@ -75,8 +78,8 @@ const GalaxyCity = () => {
             <div>
                 <div className='galaxy_col2_4060'>
                     <div className='machine_desc_container'>
-                        <h2 className='machine_title'>經典機台呈現</h2>
-                        <p className='machine_desc'>透過物聯網技術，能夠讓消費者不限時間與地點限制，想遊玩時連上網路即可立即體驗經典機台所帶來的趣味性</p>
+                        <h2 className='machine_title'>{t('machine_title')}</h2>
+                        <p className='machine_desc'>{t('machine_desc')}</p>
                     </div>
                     <div className='col_img_container2'>
                         <img className='machine_img' src={SLOT_MACHINE2} alt="" />
@@ -86,9 +89,9 @@ const GalaxyCity = () => {
 
             {/* CONTENT3 */}
             <div className='galaxy_game_container'>
-                <h2>經典的傳統遊戲</h2>
+                <h2>{t('galaxy_game_container_h2')}</h2>
                 <p>
-                    可以遊玩各式各樣的slot機台、小時候的水果盤、 拉霸機、撲克機 回憶以前的歡樂時光
+                    {t('galaxy_game_container_p')}
                 </p>
                 <div className='galaxy_col3'>
                     <div className='galaxy_game_img_container'>
@@ -111,12 +114,12 @@ const GalaxyCity = () => {
             <div className='galaxy_content4_container'>
                 <div className='galaxy_col2'>
                     <div className='galaxy_social'>
-                        <h2>社交通訊</h2>
-                        <p>可於大廳以及與好友私底下即時聊天，汲取他人遊玩經驗、分享中獎的喜悅以及互贈禮品。</p>
+                        <h2>{t('galaxy_social_h2')}</h2>
+                        <p>{t('galaxy_social_p')}</p>
                     </div>
                     <div className='galaxy_video'>
-                        <h2>遊玩錄影</h2>
-                        <p>遊玩途中隨時可以按下截取按鈕，錄下自己的精彩表現。</p>
+                        <h2>{t('galaxy_video_h2')}</h2>
+                        <p>{t('galaxy_video_p')}</p>
 
                     </div>
                 </div>
@@ -126,8 +129,7 @@ const GalaxyCity = () => {
             <div className='galaxy_tagline_container'>
                 <div className='module'>
                     <h2>
-                        我們擁有專業的研發工程團隊, 可以依據您的需求設計線上平台或APP。
-                        如果您是遊戲機製造商，我們提供平台推薦消費者遊玩您的遊戲機。
+                        {t('module_h2')}
                     </h2>
                 </div>
             </div>
@@ -137,7 +139,7 @@ const GalaxyCity = () => {
             <div className='galaxy_content5_container'>
                 <div className='galaxy_col2'>
                     <div className='galaxy_experience'>
-                        <h2>立即體驗<br />我們的APP
+                        <h2>{t('galaxy_experience_h2')}<br />{t('galaxy_experience_h2_2')}
                         </h2>
                         <img src={GALAXY_DOWNLOAD} alt="" />
                         <div className='galaxy_exp_btn_container'>
@@ -155,12 +157,12 @@ const GalaxyCity = () => {
 
                     </div>
                     <div className='galaxy_contact'>
-                        <h2>想打造一個您專屬的app嗎?</h2>
+                        <h2>{t('galaxy_contact_h2')}</h2>
                         <img src={CHAT_ICON} alt="" />
                         <div className='galaxy_contact_btn_container'>
                             <button className={`btn btn-stroke hidden ${elementIsVisible2 ? 'show' : ''}`} ref={visibleRef2}>
                                 <a href="mailto:cloudprogramingservice@gmail.com">
-                                    聯絡我們
+                                    {t('contact_us')}
                                 </a>
                             </button>
                         </div>

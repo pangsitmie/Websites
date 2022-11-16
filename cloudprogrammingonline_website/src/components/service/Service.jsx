@@ -6,42 +6,45 @@ import SERVICEBG from '../../assets/service.jpg'
 import TEAMBG from '../../assets/team.png'
 import CUSTOMERBG from '../../assets/customer.jpg'
 import FLOWCHART from '../../assets/flow_chart.png'
+import { t, i18next } from 'i18next';
+import { useTransition } from 'react';
 
 
-const data = [
-    {
-        id: 1,
-        image: SERVICEBG,
-        title: 'Our Service',
-        desc: '雲程能提供給您的服務？'
-    },
-    {
-        id: 2,
-        image: TEAMBG,
-        title: 'Our Team',
-        desc: '為何要找雲程在線？'
-    },
-    {
-        id: 3,
-        image: CUSTOMERBG,
-        title: 'Our Customer',
-        desc: '雲程的合作案例？'
-    }
-]
+
 
 const Service = () => {
+    const data = [
+        {
+            id: 1,
+            image: SERVICEBG,
+            title: 'Our Service',
+            desc: '雲程能提供給您的服務？'
+        },
+        {
+            id: 2,
+            image: TEAMBG,
+            title: 'Our Team',
+            desc: '為何要找雲程在線？'
+        },
+        {
+            id: 3,
+            image: CUSTOMERBG,
+            title: 'Our Customer',
+            desc: '雲程的合作案例？'
+        }
+    ]
+
     const { ref, inView } = useInView({ trackVisibility: true, delay: 100, triggerOnce: true });
     return (
         <div className='service_container'>
             <div className={`hidden ${inView ? 'show' : ' '}`} ref={ref}>
                 <div className="container ">
-                    <h1 className='service-title'><em>我們正在做什麼,</em><br></br>以及我們公司如何幫助您改善業務</h1>
+                    <h1 className='service-title'><em>{t('service_title_1')}</em><br></br>{t('service_title_2')}</h1>
                 </div>
 
                 <div className="container">
                     <p className='service-desc' >
-                        Winpro cloud是為中台灣以實體遊戲機為基底, 具備雲端運算、數位服務、虛實整合、雲端支付等多項軟、韌、硬體兼具之資訊研發公司
-                        我們擁有自己的工程師團隊，專門根據您的需求客製化設計線上平台或應用程序。
+                        {t('service_desc')}
                     </p>
                 </div>
             </div>

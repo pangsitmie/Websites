@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, Suspense } from 'react'
 import About from './components/about/About'
 import Footer from './components/footer/Footer'
 import Home from './components/home/Home'
@@ -36,32 +36,35 @@ const App = () => {
 
     return (
         <>
-            <Router basename="/">
-                {/* Add Menu Component */}
-                <Nav />
-                <Routes>
-                    <Route exact path='/' element={<Home />} />
-                    <Route path='/About' element={<About />} />
-                    {/* 商務合作 */}
-                    <Route path='/line' element={<Line />} />
-                    <Route path='/search-system' element={<SearchSystem />} />
-                    {/* 服務平台 */}
-                    <Route path='/marketing-system' element={<MarketingSystem />} />
-                    <Route path='/xiaodi' element={<Xiaodi />} />
-                    {/* <Route path='/block-store' element={<BlockStore />} /> */}
+            <Suspense fallback={null}>
+                <Router basename="/">
+                    {/* Add Menu Component */}
+                    <Nav />
+                    <Routes>
+                        <Route exact path='/' element={<Home />} />
+                        <Route path='/About' element={<About />} />
+                        {/* 商務合作 */}
+                        <Route path='/line' element={<Line />} />
+                        <Route path='/search-system' element={<SearchSystem />} />
+                        {/* 服務平台 */}
+                        <Route path='/marketing-system' element={<MarketingSystem />} />
+                        <Route path='/xiaodi' element={<Xiaodi />} />
+                        {/* <Route path='/block-store' element={<BlockStore />} /> */}
 
-                    {/* 遊戲娛樂 */}
-                    <Route path='/ipickpro' element={<Ipickpro />} />
-                    <Route path='/galaxy-city' element={<GalaxyCity />} />
+                        {/* 遊戲娛樂 */}
+                        <Route path='/ipickpro' element={<Ipickpro />} />
+                        <Route path='/galaxy-city' element={<GalaxyCity />} />
 
-                    <Route path='/media-design' element={<MediaDesign />} />
+                        <Route path='/media-design' element={<MediaDesign />} />
 
-                    <Route path='/404' element={<Maintenance />} />
-                    <Route path='*' element={<Home />} />
+                        <Route path='/404' element={<Maintenance />} />
+                        <Route path='*' element={<Home />} />
 
-                </Routes>
-                <Footer />
-            </Router>
+                    </Routes>
+                    <Footer />
+                </Router>
+            </Suspense>
+
         </>
     )
 }

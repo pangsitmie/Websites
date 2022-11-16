@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import React from 'react'
 import { useInView } from 'react-intersection-observer';
 import IMG1 from '../../assets/recentProject1.png'
@@ -12,12 +13,8 @@ const RecentProject = () => {
     return (
         <section id='about' >
             <div className={`container recet_project_content hidden ${inView ? 'show' : ' '}`} ref={ref}>
-                <h2 >我們最近的專案</h2>
-
-                <p>
-                    導入自助選務販賣機雲端支付功能且具備廣告推播、查帳，此系統整合了實體機台與雲端運算。
-                    研發機台的結構及提供的服務，除了技術創新外，更著重於消費者的體驗服務創新，進而機台整合的商業服務
-                </p>
+                <h2>{t('recet_project_content_h2')}</h2>
+                <p>{t('recet_project_content_p')}</p>
             </div>
 
             {/* project1 */}
@@ -27,12 +24,10 @@ const RecentProject = () => {
                 </div>
 
                 <div className='project_desc'>
-                    <h2>傳奇レジェンド</h2>
-                    <p>
-                        結合聊天室及物聯控制/視訊串流/商城購物為一體的平台式APP架構, 虛實整合遠距視訊遊戲機
-                    </p>
+                    <h2>{t('project_desc_1_h2')}</h2>
+                    <p>{t('project_desc_1_p')}</p>
                     <a href="/galaxy-city">
-                        <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
+                        <button className="btn btn-fill-white glow-on-hover">{t('learn_more')}</button>
                     </a>
                 </div>
             </div>
@@ -40,12 +35,10 @@ const RecentProject = () => {
             {/* project2 */}
             <div className={`container about__container hidden ${inView2 ? 'show' : ' '}`} ref={proj2}>
                 <div className='project_desc'>
-                    <h2>營銷支付</h2>
-                    <p>
-                        導入自助選務販賣機雲端支付功能且具備廣告推播、查帳，此系統整合了實體機台與雲端運算。
-                    </p>
+                    <h2>{t('project_desc_2_h2')}</h2>
+                    <p>{t('project_desc_2_p')}</p>
                     <a href="/marketing-system">
-                        <button className="btn btn-fill-white glow-on-hover">進一步了解</button>
+                        <button className="btn btn-fill-white glow-on-hover">{t('learn_more')}</button>
                     </a>
                 </div>
 

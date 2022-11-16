@@ -3,6 +3,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// import i8ln
+import './i18n';
+
 ReactDOM.render(<App />, document.querySelector("#root"))
 
 // If you want to start measuring performance in your app, pass a function

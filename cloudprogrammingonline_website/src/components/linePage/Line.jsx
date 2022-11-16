@@ -134,8 +134,9 @@ const Line = () => {
                             <h3>吸粉服務</h3>
                             <img className='line_service_icon' src={VERIFIED_ICON} alt="" />
                         </div>
-                        <p>透過掃描機台QR馬並免費遊玩乙次, 使消費者加入店家LINE官方帳號後,
-                            即可獲得店家預設之優惠活動。</p>
+                        <p>
+                            透過掃描機台QR碼並免費遊玩ㄧ次，使消費者加入店家LINE官方帳號後, 即可獲得店家預設之優惠活動。
+                        </p>
                     </div>
                 </div>
 

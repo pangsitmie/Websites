@@ -19,8 +19,8 @@ const iPickPro = () => {
         <div className='container'>
             {/* HERO IPICKPRO */}
             <div className='hero_ipickpro'>
-                <img className='center_gradient' src={GALAXY_GRADIENT} alt='' />
-                <img className='hero_img' src={IPICKPRO_HERO} alt='' />
+                {/* <img className='center_gradient' src={GALAXY_GRADIENT} alt='' /> */}
+                {/* <img className='hero_img' src={IPICKPRO_HERO} alt='' /> */}
 
                 <h1>iPickPro</h1>
                 <div className='xiaodi_button_container'>
