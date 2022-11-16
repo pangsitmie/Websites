@@ -35,6 +35,7 @@ const GalaxyCity = () => {
     }, [scrollValue]);
 
     const { ref: visibleRef, inView: elementIsVisible } = useInView();
+    const { ref: visibleRef2, inView: elementIsVisible2 } = useInView();
 
     // RETURN DIV
     return (
@@ -77,7 +78,7 @@ const GalaxyCity = () => {
                         <h2 className='machine_title'>經典機台呈現</h2>
                         <p className='machine_desc'>透過物聯網技術，能夠讓消費者不限時間與地點限制，想遊玩時連上網路即可立即體驗經典機台所帶來的趣味性</p>
                     </div>
-                    <div className='col_img_container'>
+                    <div className='col_img_container2'>
                         <img className='machine_img' src={SLOT_MACHINE2} alt="" />
                     </div>
                 </div>
@@ -140,14 +141,14 @@ const GalaxyCity = () => {
                         </h2>
                         <img src={GALAXY_DOWNLOAD} alt="" />
                         <div className='galaxy_exp_btn_container'>
-                            <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="/#">
-                                    <IoLogoGooglePlaystore className='button_icon' />Play Store
+                            <button className={`btn btn-stroke btn_galaxy_stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
+                                <a href="#0">
+                                    <IoLogoGooglePlaystore className='button_icon_white' />Play Store
                                 </a>
                             </button>
-                            <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="/#">
-                                    <SiAppstore className='button_icon' />App Store
+                            <button className={`btn btn-stroke btn_galaxy_stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
+                                <a href="#0">
+                                    <SiAppstore className='button_icon_white' />App Store
                                 </a>
                             </button>
                         </div>
@@ -157,8 +158,8 @@ const GalaxyCity = () => {
                         <h2>想打造一個您專屬的app嗎?</h2>
                         <img src={CHAT_ICON} alt="" />
                         <div className='galaxy_contact_btn_container'>
-                            <button className={`btn btn-stroke hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                                <a href="/#">
+                            <button className={`btn btn-stroke hidden ${elementIsVisible2 ? 'show' : ''}`} ref={visibleRef2}>
+                                <a href="mailto:cloudprogramingservice@gmail.com">
                                     聯絡我們
                                 </a>
                             </button>

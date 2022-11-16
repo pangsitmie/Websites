@@ -11,6 +11,7 @@ import LINE_INTRO from '../../assets/line_intro.png'
 import SEARCH_ICON from '../../assets/search_icon.png'
 import VERIFIED_ICON from '../../assets/verified_icon.png'
 import MEDAL_ICON from '../../assets/MEDAL_ICON.png'
+import LINE_INTRO_HORIZONTAL from '../../assets/line_intro_horizontal.png'
 
 import { useState, useEffect } from 'react';
 
@@ -48,6 +49,9 @@ const Line = () => {
 
             {/* LINE INTRODUCTION */}
             <div className='line_intro_container'>
+                <div className='line_intro_horizontal'>
+                    <img src={LINE_INTRO_HORIZONTAL} alt="" />
+                </div>
                 {/* <h3 className='line_title'>產品介紹</h3> */}
 
                 <div className='line_container_3'>

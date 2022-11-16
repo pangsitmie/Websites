@@ -7,14 +7,14 @@ import { MdMail } from 'react-icons/md'
 const Footer = () => {
   return (
     <footer>
-      <div className='contanct_container'>
-        <p className='footer__logo'>隨時與我們聯繫。</p>
-
+      <div className='contact_container'>
+        <p className='footer__logo'>隨時與我們聯繫</p>
         <div className="footer__socials">
           <p>cloudprogramingservice@gmail.com</p>
-          <a href="mailto:cloudprogramingservice@gmail.com" target='_blank' rel="noreferrer"><MdMail /></a>
-          <a href="https://zh-tw.facebook.com/cloudprogrammingonline/" target='_blank' rel="noreferrer"><BsFacebook /></a>
-          <a href="https://www.instagram.com/jerielisaiah/" target='_blank' rel="noreferrer"><BsInstagram /></a>
+          <div className='footer__socials__icons'>
+            <a href="mailto:cloudprogramingservice@gmail.com" target='_blank' rel="noreferrer"><MdMail /></a>
+            <a href="https://zh-tw.facebook.com/cloudprogrammingonline/" target='_blank' rel="noreferrer"><BsFacebook /></a>
+          </div>
         </div>
       </div>
 

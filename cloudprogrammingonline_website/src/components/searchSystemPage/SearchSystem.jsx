@@ -5,8 +5,9 @@ import SEARCH3D_ICON from '../../assets/SEARCH3D_ICON.png'
 import MANAGE_SYSTEM from '../../assets/MANAGE_SYSTEM.png'
 import BACKEND_SYSTEM from '../../assets/BACKEND_SYSTEM.png'
 // import MULTIPLE_LANGUAGE from '../../assets/MULTIPLE_LANGUAGE.png'
-import MULTIPLE_LANGUAGE from '../../assets/language_gradient.gif'
-import INTERNET_ICON from '../../assets/wifi_green.gif'
+import MULTIPLE_LANGUAGE from '../../assets/lang_tw1.gif'
+// import INTERNET_ICON from '../../assets/wifi.gif'
+import INTERNET_ICON from '../../assets/WIFI_ANIM.webp'
 import SLOT_MACHINE1 from '../../assets/slot_machine1.png'
 
 import { useInView } from 'react-intersection-observer';
@@ -19,14 +20,14 @@ const SearchSystem = () => {
     const { ref: ref3, inView: inView3 } = useInView({ trackVisibility: true, delay: 100 });
     return (
         <div className='container'>
-            <div className='container'>
-                <div className='header__container'>
-                    <h3 className='search_description'>
-                        精確的數據統計 - 協助市場分析
-                    </h3>
-                    <h1 className='search_hero-title'>查帳系統</h1>
-                </div>
+
+            <div className='search_hero'>
+                <h3 className='search_description'>
+                    精確的數據統計 - 協助市場分析
+                </h3>
+                <h1 className='search_hero-title'>查帳系統</h1>
             </div>
+
 
             {/* APP SERVICE TEXT */}
             <div className={`search_service_text hidden ${inView ? 'show' : ' '}`} ref={ref}>

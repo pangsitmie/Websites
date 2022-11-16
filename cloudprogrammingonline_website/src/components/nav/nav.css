@@ -176,7 +176,7 @@ li {
     }
 
     .main-nav .menubar__button:hover {
-        background-color: var(--color-white);
+        background-color: var(--color-bg);
     }
 
     .main-nav .menu-item:hover>a {

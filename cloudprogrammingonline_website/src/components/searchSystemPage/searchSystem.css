@@ -53,7 +53,7 @@
 }
 
 .search_internet_img img {
-    width: 50%;
+    width: 40%;
 }
 
 .search_internet p {
@@ -74,7 +74,7 @@
 .search_language h2 {
     font-size: 5rem;
     font-weight: bold;
-    margin-top: 10%;
+    margin-top: 16%;
 }
 
 .search_language p {
@@ -84,14 +84,13 @@
 }
 
 .search_language_img {
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .search_language_img img {
-    height: 100%;
+    width: 100%;
 }
 
 /* SEARCH REVENUE */
@@ -222,4 +221,31 @@
 
 .backend_system_img img {
     width: 70%;
+}
+
+
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+
+    .search_service_text h2 {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+    }
+
+    .search_service_text p {
+        font-size: 1.8rem;
+        line-height: 160%;
+    }
+
+    .search_feature2 {
+        display: inline;
+    }
+
+    .ipick_feature_card {
+        margin: 2rem 0;
+    }
 }

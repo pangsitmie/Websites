@@ -66,10 +66,13 @@
     text-align: justify;
 }
 
+.line_intro_horizontal {
+    display: none;
+}
+
 .line_intro_img_container {
     display: block;
     margin: auto;
-
 }
 
 .line_intro_img {
@@ -127,6 +130,7 @@
     gap: 10%;
 }
 
+
 .line_scroll_container {
     display: flex;
     justify-content: right;
@@ -153,6 +157,7 @@
     font-size: 1.2rem;
     margin-top: 1rem;
     margin-bottom: 5rem;
+    color: #cecece;
 }
 
 /* LINE SERVICE */
@@ -199,4 +204,71 @@
     font-size: 1.2rem;
     font-weight: 400;
     margin-bottom: 1rem;
+}
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .line_hero_img {
+        display: none;
+    }
+
+    .line_hero_description {
+        font-size: 1.5rem;
+        color: #cecece;
+        font-weight: 500;
+    }
+
+    .line_intro_horizontal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .line_intro_horizontal img {
+        width: 100%;
+    }
+
+    .line_container_3 {
+        display: inline;
+    }
+
+    .line_intro_img_container {
+        display: none;
+    }
+
+    .line_specialty_img {
+        transform: none !important;
+        width: 90%;
+    }
+
+    .line_special_content {
+        margin-top: 1rem;
+        display: inline;
+    }
+
+    .line_special_img img {
+        width: 50%;
+    }
+
+    .line_service_img {
+        transform: none !important;
+        width: 80%;
+        margin-bottom: 2rem;
+    }
+
+    .column_2 {
+        display: inline;
+    }
+
+    .line_service_card {
+        margin-bottom: 3rem;
+    }
+
+    .line_service_icon {
+        padding-right: 2rem;
+    }
 }

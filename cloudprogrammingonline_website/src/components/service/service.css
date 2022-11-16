@@ -163,5 +163,14 @@
         margin-bottom: 3rem;
     }
 
+    .flowchart_container {
+        margin-top: 12rem;
+        display: flex;
+        justify-content: center;
+        padding: 0rem;
+    }
 
+    .flowchart_image {
+        width: 90%;
+    }
 }
