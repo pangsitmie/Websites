@@ -6,6 +6,7 @@
     z-index: -1;
     background-image: url("../../assets/about_bg-min.webp");
     padding: 0 10rem;
+    background-repeat: no-repeat;
 }
 
 .about_hero_content {
@@ -41,4 +42,45 @@
 
 .about_flow_img img {
     width: 70%;
+}
+
+
+@media(max-width:991px) {
+    .about_hero {
+        display: flex;
+        padding: 0;
+        background-position: center;
+        z-index: -1;
+        background-image: none;
+        object-fit: contain;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .about_hero_content {
+        padding: 1rem;
+    }
+
+    .about_hero_content h1 {
+        font-size: 3.5rem;
+        font-weight: bold;
+    }
+
+    .about_hero_content h2 {
+        line-height: 2.8rem;
+    }
+
+    .about_flow {
+        background: var(--color-bg);
+        padding: 0rem;
+    }
+
+    .about_flow h2 {
+        font-size: 3rem;
+        margin: 5rem 0;
+    }
+
+    .about_flow_img img {
+        width: 100%;
+    }
 }

@@ -37,3 +37,10 @@
     margin: 0;
     float: left;
 }
+
+
+@media(max-width:991px) {
+    .maintenance {
+        display: inline;
+    }
+}
