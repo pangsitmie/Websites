@@ -1,6 +1,5 @@
 import React from 'react'
 import GALAXY_HERO from '../../assets/galaxy_hero.png'
-import FLOWCHART from '../../assets/flow_chart.png'
 import POLLY_WHITE from '../../assets/polly_white.png'
 import CHAT_ICON from '../../assets/chat_icon.png'
 import GRADIENT_RIGHT from '../../assets/gradient_right-min.webp'
@@ -19,9 +18,12 @@ import { useInView } from 'react-intersection-observer';
 import './galaxyCity.css'
 import { useTranslation } from 'react-i18next'
 
+import imgEn from '../../assets/flow_chart_en.png'
+import imgTw from '../../assets/flow_chart_tw.png'
 const GalaxyCity = () => {
     //translataion
     const { t } = useTranslation();
+
 
     // SCROLL VIEWER
     const [scrollValue, setScrollValue] = useState(0);
@@ -40,6 +42,7 @@ const GalaxyCity = () => {
 
     const { ref: visibleRef, inView: elementIsVisible } = useInView();
     const { ref: visibleRef2, inView: elementIsVisible2 } = useInView();
+    const { ref: visibleRefIOT, inView: elementIsVisibleIOT } = useInView();
 
     // RETURN DIV
     return (
@@ -53,11 +56,13 @@ const GalaxyCity = () => {
 
             {/* FLOWCHART */}
             <div className='galaxy_flowchart'>
-                <img className='galaxy_flowchart_img' src={FLOWCHART} alt="" />
+                <img className='galaxy_flowchart_img' src={
+                    localStorage.getItem("i18nextLng") === "en" ? imgEn
+                        : localStorage.getItem("i18nextLng") === "tw" ? imgTw : imgEn} alt="" />
             </div>
 
             {/* CONTENT1 */}
-            <div className='iot_content'>
+            <div className={`iot_content hidden ${elementIsVisibleIOT ? 'show' : ''}`} ref={visibleRefIOT}>
                 <h1>{t('iot_content_h1')}</h1>
                 <h2>{t('iot_content_h2')}</h2>
                 <div className='galaxy_col2_5050'>
@@ -105,8 +110,6 @@ const GalaxyCity = () => {
                     </div>
                 </div>
             </div>
-
-
 
 
 

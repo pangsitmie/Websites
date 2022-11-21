@@ -1,29 +1,32 @@
+.about_background_cloud {
+    position: absolute;
+    width: 150%;
+    height: auto;
+    top: -20rem;
+    left: -20rem;
+    right: 0;
+    z-index: -100;
+}
+
 .about_hero {
     width: 100%;
-    background-size: 100%;
-    min-height: 100vh;
-    background-position: center;
-    z-index: -1;
-    background-image: url("../../assets/about_bg-min.webp");
-    padding: 0 10rem;
-    background-repeat: no-repeat;
+    padding: 20rem 15rem;
 }
 
-.about_hero_content {
-    padding: 13rem 5rem 10rem 0;
-}
 
-.about_hero_content h1 {
+
+.about_hero h1 {
     font-size: 7rem;
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.about_hero_content h2 {
-    margin-top: 2rem;
+.about_hero h2 {
+    text-align: center;
 }
 
 .about_flow {
-    background: var(--color-bg);
     padding: 5rem;
 }
 
@@ -46,38 +49,38 @@
 
 
 @media(max-width:991px) {
+    .about_background_cloud {
+        position: absolute;
+        width: 150%;
+        height: auto;
+        top: -2rem;
+        left: -5rem;
+        right: 0;
+        z-index: -100;
+    }
+
     .about_hero {
-        display: flex;
-        padding: 0;
-        background-position: center;
-        z-index: -1;
-        background-image: none;
-        object-fit: contain;
-        align-items: center;
-        justify-content: center;
+        padding: 15rem 1rem 3rem 1rem;
     }
 
-    .about_hero_content {
-        padding: 1rem;
-    }
-
-    .about_hero_content h1 {
+    .about_hero h1 {
         font-size: 3.5rem;
         font-weight: bold;
     }
 
-    .about_hero_content h2 {
-        line-height: 2.8rem;
+    .about_hero h2 {
+        line-height: 150%;
+        font-size: 1.4rem;
+        color: #cecece;
     }
 
     .about_flow {
-        background: var(--color-bg);
-        padding: 0rem;
+        padding: 10rem 0;
     }
 
     .about_flow h2 {
-        font-size: 3rem;
-        margin: 5rem 0;
+        font-size: 2.5rem;
+        margin: 3rem 0;
     }
 
     .about_flow_img img {

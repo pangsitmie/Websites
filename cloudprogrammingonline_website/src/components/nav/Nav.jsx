@@ -3,11 +3,12 @@ import LOGOFULL from '../../assets/logo_full.png'
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { FiAlignRight, FiXCircle, FiChevronDown } from "react-icons/fi";
-
+import { TbWorld } from 'react-icons/tb';
 // TRANSLATION
 import { useTranslation } from 'react-i18next';
-import i18next, { t } from 'i18next';
+import i18next from 'i18next';
 const Nav = () => {
+    const { t } = useTranslation();
     const [isMenu, setisMenu] = useState(false);
     const [isResponsiveclose, setResponsiveclose] = useState(false);
     const toggleClass = () => {
@@ -101,16 +102,16 @@ const Nav = () => {
                                 {/* 商務合作 MENU ITEM */}
                                 <li onClick={toggleSubmenu1} className="menu-item sub__menus__arrows" > <Link to="#">{t('business')}<FiChevronDown /> </Link>
                                     <ul className={boxClassSubMenu1.join(' ')} >
-                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/line`}>LINE吸粉服務</NavLink> </li>
-                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/search-system`}>查帳系統</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/line`}>{t('line')}</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/search-system`}>{t('search_system')}</NavLink> </li>
                                     </ul>
                                 </li>
 
                                 {/* 服務平台 MENU ITEM */}
                                 <li onClick={toggleSubmenu2} className="menu-item sub__menus__arrows" > <Link to="#">{t('service')}<FiChevronDown /> </Link>
                                     <ul className={boxClassSubMenu2.join(' ')} >
-                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/marketing-system`}>營銷系統</NavLink> </li>
-                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/xiaodi`}>小弟外送平台</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/marketing-system`}>{t('marketing_system')}</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/xiaodi`}>{t('xiaodi')}</NavLink> </li>
                                         {/* <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/block-store`}>格子舖</NavLink> </li> */}
                                     </ul>
                                 </li>
@@ -119,7 +120,7 @@ const Nav = () => {
                                 <li onClick={toggleSubmenu3} className="menu-item sub__menus__arrows" > <Link to="#">{t('entertainment')}<FiChevronDown /> </Link>
                                     <ul className={boxClassSubMenu3.join(' ')} >
                                         <li> <NavLink onClick={toggleClass} activeClassName='is-active' to={`/ipickpro`}>iPickPro</NavLink> </li>
-                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/galaxy-city`}>遊樂城APP建置</NavLink> </li>
+                                        <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/galaxy-city`}>{t('app_dev')}</NavLink> </li>
                                     </ul>
                                 </li>
 
@@ -129,7 +130,7 @@ const Nav = () => {
                                 {/* 多媒體設計 MENU ITEM */}
                                 <li className="menu-item" ><NavLink onClick={toggleClass} activeClassName='is-active' to={`/About`}>{t('about')}</NavLink> </li>
 
-                                <li onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" > <Link to="#">{t('language')}<FiChevronDown /> </Link>
+                                <li onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" > <Link to="#"><TbWorld /><br /><FiChevronDown /> </Link>
                                     <ul className={boxClassSubMenu4.join(' ')} >
                                         <li> <NavLink onClick={() => i18next.changeLanguage('en')} activeClassName='is-active'>EN</NavLink> </li>
                                         <li><NavLink onClick={() => i18next.changeLanguage('tw')} activeClassName='is-active'>中文</NavLink> </li>

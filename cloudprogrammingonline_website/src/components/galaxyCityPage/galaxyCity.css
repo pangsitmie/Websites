@@ -378,7 +378,12 @@
         width: 100%;
     }
 
+
     /* IOT */
+    .iot_content {
+        padding: 0 0 10rem 0;
+    }
+
     .iot_content h1 {
         font-size: 4rem;
     }
@@ -405,7 +410,7 @@
 
 
     .iot_desc1 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         line-height: normal;
         padding: 0;
     }

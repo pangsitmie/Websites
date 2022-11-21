@@ -5,12 +5,11 @@ import './service.css'
 import SERVICEBG from '../../assets/service.jpg'
 import TEAMBG from '../../assets/team.png'
 import CUSTOMERBG from '../../assets/customer.jpg'
-import FLOWCHART from '../../assets/flow_chart.png'
-import { t, i18next } from 'i18next';
-import { useTransition } from 'react';
 
+import { t } from 'i18next';
 
-
+import imgEn from '../../assets/flow_chart_en.png'
+import imgTw from '../../assets/flow_chart_tw.png'
 
 const Service = () => {
     const data = [
@@ -64,7 +63,10 @@ const Service = () => {
                 }
             </div>
             <div className="flowchart_container">
-                <img src={FLOWCHART} className="flowchart_image" alt="" />
+                <img src={
+                    localStorage.getItem("i18nextLng") === "en" ? imgEn
+                        : localStorage.getItem("i18nextLng") === "tw" ? imgTw : imgEn
+                } className="flowchart_image" alt="" />
             </div>
         </div>
     )

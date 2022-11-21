@@ -164,3 +164,42 @@
     margin: 2rem 0 0 0 !important;
 
 }
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .hero_ipickpro h1 {
+        font-size: 7rem;
+        line-height: 100%;
+    }
+
+    .ipick_hero_btn_container {
+        margin: 5rem 0;
+    }
+
+    /* VIDEO */
+    .ipick_video {
+        display: block;
+    }
+
+    .App {
+        margin-bottom: 3rem;
+    }
+
+    /* feature 1 */
+    .ipick_feature1 {
+        padding: 1rem;
+    }
+
+    .ipick_feature1 p {
+        padding: 0rem;
+        margin-bottom: 1rem;
+    }
+
+    /* feature 2 */
+    .ipick_feature2 {
+        display: block;
+    }
+}

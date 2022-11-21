@@ -74,16 +74,17 @@
     }
 
     .header__container h1 {
-        font-size: 4.5rem;
+        font-size: 3rem;
         margin: .5rem;
     }
 
     .header__container h2 {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     .description {
         padding: 0;
-        margin: 2rem 1rem;
+        margin: 2rem 0rem;
+        font-size: 1rem;
     }
 }

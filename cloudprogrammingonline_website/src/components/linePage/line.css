@@ -6,13 +6,13 @@
     width: 60%;
 }
 
-.header__container {
+.line_header_container {
     align-items: center;
     justify-content: center;
 }
 
-.hero_title_container {
-    margin-top: 3rem;
+.line_hero_container {
+    padding: 20rem 0;
 }
 
 
@@ -28,6 +28,15 @@
     text-align: left;
     letter-spacing: 0;
     line-height: 6rem;
+}
+
+.line_hero_title2 {
+    font-size: 4.5rem;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 0;
+    line-height: 6rem;
+    color: #20C92F;
 }
 
 
@@ -213,6 +222,10 @@
 @media screen and (max-width: 600px) {
     .line_hero_img {
         display: none;
+    }
+
+    .line_hero_container {
+        padding: 10rem 0;
     }
 
     .line_hero_description {
