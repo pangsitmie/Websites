@@ -6,12 +6,14 @@ import SERVICEBG from '../../assets/service.jpg'
 import TEAMBG from '../../assets/team.png'
 import CUSTOMERBG from '../../assets/customer.jpg'
 
-import { t } from 'i18next';
+
 
 import imgEn from '../../assets/flow_chart_en.png'
 import imgTw from '../../assets/flow_chart_tw.png'
+import { useTranslation } from 'react-i18next';
 
 const Service = () => {
+    const { t } = useTranslation();
     const data = [
         {
             id: 1,
