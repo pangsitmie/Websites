@@ -1,0 +1,8 @@
+@import "../../lib//sampleelement//Default.module.scss";
+
+.background {
+  @extend %flex;
+  align-items: flex-end;
+  height: 100%;
+  width: 100%;
+}

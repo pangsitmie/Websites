@@ -1,0 +1,26 @@
+[
+    {
+        "name": "TW",
+        "value": "+886"
+    },
+    {
+        "name": "CH",
+        "value": "+86"
+    },
+    {
+        "name": "HK",
+        "value": "+852"
+    },
+    {
+        "name": "JP",
+        "value": "+81"
+    },
+    {
+        "name": "KR",
+        "value": "+82"
+    },
+    {
+        "name": "US",
+        "value": "+1"
+    }
+]

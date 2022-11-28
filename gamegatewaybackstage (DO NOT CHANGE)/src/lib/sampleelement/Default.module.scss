@@ -1,0 +1,86 @@
+@font-face {
+  font-family: jf;
+  src: url("./font/jf-openhuninn-1.1.ttf");
+}
+
+:root {
+  //色調選擇
+  --mainColor: #3e5fce; //主色調
+  --secondColor: #d1d1d1; //輔助色調
+  --adornColor: #ff9900; //點綴色調
+  --adornSecondColor: #ffdca7;
+  --errorColor: #ff5555;
+  --black: #4b4b4b;
+  --yes: #0faf00;
+  --no: #ff0000;
+}
+
+%flex {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+%font {
+  font-family: "jf", "Times New Roman", Times, serif;
+  color: #4b4b4b;
+}
+
+%h1 {
+  @extend %font;
+  font-size: 24px;
+}
+
+%h2 {
+  @extend %font;
+  font-size: 20px;
+}
+
+%c1 {
+  @extend %font;
+  font-size: 16px;
+}
+
+%c2 {
+  @extend %font;
+  font-size: 14px;
+}
+
+%c3 {
+  @extend %font;
+  font-size: 12px;
+}
+
+%scroll_w {
+  &::-webkit-scrollbar {
+    width: 3px !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    margin: 5px;
+    background: var(--secondColor);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--black);
+  }
+}
+
+%scroll_h {
+  &::-webkit-scrollbar {
+    height: 3px !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    margin: 5px;
+    background: var(--secondColor);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--black);
+  }
+}

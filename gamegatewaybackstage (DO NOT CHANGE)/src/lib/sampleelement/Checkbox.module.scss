@@ -1,0 +1,66 @@
+@import "./Default.module.scss";
+
+.checkbox {
+  @extend %flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  margin: 0 10px 10px 0;
+  width: 100%;
+
+  >.title {
+    @extend %flex;
+    flex-direction: row;
+
+    >span {
+      @extend %flex,
+      %c3;
+    }
+
+    >.comment {
+      @extend %flex,
+      %c3;
+      font-size: 10px;
+      color: #9b9b9b;
+    }
+
+    >.necessary {
+      @extend %flex,
+      %c3;
+      color: #ff4b4b;
+    }
+  }
+
+  >input[type="checkbox"] {
+    display: none;
+
+    &:checked+label>svg:nth-child(1) {
+      display: block;
+      color: var(--adornColor); //caret
+    }
+
+    &:checked+label>svg:nth-child(2) {
+      display: none;
+    }
+  }
+
+  >label {
+    @extend %flex,
+    %font;
+    cursor: pointer;
+
+    >svg {
+      margin: 0 5px 0 0;
+      color: var(--secondColor); //caret
+    }
+
+    >svg:nth-child(1) {
+      display: none;
+    }
+  }
+
+  >.error {
+    @extend %flex,
+    %c3;
+    color: #ff4b4b;
+  }
+}

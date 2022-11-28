@@ -1,0 +1,49 @@
+@import "./Default.module.scss";
+
+.editImage {
+  @extend %flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  margin: 0 10px 10px 0;
+  width: 100%;
+
+  > .title {
+    @extend %flex;
+    flex-direction: row;
+
+    > span {
+      @extend %flex, %c3;
+    }
+
+    > .comment {
+      @extend %flex, %c3;
+      font-size: 10px;
+      color: #9b9b9b;
+    }
+
+    > .necessary {
+      @extend %flex, %c3;
+      color: #ff4b4b;
+    }
+  }
+
+  > div:nth-child(2) {
+    @extend %flex, %font;   
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    flex: 0 !important;    
+
+    > img {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+  }
+
+  > .error {
+    @extend %flex, %c3;
+    color: #ff4b4b;
+  }
+}

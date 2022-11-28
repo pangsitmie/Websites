@@ -1,0 +1,30 @@
+{
+    "language": "English",
+    "backstage": "gamewayBackstage",
+    "manage": "manage",
+    "account": "account",
+    "password": "password",
+    "login": "login",
+    "logout": "logout",
+    "update": "update",
+    "cancel": "cancel",
+    "delete": "delete",
+    "disable": "disable",
+    "enable": "enable",
+    "add": "add",
+    "game": "game",
+    "pleaseEnter": "pleaseEnter",
+    "name": "name",
+    
+    "host":"host",
+    "operate":"operate",
+
+    "machine":"Machine",
+    "income":"Income",
+    "expenditure":"Expenditure",
+
+    "gameSerialId":"GameSerialId",
+    "seat":"Seat",
+    "create":"Create",
+    "time":"Time"
+}

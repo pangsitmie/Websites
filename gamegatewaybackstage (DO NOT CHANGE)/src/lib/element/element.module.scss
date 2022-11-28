@@ -1,0 +1,1282 @@
+@import "./default.module.scss";
+
+:root {
+	//色調選擇
+	--mainColor: #3e5fce; //主色調
+	--secondColor: #d1d1d1; //輔助色調
+	--adornColor: #ff9900; //點綴色調
+	--adornSecondColor: #ffdca7;
+	--errorColor: #ff5555;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.div {
+	@extend %flex;
+	justify-content: flex-start;
+	height: 800px;
+	width: 1200px;
+	border-radius: 12px;
+	background-color: #ffffff;
+}
+
+.div_title {
+	@extend %flex, %font_title1;
+	margin: 20px 0;
+	align-items: flex-start;
+	height: 10%;
+	width: 90%;
+}
+
+.div_content {
+	@extend %flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+	flex-wrap: wrap;
+	height: 70%;
+	width: 90%;
+	overflow-x: hidden;
+
+	&::-webkit-scrollbar {
+		width: 5px !important;
+	}
+}
+
+.div_button {
+	@extend %flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	height: 15%;
+	width: 90%;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.group_div {
+	@extend %flex;
+	align-items: flex-start;
+	margin: 0 0 10px 0;
+
+	> span {
+		@extend %flex, %font;
+		margin: 0 0 5px 0;
+	}
+
+	> div {
+		@extend %flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: flex-start;
+		align-content: flex-start;
+		flex-wrap: wrap;
+		width: 100%;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.delete_div {
+	@extend %flex;
+	height: 400px;
+	width: 600px;
+	border-radius: 12px;
+	background-color: #ffffff;
+}
+
+.delete_div_content {
+	@extend %flex, %font_title1;
+	margin: 20px 0;
+	width: 90%;
+}
+
+.delete_div_content > span {
+	@extend %flex, %font_title1;
+	color: var(--adornColor);
+}
+
+.delete_div_button {
+	@extend %flex;
+	flex-direction: row;
+	width: 90%;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.step_div {
+	@extend %flex;
+	justify-content: flex-start;
+	height: 800px;
+	width: 1200px;
+	border-radius: 12px;
+	background-color: #ffffff;
+
+	> span {
+		@extend %flex, %font_title1;
+		margin: 20px 0;
+		align-items: flex-start;
+		height: 10%;
+		width: 90%;
+	}
+
+	> div:nth-child(2) {
+		@extend %flex;
+		height: 65%;
+		width: 90%;
+
+		> span:nth-child(1) {
+			@extend %flex, %font_title1;
+			margin: 0 0 10px 0;
+		}
+
+		> span:nth-child(2) {
+			@extend %flex, %font_inputfield;
+			margin: 0 0 20px 0;
+			color: #555555;
+		}
+
+		> input[type="text"] {
+			@extend %flex, %font_inputfield;
+			text-align: center;
+			padding: 12px;
+			height: 15px;
+			width: 200px;
+			border: none;
+			border-bottom: 1.8px solid #555555;
+			color: #555555; //caret
+			-webkit-text-fill-color: #222222; //text
+			background: none;
+			outline: none;
+			cursor: pointer;
+
+			&:focus {
+				border-bottom: 1.8px solid var(--adornColor);
+			}
+		}
+	}
+
+	> div:nth-child(3) {
+		@extend %flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		height: 15%;
+		width: 90%;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.mask {
+	@extend %flex;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #00000071;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.title {
+	@extend %flex;
+	flex-direction: row;
+}
+
+.title > span {
+	@extend %flex, %font_inputfield;
+	margin: 0 5px 0 0;
+	color: #555555;
+}
+
+.title > svg {
+	@extend %flex;
+	color: #555555;
+	cursor: pointer;
+}
+
+.title > svg:hover {
+	color: var(--adornColor);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.error {
+	@extend %flex, %font_adorn;
+	color: #ff0000;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.inputfield_div {
+	@extend %flex;
+	margin: 0 30px 10px 0;
+	align-items: flex-start;
+}
+
+.inputfield {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 12px;
+	height: 15px;
+	width: 200px;
+	border: 1.4px solid var(--secondColor);
+	border-radius: 5px;
+	box-shadow: 0 0 2px var(--secondColor);
+	color: var(--secondColor); //caret
+	-webkit-text-fill-color: #222222; //text
+	background: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.inputfield:focus {
+	border: 1.4px solid var(--adornColor);
+	box-shadow: 0 0 2px var(--adornColor);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.select {
+	@extend %flex, %font;
+	margin: 2px 0;
+	padding: 10px;
+	width: 100px;
+	border: 1.4px solid var(--secondColor);
+	border-radius: 5px;
+	box-shadow: 0 0 2px var(--secondColor);
+	background: none;
+	outline: none;
+	cursor: pointer;
+
+	> option {
+		@extend %flex, %font;
+		color: #000000;
+		border: none;
+		border-radius: 8px;
+		background: #ffffff;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.list_inputfield {
+	@extend %flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.list_inputfield_input {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 12px;
+	height: 15px;
+	width: 155px;
+	border: 1.4px solid var(--secondColor);
+	border-radius: 0 5px 5px 0;
+	box-shadow: 0 0 2px var(--secondColor);
+	color: var(--secondColor); //caret
+	-webkit-text-fill-color: #222222; //text
+	background: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_inputfield_input:focus {
+	border: 1.4px solid var(--adornColor);
+	box-shadow: 0 0 2px var(--adornColor);
+}
+
+.list_inputfield_div {
+	@extend %flex;
+	margin: 0 30px 10px 0;
+	align-items: flex-start;
+}
+
+.list_inputfield_button {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 10.5px;
+	border: 1.4px solid var(--secondColor);
+	border-right: none;
+	border-radius: 5px 0 0 5px;
+	color: #bbbbbb;
+	background: #f5f5f5;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_inputfield_list {
+	@extend %flex;
+	padding: 5px;
+	position: fixed;
+	justify-content: flex-start;
+	height: 100px;
+	width: 216px;
+	border-radius: 4px;
+	background-color: #ffffffff;
+	box-shadow: 0 1px 3px #b8b8b8;
+}
+
+.list_inputfield_list > div {
+	@extend %flex;
+	justify-content: flex-start;
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+}
+
+.list_inputfield_list > div::-webkit-scrollbar {
+	width: 3px !important;
+}
+
+.list_inputfield_list > div::-webkit-scrollbar-track {
+	margin: 5px;
+	background: #e9e9e9;
+}
+
+.list_inputfield_list > div::-webkit-scrollbar-thumb {
+	background: var(--secondColor);
+}
+
+.list_inputfield_list_button {
+	@extend %flex, %font_inputfield;
+	align-items: flex-start;
+	margin: 3px;
+	width: 95%;
+	color: #bbbbbb;
+	background: none;
+	border: none;
+	border-radius: 3px;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_inputfield_list_button:hover {
+	color: #222222;
+	background: #ececec;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.list_v2_inputfield {
+	@extend %flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.list_v2_inputfield_input {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 12px;
+	height: 15px;
+	width: 115px;
+	border: 1.4px solid var(--secondColor);
+	border-right: none;
+	box-shadow: -1px 0 1px var(--secondColor);
+	color: var(--secondColor); //caret
+	-webkit-text-fill-color: #222222; //text
+	background: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_v2_inputfield_input:focus {
+	border: 1.4px solid var(--adornColor);
+	border-right: none;
+	box-shadow: -1px 0 1px var(--adornColor);
+}
+
+.list_v2_inputfield_input:focus ~ .list_v2_inputfield_arrow {
+	border: 1.4px solid var(--adornColor);
+	border-left: none;
+	box-shadow: 1px 0 2px var(--adornColor);
+}
+
+.list_v2_inputfield_div {
+	@extend %flex;
+	margin: 0 30px 10px 0;
+	align-items: flex-start;
+}
+
+.list_v2_inputfield_button {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 10.5px;
+	border: 1.4px solid var(--secondColor);
+	border-right: none;
+	border-radius: 5px 0 0 5px;
+	color: #bbbbbb;
+	background: #f5f5f5;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_v2_inputfield_arrow {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 7.5px;
+	border: 1.4px solid var(--secondColor);
+	border-left: none;
+	box-shadow: 1px 0 2px var(--secondColor);
+	border-radius: 0 5px 5px 0;
+	color: #bbbbbb;
+	background: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_v2_inputfield_list {
+	@extend %flex;
+	padding: 5px;
+	position: fixed;
+	justify-content: flex-start;
+	height: 100px;
+	width: 221px;
+	border-radius: 4px;
+	background-color: #ffffffff;
+	box-shadow: 0 1px 3px #b8b8b8;
+}
+
+.list_v2_inputfield_list > div {
+	@extend %flex;
+	justify-content: flex-start;
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+}
+
+.list_v2_inputfield_list > div::-webkit-scrollbar {
+	width: 3px !important;
+}
+
+.list_v2_inputfield_list > div::-webkit-scrollbar-track {
+	margin: 5px;
+	background: #e9e9e9;
+}
+
+.list_v2_inputfield_list > div::-webkit-scrollbar-thumb {
+	background: var(--secondColor);
+}
+
+.list_v2_inputfield_list_button {
+	@extend %flex, %font_inputfield;
+	align-items: flex-start;
+	margin: 3px;
+	width: 95%;
+	color: #bbbbbb;
+	background: none;
+	border: none;
+	border-radius: 3px;
+	outline: none;
+	cursor: pointer;
+}
+
+.list_v2_inputfield_list_button:hover {
+	color: #222222;
+	background: #ececec;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.textarea {
+	@extend %flex, %font_inputfield;
+	margin: 2px 0;
+	padding: 12px;
+	height: 80px;
+	width: 400px;
+	border: 1.4px solid var(--secondColor);
+	border-radius: 5px;
+	box-shadow: 0 0 2px var(--secondColor);
+	color: var(--secondColor); //caret
+	-webkit-text-fill-color: #222222; //text
+	cursor: pointer;
+}
+
+.textarea:focus {
+	border: 1.4px solid var(--adornColor);
+	box-shadow: 0 0 2px var(--adornColor);
+}
+
+.textarea > textarea {
+	@extend %flex;
+	justify-content: flex-start;
+	height: 100%;
+	width: 100%;
+	border: none;
+	background: none;
+	outline: none;
+	resize: none;
+	overflow-y: scroll;
+}
+
+.textarea > textarea::-webkit-scrollbar {
+	width: 3px !important;
+}
+
+.textarea > textarea::-webkit-scrollbar-track {
+	margin: 10px;
+	background: #e9e9e9;
+}
+
+.textarea > textarea::-webkit-scrollbar-thumb {
+	background: var(--secondColor);
+}
+
+.textarea_div {
+	@extend %flex;
+	align-items: flex-start;
+	margin: 0 30px 10px 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.obj_result {
+	@extend %flex;
+	margin: 2px 0;
+	padding: 12px;
+	height: 80px;
+	width: 400px;
+	border: 1.4px solid var(--secondColor);
+	border-radius: 5px;
+	box-shadow: 0 0 2px var(--secondColor);
+	background: none;
+}
+
+.obj_result > div {
+	@extend %flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+}
+
+.obj_result > div::-webkit-scrollbar {
+	width: 3px !important;
+}
+
+.obj_result > div::-webkit-scrollbar-track {
+	margin: 5px;
+	background: #e9e9e9;
+}
+
+.obj_result > div::-webkit-scrollbar-thumb {
+	background: var(--secondColor);
+}
+
+.obj_result_button {
+	@extend %flex, %font_adorn;
+	margin: 5px;
+	padding: 5px;
+	color: var(--adornColor);
+	background: var(--adornSecondColor);
+	border: none;
+	border-radius: 3px;
+	outline: none;
+	cursor: pointer;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.checkbox {
+	@extend %flex;
+	margin: 5px 0;
+	flex-direction: row;
+}
+
+.checkbox_div {
+	@extend %flex;
+	margin: 0 30px 10px 0;
+	align-items: flex-start;
+}
+
+.checkbox_label {
+	@extend %flex, %font_inputfield;
+	margin: 0 50px 0 0;
+	flex-direction: row;
+	color: #000000;
+	cursor: pointer;
+}
+
+.checkbox_label > input {
+	display: none;
+}
+
+.checkbox_label > svg {
+	margin: 0 5px 0 0;
+	color: var(--secondColor); //caret
+}
+
+.checkbox_label > svg:nth-child(2) {
+	display: none;
+}
+
+.checkbox_label > input:checked ~ svg:nth-child(2) {
+	display: block;
+	color: var(--adornColor); //caret
+}
+
+.checkbox_label > input:checked ~ svg:nth-child(3) {
+	display: none;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.button {
+	@extend %flex, %font_inputfield;
+	margin: 0 5px;
+	padding: 12px 30px;
+	background-color: var(--mainColor);
+	color: #ffffff;
+	border-radius: 3px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.small_button_div {
+	@extend %flex;
+	margin: 0 30px 10px 0;
+	align-items: flex-start;
+}
+
+.small_button {
+	@extend %flex, %font_inputfield;
+	margin: 0 5px;
+	padding: 12px 30px;
+	background-color: var(--mainColor);
+	color: #ffffff;
+	border-radius: 3px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.sort_checkbox_div {
+	@extend %flex;
+	align-items: flex-start;
+	width: 100%;
+}
+
+.sort_checkbox {
+	@extend %flex;
+	justify-content: flex-start;
+	margin: 20px 0;
+	padding: 0 0 10px 0;
+	width: 100%;
+
+	&::-webkit-scrollbar {
+		height: 3px !important;
+	}
+
+	&::-webkit-scrollbar-track {
+		margin: 5px;
+		background: #e9e9e9;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--secondColor);
+	}
+
+	> div {
+		@extend %flex;
+		width: 100%;
+
+		> div {
+			@extend %flex;
+			justify-content: flex-start;
+			flex-direction: row;
+			width: 80%;
+			border: 1px solid #a5a5a5;
+			border-top: none;
+			padding: 15px 0px;
+			cursor: move;
+
+			> div {
+				@extend %flex;
+				flex-direction: row;
+				margin: 0 0 0 60px;
+
+				> div {
+					@extend %flex;
+					margin: 0 3px 0 0;
+
+					> div {
+						@extend %flex;
+						margin: 0 0 3px 0;
+						height: 5px;
+						width: 5px;
+						border-radius: 50%;
+						background: #222;
+					}
+				}
+			}
+
+			> span {
+				@extend %flex, %font;
+				width: 63%;
+			}
+		}
+
+		> div:nth-child(1) {
+			@extend %flex;
+			border: 1px solid #a5a5a5;
+			cursor: default;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.sort_pic_checkbox {
+	@extend %flex;
+	margin: 20px 0;
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;
+	overflow-y: hidden;
+	overflow-x: scroll;
+}
+
+.sort_pic_checkbox > label > input {
+	display: none;
+}
+
+.sort_pic_checkbox > label > input:checked ~ .sort_pic_checkbox_label {
+	border: 2px solid var(--adornColor);
+	box-shadow: 0 0 5px var(--adornColor);
+}
+
+.sort_pic_checkbox > label > input:checked ~ .sort_pic_checkbox_label > span {
+	color: var(--adornColor);
+	background-color: var(--adornSecondColor);
+}
+
+.sort_pic_checkbox > label > input:checked ~ .sort_pic_checkbox_label > .sort_pic_checkbox_number > span {
+	color: #ffffff;
+	background-color: var(--adornColor);
+	box-shadow: 0 0 2px var(--adornColor);
+}
+
+.sort_pic_checkbox_div {
+	@extend %flex;
+	align-items: flex-start;
+	width: 100%;
+}
+
+.sort_pic_checkbox_label {
+	@extend %flex;
+	justify-content: space-between;
+	margin: 10px;
+	height: 200px;
+	width: 160px;
+	border-radius: 8px;
+	border: 2px solid #ffffff00;
+	box-shadow: 0 0 2px var(--secondColor);
+	background-color: #ffffff;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.sort_pic_checkbox_label > img {
+	@extend %flex;
+	margin: 0 10px;
+	height: 60px;
+	width: 90px;
+	border-radius: 8px;
+}
+
+.sort_pic_checkbox_label > span {
+	@extend %flex, %font_inputfield;
+	margin: 0 10px;
+	color: #ffffff;
+	background-color: var(--secondColor);
+	height: 60px;
+	width: 100%;
+}
+
+.sort_pic_checkbox_number {
+	@extend %flex;
+	align-items: flex-end;
+	width: 100%;
+}
+
+.sort_pic_checkbox_number > span {
+	@extend %flex, %font_adorn;
+	margin: 10px;
+	height: 24px;
+	width: 24px;
+	background-color: none;
+	border-radius: 3px;
+	box-shadow: 0 0 2px var(--secondColor);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.img_checkbox {
+	@extend %flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin: 0 30px 30px 0;
+
+	> input {
+		display: none;
+	}
+
+	> span {
+		@extend %flex, %font;
+		color: var(--adornColor);
+	}
+
+	> div {
+		@extend %flex;
+		padding: 10px;
+		width: 100%;
+		height: 100%;
+		border-radius: 8px;
+		border: 1px solid var(--adornColor);
+		cursor: pointer;
+
+		> img {
+			@extend %flex;
+			width: 200px;
+			height: 165px;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.href {
+	@extend %flex, %font_content;
+	text-decoration: none;
+	color: var(--adornColor);
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+.editImage {
+	@extend %flex, %font;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin: 0 30px 30px 0;
+
+	> div:nth-child(2) {
+		@extend %flex, %font;
+		padding: 10px;
+		height: 100%;
+		width: 100%;
+		border-radius: 8px;
+		border: 1px solid #ccc;
+		flex: 0 !important;
+
+		img {
+			width: 100%;
+			height: 100%;
+			cursor: pointer;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.image {
+	@extend %flex, %font;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	height: 200px;
+	margin: 0 30px 50px 0;
+
+	> img {
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		width: 200px;
+		height: 200px;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.ul_list {
+	@extend %flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	margin: 20px 0;
+	padding: 0 0 0 1px;
+	width: 100%;
+	overflow-y: scroll;
+}
+
+.ul_list::-webkit-scrollbar {
+	width: 3px !important;
+}
+
+.ul_list::-webkit-scrollbar-track {
+	margin: 5px;
+	background: #e9e9e9;
+}
+
+.ul_list::-webkit-scrollbar-thumb {
+	background: var(--secondColor);
+}
+
+.ul_list > ul {
+	@extend %flex;
+	width: 95%;
+	list-style-type: disc;
+	margin-block-start: 0em;
+	margin-block-end: 0em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	padding-inline-start: 0px;
+}
+
+.ul_list > ul > li {
+	@extend %flex, %font_inputfield;
+	height: 35px;
+	width: 100%;
+	background: #ffffff;
+	border-radius: 8px;
+	list-style: none;
+	cursor: pointer;
+}
+
+.ul_list > ul > li:hover {
+	color: #ffffff;
+	background: var(--adornColor);
+}
+
+.ul_list_div {
+	@extend %flex;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.progressBar_div {
+	@extend %flex;
+	justify-content: flex-start;
+	width: 100%;
+	overflow: hidden;
+
+	> div {
+		@extend %flex;
+		width: 100px;
+		height: 100px;
+		background: #ff9900;
+		transform-origin: 100% 100%;
+		animation: progressBar 2s linear infinite;
+	}
+
+	> canvas {
+		@extend %flex;
+	}
+
+	> span {
+		@extend %flex, %font;
+	}
+}
+
+@keyframes progressBar {
+	0% {
+		transform: rotate(0turn);
+	}
+
+	100% {
+		transform: rotate(1turn);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.action_list_div {
+	@extend %flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 3px !important;
+	}
+
+	&::-webkit-scrollbar-track {
+		margin: 5px;
+		background: #e9e9e9;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--secondColor);
+	}
+}
+
+.action_list {
+	@extend %flex;
+	margin: 15px;
+	padding: 20px;
+	width: 700px;
+	align-items: flex-start;
+	box-shadow: 0 0 3px #5c5c5c;
+	border-radius: 8px;
+
+	> div:nth-child(1) {
+		@extend %flex;
+		justify-content: space-between;
+		flex-direction: row;
+		width: 100%;
+
+		> span:nth-child(1) {
+			@extend %flex, %font_inputfield;
+		}
+
+		> span:nth-child(2) {
+			@extend %flex, %font_content;
+			color: var(--errorColor);
+		}
+	}
+
+	> div:nth-child(2) {
+		@extend %flex;
+		margin: 10px 0 0 0;
+		flex-direction: row;
+
+		> button {
+			@extend %flex, %font_inputfield;
+			margin: 0 5px;
+			padding: 12px 30px;
+			background-color: var(--adornColor);
+			color: #ffffff;
+			border-radius: 3px;
+			border: none;
+			outline: none;
+			cursor: pointer;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.group_list_div {
+	@extend %flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 3px !important;
+	}
+
+	&::-webkit-scrollbar-track {
+		margin: 5px;
+		background: #e9e9e9;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--secondColor);
+	}
+}
+
+.group_list {
+	@extend %flex;
+	margin: 15px;
+	padding: 20px;
+	width: 700px;
+	align-items: flex-start;
+	box-shadow: 0 0 3px #5c5c5c;
+	border-radius: 8px;
+	cursor: pointer;
+
+	> span {
+		@extend %flex, %font;
+		margin: 0 0 30px 0;
+	}
+
+	> div {
+		@extend %flex;
+		width: 100%;
+	}
+}
+
+.group {
+	@extend %flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin: 20px 0 0 0;
+	width: 100%;
+
+	> span {
+		@extend %flex, %font;
+		margin: 0 0 10px 0;
+		padding: 4px 8px;
+		font-size: 0.8rem;
+		background: var(--adornColor);
+		color: #ffffff;
+		border-radius: 5px;
+	}
+
+	> div {
+		@extend %flex, %font;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: flex-start;
+		padding: 0 0 10px 0;
+		width: 100%;
+		border-bottom: 1px solid var(--secondColor);
+
+		> span {
+			@extend %flex, %font;
+			margin: 20px 15px 0 5px;
+			font-size: 0.8rem;
+			padding: 3px 5px;
+			border: 1px solid #6e6e6e;
+			border-radius: 3px;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.map_div {
+	height: 100%;
+	width: 50%;
+	background: #333;
+	overflow: hidden;
+	z-index: 0;
+}
+
+.map {
+	fill: var(--mainColor);
+	stroke: #ffffff;
+	stroke-width: 0.5;
+	cursor: pointer;
+}
+
+.map:hover {
+	fill: var(--adornColor);
+}
+
+.name {
+	@extend %flex;
+	padding: 20px;
+	align-items: flex-start;
+	width: 200px;
+	background: var(--adornColor);
+	color: #ffffff;
+	font-size: x-large;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.date_list_div {
+	@extend %flex;
+	margin: 0 30px 10px 0;
+	align-items: flex-start;
+}
+
+.date_list {
+	@extend %flex;
+	flex-direction: row;
+	border-radius: 5px;
+	box-shadow: 0 0 2px var(--secondColor);
+
+	.year {
+		@extend %flex, %font_inputfield;
+		padding: 10px;
+		border: 1.4px solid var(--secondColor);
+		border-right: none;
+		border-radius: 5px;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+		outline: none;
+		cursor: pointer;
+	}
+
+	.month {
+		@extend %flex, %font_inputfield;
+		padding: 10px;
+		border: 1.4px solid var(--secondColor);
+		border-left: none;
+		border-right: none;
+		outline: none;
+		cursor: pointer;
+	}
+
+	.date {
+		@extend %flex, %font_inputfield;
+		padding: 10px;
+		border: 1.4px solid var(--secondColor);
+		border-left: none;
+		border-radius: 5px;
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+		outline: none;
+		cursor: pointer;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+.selectDateZone {
+    @extend %flex;
+    align-items: flex-start;
+    width: 100%;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+        height: 5px !important;
+    }
+
+    &::-webkit-scrollbar-track {
+        margin: 5px;
+        background: #e9e9e9;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--secondColor);
+    }
+
+    .timeZone {
+        @extend %flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        margin: 0 0 10px 0;
+        width: 100%;
+
+        > div {
+            @extend %flex;
+            flex-shrink: 0;
+            margin: 0 10px 0 0;
+            width: 5%;
+
+            > span {
+                @extend %flex, %font_inputfield;
+                width: 100%;
+            }
+        }
+
+        > span {
+            @extend %flex, %font_inputfield;
+            flex-shrink: 0;
+            margin: 0 10px 0 0;
+            width: 5%;
+        }
+
+        > label {
+            @extend %flex;
+            flex-direction: row;
+            flex-shrink: 0;
+            margin: 0 10px 0 0;
+            width: 5%;
+            cursor: pointer;
+
+            > input {
+                cursor: pointer;
+
+                &:disabled {
+                    background-color: var(--mainColor) i !important;
+                    border-color: purple;
+                }
+            }
+        }
+    }
+}

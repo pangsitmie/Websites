@@ -1,0 +1,518 @@
+@import '../../lib/sampleelement/Default.module.scss';
+
+.background {
+  @extend %flex;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  height: 100%;
+  width: 280px;
+  background-color: #3e5fce;
+
+  @media screen and (max-width: 1100px) {
+    width: 220px;
+  }
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: row;
+    height: 70px;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 414px) {
+    height: 50px;
+  }
+
+  .title {
+    @extend %flex;
+    flex-shrink: 0;
+    height: 100px;
+
+    @media screen and (max-width: 1000px) {
+      height: 100%;
+      width: 190px;
+    }
+
+    @media screen and (max-width: 414px) {
+      width: 150px;
+    }
+
+    >span {
+      @extend %flex,
+      %h1;
+      color: #FFFFFF;
+
+      @media screen and (max-width: 1000px) {
+        font-size: 20px;
+      }
+
+      @media screen and (max-width: 414px) {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .user {
+    @extend %flex,
+    %c1;
+    flex-shrink: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+    width: 60%;
+    color: #FFFFFF !important;
+
+    @media screen and (max-width: 1000px) {
+      height: 100%;
+      width: 80px;
+    }
+
+    @media screen and (max-width: 414px) {
+      width: 70px;
+    }
+
+    >svg {
+      @extend %flex;
+
+      @media screen and (max-width: 1000px) {
+        width: 20px;
+      }
+
+      @media screen and (max-width: 414px) {
+        width: 18px;
+      }
+    }
+
+    >span {
+      @extend %flex,
+      %c1;
+      align-items: flex-start;
+      width: 80px;
+      color: #FFFFFF;
+      font-style: italic;
+
+      @media screen and (max-width: 1000px) {
+        height: 100%;
+        width: 60px;
+        font-size: 12px;
+      }
+
+      @media screen and (max-width: 414px) {
+        width: 40px;
+        font-size: 10px;
+      }
+    }
+  }
+
+  .menu {
+    @extend %flex;
+    flex-shrink: 1;
+    justify-content: flex-start;
+    height: 70%;
+    width: 100%;
+
+    @media screen and (max-width: 1000px) {
+      flex-direction: row;
+      height: 100%;
+      width: 50%;
+    }
+
+    @media screen and (max-width: 865px) {
+      width: 40%;
+    }
+
+    @media screen and (max-width: 737px) {
+      display: none;
+    }
+
+    >span {
+      @extend %flex,
+      %c1;
+      align-items: flex-start;
+      height: 50px;
+      width: 60%;
+      color: #ffffff75;
+
+      @media screen and (max-width: 1000px) {
+        display: none;
+      }
+    }
+
+    >label {
+      @extend %flex;
+      width: 100%;
+      border-left: 5px solid #ffffff00;
+      cursor: pointer;
+
+      @media screen and (max-width: 1000px) {
+        border-left: none;
+        height: 100%;
+        width: 70px;
+      }
+
+      >div {
+        @extend %flex;
+        padding: 5px 0;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 60%;
+        color: #ffffff9c;
+        text-decoration: none;
+
+        @media screen and (max-width: 1000px) {
+          height: 100%;
+          width: 100%;
+        }
+
+        >svg {
+          @extend %flex;
+
+          @media screen and (max-width: 1000px) {
+            display: none;
+          }
+        }
+
+        >span {
+          @extend %flex,
+          %c1;
+          justify-content: flex-start;
+          margin: 0px 20px;
+          flex-direction: row;
+          color: #ffffff9c;
+          text-decoration: none;
+          cursor: pointer;
+
+          @media screen and (max-width: 1000px) {
+            justify-content: center;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    >input[type='radio'] {
+      display: none;
+
+      &:hover+label {
+        border-left: 5px solid #ffffff;
+        background-color: #ffffff75;
+
+        @media screen and (max-width: 1000px) {
+          border-left: none;
+        }
+
+        >a {
+          color: #ffffff;
+
+          >span {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+
+  .tool {
+    @extend %flex;
+    flex-shrink: 0;
+    align-items: flex-start;
+    height: 60px;
+    width: 100%;
+
+    @media screen and (max-width: 1000px) {
+      height: 100%;
+      width: 70px;
+    }
+
+    @media screen and (max-width: 737px) {
+      display: none;
+    }
+
+    >button {
+      @extend %flex,
+      %c1;
+      height: 30px;
+      width: 100%;
+      color: #ffffff9c;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #ff5555;
+      }
+
+      &:hover span {
+        color: #ffffff;
+      }
+
+      @media screen and (max-width: 1000px) {
+        height: 100%;
+        font-size: 12px;
+      }
+
+      >span {
+        @extend %flex,
+        %c1;
+        justify-content: flex-start;
+        flex-direction: row;
+        width: 60%;
+        color: #ffffff9c;
+        text-decoration: none;
+        cursor: pointer;
+
+        @media screen and (max-width: 1000px) {
+          justify-content: center;
+          width: 100%;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .language {
+    @extend %flex;
+    flex-shrink: 0;
+    height: 40px;
+    width: 100%;
+
+    @media screen and (max-width: 1000px) {
+      height: 100%;
+      width: 110px;
+    }
+
+    @media screen and (max-width: 737px) {
+      display: none;
+    }
+
+    >button {
+      @extend %flex,
+      %c1;
+      padding: 5px 0 5px 0;
+      justify-content: flex-start;
+      flex-direction: row;
+      width: 60%;
+      color: #ffffff9c;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+        color: #ffffff;
+      }
+
+      &:hover span {
+        color: #ffffff;
+      }
+
+      @media screen and (max-width: 1000px) {
+        height: 100%;
+        width: 80%;
+      }
+
+      >span {
+        @extend %flex,
+        %c1;
+        justify-content: flex-start;
+        margin: 0px 20px 0 0;
+        flex-direction: row;
+        color: #ffffff9c;
+        text-decoration: none;
+        cursor: pointer;
+
+        @media screen and (max-width: 1000px) {
+          margin: 0px 10px 0 0;
+          font-size: 12px;
+        }
+      }
+
+      >svg {
+        @extend %flex;
+      }
+    }
+  }
+
+  .language_list {
+    @extend %flex,
+    %c1;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    position: absolute;
+    left: 1%;
+    bottom: 1%;
+    width: 260px;
+    height: 120px;
+    border-radius: 3px;
+    background: white;
+    box-shadow: 0 1px 15px 10px #00000044;
+    overflow-y: scroll;
+
+    @media screen and (max-width: 1000px) {
+      left: 70%;
+      top: 5%;
+    }
+
+    @media screen and (max-width: 737px) {
+      display: none;
+    }
+
+    &::-webkit-scrollbar {
+      width: 3px !important;
+    }
+
+    &::-webkit-scrollbar-track {
+      margin: 5px;
+      background: var(--secondColor);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--black);
+    }
+
+    >button {
+      @extend %flex,
+      %c1;
+      flex-shrink: 0;
+      align-items: center;
+      width: 100%;
+      height: 30px;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--mainColor);
+      }
+    }
+  }
+
+  .version {
+    @extend %flex,
+    %c1;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin: 0 0 10px 0;
+    width: 60%;
+    color: #ffffff9c;
+
+    @media screen and (max-width: 1000px) {
+      display: none;
+    }
+  }
+
+  .hamburger {
+    @extend %flex;
+    flex-shrink: 1;
+    align-items: flex-end;
+    height: 100%;
+    width: 60%;
+
+    @media screen and (min-width: 737px) {
+      display: none;
+    }
+
+    >button {
+      @extend %flex;
+      height: 100%;
+      width: 60px;
+      color: #ffffff9c;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      >svg {
+        @extend %flex;
+        color: white;
+      }
+    }
+  }
+
+  .hamburger_list {
+    @extend %flex,
+    %c1,
+    %scroll_w;
+    flex-shrink: 0;
+    padding: 10px 0;
+    justify-content: flex-start;
+    position: absolute;
+    right: 1%;
+    top: 7%;
+    width: 160px;
+    height: 120px;
+    border-radius: 3px;
+    background: white;
+    box-shadow: 0 1px 15px 10px #00000044;
+    overflow-y: scroll;
+    z-index: 1;
+
+    @media screen and (max-width: 1000px) {
+      top: 70px;
+    }
+
+    @media screen and (max-width: 414px) {
+      max-height: 200px;
+      height: auto;
+      width: 150px;
+      top: 50px;
+    }
+
+    @media screen and (min-width: 737px) {
+      display: none;
+    }
+
+    >a {
+      @extend %flex,
+      %c1;
+      flex-shrink: 0;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      height: 30px;
+      background: none;
+      border: none;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--mainColor);
+      }
+
+      @media screen and (max-width: 414px) {
+        height: 40px;
+        font-size: 18px;
+      }
+
+      >svg {
+        @extend %flex;
+        margin: 0 5px 0 0;
+      }
+    }
+
+    >button {
+      @extend %flex,
+      %c1;
+      flex-shrink: 0;
+      align-items: center;
+      width: 100%;
+      height: 50px;
+      background: none;
+      color: var(--errorColor);
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      @media screen and (max-width: 414px) {
+        height: 40px;
+        font-size: 18px;
+      }
+    }
+  }
+}

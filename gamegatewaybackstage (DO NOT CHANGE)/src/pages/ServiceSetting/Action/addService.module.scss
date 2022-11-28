@@ -1,0 +1,116 @@
+@import "../../../lib//sampleelement//Default.module.scss";
+
+.mask {
+  @extend %flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #00000071;
+  z-index: 1;
+
+  >div {
+    @extend %flex,;
+    color: #00000000;
+    height: 100%;
+    width: 100%;
+  }
+
+  .background {
+    @extend %flex,
+    %scroll_w;
+    position: absolute;
+    justify-content: flex-start;
+    width: 600px;
+    height: 330px;
+    border-radius: 3px;
+    background-color: #ffffff;
+
+    @media screen and (max-width: 414px) {
+      width: 300px;
+      height: 260px;
+    }
+
+    >.title {
+      @extend %flex;
+      align-items: flex-start;
+      height: 90px;
+      width: 80%;
+
+      @media screen and (max-width: 414px) {
+        height: 60px;
+      }
+
+      >span {
+        @extend %flex,
+        %h1;
+
+        @media screen and (max-width: 414px) {
+          font-size: 14px;
+        }
+      }
+    }
+
+    >.content {
+      @extend %flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 80%;
+    }
+
+    >.button {
+      @extend %flex,
+      %font;
+      justify-content: flex-end;
+      flex-direction: row;
+      flex-shrink: 0;
+      height: 90px;
+      width: 80%;
+
+      >button {
+        @extend %flex,
+        %c3;
+        margin: 0 0 0 20px;
+        padding: 6px 20px;
+        color: #696969;
+        background: none;
+        border: 1px solid #696969;
+        border-radius: 4px;
+        box-shadow: 0 0 5px #ffffff;
+        outline: none;
+        cursor: pointer;
+
+        @media screen and (max-width: 414px) {
+          padding: 6px 12px;
+          font-size: 12px;
+        }
+      }
+
+      >button:nth-child(1) {
+        color: var(--mainColor);
+        border: 1px solid var(--mainColor);
+
+        &:hover {
+          color: #ffffff;
+          background: var(--mainColor);
+          border: 1px solid var(--mainColor);
+          box-shadow: 0 0 5px var(--mainColor);
+        }
+      }
+
+      >button:nth-child(2) {
+        color: #222222;
+        border: 1px solid #222222;
+
+        &:hover {
+          color: #ffffff;
+          background: #222222;
+          border: 1px solid #222222;
+          box-shadow: 0 0 5px #222222;
+        }
+      }
+    }
+  }
+}

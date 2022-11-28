@@ -1,0 +1,43 @@
+@font-face {
+    font-family: jf;
+    src        : '../font/jf-openhuninn-1.1.ttf';
+}
+
+%flex {
+    display           : flex;
+    flex-direction    : column;
+    justify-content   : center;
+    align-items       : center;
+    -webkit-transition: .4s;
+    transition        : .4s;
+}
+
+%font {
+    font-family: 'jf', 'Times New Roman', Times, serif;
+    color      : #222222;
+}
+
+%font_title1 {
+    @extend %font;
+    font-size: 20px;
+}
+
+%font_title2 {
+    @extend %font;
+    font-size: 18px;
+}
+
+%font_content {
+    @extend %font;
+    font-size: 16px;
+}
+
+%font_inputfield {
+    @extend %font;
+    font-size: 14px;
+}
+
+%font_adorn {
+    @extend %font;
+    font-size: 12px;
+}

@@ -1,0 +1,171 @@
+[{
+        "language": "Chinese",
+        "languageName": "繁體中文",
+        "languageLists": [{
+                "name": "繁體中文",
+                "code": "Chinese"
+            },
+            {
+                "name": "英文",
+                "code": "English"
+            },
+            {
+                "name": "日文",
+                "code": "English"
+            },
+            {
+                "name": "韓文",
+                "code": "English"
+            },
+            {
+                "name": "越南文",
+                "code": "English"
+            },
+            {
+                "name": "印尼文",
+                "code": "Indonesian"
+            }
+        ]
+    }, {
+        "language": "English",
+        "languageName": "English",
+        "languageLists": [{
+                "name": "chinese",
+                "code": "Chinese"
+            },
+            {
+                "name": "english",
+                "code": "English"
+            },
+            {
+                "name": "japanese",
+                "code": "English"
+            },
+            {
+                "name": "korean",
+                "code": "English"
+            },
+            {
+                "name": "viet",
+                "code": "English"
+            },
+            {
+                "name": "indonesian",
+                "code": "Indonesian"
+            }
+        ]
+    }, {
+        "language": "Japanese",
+        "languageName": "日本語",
+        "languageLists": [{
+                "name": "繁体字中国語",
+                "code": "Chinese"
+            },
+            {
+                "name": "英語",
+                "code": "English"
+            },
+            {
+                "name": "日本語",
+                "code": "English"
+            },
+            {
+                "name": "韓国語",
+                "code": "English"
+            },
+            {
+                "name": "ベトナム語",
+                "code": "English"
+            },
+            {
+                "name": "インドネシア語",
+                "code": "Indonesian"
+            }
+        ]
+    }, {
+        "language": "Korean",
+        "languageName": "한국어",
+        "languageLists": [{
+                "name": "중국어 번체",
+                "code": "Chinese"
+            },
+            {
+                "name": "영어",
+                "code": "English"
+            },
+            {
+                "name": "일본어",
+                "code": "English"
+            },
+            {
+                "name": "한국어",
+                "code": "English"
+            },
+            {
+                "name": "베트남어",
+                "code": "English"
+            },
+            {
+                "name": "인도네시아",
+                "code": "Indonesian"
+            }
+        ]
+    }, {
+        "language": "Viet",
+        "languageName": "Tiếng Việt",
+        "languageLists": [{
+                "name": "truyền thống Trung Quốc",
+                "code": "Chinese"
+            },
+            {
+                "name": "Tiếng Anh",
+                "code": "English"
+            },
+            {
+                "name": "tiếng Nhật",
+                "code": "English"
+            },
+            {
+                "name": "Hàn Quốc",
+                "code": "English"
+            },
+            {
+                "name": "Tiếng Việt",
+                "code": "English"
+            },
+            {
+                "name": "Người Indonesia",
+                "code": "Indonesian"
+            }
+        ]
+    },
+    {
+        "language": "Indonesian",
+        "languageName": "bahasa Indonesia",
+        "languageLists": [{
+                "name": "Cina",
+                "code": "Chinese"
+            },
+            {
+                "name": "Inggris",
+                "code": "English"
+            },
+            {
+                "name": "Jepang",
+                "code": "English"
+            },
+            {
+                "name": "Korea",
+                "code": "English"
+            },
+            {
+                "name": "Orang Vietnam",
+                "code": "English"
+            },
+            {
+                "name": "bahasa Indonesia",
+                "code": "Indonesian"
+            }
+        ]
+    }
+]

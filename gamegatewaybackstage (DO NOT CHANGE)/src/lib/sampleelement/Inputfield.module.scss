@@ -1,0 +1,51 @@
+@import "./Default.module.scss";
+
+.inputfield {
+  @extend %flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  margin: 0 10px 10px 0;
+
+  > .title {
+    @extend %flex;
+    flex-direction: row;
+
+    > span {
+      @extend %flex, %c3;
+    }
+
+    > .comment {
+      @extend %flex, %c3;
+      font-size: 10px;
+      color: #9b9b9b;
+    }
+
+    > .necessary {
+      @extend %flex, %c3;
+      color: #ff4b4b;
+    }
+  }
+
+  > input {
+    @extend %flex, %c3;
+    padding: 8px;
+    height: 15px;
+    width: 200px;
+    border: 1.4px solid var(--secondColor);
+    border-radius: 5px;
+    color: var(--secondColor); //caret
+    -webkit-text-fill-color: #4b4b4b; //text
+    background: none;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      border: 1.4px solid var(--adornColor);
+    }
+  }
+
+  > .error {
+    @extend %flex, %c3;
+    color: #ff4b4b;
+  }
+}

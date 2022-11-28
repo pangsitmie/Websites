@@ -1,0 +1,14 @@
+[
+    {
+        "name": "全部",
+        "code": "all"
+    },
+    {
+        "name": "已選",
+        "code": "select"
+    },
+    {
+        "name": "未選",
+        "code": "unselect"
+    }
+]
