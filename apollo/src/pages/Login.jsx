@@ -4,7 +4,7 @@ import { useForm } from "../utilities/hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { TextField, Button, Container, Stack, Alert } from "@mui/material"
 
-// import { gql } from "@apollo/graphql-tag"; //fixme: harus buat folder graphql-tag
+import { gql } from "@apollo/client"; //fixme: harus buat folder graphql-tag
 import { useNavigate } from "react-router-dom";
 
 const LOGIN_USER = gql`
