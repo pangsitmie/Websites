@@ -11,8 +11,6 @@ import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
-import Popup from '../../components/popup/Popup';
-import UserListModal from '../../components/Modal/UserListModal';
 import BrandListModal from '../../components/Modal/BrandListModal';
 
 const BrandManagement = () => {
@@ -118,7 +116,7 @@ const BrandManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <BrandListModal buttonTitle="新增品牌" />
+                    <BrandListModal type="new" />
                 </Box>
 
             </Box>
@@ -164,7 +162,7 @@ const BrandManagement = () => {
                     </Box>
                     <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" >
-                            品牌帳號
+                            合約到期日
                         </Typography>
                     </Box>
                     <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
@@ -179,7 +177,7 @@ const BrandManagement = () => {
                     </Box>
                     <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                         <Typography color={colors.grey[100]} variant="h5">
-                            移除品牌
+                            更新品牌
                         </Typography>
                     </Box>
                 </Box>
@@ -196,17 +194,17 @@ const BrandManagement = () => {
                     >
                         <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                             <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.name}
+                                {brand.brandName}
                             </Typography>
                         </Box>
                         <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                             <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.leader}
+                                {brand.brandManager}
                             </Typography>
                         </Box>
                         <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
                             <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.account}
+                                {brand.brandExpireDate}
                             </Typography>
                         </Box>
                         <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
@@ -222,7 +220,7 @@ const BrandManagement = () => {
                         <Box
                             display={"flex"}
                             borderRadius="4px">
-                            <BrandListModal buttonTitle="詳細資料" />
+                            <BrandListModal type="edit" id={brand.id} />
                         </Box>
                     </Box>
                 ))}

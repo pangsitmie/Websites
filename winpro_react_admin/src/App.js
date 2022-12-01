@@ -39,6 +39,7 @@ function App() {
               <Route path="/form" element={<Form />} />
               <Route path="/user-management" element={<UserManagement />} />
               <Route path="/brand-management" element={<BrandManagement />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </main>
         </div>

@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import "./userManagement.css"
 // QUERIES
 import { GetStoresByCoordinate } from '../../graphQL/Queries'
-import { mockTransactions } from "../../data/mockData";
+import { mockDataUser, mockTransactions } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
@@ -130,19 +130,25 @@ const UserManagement = () => {
                     p="15px 25px 15px 15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="400">
-                        使用者暱稱
+                        暱稱
                     </Typography>
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="400">
                         狀態
                     </Typography>
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="400">
-                        封鎖/解除封鎖
+                        性别
+                    </Typography>
+                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400" >
+                        手機
+                    </Typography>
+                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400" >
+                        更新資料
                     </Typography>
                 </Box>
 
-                {stores.map((store, i) => (
+                {mockDataUser.map((user, i) => (
                     <Box
-                        key={`${store.id}-${i}`}
+                        key={`${user.id}-${i}`}
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center"
@@ -151,15 +157,17 @@ const UserManagement = () => {
                     >
                         <Box>
                             <Typography variant="h5" color={colors.grey[100]} >
-                                {store.name}
+                                {user.username}
                             </Typography>
                         </Box>
-                        <Box color={colors.grey[100]}>{store.lineUrl}</Box>
+                        <Box color={colors.grey[100]} pl={"4.5rem"}>{user.status}</Box>
+                        <Box color={colors.grey[100]} pl={"6rem"}>{user.sex === 0 ? (<p>男</p>) : (<p>女</p>)}</Box>
+                        <Box color={colors.grey[100]} pl={"5rem"}>{user.phone}</Box>
                         <Box
                             display={"flex"}
                             p="0px 10px"
                             borderRadius="4px">
-                            <UserListModal buttonTitle="詳細資料" />
+                            <UserListModal buttonTitle="詳細" id={user.id} />
                         </Box>
                     </Box>
                 ))}
@@ -177,29 +185,26 @@ export default UserManagement
 
 
 
-// {
-//     mockTransactions.map((transaction, i) => (
-//         <Box
-//             key={`${transaction.txId}-${i}`}
-//             display="flex"
-//             justifyContent="space-between"
-//             alignItems="center"
-//             borderBottom={`4px solid ${colors.primary[500]}`}
-//             p="15px"
-//         >
-//             <Box>
-//                 <Typography color={colors.grey[100]}>
-//                     {transaction.user}
-//                 </Typography>
-//             </Box>
-//             <Box color={colors.grey[100]}>{transaction.date}</Box>
-//             <Box
-//                 backgroundColor={colors.greenAccent[500]}
-//                 p="5px 10px"
-//                 borderRadius="4px"
-//             >
-//                 ${transaction.cost}
-//             </Box>
+// {stores.map((store, i) => (
+//     <Box
+//         key={`${store.id}-${i}`}
+//         display="flex"
+//         justifyContent="space-between"
+//         alignItems="center"
+//         borderBottom={`4px solid ${colors.primary[500]}`}
+//         p="10px"
+//     >
+//         <Box>
+//             <Typography variant="h5" color={colors.grey[100]} >
+//                 {store.name}
+//             </Typography>
 //         </Box>
-//     ))
-// }
+//         <Box color={colors.grey[100]}>{store.lineUrl}</Box>
+//         <Box
+//             display={"flex"}
+//             p="0px 10px"
+//             borderRadius="4px">
+//             <UserListModal buttonTitle="詳細資料" />
+//         </Box>
+//     </Box>
+// ))}

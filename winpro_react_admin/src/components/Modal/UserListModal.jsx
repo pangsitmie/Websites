@@ -6,47 +6,59 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import "./modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
+import { mockDataUser } from "../../data/mockData";
 
 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
+  status: yup.string().required("required"),
+  reason: yup.string().required("required"),
+  uid: yup.string().required("required"),
   username: yup.string().required("required"),
-  account: yup.string().required("required"),
+  imgURL: yup.string().required("required"),
+  phone: yup.string().required("required"),
   password: yup.string().required("required"),
-  date: yup.string().required("required"),
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  sex: yup.string().required("required"),
+  birthday: yup.string().required("required"),
 });
-const initialValues = {
-  username: "",
-  account: "",
-  password: "",
-  date: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
-};
+
 
 export default function UserListModal(props) {
   const buttonTitle = props.buttonTitle;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+
+  const initialValues = {
+    id: 0,
+    status: "",
+    reason: "None",
+    enable: true,
+    uid: 0,
+    username: "",
+    imgURL: "",
+    phone: "",
+    password: "",
+    sex: 0, //0=male , 1 = female
+    birthday: ""
+  };
+
+  if (props.id != null) {
+    initialValues.status = mockDataUser[props.id].status;
+    initialValues.reason = mockDataUser[props.id].reason;
+    initialValues.uid = mockDataUser[props.id].uid;
+    initialValues.username = mockDataUser[props.id].username;
+    initialValues.imgURL = mockDataUser[props.id].imgURL;
+    initialValues.phone = mockDataUser[props.id].phone;
+    initialValues.password = mockDataUser[props.id].password;
+    initialValues.sex = mockDataUser[props.id].sex;
+    initialValues.birthday = mockDataUser[props.id].birthday;
+  }
 
   const handleFormSubmit = (values) => {
+    console.log("HELLO");
     console.log(values);
   };
 
@@ -72,8 +84,9 @@ export default function UserListModal(props) {
           <div onClick={toggleModal} className="overlay"></div>
           <div className="modal-content">
             <Box m="20px">
+              {initialValues.username}
               <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                Add New User
+                詳細資料
               </Typography>
 
               <Formik
@@ -96,46 +109,53 @@ export default function UserListModal(props) {
                           alt="profile-user"
                           width="100px"
                           height="100px"
-                          src={IMG}
+                          src={initialValues.imgURL}
                           style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                       </Box>
                       <Box textAlign="center">
-                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "1rem" }}>
-                          封鎖/解除封鎖
+                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "1rem 0 0 0" }}>
+                          UID: {initialValues.uid}
+                        </Typography>
+                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem 0 1rem 0" }}>
+                          {initialValues.status}
                         </Typography>
                       </Box>
+
                       <TextField className="modal_input_textfield"
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="使用者暱稱"
+                        label="暱稱"
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.username}
                         name="username"
                         error={!!touched.username && !!errors.username}
                         helperText={touched.username && errors.username}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                       />
+                      {/* PHONE */}
                       <TextField
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="使用者帳號"
+                        label="手機"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.account}
-                        name="account"
-                        error={!!touched.account && !!errors.account}
-                        helperText={touched.account && errors.account}
+                        value={values.phone}
+                        name="phone"
+                        error={!!touched.phone && !!errors.phone}
+                        helperText={touched.phone && errors.phone}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
+
+                      {/* PASSWORD */}
                       <TextField
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="使用者密碼"
+                        label="密碼"
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.password}
@@ -144,26 +164,59 @@ export default function UserListModal(props) {
                         helperText={touched.password && errors.password}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
+                      <Box display={"flex"}>
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="性別"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.sex}
+                          name="sex"
+                          error={!!touched.sex && !!errors.sex}
+                          helperText={touched.sex && errors.sex}
+                          sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="使用者生日"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.birthday}
+                          name="birthday"
+                          error={!!touched.birthday && !!errors.birthday}
+                          helperText={touched.birthday && errors.birthday}
+                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                      </Box>
                       <TextField
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="使用者生日"
+                        label="封鎖原因"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.date}
-                        name="date"
-                        error={!!touched.date && !!errors.date}
-                        helperText={touched.date && errors.date}
+                        value={values.reason}
+                        name="reason"
+                        error={!!touched.reason && !!errors.reason}
+                        helperText={touched.reason && errors.reason}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
+
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" onClick={toggleModal} color="warning" variant="contained" sx={{ minWidth: "8rem", padding: "0rem 2rem", margin: "1rem", borderRadius: "12px" }}>
-                        <h3>返回</h3>
+                      <Button type="submit" onClick={toggleModal} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                          取消
+                        </Typography>
                       </Button>
-                      <Button type="submit" onClick={toggleModal} color="secondary" variant="contained" sx={{ minWidth: "8rem", padding: "0rem 2rem", margin: "1rem", borderRadius: "12px" }}>
-                        <h3>送出資料</h3>
+                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                          更新
+                        </Typography>
                       </Button>
                     </Box>
                   </form>
