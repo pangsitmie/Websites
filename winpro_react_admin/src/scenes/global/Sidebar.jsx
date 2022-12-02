@@ -6,16 +6,19 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import StoreIcon from '@mui/icons-material/Store';
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+import FilterFramesIcon from '@mui/icons-material/FilterFrames';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 import IMG from "../../assets/user.png";
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -143,35 +146,42 @@ const Sidebar = () => {
             <Item
               title="品牌管理"
               to="/brand-management"
-              icon={<ContactsOutlinedIcon />}
+              icon={<LocalOfferIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="店面管理 "
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
+              to="/store-management"
+              icon={<StoreIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="機台管理"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
+              to="/machine-management"
+              icon={<PrecisionManufacturingIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="告示牌管理"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
+              to="/billboard-management"
+              icon={<FilterFramesIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="廣告管理"
-              to="/faq"
-              icon={<HelpOutlineOutlinedIcon />}
+              to="/ads-management"
+              icon={<AnnouncementIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="通知管理"
+              to="/notification"
+              icon={<NotificationsIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -181,57 +191,69 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "25px 0 5px 20px" }}
             >
-              通知
+              財務
             </Typography>
             <Item
-              title="通知管理"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
+              title="系統免費幣發送"
+              to="/system-coins"
+              icon={<AttachMoneyIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="品牌專屬幣發送管理"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
+              to="/brand-coins"
+              icon={<MonetizationOnIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+
             <Item
               title="優惠管理"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
+              to="/promotion"
+              icon={<CardGiftcardIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="系統免費幣發送"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="版本管理"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "25px 0 5px 20px" }}
+            >
+              系統
+            </Typography>
+
+
             <Item
               title="統計"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
+              to="/statistics"
+              icon={<BarChartIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="帳目"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
+              to="/account"
+              icon={<AccountCircleIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "25px 0 5px 20px" }}
+            >
+              Version 1.0
+            </Typography>
+            <Item
+              title="登出"
+              to="/account"
+              icon={<LogoutIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
           </Box>
         </Menu>
       </ProSidebar>

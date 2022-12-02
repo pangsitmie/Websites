@@ -5,9 +5,8 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "./modal.css";
 import IMG from "../../assets/user.png";
-import { tokens } from "../../theme";
+import { ColorModeContext, tokens } from "../../theme";
 import { mockBrandData } from "../../data/mockData";
-
 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -21,13 +20,18 @@ const checkoutSchema = yup.object().shape({
   brandManagerLine: yup.string().required("required"),
   brandTax: yup.string().required("required"),
   brandPassword: yup.string().required("required"),
-  brandExpire: yup.string().required("required"),
-  brandRemark: yup.string().required("required"),
+  brandExpireDate: yup.string().required("required"),
+  // brandRemark: yup.string().required("required"),
 });
 
 
 export default function BrandListModal(props) {
-  const [type, setType] = useState(props.type);
+  //THEME
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  //const colorMode = useContext(ColorModeContext);
+
+
   var btnTitle = "", confirmTitle = "", cancelTitle = "";
   const [modal, setModal] = useState(false); //open or close modal
 
@@ -44,14 +48,14 @@ export default function BrandListModal(props) {
     brandRemark: "",
   };
 
-  console.log(type);
-  if (type === "new") {
-    btnTitle = "新增品牌";
+  console.log(props.type);
+  if (props.type === "new") {
+    btnTitle = "新增";
     confirmTitle = "新增";
     cancelTitle = "取消";
   }
   else {
-    btnTitle = "修改品牌";
+    btnTitle = "更新";
     confirmTitle = "修改";
     cancelTitle = "取消";
     initialValues.brandName = mockBrandData[props.id].brandName;
@@ -67,6 +71,7 @@ export default function BrandListModal(props) {
 
 
   const handleFormSubmit = (values) => {
+    console.log("SEND API REQUEST");
     console.log(values);
   };
 
@@ -83,7 +88,7 @@ export default function BrandListModal(props) {
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}
-      <button onClick={toggleModal} className="btn-modal">{btnTitle} {props.id}</button>
+      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle} {props.id}</Button>
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
@@ -238,7 +243,7 @@ export default function BrandListModal(props) {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.brandExpireDate}
-                          name="brandExpire"
+                          name="brandExpireDate"
                           error={!!touched.brandExpireDate && !!errors.brandExpireDate}
                           helperText={touched.brandExpireDate && errors.brandExpireDate}
                           sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
@@ -265,7 +270,7 @@ export default function BrandListModal(props) {
                           {cancelTitle}
                         </Typography>
                       </Button>
-                      <Button type="submit" onClick={handleFormSubmit} color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           {confirmTitle}
                         </Typography>

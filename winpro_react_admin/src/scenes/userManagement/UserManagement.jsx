@@ -1,18 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import "./userManagement.css"
 // QUERIES
 import { GetStoresByCoordinate } from '../../graphQL/Queries'
-import { mockDataUser, mockTransactions } from "../../data/mockData";
+import { mockDataUser } from "../../data/mockData";
 // THEME
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { color } from '@mui/system';
-import Popup from '../../components/popup/Popup';
 import UserListModal from '../../components/Modal/UserListModal';
 
 const UserManagement = () => {
@@ -22,7 +20,11 @@ const UserManagement = () => {
     const colorMode = useContext(ColorModeContext);
 
     // STATES
-    const [status, setStatus] = React.useState('');
+    const [status, setStatus] = useState('');
+
+    //REF
+    const nameValueRef = useRef('');
+    const phoneValueRef = useRef('');
 
     //FUNCTIONS
     const handleChange = (e) => {
@@ -38,6 +40,10 @@ const UserManagement = () => {
             console.log("not deleted");
         }
     };
+    const submitSearch = () => {
+        console.log(nameValueRef.current.value + " " + phoneValueRef.current.value + status);
+    }
+
 
     const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
     const [stores, setStores] = useState([]);
@@ -53,14 +59,14 @@ const UserManagement = () => {
         <Box p={2}>
             <h1 className='userManagement_title'>使用者管理</h1>
             {/* SEARCH DIV */}
-            <Box display="flex" paddingBottom={5}>
+            <Box display="flex" marginBottom={5}>
                 {/* name Search */}
                 <Box
                     display="flex"
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Name search" />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Name Search" inputRef={nameValueRef} />
                 </Box>
                 {/* phone search */}
                 <Box
@@ -68,7 +74,7 @@ const UserManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Phone search" />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Phone Search" inputRef={phoneValueRef} />
                 </Box>
                 <FormControl sx={{ minWidth: 150 }} >
                     <InputLabel id="demo-simple-select-label" >Status</InputLabel>
@@ -80,9 +86,9 @@ const UserManagement = () => {
                         label="Status"
                         onChange={handleChange}
                     >
-                        <MenuItem value={10}>無</MenuItem>
-                        <MenuItem value={20}>正常</MenuItem>
-                        <MenuItem value={30}>封鎖</MenuItem>
+                        <MenuItem value={"無"}>無</MenuItem>
+                        <MenuItem value={"正常"}>正常</MenuItem>
+                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
                     </Select>
                 </FormControl>
                 {/* SEARCH BTN */}
@@ -95,6 +101,7 @@ const UserManagement = () => {
                         marginLeft: "20px",
                         padding: "0px"
                     }}
+                    onClick={submitSearch}
                 >
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
                     <p className='btn_text'>查詢</p>
@@ -129,51 +136,36 @@ const UserManagement = () => {
                     colors={colors.grey[100]}
                     p="15px 25px 15px 15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400">
-                        暱稱
-                    </Typography>
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400">
-                        狀態
-                    </Typography>
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400">
-                        性别
-                    </Typography>
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400" >
-                        手機
-                    </Typography>
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="400" >
-                        更新資料
-                    </Typography>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>暱稱</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>手機</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} paddingLeft={"1.5rem"}>更新資料</Box>
                 </Box>
 
                 {mockDataUser.map((user, i) => (
                     <Box
                         key={`${user.id}-${i}`}
                         display="flex"
-                        justifyContent="space-between"
                         alignItems="center"
                         borderBottom={`4px solid ${colors.primary[500]}`}
                         p="10px"
                     >
-                        <Box>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {user.username}
-                            </Typography>
-                        </Box>
-                        <Box color={colors.grey[100]} pl={"4.5rem"}>{user.status}</Box>
-                        <Box color={colors.grey[100]} pl={"6rem"}>{user.sex === 0 ? (<p>男</p>) : (<p>女</p>)}</Box>
-                        <Box color={colors.grey[100]} pl={"5rem"}>{user.phone}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.id}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.username}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.status}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.phone}</Box>
                         <Box
+                            width={"20%"}
                             display={"flex"}
-                            p="0px 10px"
+                            alignItems={"center"} justifyContent={"center"}
                             borderRadius="4px">
-                            <UserListModal buttonTitle="詳細" id={user.id} />
+                            <UserListModal buttonTitle="更新" id={user.id} />
                         </Box>
                     </Box>
                 ))}
             </Box>
         </Box >
-
     )
 }
 

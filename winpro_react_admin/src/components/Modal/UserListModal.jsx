@@ -44,7 +44,7 @@ export default function UserListModal(props) {
     sex: 0, //0=male , 1 = female
     birthday: ""
   };
-
+  console.log(props.buttonTitle);
   if (props.id != null) {
     initialValues.status = mockDataUser[props.id].status;
     initialValues.reason = mockDataUser[props.id].reason;
@@ -76,7 +76,8 @@ export default function UserListModal(props) {
     <>
       {/* THE CONTENT OF THE BUTTON */}
 
-      <button onClick={toggleModal} className="btn-modal">{buttonTitle}</button>
+      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{buttonTitle}
+      </Button>
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
@@ -86,7 +87,7 @@ export default function UserListModal(props) {
             <Box m="20px">
               {initialValues.username}
               <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                詳細資料
+                更新
               </Typography>
 
               <Formik

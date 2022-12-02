@@ -14,6 +14,7 @@ import { onError } from '@apollo/client/link/error';
 import UserManagement from "./scenes/userManagement/UserManagement";
 import Login from "./scenes/login/Login";
 import BrandManagement from "./scenes/brandManagement/BrandManagement";
+import StoreManagement from "./scenes/storeManagement/StoreManagement";
 
 
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/form" element={<Form />} />
               <Route path="/user-management" element={<UserManagement />} />
               <Route path="/brand-management" element={<BrandManagement />} />
+              <Route path="/store-management" element={<StoreManagement />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </main>

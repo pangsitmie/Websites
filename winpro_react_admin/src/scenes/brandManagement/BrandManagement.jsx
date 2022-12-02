@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 // QUERIES
 import { GetStoresByCoordinate } from '../../graphQL/Queries'
 import { mockBrandData, mockTransactions } from "../../data/mockData";
 // THEME
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
 // ICONS
@@ -12,6 +12,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
 import BrandListModal from '../../components/Modal/BrandListModal';
+import UserListModal from '../../components/Modal/UserListModal';
 
 const BrandManagement = () => {
     //THEME
@@ -19,26 +20,36 @@ const BrandManagement = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
+
     // STATES
-    const [status, setStatus] = React.useState('無');
-    const [review, setReview] = React.useState('無');
-    const [filter, setFilter] = React.useState('品牌名');
+    // const [filter, setFilter] = useState('品牌名');
+    const [status, setStatus] = useState('');
+    const [review, setReview] = useState('');
+
+    //REF
+    const searchValueRef = useRef('');
+    const filterRef = useRef('品牌名');
 
     //FUNCTIONS
+    // const handleFilterChange = (e) => {
+    //     setFilter(e.target.value);
+    // };
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
     const handleReviewChange = (e) => {
         setReview(e.target.value);
     };
-    const handleFilterChange = (e) => {
-        setFilter(e.target.value);
+    const submitSearch = () => {
+        console.log("search: " + searchValueRef.current.value + " " + filterRef.current.value + " " + status + " " + review);
     };
+
+
 
     return (
         <Box p={2}>
             <h1 className='userManagement_title'>品牌管理</h1>
-            <p>Search Status: {status}, Review: {review}, Filter: {filter}</p>
+            <p>Search: Filter {filterRef.current.value}, Status {status}, Review: {review}</p>
             {/* SEARCH DIV */}
             <Box display="flex" paddingBottom={5}>
                 {/* name Search */}
@@ -47,7 +58,7 @@ const BrandManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Search" />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Search" inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ minWidth: 150 }} >
                     <InputLabel id="demo-simple-select-label" >查詢過濾</InputLabel>
@@ -55,9 +66,10 @@ const BrandManagement = () => {
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={filter}
+                        value={filterRef.current.value}
                         label="Filter"
-                        onChange={handleFilterChange}
+                        inputRef={filterRef}
+                    // onChange={handleFilterChange}
                     >
                         <MenuItem value={"品牌名"}>品牌名</MenuItem>
                         <MenuItem value={"負責人"}>負責人</MenuItem>
@@ -96,16 +108,14 @@ const BrandManagement = () => {
                     </Select>
                 </FormControl>
                 {/* SEARCH BTN */}
-                <Button className=""
-                    sx={{
-                        backgroundColor: colors.blueAccent[400],
-                        color: colors.grey[100],
-                        minWidth: "150px",
-                        borderRadius: "10px",
-                        marginLeft: "20px",
-                        padding: "0px"
-                    }}
-                >
+                <Button sx={{
+                    backgroundColor: colors.blueAccent[400], color: colors.grey[100],
+                    minWidth: "150px",
+                    borderRadius: "10px",
+                    marginLeft: "20px",
+                    padding: "0px"
+                }}
+                    onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
                     <p className='btn_text'>查詢</p>
                 </Button>
@@ -138,7 +148,7 @@ const BrandManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        使用者名稱
+                        品牌名稱
                     </Typography>
                 </Box>
                 <Box
