@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useQuery, gql } from '@apollo/client'
-
+import App from '../../App';
 import { GetStoresByCoordinate } from '../../graphQL/Queries'
 
 // THEME
@@ -37,7 +37,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <h1>This is dashboard</h1>
+            <App />
         </>
     )
 }

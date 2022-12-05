@@ -26,30 +26,19 @@ function App() {
   const [isSidebar, setIsSidebar] = useState(true);
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {/* <Routes>
-            <Route path="/" element={<Login />} />
-          </Routes> */}
-        <div className="app">
-          <Sidebar isSidebar={isSidebar} />
-          <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/form" element={<Form />} />
-              <Route path="/user-management" element={<UserManagement />} />
-              <Route path="/brand-management" element={<BrandManagement />} />
-              <Route path="/store-management" element={<StoreManagement />} />
-              <Route path="/machine-management" element={<MachineManagement />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </main>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-
+    <div className="center w85">
+      <Topbar />
+      <div className="ph3 pv1 background-gray">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route
+            path="/user-management"
+            element={<UserManagement />}
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
+    </div>
   );
 }
 

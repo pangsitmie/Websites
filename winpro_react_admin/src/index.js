@@ -40,18 +40,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
 
-  <ApolloProvider client={client}>
-    <React.StrictMode>
-      <BrowserRouter>
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <React.StrictMode>
+
+
         <App />
-        {/* <Routes>
-          <Route path="/" element={<App />} /> 
-          <Route path="/app" element={<App />} />
-        </Routes> */}
-
-
-      </BrowserRouter>
-    </React.StrictMode>
-  </ApolloProvider >
+      </React.StrictMode>
+    </ApolloProvider >
+  </BrowserRouter>
 );
 
