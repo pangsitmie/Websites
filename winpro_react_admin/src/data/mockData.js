@@ -254,7 +254,7 @@ export const mockStoreData = [
     storeAddress: {
       city: "基隆市",
       district: "仁愛區",
-      address: "仁愛路一段123號",
+      road: "仁愛路一段123號",
     },
     storeManager: {
       name: "Manager 0",
@@ -277,7 +277,7 @@ export const mockStoreData = [
     storeAddress: {
       city: "台北市",
       district: "中正區",
-      address: "中正路一段123號",
+      road: "中正路一段123號",
     },
     storeManager: {
       name: "Manager 1",
@@ -299,7 +299,7 @@ export const mockStoreData = [
     storeAddress: {
       city: "台北市",
       district: "中正區",
-      address: "中正路一段123號",
+      road: "中正路一段123號",
     },
     storeManager: {
       name: "Manager 1",
@@ -310,6 +310,70 @@ export const mockStoreData = [
   }
 ];
 
+export const mockMachineData = [
+  {
+    id: 0,
+    status: "正常",
+    reason: "Reason N/A",
+    machineCode: "MA-0000",
+    uuid: "UUID-0000",
+    brandInfo: {
+      id: 0,
+      name: mockBrandData[0].brandName,
+    },
+    storeInfo: {
+      id: 0,
+      name: mockStoreData[0].name,
+    },
+    nfcid: "NFCID-0000",
+    qrcode: "QR-0000",
+    name: "Machine 0",
+    spending: 0,
+    remarks: "N/A 0"
+  },
+  {
+    id: 1,
+    status: "正常",
+    reason: "Reason N/A",
+    machineCode: "MA-1111",
+    uuid: "UUID-1111",
+    brandInfo: {
+      id: 1,
+      name: mockBrandData[1].brandName,
+    },
+    storeInfo: {
+      id: 1,
+      name: mockStoreData[1].name,
+    },
+    nfcid: "NFCID-1111",
+    qrcode: "QR-1111",
+    name: "Machine 1",
+    spending: 1,
+    remarks: "N/A 1"
+  },
+  {
+    id: 2,
+    status: "正常",
+    reason: "Reason N/A",
+    machineCode: "MA-2222",
+    uuid: "UUID-2222",
+    brandInfo: {
+      id: 2,
+      name: mockBrandData[2].brandName,
+    },
+    storeInfo: {
+      id: 2,
+      name: mockStoreData[2].name,
+    },
+
+    nfcid: "NFCID-2222",
+    qrcode: "QR-2222",
+    name: "Machine 2",
+    spending: 2,
+    remarks: "N/A 2"
+  },
+
+]
 
 
 

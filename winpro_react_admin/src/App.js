@@ -15,6 +15,7 @@ import UserManagement from "./scenes/userManagement/UserManagement";
 import Login from "./scenes/login/Login";
 import BrandManagement from "./scenes/brandManagement/BrandManagement";
 import StoreManagement from "./scenes/storeManagement/StoreManagement";
+import MachineManagement from "./scenes/machineManagement/MachineManagement";
 
 
 
@@ -41,6 +42,7 @@ function App() {
               <Route path="/user-management" element={<UserManagement />} />
               <Route path="/brand-management" element={<BrandManagement />} />
               <Route path="/store-management" element={<StoreManagement />} />
+              <Route path="/machine-management" element={<MachineManagement />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </main>

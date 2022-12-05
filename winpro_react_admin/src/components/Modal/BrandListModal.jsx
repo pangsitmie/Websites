@@ -55,9 +55,9 @@ export default function BrandListModal(props) {
     cancelTitle = "取消";
   }
   else {
-    btnTitle = "更新";
-    confirmTitle = "修改";
-    cancelTitle = "取消";
+    btnTitle = "修改";
+    confirmTitle = "更新";
+    cancelTitle = "刪除";
     initialValues.brandName = mockBrandData[props.id].brandName;
     initialValues.brandDesc = mockBrandData[props.id].brandDesc;
     initialValues.brandManager = mockBrandData[props.id].brandManager;

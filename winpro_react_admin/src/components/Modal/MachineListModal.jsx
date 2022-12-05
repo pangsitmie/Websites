@@ -4,30 +4,29 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "./modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { mockStoreData } from "../../data/mockData";
-
+import { mockMachineData } from "../../data/mockData";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    status: yup.string().required("required"),
+    machineCode: yup.string().required("required"),
+    uuid: yup.string().required("required"),
     reason: yup.string().required("required"),
-    name: yup.string().required("required"),
     brandInfo_id: yup.string().required("required"),
     brandInfo_name: yup.string().required("required"),
-    storeAddress_city: yup.string().required("required"),
-    storeAddress_district: yup.string().required("required"),
-    storeAddress_road: yup.string().required("required"),
-    storeManager_name: yup.string().required("required"),
-    storeManager_phone: yup.string().required("required"),
-    storeManager_email: yup.string().required("required"),
+    storeInfo_id: yup.string().required("required"),
+    storeInfo_name: yup.string().required("required"),
+    nfcid: yup.string().required("required"),
+    qrcode: yup.string().required("required"),
+    name: yup.string().required("required"),
+    spending: yup.string().required("required"),
+    remarks: yup.string().required("required"),
 });
 
 
-export default function StoreListModal(props) {
+export default function MachineListModal(props) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -35,20 +34,20 @@ export default function StoreListModal(props) {
     var btnTitle = "", confirmTitle = "", cancelTitle = "";
 
     const initialValues = {
-        id: 0,
-        status: "",
-        reason: "None",
+        id: "",
+        status: "正常",
+        reason: "",
         brandInfo_id: "",
         brandInfo_name: "",
+        storeInfo_id: "",
+        storeInfo_name: "",
+        machineCode: "",
+        uuid: "",
+        nfcid: "",
+        qrcode: "",
         name: "",
-        storeImgURL: "",
-        storeAddress_city: "",
-        storeAddress_district: "",
-        storeAddress_road: "",
-        storeManager_name: "",
-        storeManager_phone: "",
-        storeManager_email: "",
-        remarks: "N/A"
+        spending: 0,
+        remarks: ""
     };
     console.log(props.type);
     if (props.type === "new") {
@@ -59,21 +58,20 @@ export default function StoreListModal(props) {
         btnTitle = "修改";
         confirmTitle = "更新";
         cancelTitle = "刪除";
-        initialValues.id = mockStoreData[props.id].id;
-        initialValues.status = mockStoreData[props.id].status;
-        initialValues.reason = mockStoreData[props.id].reason;
-        initialValues.brandInfo_id = mockStoreData[props.id].brandInfo.id;
-        initialValues.brandInfo_name = mockStoreData[props.id].brandInfo.name;
-        initialValues.name = mockStoreData[props.id].name;
-        initialValues.storeImgURL = mockStoreData[props.id].storeImgURL;
-        initialValues.storeAddress_city = mockStoreData[props.id].storeAddress.city;
-        initialValues.storeAddress_district = mockStoreData[props.id].storeAddress.district;
-        initialValues.storeAddress_road = mockStoreData[props.id].storeAddress.road;
-        initialValues.storePhone = mockStoreData[props.id].storePhone;
-        initialValues.storeManager_name = mockStoreData[props.id].storeManager.name;
-        initialValues.storeManager_phone = mockStoreData[props.id].storeManager.phone;
-        initialValues.storeManager_email = mockStoreData[props.id].storeManager.email;
-        initialValues.remarks = mockStoreData[props.id].remarks;
+        initialValues.id = mockMachineData[props.id].id;
+        initialValues.status = mockMachineData[props.id].status;
+        initialValues.reason = mockMachineData[props.id].reason;
+        initialValues.brandInfo_id = mockMachineData[props.id].brandInfo.id;
+        initialValues.brandInfo_name = mockMachineData[props.id].brandInfo.name;
+        initialValues.storeInfo_id = mockMachineData[props.id].storeInfo.id;
+        initialValues.storeInfo_name = mockMachineData[props.id].storeInfo.name;
+        initialValues.machineCode = mockMachineData[props.id].machineCode;
+        initialValues.uuid = mockMachineData[props.id].uuid;
+        initialValues.nfcid = mockMachineData[props.id].nfcid;
+        initialValues.qrcode = mockMachineData[props.id].qrcode;
+        initialValues.name = mockMachineData[props.id].name;
+        initialValues.spending = mockMachineData[props.id].spending;
+        initialValues.remarks = mockMachineData[props.id].remarks;
     }
 
     const handleFormSubmit = (values) => {
@@ -90,7 +88,6 @@ export default function StoreListModal(props) {
     } else {
         document.body.classList.remove('active-modal')
     }
-
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
@@ -124,15 +121,6 @@ export default function StoreListModal(props) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"2rem"}>
-                                                <img
-                                                    alt="profile-user"
-                                                    width="100px"
-                                                    height="100px"
-                                                    src={initialValues.storeImgURL}
-                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                                />
-                                            </Box>
                                             <Box textAlign="center">
                                                 <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "1rem 0 0 0" }}>
                                                     UID: {initialValues.id}
@@ -149,10 +137,23 @@ export default function StoreListModal(props) {
                                                 label="暱稱"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
+                                                value={values.machineCode}
+                                                name="machineCode"
+                                                error={!!touched.machineCode && !!errors.machineCode}
+                                                helperText={touched.machineCode && errors.machineCode}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                            />
+                                            <TextField className="modal_input_textfield"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="暱稱"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.uuid}
+                                                name="uuid"
+                                                error={!!touched.uuid && !!errors.uuid}
+                                                helperText={touched.uuid && errors.uuid}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                                             />
 
@@ -192,39 +193,26 @@ export default function StoreListModal(props) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面縣市"
+                                                    label="店面id"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.storeAddress_city}
-                                                    name="storeAddress_city"
-                                                    error={!!touched.storeAddress_city && !!errors.storeAddress_city}
-                                                    helperText={touched.storeAddress_city && errors.storeAddress_city}
+                                                    value={values.storeInfo_id}
+                                                    name="storeInfo_id"
+                                                    error={!!touched.storeInfo_id && !!errors.storeInfo_id}
+                                                    helperText={touched.storeInfo_id && errors.storeInfo_id}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面鄉鎮"
+                                                    label="店面名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.storeAddress_district}
-                                                    name="storeAddress_district"
-                                                    error={!!touched.storeAddress_district && !!errors.storeAddress_district}
-                                                    helperText={touched.storeAddress_district && errors.storeAddress_district}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面地址"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.storeAddress_road}
-                                                    name="storeAddress_road"
-                                                    error={!!touched.storeAddress_road && !!errors.storeAddress_road}
-                                                    helperText={touched.storeAddress_road && errors.storeAddress_road}
+                                                    value={values.storeInfo_name}
+                                                    name="storeInfo_name"
+                                                    error={!!touched.storeInfo_name && !!errors.storeInfo_name}
+                                                    helperText={touched.storeInfo_name && errors.storeInfo_name}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
@@ -234,68 +222,84 @@ export default function StoreListModal(props) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌id"
+                                                    label="機台名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.storeManager_name}
-                                                    name="storeManager_name"
-                                                    error={!!touched.storeManager_name && !!errors.storeManager_name}
-                                                    helperText={touched.storeManager_name && errors.storeManager_name}
+                                                    value={values.name}
+                                                    name="name"
+                                                    error={!!touched.name && !!errors.name}
+                                                    helperText={touched.name && errors.name}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌名稱"
+                                                    label="NCF-ID"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.storeManager_phone}
-                                                    name="storeManager_phone"
-                                                    error={!!touched.storeManager_phone && !!errors.storeManager_phone}
-                                                    helperText={touched.storeManager_phone && errors.storeManager_phone}
+                                                    value={values.nfcid}
+                                                    name="nfcid"
+                                                    error={!!touched.nfcid && !!errors.nfcid}
+                                                    helperText={touched.nfcid && errors.nfcid}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌名稱"
+                                                    label="QR CODE"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.storeManager_email}
-                                                    name="storeManager_email"
-                                                    error={!!touched.storeManager_email && !!errors.storeManager_email}
-                                                    helperText={touched.storeManager_email && errors.storeManager_email}
+                                                    value={values.qrcode}
+                                                    name="qrcode"
+                                                    error={!!touched.qrcode && !!errors.qrcode}
+                                                    helperText={touched.qrcode && errors.qrcode}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
+                                            {/* SPENDING */}
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="封鎖原因"
+                                                label="機台單次花費金額"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.reason}
-                                                name="reason"
-                                                error={!!touched.reason && !!errors.reason}
-                                                helperText={touched.reason && errors.reason}
+                                                value={values.spending}
+                                                name="spending"
+                                                error={!!touched.spending && !!errors.spending}
+                                                helperText={touched.spending && errors.spending}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="備註"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.remarks}
-                                                name="remarks"
-                                                error={!!touched.remarks && !!errors.remarks}
-                                                helperText={touched.remarks && errors.remarks}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
+                                            <Box display={"flex"}>
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="封鎖原因"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.reason}
+                                                    name="reason"
+                                                    error={!!touched.reason && !!errors.reason}
+                                                    helperText={touched.reason && errors.reason}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="備註"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.remarks}
+                                                    name="remarks"
+                                                    error={!!touched.remarks && !!errors.remarks}
+                                                    helperText={touched.remarks && errors.remarks}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                            </Box>
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
@@ -319,5 +323,5 @@ export default function StoreListModal(props) {
             )
             }
         </>
-    );
+    )
 }

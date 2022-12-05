@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 
 // QUERIES
-import { mockDataUser, mockStoreData } from "../../data/mockData";
+import { mockMachineData } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
@@ -10,12 +10,11 @@ import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
-import UserListModal from '../../components/Modal/UserListModal';
 import { citiesData } from "../../data/mockData";
-import StoreListModal from '../../components/Modal/StoreListModal';
+import MachineListModal from '../../components/Modal/MachineListModal';
 
 
-const StoreManagement = () => {
+const MachineManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -28,6 +27,7 @@ const StoreManagement = () => {
     //REF
     const brandRef = useRef('');
     const searchRef = useRef('');
+
 
     //FUNCTIONS
     const handleSearchChange = (e) => {
@@ -50,9 +50,11 @@ const StoreManagement = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
 
+
+
     return (
         <Box p={2}>
-            <h1 className='userManagement_title'>店面管理</h1>
+            <h1 className='userManagement_title'>機台管理</h1>
             {/* SEARCH DIV */}
             <Box display="flex" marginBottom={5}>
                 {/* name Search */}
@@ -63,29 +65,7 @@ const StoreManagement = () => {
                     borderRadius="10px">
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌過濾" inputRef={brandRef} />
                 </Box>
-                <Box
-                    display="flex"
-                    mr={2}
-                    backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
-                    alignItems={"center"}>
-                    <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="查詢" inputRef={searchRef} />
-                    <FormControl sx={{ minWidth: 150, m: ".8rem .5rem .5rem .5rem" }} >
-                        <InputLabel id="demo-simple-select-label">查詢過濾</InputLabel>
-                        <Select
-                            sx={{ borderRadius: "10px", background: colors.primary[400], maxHeight: "40px" }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={searchFilter}
-                            label="searchFilter"
-                            onChange={handleSearchChange}
-                        >
-                            <MenuItem value={"店面名"}>店面名</MenuItem>
-                            <MenuItem value={"負責人"}>負責人</MenuItem>
-                            <MenuItem value={"負責人手機號"}>負責人手機號</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
+
                 <Box>
                     <FormControl sx={{ minWidth: 150, height: "100%" }}>
                         <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
@@ -132,7 +112,7 @@ const StoreManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <StoreListModal type="new" />
+                    <MachineListModal type="new" />
                 </Box>
             </Box>
 
@@ -151,7 +131,7 @@ const StoreManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        店面名稱
+                        機台名稱
                     </Typography>
                 </Box>
                 <Box
@@ -164,33 +144,33 @@ const StoreManagement = () => {
                 >
 
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面名稱</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>機台名稱</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名稱</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面地址</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
                 </Box>
 
-                {mockStoreData.map((store, i) => (
+                {mockMachineData.map((machine, i) => (
                     <Box
-                        key={`${store.id}-${i}`}
+                        key={`${machine.id}-${i}`}
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center"
                         borderBottom={`4px solid ${colors.primary[500]}`}
                         p="10px"
                     >
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.id}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.status}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.brandInfo.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.storeAddress.city}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.id}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.status}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.brandInfo.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.storeInfo.name}</Box>
                         <Box
                             width={"15%"}
                             display={"flex"}
                             alignItems={"center"} justifyContent={"center"}
                             borderRadius="4px">
-                            <StoreListModal type="edit" id={store.id} />
+                            <MachineListModal type="edit" id={machine.id} />
                         </Box>
                     </Box>
                 ))}
@@ -199,4 +179,4 @@ const StoreManagement = () => {
     )
 }
 
-export default StoreManagement
+export default MachineManagement
