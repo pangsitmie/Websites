@@ -13,8 +13,7 @@ import { ColorModeContext, useMode } from "./theme";
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import UserManagement from "./scenes/userManagement/UserManagement";
-import Dashboard from './scenes/dashboard/Dashboard';
+
 
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -43,8 +42,6 @@ root.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
       <React.StrictMode>
-
-
         <App />
       </React.StrictMode>
     </ApolloProvider >

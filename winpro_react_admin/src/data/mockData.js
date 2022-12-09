@@ -52,7 +52,8 @@ export const mockDataUser = [
     password: "pass3",
     sex: 1, //0=male , 1 = female
     birthday: "1990-03-03"
-  }
+  },
+
 
 ];
 
@@ -294,7 +295,7 @@ export const mockStoreData = [
       id: 2,
       name: mockBrandData[2].brandName,
     },
-    name: "Store 1",
+    name: "Store 2",
     storeImgURL: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
     storeAddress: {
       city: "台北市",
@@ -373,7 +374,9 @@ export const mockMachineData = [
     remarks: "N/A 2"
   },
 
-]
+
+];
+
 
 
 

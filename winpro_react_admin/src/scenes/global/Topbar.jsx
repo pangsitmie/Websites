@@ -22,7 +22,8 @@ const Topbar = () => {
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       <div>
-        {authToken && (
+        {/* this is for gql login */}
+        {/* {authToken && (
           <div className="flex">
             <div className="ml1">|</div>
             <Link
@@ -52,7 +53,7 @@ const Topbar = () => {
           >
             login
           </Link>
-        )}
+        )} */}
       </div>
 
       {/* ICONS */}

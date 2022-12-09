@@ -46,7 +46,7 @@ const Login = () => {
             <div className="flex mt3">
                 <button
                     className="pointer mr2 button"
-                    onClick={() => navigate('/app')}
+                    onClick={() => navigate('/dashboard')}
                 >
                     Login
                 </button>

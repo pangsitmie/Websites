@@ -25,19 +25,19 @@ const Dashboard = () => {
         setStatus(e.target.value);
     };
 
-    const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
-    const [stores, setStores] = useState([]);
-    useEffect(() => {
-        if (data) {
-            console.log(data.getStoresByCoordinate);
-            setStores(data.getStoresByCoordinate);
-        }
+    // const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
+    // const [stores, setStores] = useState([]);
+    // useEffect(() => {
+    //     if (data) {
+    //         console.log(data.getStoresByCoordinate);
+    //         setStores(data.getStoresByCoordinate);
+    //     }
 
-    }, [data]);
+    // }, [data]);
 
     return (
         <>
-            <App />
+            This is dashboard
         </>
     )
 }

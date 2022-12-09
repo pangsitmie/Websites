@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "./modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { mockStoreData } from "../../data/mockData";
+import { format } from 'date-fns';
+import { useMutation } from "@apollo/client";
+import { SendVerificationCode } from "../../graphQL/Mutations";
+
 
 
 const phoneRegExp =
@@ -22,17 +24,39 @@ const checkoutSchema = yup.object().shape({
     storeAddress_district: yup.string().required("required"),
     storeAddress_road: yup.string().required("required"),
     storeManager_name: yup.string().required("required"),
-    storeManager_phone: yup.string().required("required"),
     storeManager_email: yup.string().required("required"),
+    storeManager_line: yup.string().required("required"),
 });
 
 
-export default function StoreListModal(props) {
+export default function StoreListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
 
-    var btnTitle = "", confirmTitle = "", cancelTitle = "";
+    var btnTitle = "", confirmTitle = "", cancelTitle = "", displayDate = "";
+
+
+    // if (error) return `Submission error! ${error.message}`;
+    // const { loading, error, data } = useMutation(Login, { variables: { phone: { number: "0974148161", country: "tw" }, type: "signup" } });
+    // const [secd, { data }] = useMutation(Login, { variables: { phone: { number: "0974148161", country: "tw" }, password: "signup", deviceCode: "", firebaseToken: "" } });
+
+
+    //GQL
+    // const { loading, error, data } = useMutation(SendVerificationCode, {
+    //     variables: {
+    //         phone:
+    //         {
+    //             number: "0974148567",
+    //             country: "tw"
+    //         },
+    //         type: "signup"
+    //     }
+    // });
+    const [SendCode, { loading, error, data }] = useMutation(SendVerificationCode);
+    if (loading) return 'Submitting...';
+    if (error) return `Submission error! ${error.message}`;
+
 
     const initialValues = {
         id: 0,
@@ -41,45 +65,48 @@ export default function StoreListModal(props) {
         brandInfo_id: "",
         brandInfo_name: "",
         name: "",
-        storeImgURL: "",
+        storeImgURL: "https://img.icons8.com/fluency/48/null/test-account.png",
         storeAddress_city: "",
         storeAddress_district: "",
         storeAddress_road: "",
         storeManager_name: "",
-        storeManager_phone: "",
         storeManager_email: "",
+        storeManager_line: "",
         remarks: "N/A"
     };
-    console.log(props.type);
-    if (props.type === "new") {
+    if (props == null) {
         btnTitle = "新增";
         confirmTitle = "新增";
         cancelTitle = "取消";
-    } else {
+    }
+    else {
         btnTitle = "修改";
         confirmTitle = "更新";
         cancelTitle = "刪除";
-        initialValues.id = mockStoreData[props.id].id;
-        initialValues.status = mockStoreData[props.id].status;
-        initialValues.reason = mockStoreData[props.id].reason;
-        initialValues.brandInfo_id = mockStoreData[props.id].brandInfo.id;
-        initialValues.brandInfo_name = mockStoreData[props.id].brandInfo.name;
-        initialValues.name = mockStoreData[props.id].name;
-        initialValues.storeImgURL = mockStoreData[props.id].storeImgURL;
-        initialValues.storeAddress_city = mockStoreData[props.id].storeAddress.city;
-        initialValues.storeAddress_district = mockStoreData[props.id].storeAddress.district;
-        initialValues.storeAddress_road = mockStoreData[props.id].storeAddress.road;
-        initialValues.storePhone = mockStoreData[props.id].storePhone;
-        initialValues.storeManager_name = mockStoreData[props.id].storeManager.name;
-        initialValues.storeManager_phone = mockStoreData[props.id].storeManager.phone;
-        initialValues.storeManager_email = mockStoreData[props.id].storeManager.email;
-        initialValues.remarks = mockStoreData[props.id].remarks;
+        initialValues.id = props.id;
+        initialValues.status = props.status.name.toUpperCase();
+        initialValues.reason = props.status.description;
+        initialValues.brandInfo_id = props.brand.id;
+        initialValues.brandInfo_name = props.brand.name;
+        initialValues.name = props.name;
+        initialValues.storeImgURL = "https://img.icons8.com/fluency/48/null/test-account.png";
+        initialValues.storeAddress_city = props.location.address;
+        initialValues.storeAddress_district = props.location.address;
+        initialValues.storeAddress_road = props.location.address;
+        initialValues.storeManager_name = props.principal.name;
+        initialValues.storeManager_email = props.principal.email;
+        initialValues.storeManager_line = props.principal.lineUrl;
+        initialValues.remarks = props.intro;
+        displayDate = format(props.createdAt * 1000, 'yyyy MMM d');
     }
 
     const handleFormSubmit = (values) => {
-        console.log("HELLO");
+        //FIXME: CALL GQL API TO UPDATE THE DATA
+        console.log("FORM SUBMIT");
         console.log(values);
+        SendCode({ variables: { phone: { number: "0974148571", country: "tw" }, type: "signup" } });
     };
+
 
     const toggleModal = () => {
         setModal(!modal);
@@ -90,13 +117,11 @@ export default function StoreListModal(props) {
     } else {
         document.body.classList.remove('active-modal')
     }
-
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
 
-            <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}{props.id}
-            </Button>
+            <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
@@ -133,14 +158,20 @@ export default function StoreListModal(props) {
                                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                                 />
                                             </Box>
-                                            <Box textAlign="center">
-                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "1rem 0 0 0" }}>
+                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem .5rem" }}>
                                                     UID: {initialValues.id}
                                                 </Typography>
-                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem 0 1rem 0" }}>
+                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem .5rem" }}>
+                                                    |
+                                                </Typography>
+                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem 0.5" }}>
                                                     {initialValues.status}
                                                 </Typography>
                                             </Box>
+                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "0 .5rem 1rem", textAlign: "center" }}>
+                                                CREATED: {displayDate}
+                                            </Typography>
 
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
@@ -234,7 +265,7 @@ export default function StoreListModal(props) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌id"
+                                                    label="負責人名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.storeManager_name}
@@ -247,26 +278,26 @@ export default function StoreListModal(props) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌名稱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.storeManager_phone}
-                                                    name="storeManager_phone"
-                                                    error={!!touched.storeManager_phone && !!errors.storeManager_phone}
-                                                    helperText={touched.storeManager_phone && errors.storeManager_phone}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="品牌名稱"
+                                                    label="負責人信箱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.storeManager_email}
                                                     name="storeManager_email"
                                                     error={!!touched.storeManager_email && !!errors.storeManager_email}
                                                     helperText={touched.storeManager_email && errors.storeManager_email}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人line"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.storeManager_line}
+                                                    name="storeManager_line"
+                                                    error={!!touched.storeManager_line && !!errors.storeManager_line}
+                                                    helperText={touched.storeManager_line && errors.storeManager_line}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
@@ -319,5 +350,9 @@ export default function StoreListModal(props) {
             )
             }
         </>
+
     );
+
+
+
 }

@@ -114,7 +114,7 @@ const Sidebar = () => {
                   黎信義
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Frontend Engineer
+                  Software Engineer
                 </Typography>
               </Box>
             </Box>

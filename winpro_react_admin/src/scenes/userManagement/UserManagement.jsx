@@ -30,21 +30,12 @@ const UserManagement = () => {
     const handleChange = (e) => {
         setStatus(e.target.value);
     };
-    const handleDelete = (e) => {
-        const id = e.target.id;
-        console.log(id);
-        var result = window.confirm("Are you sure you want to delete this user?");
-        if (result) {
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
-        }
-    };
+
     const submitSearch = () => {
         console.log(nameValueRef.current.value + " " + phoneValueRef.current.value + status);
     }
 
-
+    //GQL
     const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
     const [stores, setStores] = useState([]);
     useEffect(() => {
@@ -143,7 +134,31 @@ const UserManagement = () => {
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} paddingLeft={"1.5rem"}>更新資料</Box>
                 </Box>
 
-                {mockDataUser.map((user, i) => (
+                {stores.map((store, i) => (
+                    <Box
+                        key={`${store.id}-${i}`}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        borderBottom={`4px solid ${colors.primary[500]}`}
+                        p="10px"
+                    >
+                        <Box>
+                            <Typography variant="h5" color={colors.grey[100]} >
+                                {store.id}
+                            </Typography>
+                        </Box>
+                        <Box color={colors.grey[100]}>{store.name}</Box>
+                        <Box
+                            display={"flex"}
+                            p="0px 10px"
+                            borderRadius="4px">
+                            <UserListModal props={store} />
+                        </Box>
+                    </Box>
+                ))}
+
+                {/* {mockDataUser.map((user, i) => (
                     <Box
                         key={`${user.id}-${i}`}
                         display="flex"
@@ -163,7 +178,7 @@ const UserManagement = () => {
                             <UserListModal buttonTitle="更新" id={user.id} />
                         </Box>
                     </Box>
-                ))}
+                ))} */}
             </Box>
         </Box >
     )
@@ -177,26 +192,3 @@ export default UserManagement
 
 
 
-// {stores.map((store, i) => (
-//     <Box
-//         key={`${store.id}-${i}`}
-//         display="flex"
-//         justifyContent="space-between"
-//         alignItems="center"
-//         borderBottom={`4px solid ${colors.primary[500]}`}
-//         p="10px"
-//     >
-//         <Box>
-//             <Typography variant="h5" color={colors.grey[100]} >
-//                 {store.name}
-//             </Typography>
-//         </Box>
-//         <Box color={colors.grey[100]}>{store.lineUrl}</Box>
-//         <Box
-//             display={"flex"}
-//             p="0px 10px"
-//             borderRadius="4px">
-//             <UserListModal buttonTitle="詳細資料" />
-//         </Box>
-//     </Box>
-// ))}

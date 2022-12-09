@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 
 // QUERIES
+import { GetStoresByCoordinate } from '../../graphQL/Queries'
 import { mockDataUser, mockStoreData } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
@@ -10,7 +11,6 @@ import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
-import UserListModal from '../../components/Modal/UserListModal';
 import { citiesData } from "../../data/mockData";
 import StoreListModal from '../../components/Modal/StoreListModal';
 
@@ -36,19 +36,30 @@ const StoreManagement = () => {
     const handleCityChange = (e) => {
         setCityFilter(e.target.value);
     };
-    const handleDelete = (e) => {
-        const id = e.target.id;
-        console.log(id);
-        var result = window.confirm("Are you sure you want to delete this user?");
-        if (result) {
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
-        }
-    };
+    // const handleDelete = (e) => {
+    //     const id = e.target.id;
+    //     console.log(id);
+    //     var result = window.confirm("Are you sure you want to delete this user?");
+    //     if (result) {
+    //         console.log("deleted");
+    //     } else {
+    //         console.log("not deleted");
+    //     }
+    // };
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
+
+    //GQL
+    const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
+    const [stores, setStores] = useState([]);
+    useEffect(() => {
+        if (data) {
+            console.log(data.getStoresByCoordinate);
+            setStores(data.getStoresByCoordinate);
+        }
+
+    }, [data]);
 
     return (
         <Box p={2}>
@@ -70,7 +81,7 @@ const StoreManagement = () => {
                     borderRadius="10px"
                     alignItems={"center"}>
                     <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="查詢" inputRef={searchRef} />
-                    <FormControl sx={{ minWidth: 150, m: ".8rem .5rem .5rem .5rem" }} >
+                    <FormControl sx={{ minWidth: 150, padding: "5px" }} >
                         <InputLabel id="demo-simple-select-label">查詢過濾</InputLabel>
                         <Select
                             sx={{ borderRadius: "10px", background: colors.primary[400], maxHeight: "40px" }}
@@ -171,7 +182,7 @@ const StoreManagement = () => {
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
                 </Box>
 
-                {mockStoreData.map((store, i) => (
+                {stores.map((store, i) => (
                     <Box
                         key={`${store.id}-${i}`}
                         display="flex"
@@ -180,17 +191,18 @@ const StoreManagement = () => {
                         borderBottom={`4px solid ${colors.primary[500]}`}
                         p="10px"
                     >
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.id}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.status}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.brandInfo.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{store.storeAddress.city}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.id}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.status.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.brand.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.address}</Box>
+
                         <Box
                             width={"15%"}
                             display={"flex"}
                             alignItems={"center"} justifyContent={"center"}
                             borderRadius="4px">
-                            <StoreListModal type="edit" id={store.id} />
+                            <StoreListModal props={store} />
                         </Box>
                     </Box>
                 ))}

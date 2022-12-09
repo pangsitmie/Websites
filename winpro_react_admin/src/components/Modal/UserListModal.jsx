@@ -9,6 +9,7 @@ import { tokens } from "../../theme";
 import { mockDataUser } from "../../data/mockData";
 
 
+
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
@@ -25,11 +26,13 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function UserListModal(props) {
-  const buttonTitle = props.buttonTitle;
+export default function UserListModal({ props }) {
+  const buttonTitle = "詳細資料";
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
+
+
 
   const initialValues = {
     id: 0,
@@ -44,22 +47,41 @@ export default function UserListModal(props) {
     sex: 0, //0=male , 1 = female
     birthday: ""
   };
-  console.log(props.buttonTitle);
-  if (props.id != null) {
-    initialValues.status = mockDataUser[props.id].status;
-    initialValues.reason = mockDataUser[props.id].reason;
-    initialValues.uid = mockDataUser[props.id].uid;
-    initialValues.username = mockDataUser[props.id].username;
-    initialValues.imgURL = mockDataUser[props.id].imgURL;
-    initialValues.phone = mockDataUser[props.id].phone;
-    initialValues.password = mockDataUser[props.id].password;
-    initialValues.sex = mockDataUser[props.id].sex;
-    initialValues.birthday = mockDataUser[props.id].birthday;
+  if (props != null) {
+    initialValues.status = props.name;
+    initialValues.reason = props.name;
+    initialValues.uid = props.id;
+    initialValues.username = props.name;
+    initialValues.imgURL = props.name;
+    initialValues.phone = props.name;
+    initialValues.password = props.name;
   }
+  // if (props.id != null) {
+  //   initialValues.status = mockDataUser[props.id].status;
+  //   initialValues.reason = mockDataUser[props.id].reason;
+  //   initialValues.uid = mockDataUser[props.id].uid;
+  //   initialValues.username = mockDataUser[props.id].username;
+  //   initialValues.imgURL = mockDataUser[props.id].imgURL;
+  //   initialValues.phone = mockDataUser[props.id].phone;
+  //   initialValues.password = mockDataUser[props.id].password;
+  //   initialValues.sex = mockDataUser[props.id].sex;
+  //   initialValues.birthday = mockDataUser[props.id].birthday;
+  // }
 
   const handleFormSubmit = (values) => {
     console.log("HELLO");
     console.log(values);
+  };
+
+  const handleBlock = (e) => {
+    const id = e.target.id;
+    console.log(id);
+    var result = window.confirm("Are you sure you want to block this user?");
+    if (result) {
+      console.log("blocked");
+    } else {
+      console.log("not blocked");
+    }
   };
 
   const toggleModal = () => {
@@ -209,14 +231,14 @@ export default function UserListModal(props) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" onClick={toggleModal} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                      <Button type="submit" onClick={handleBlock} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          取消
+                          Block
                         </Typography>
                       </Button>
                       <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          更新
+                          Unblock
                         </Typography>
                       </Button>
                     </Box>

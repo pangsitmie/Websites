@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard/Dashboard";
@@ -25,20 +25,33 @@ function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
 
+
+
   return (
-    <div className="center w85">
-      <Topbar />
-      <div className="ph3 pv1 background-gray">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route
-            path="/user-management"
-            element={<UserManagement />}
-          />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </div>
-    </div>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {/* <Routes>
+            <Route path="/" element={<Login />} />
+          </Routes> */}
+        <div className="app">
+          <Sidebar isSidebar={isSidebar} />
+          <main className="content">
+            <Topbar setIsSidebar={setIsSidebar} />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/form" element={<Form />} />
+              <Route path="/user-management" element={<UserManagement />} />
+              <Route path="/brand-management" element={<BrandManagement />} />
+              <Route path="/store-management" element={<StoreManagement />} />
+              <Route path="/machine-management" element={<MachineManagement />} />
+              {/* <Route path="/login" element={<Login />} /> */}
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
