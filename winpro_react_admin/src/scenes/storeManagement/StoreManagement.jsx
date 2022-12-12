@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 
 // QUERIES
-import { GetStoresByCoordinate } from '../../graphQL/Queries'
+import { GetAllStores } from '../../graphQL/Queries'
 import { mockDataUser, mockStoreData } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
@@ -48,15 +48,50 @@ const StoreManagement = () => {
     // };
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
+        //CALL SEARCH FUNCTION
+        let brandValue = brandRef.current.value;
+        let storeValue = searchRef.current.value;
+        if (brandValue.length > 2 && storeValue.length == 0) {
+            let search = brandArraySearch(stores, brandValue);
+            setStores(search)
+        }
+        else if (brandValue.length == 0 && storeValue.length > 2) {
+            let search = storeArraySearch(stores, storeValue);
+            setStores(search)
+        }
+        else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setStores(initStores)
+        }
+    }
+
+    //BRAND SEARCH FUNCTION
+    const brandArraySearch = (array, keyword) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.brand.name.match(new RegExp(searchTerm, 'g'))
+        })
+    }
+
+    // STORE SEARCH FUNCTION
+    const storeArraySearch = (array, keyword) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.name.match(new RegExp(searchTerm, 'g')) ||
+                value.principal.name.match(new RegExp(searchTerm, 'g'))
+        })
     }
 
     //GQL
-    const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
+    const { loading, error, data } = useQuery(GetAllStores, { variables: { limit: 10, offset: 0 } });
+    const [initStores, SetInitStores] = useState([]);
     const [stores, setStores] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data.getStoresByCoordinate);
-            setStores(data.getStoresByCoordinate);
+            console.log(data.getAllStores);
+            setStores(data.getAllStores);
+            SetInitStores(data.getAllStores);
         }
 
     }, [data]);
@@ -72,7 +107,7 @@ const StoreManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌過濾" inputRef={brandRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名" inputRef={brandRef} />
                 </Box>
                 <Box
                     display="flex"
@@ -80,7 +115,7 @@ const StoreManagement = () => {
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     alignItems={"center"}>
-                    <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="查詢" inputRef={searchRef} />
+                    <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="店面名 或 負責人" inputRef={searchRef} />
                     <FormControl sx={{ minWidth: 150, padding: "5px" }} >
                         <InputLabel id="demo-simple-select-label">查詢過濾</InputLabel>
                         <Select
@@ -152,6 +187,8 @@ const StoreManagement = () => {
             <Box className="recent_transaction_container"
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
+                height={"51vh"}
+                overflow="auto"
             >
                 <Box
                     display="flex"
@@ -193,7 +230,7 @@ const StoreManagement = () => {
                     >
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.id}</Box>
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.status.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.status.name.toUpperCase()}</Box>
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.brand.name}</Box>
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.address}</Box>
 

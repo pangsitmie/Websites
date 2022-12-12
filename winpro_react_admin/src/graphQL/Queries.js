@@ -47,6 +47,64 @@ query GetStoresByCoordinate($coordinate: CoordinateInput!) {
 }
 `
 
+export const GetAllBrands = gql`
+query GetAllBrands {
+  getAllBrands {
+    id
+    name
+    vatNumber
+    cover
+    intro
+    logo
+    createdAt
+    status {
+      id
+      description
+      name
+    }
+    principal {
+      id
+      name
+      lineUrl
+      email
+      createdAt
+    }
+  }
+}
+`
+
+export const GetAllStores = gql`
+query GetAllStores($limit: Int!, $offset: Int!) {
+  getAllStores(limit: $limit, offset: $offset) {
+    id
+    name
+    cover
+    intro
+    createdAt
+    brand {
+      id
+      name
+    }
+    status {
+      id
+      description
+      name
+    }
+    location {
+      address
+      description
+    }
+    principal {
+      id
+      name
+      lineUrl
+      email
+      createdAt
+    }
+  }
+}
+`
+
 
 
 // export const GetStoresByCoordinate = gql`

@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { format } from 'date-fns';
 import "./modal.css";
 import IMG from "../../assets/user.png";
 import { ColorModeContext, tokens } from "../../theme";
@@ -12,44 +13,42 @@ const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-  brandName: yup.string().required("required"),
-  brandDesc: yup.string().required("required"),
-  brandManager: yup.string().required("required"),
-  brandManagerPhone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("required"),
-  brandManagerEmail: yup.string().email("invalid email").required("required"),
-  brandManagerLine: yup.string().required("required"),
-  brandTax: yup.string().required("required"),
-  brandPassword: yup.string().required("required"),
-  brandExpireDate: yup.string().required("required"),
-  // brandRemark: yup.string().required("required"),
+  name: yup.string().required("required"),
+  intro: yup.string().required("required"),
+  principalName: yup.string().required("required"),
+  principalLineUrl: yup.string().required("required"),
+  principalEmail: yup.string().email("invalid email").required("required"),
+  principalCreatedAt: yup.string().required("required"),
+  vatNumber: yup.string().required("required"),
+  statusDesc: yup.string().required("required"),
 });
 
 
-export default function BrandListModal(props) {
+export default function BrandListModal({ props }) {
   //THEME
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   //const colorMode = useContext(ColorModeContext);
 
 
-  var btnTitle = "", confirmTitle = "", cancelTitle = "";
+  var btnTitle = "", confirmTitle = "", cancelTitle = "", displayDate = "";
   const [modal, setModal] = useState(false); //open or close modal
 
   const initialValues = {
-    brandName: "",
-    brandDesc: "",
-    brandManager: "",
-    brandManagerPhone: "",
-    brandManagerEmail: "",
-    brandManagerLine: "",
-    brandTax: "",
-    brandPassword: "",
-    brandExpireDate: "",
-    brandRemark: "",
+    id: 0,
+    status: "",
+    statusDesc: "",
+    name: "",
+    intro: "",
+    principalName: "",
+    principalLineUrl: "",
+    principalEmail: "",
+    principalCreatedAt: "",
+    vatNumber: "",
   };
 
-  console.log(props.type);
-  if (props.type === "new") {
+  console.log(props);
+  if (props == null) {
     btnTitle = "新增";
     confirmTitle = "新增";
     cancelTitle = "取消";
@@ -58,15 +57,17 @@ export default function BrandListModal(props) {
     btnTitle = "修改";
     confirmTitle = "更新";
     cancelTitle = "刪除";
-    initialValues.brandName = mockBrandData[props.id].brandName;
-    initialValues.brandDesc = mockBrandData[props.id].brandDesc;
-    initialValues.brandManager = mockBrandData[props.id].brandManager;
-    initialValues.brandManagerPhone = mockBrandData[props.id].brandManagerPhone;
-    initialValues.brandManagerEmail = mockBrandData[props.id].brandManagerEmail;
-    initialValues.brandManagerLine = mockBrandData[props.id].brandManagerLine;
-    initialValues.brandTax = mockBrandData[props.id].brandTax;
-    initialValues.brandPassword = mockBrandData[props.id].brandPassword;
-    initialValues.brandExpireDate = mockBrandData[props.id].brandExpireDate;
+    initialValues.id = props.id;
+    initialValues.status = props.status.name;
+    initialValues.statusDesc = props.status.description;
+    displayDate = format(props.createdAt * 1000, 'yyyy MMM d');
+    initialValues.name = props.name;
+    initialValues.intro = props.intro;
+    initialValues.principalName = props.principal.name;
+    initialValues.principalLineUrl = props.principal.lineUrl;
+    initialValues.principalEmail = props.principal.email;
+    initialValues.principalCreatedAt = format(props.principal.createdAt * 1000, 'yyyy MMM d');
+    initialValues.vatNumber = props.vatNumber;
   }
 
 
@@ -88,7 +89,7 @@ export default function BrandListModal(props) {
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}
-      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle} {props.id}</Button>
+      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
@@ -124,6 +125,20 @@ export default function BrandListModal(props) {
                           style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                       </Box>
+                      <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem .5rem" }}>
+                          UID: {initialValues.id}
+                        </Typography>
+                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem .5rem" }}>
+                          |
+                        </Typography>
+                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem 0.5" }}>
+                          {initialValues.status}
+                        </Typography>
+                      </Box>
+                      <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "0 .5rem 1rem", textAlign: "center" }}>
+                        CREATED: {displayDate}
+                      </Typography>
                       <TextField className="modal_input_textfield"
                         fullWidth
                         variant="filled"
@@ -131,10 +146,10 @@ export default function BrandListModal(props) {
                         label="品牌名稱"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.brandName}
-                        name="brandName"
-                        error={!!touched.brandName && !!errors.brandName}
-                        helperText={touched.brandName && errors.brandName}
+                        value={values.name}
+                        name="name"
+                        error={!!touched.name && !!errors.name}
+                        helperText={touched.name && errors.name}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                       />
                       <TextField
@@ -147,10 +162,10 @@ export default function BrandListModal(props) {
                         label="品牌簡介"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.brandDesc}
-                        name="brandDesc"
-                        error={!!touched.brandDesc && !!errors.brandDesc}
-                        helperText={touched.brandDesc && errors.brandDesc}
+                        value={values.intro}
+                        name="intro"
+                        error={!!touched.intro && !!errors.intro}
+                        helperText={touched.intro && errors.intro}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
                       <TextField
@@ -160,10 +175,10 @@ export default function BrandListModal(props) {
                         label="負責人"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.brandManager}
-                        name="brandManager"
-                        error={!!touched.brandManager && !!errors.brandManager}
-                        helperText={touched.brandManager && errors.brandManager}
+                        value={values.principalName}
+                        name="principalName"
+                        error={!!touched.principalName && !!errors.principalName}
+                        helperText={touched.principalName && errors.principalName}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
                       <Box display={"flex"} justifyContent={"space-between"} >
@@ -171,15 +186,17 @@ export default function BrandListModal(props) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人連絡電話"
+                          label="負責人Line"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.brandManagerPhone}
-                          name="brandManagerPhone"
-                          error={!!touched.brandManagerPhone && !!errors.brandManagerPhone}
-                          helperText={touched.brandManagerPhone && errors.brandManagerPhone}
+                          value={values.principalLineUrl}
+                          name="principalLineUrl"
+                          error={!!touched.principalLineUrl && !!errors.principalLineUrl}
+                          helperText={touched.principalLineUrl && errors.principalLineUrl}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
+
+
                         <TextField
                           fullWidth
                           variant="filled"
@@ -187,68 +204,42 @@ export default function BrandListModal(props) {
                           label="負責人電子信箱"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.brandManagerEmail}
-                          name="brandManagerEmail"
-                          error={!!touched.brandManagerEmail && !!errors.brandManagerEmail}
-                          helperText={touched.brandManagerEmail && errors.brandManagerEmail}
+                          value={values.principalEmail}
+                          name="principalEmail"
+                          error={!!touched.principalEmail && !!errors.principalEmail}
+                          helperText={touched.principalEmail && errors.principalEmail}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
+
                         <TextField
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人Line"
+                          label="負責人Created At"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.brandManagerLine}
-                          name="brandManagerLine"
-                          error={!!touched.brandManagerLine && !!errors.brandManagerLine}
-                          helperText={touched.brandManagerLine && errors.brandManagerLine}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          value={values.principalCreatedAt}
+                          name="principalCreatedAt"
+                          error={!!touched.principalCreatedAt && !!errors.principalCreatedAt}
+                          helperText={touched.principalCreatedAt && errors.principalCreatedAt}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                       </Box>
 
-                      <Box display={"flex"} justifyContent={"space-between"} >
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="統一編號"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.brandTax}
-                          name="brandTax"
-                          error={!!touched.brandTax && !!errors.brandTax}
-                          helperText={touched.brandTax && errors.brandTax}
-                          sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                        />
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="品牌密碼"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.brandPassword}
-                          name="brandPassword"
-                          error={!!touched.brandPassword && !!errors.brandPassword}
-                          helperText={touched.brandPassword && errors.brandPassword}
-                          sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                        />
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="合約到期日"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.brandExpireDate}
-                          name="brandExpireDate"
-                          error={!!touched.brandExpireDate && !!errors.brandExpireDate}
-                          helperText={touched.brandExpireDate && errors.brandExpireDate}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                        />
-                      </Box>
+                      <TextField
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="統一編號"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.vatNumber}
+                        name="vatNumber"
+                        error={!!touched.vatNumber && !!errors.vatNumber}
+                        helperText={touched.vatNumber && errors.vatNumber}
+                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                      />
+
                       <TextField
                         multiline
                         fullWidth

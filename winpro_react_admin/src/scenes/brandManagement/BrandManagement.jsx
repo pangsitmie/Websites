@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
+import { format } from 'date-fns';
+
 // QUERIES
-import { GetStoresByCoordinate } from '../../graphQL/Queries'
+import { GetAllBrands } from '../../graphQL/Queries'
 import { mockBrandData, mockTransactions } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
@@ -10,9 +12,7 @@ import { ColorModeContext, tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { color } from '@mui/system';
 import BrandListModal from '../../components/Modal/BrandListModal';
-import UserListModal from '../../components/Modal/UserListModal';
 
 const BrandManagement = () => {
     //THEME
@@ -41,8 +41,37 @@ const BrandManagement = () => {
         setReview(e.target.value);
     };
     const submitSearch = () => {
-        console.log("search: " + searchValueRef.current.value + " " + filterRef.current.value + " " + status + " " + review);
+        // LOG SEARCH STATES
+        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
+
+        //CALL SEARCH FUNCTION
+        let value = searchValueRef.current.value;
+        if (value.length > 2) {
+            let search = arraySearch(brands, value);
+            setBrands(search)
+        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setBrands(initBrands)
+        }
     };
+    //SEARCH FUNCTION
+    const arraySearch = (array, keyword, filter) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.name.match(new RegExp(searchTerm, 'g')) ||
+                value.principal.name.match(new RegExp(searchTerm, 'g'))
+        })
+    }
+    //GRAPHQL
+    const { loading, error, data } = useQuery(GetAllBrands);
+    const [initBrands, setInitBrands] = useState([]);
+    const [brands, setBrands] = useState([]);
+    useEffect(() => {
+        if (data) {
+            setInitBrands(data.getAllBrands); //all brand datas
+            setBrands(data.getAllBrands); //datas for display
+        }
+    }, [data]);
 
 
 
@@ -55,12 +84,12 @@ const BrandManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={2}
+                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Search" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
                 </Box>
-                <FormControl sx={{ minWidth: 150 }} >
+                {/* <FormControl sx={{ minWidth: 150 }} >
                     <InputLabel id="demo-simple-select-label" >查詢過濾</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -73,10 +102,9 @@ const BrandManagement = () => {
                     >
                         <MenuItem value={"品牌名"}>品牌名</MenuItem>
                         <MenuItem value={"負責人"}>負責人</MenuItem>
-                        <MenuItem value={"負責人手機號"}>負責人手機號</MenuItem>
                     </Select>
-                </FormControl>
-                <FormControl sx={{ minWidth: 150, m: "0 10px" }} >
+                </FormControl> */}
+                <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
                     <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -160,40 +188,17 @@ const BrandManagement = () => {
                     p="10px"
                     maxHeight={"100px"}
                 >
-                    <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" >
-                            品牌名
-                        </Typography>
-                    </Box>
-                    <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5">
-                            品牌負責人
-                        </Typography>
-                    </Box>
-                    <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" >
-                            合約到期日
-                        </Typography>
-                    </Box>
-                    <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" >
-                            狀態
-                        </Typography>
-                    </Box>
-                    <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5">
-                            審核狀態
-                        </Typography>
-                    </Box>
-                    <Box minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5">
-                            更新品牌
-                        </Typography>
-                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌負責人</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>VAT</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
+
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
                 </Box>
 
-                {/* MOCK DATA */}
-                {mockBrandData.map((brand, i) => (
+                {/* MAP DATA */}
+                {brands.map((brand, i) => (
                     <Box
                         key={`${brand.id}-${i}`}
                         display="flex"
@@ -202,39 +207,15 @@ const BrandManagement = () => {
                         borderBottom={`4px solid ${colors.primary[500]}`}
                         p="10px"
                     >
-                        <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.brandName}
-                            </Typography>
-                        </Box>
-                        <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.brandManager}
-                            </Typography>
-                        </Box>
-                        <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.brandExpireDate}
-                            </Typography>
-                        </Box>
-                        <Box color={colors.grey[100]} minWidth={"100px"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.status}
-                            </Typography>
-                        </Box>
-                        <Box color={colors.grey[100]} minWidth={"100px"}>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {brand.review}
-                            </Typography>
-                        </Box>
-                        <Box
-                            display={"flex"}
-                            borderRadius="4px">
-                            <BrandListModal type="edit" id={brand.id} />
-                        </Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.id}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.principal.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.vatNumber}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.status.name}</Box>
+
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><BrandListModal props={brand} /></Box>
                     </Box>
                 ))}
-
             </Box>
         </Box >
     )
