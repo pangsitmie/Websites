@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
-import { useQuery, gql } from '@apollo/client'
-import { format } from 'date-fns';
+import React, { useEffect, useState, useRef } from 'react'
+import { useQuery } from '@apollo/client'
+// import { format } from 'date-fns';
 
 // QUERIES
 import { GetAllBrands } from '../../graphQL/Queries'
-import { mockBrandData, mockTransactions } from "../../data/mockData";
 // THEME
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 
 // ICONS
 import InputBase from "@mui/material/InputBase";
@@ -18,7 +17,6 @@ const BrandManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
 
     // STATES
@@ -70,6 +68,10 @@ const BrandManagement = () => {
         if (data) {
             setInitBrands(data.getAllBrands); //all brand datas
             setBrands(data.getAllBrands); //datas for display
+        }
+        else {
+            console.log(error);
+            console.log(loading);
         }
     }, [data]);
 
@@ -211,7 +213,22 @@ const BrandManagement = () => {
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.principal.name}</Box>
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.vatNumber}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.status.name}</Box>
+                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            {(() => {
+                                if (brand.status.name === "disable") {
+                                    return (
+                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                            停用
+                                        </Typography>)
+                                }
+                                else {
+                                    return (
+                                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                            正常
+                                        </Typography>)
+                                }
+                            })()}
+                        </Box>
 
                         <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><BrandListModal props={brand} /></Box>
                     </Box>

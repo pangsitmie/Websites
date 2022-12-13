@@ -104,9 +104,11 @@ query GetAllStores($limit: Int!, $offset: Int!) {
   }
 }
 `
-
-
-
+export const GetAccessToken = gql`
+query getAccessToken($refreshToken: String!) {
+  getAccessToken(refreshToken: $refreshToken)
+}
+`
 // export const GetStoresByCoordinate = gql`
 // query Brand($coordinate: CoordinateInput!) {
 //   getStoresByCoordinate(coordinate: $coordinate) {
