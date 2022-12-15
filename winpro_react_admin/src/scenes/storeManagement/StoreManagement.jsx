@@ -3,7 +3,6 @@ import { useQuery, gql } from '@apollo/client'
 
 // QUERIES
 import { GetAllStores } from '../../graphQL/Queries'
-import { mockDataUser, mockStoreData } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
@@ -12,14 +11,14 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
 import { citiesData } from "../../data/mockData";
-import StoreListModal from '../../components/Modal/StoreListModal';
+import StoreListModal from '../../components/Modal/Store/StoreListModal';
+import CreateStoreModal from '../../components/Modal/Store/CreateStoreModal'
 
 
 const StoreManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     // STATES
     const [searchFilter, setSearchFilter] = useState('');
@@ -36,26 +35,17 @@ const StoreManagement = () => {
     const handleCityChange = (e) => {
         setCityFilter(e.target.value);
     };
-    // const handleDelete = (e) => {
-    //     const id = e.target.id;
-    //     console.log(id);
-    //     var result = window.confirm("Are you sure you want to delete this user?");
-    //     if (result) {
-    //         console.log("deleted");
-    //     } else {
-    //         console.log("not deleted");
-    //     }
-    // };
+
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
         //CALL SEARCH FUNCTION
         let brandValue = brandRef.current.value;
         let storeValue = searchRef.current.value;
-        if (brandValue.length > 2 && storeValue.length == 0) {
+        if (brandValue.length > 2 && storeValue.length === 0) {
             let search = brandArraySearch(stores, brandValue);
             setStores(search)
         }
-        else if (brandValue.length == 0 && storeValue.length > 2) {
+        else if (brandValue.length === 0 && storeValue.length > 2) {
             let search = storeArraySearch(stores, storeValue);
             setStores(search)
         }
@@ -158,7 +148,7 @@ const StoreManagement = () => {
                 {/* SEARCH BTN */}
                 <Button className=""
                     sx={{
-                        backgroundColor: colors.blueAccent[400],
+                        backgroundColor: colors.primary[300],
                         color: colors.grey[100],
                         minWidth: "150px",
                         borderRadius: "10px",
@@ -178,17 +168,17 @@ const StoreManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <StoreListModal type="new" />
+                    <CreateStoreModal type="new" />
                 </Box>
             </Box>
 
 
             {/* TABLE DIV */}
-            <Box className="recent_transaction_container"
+            <Box
+                className="recent_transaction_container"
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"51vh"}
-                overflow="auto"
+                height={"40vh"}
             >
                 <Box
                     display="flex"
@@ -213,36 +203,64 @@ const StoreManagement = () => {
 
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面名稱</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名稱</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面地址</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
                 </Box>
+                <Box
 
-                {stores.map((store, i) => (
-                    <Box
-                        key={`${store.id}-${i}`}
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid ${colors.primary[500]}`}
-                        p="10px"
-                    >
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.id}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.status.name.toUpperCase()}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.brand.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.address}</Box>
-
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"100%"}
+                    overflow={"auto"}
+                >
+                    {stores.map((store, i) => (
                         <Box
-                            width={"15%"}
-                            display={"flex"}
-                            alignItems={"center"} justifyContent={"center"}
-                            borderRadius="4px">
-                            <StoreListModal props={store} />
+                            key={`${store.id}-${i}`}
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            p="10px"
+                        >
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.id}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.brand.name}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.address}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {(() => {
+                                    if (store.status.name === "disable") {
+                                        return (
+                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                停用
+                                            </Typography>)
+                                    }
+                                    else if (store.status.name === "banned") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                封鎖
+                                            </Typography>)
+                                    }
+                                    else {
+                                        return (
+                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                正常
+                                            </Typography>)
+                                    }
+                                })()}
+                            </Box>
+
+                            <Box
+                                width={"15%"}
+                                display={"flex"}
+                                alignItems={"center"} justifyContent={"center"}
+                                borderRadius="4px">
+                                <StoreListModal props={store} />
+                            </Box>
                         </Box>
-                    </Box>
-                ))}
+                    ))}
+                </Box>
             </Box>
         </Box >
     )

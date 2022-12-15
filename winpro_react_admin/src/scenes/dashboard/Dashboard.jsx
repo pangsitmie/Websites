@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useQuery, gql, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import App from '../../App';
 import { GetStoresByCoordinate } from '../../graphQL/Queries'
 import { Login } from '../../graphQL/Mutations'

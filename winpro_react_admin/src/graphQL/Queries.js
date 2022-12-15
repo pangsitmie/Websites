@@ -67,7 +67,9 @@ query GetAllBrands {
       name
       lineUrl
       email
-      createdAt
+    }
+    currency {
+      name
     }
   }
 }
@@ -99,7 +101,6 @@ query GetAllStores($limit: Int!, $offset: Int!) {
       name
       lineUrl
       email
-      createdAt
     }
   }
 }

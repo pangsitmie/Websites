@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "./modal.css";
-import { tokens } from "../../theme";
+import ".././modal.css";
+import { tokens } from "../../../theme";
 import { format } from 'date-fns';
 import { useMutation } from "@apollo/client";
-import { SendVerificationCode } from "../../graphQL/Mutations";
+import { SendVerificationCode } from "../../../graphQL/Mutations";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -26,33 +26,12 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function StoreListModal({ props }) {
+export default function CreateStoreModal() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
 
-    var btnTitle = "", confirmTitle = "", cancelTitle = "", displayDate = "";
-
-
-    // if (error) return `Submission error! ${error.message}`;
-    // const { loading, error, data } = useMutation(Login, { variables: { phone: { number: "0974148161", country: "tw" }, type: "signup" } });
-    // const [secd, { data }] = useMutation(Login, { variables: { phone: { number: "0974148161", country: "tw" }, password: "signup", deviceCode: "", firebaseToken: "" } });
-
-
-    //GQL
-    // const { loading, error, data } = useMutation(SendVerificationCode, {
-    //     variables: {
-    //         phone:
-    //         {
-    //             number: "0974148567",
-    //             country: "tw"
-    //         },
-    //         type: "signup"
-    //     }
-    // });
-    const [SendCode, { loading, error, data }] = useMutation(SendVerificationCode);
-    if (loading) return 'Submitting...';
-    if (error) return `Submission error! ${error.message}`;
+    var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
 
 
     const initialValues = {
@@ -70,36 +49,13 @@ export default function StoreListModal({ props }) {
         principal_lineUrl: "",
         principal_email: "",
     };
-    if (props == null) {
-        btnTitle = "新增";
-        confirmTitle = "新增";
-        cancelTitle = "取消";
-    }
-    else {
-        btnTitle = "修改";
-        confirmTitle = "更新";
-        cancelTitle = "刪除";
-        initialValues.id = props.id;
-        initialValues.status = props.status.name.toUpperCase();
-        initialValues.reason = props.status.description;
-        initialValues.brand_id = props.brand.id;
-        initialValues.brand_name = props.brand.name;
-        initialValues.name = props.name;
-        initialValues.intro = props.intro;
-        initialValues.cover = "https://img.icons8.com/fluency/48/null/test-account.png";
-        initialValues.location_address = props.location.address;
-        initialValues.location_description = props.location.description;
-        initialValues.principal_name = props.principal.name;
-        initialValues.principal_lineUrl = props.principal.lineUrl;
-        initialValues.principal_email = props.principal.email;
-        displayDate = format(props.createdAt * 1000, 'yyyy MMM d');
-    }
+
 
     const handleFormSubmit = (values) => {
         //FIXME: CALL GQL API TO UPDATE THE DATA
         console.log("FORM SUBMIT");
         console.log(values);
-        SendCode({ variables: { phone: { number: "0974148571", country: "tw" }, type: "signup" } });
+        // SendCode({ variables: { phone: { number: "0974148571", country: "tw" }, type: "signup" } });
     };
 
 
@@ -164,9 +120,6 @@ export default function StoreListModal({ props }) {
                                                     {initialValues.status}
                                                 </Typography>
                                             </Box>
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "0 .5rem 1rem", textAlign: "center" }}>
-                                                CREATED: {displayDate}
-                                            </Typography>
 
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
