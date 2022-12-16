@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import App from '../../App';
+import "../../index.css";
 import { GetStoresByCoordinate } from '../../graphQL/Queries'
 import { Login } from '../../graphQL/Mutations'
 import { GetAccessToken } from '../../graphQL/Queries'
-
+import Map from '../../components/Maps'
 // THEME
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
@@ -14,6 +15,10 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
 const Dashboard = () => {
+
+    //GOOGLE MAP
+
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -69,6 +74,8 @@ const Dashboard = () => {
 
 
 
+
+
     return (
         <div>
             <div>THIS IS DASHBOARD</div>
@@ -82,6 +89,10 @@ const Dashboard = () => {
                     LOGIN
                 </Button>
             </div>
+            <Map />
+
+
+
 
 
 
