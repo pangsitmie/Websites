@@ -76,13 +76,12 @@ query GetAllBrands {
 `
 
 export const GetAllStores = gql`
-query GetAllStores($limit: Int!, $offset: Int!) {
-  getAllStores(limit: $limit, offset: $offset) {
+query GetAllStores {
+  getAllStores {
     id
     name
     cover
     intro
-    createdAt
     brand {
       id
       name
@@ -94,7 +93,9 @@ query GetAllStores($limit: Int!, $offset: Int!) {
     }
     location {
       address
-      description
+      district
+      city
+      storeId
     }
     principal {
       id

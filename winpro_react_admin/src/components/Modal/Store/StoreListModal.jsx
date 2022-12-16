@@ -153,7 +153,7 @@ export default function StoreListModal({ props }) {
         if (result) {
             ApolloRemoveStore({
                 variables: {
-                    brandId: targetId,
+                    storeId: e.target.id,
                     statusId: "removed"
                 }
             })

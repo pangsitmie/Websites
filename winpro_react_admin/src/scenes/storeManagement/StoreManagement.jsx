@@ -242,6 +242,12 @@ const StoreManagement = () => {
                                                 封鎖
                                             </Typography>)
                                     }
+                                    else if (store.status.name === "removed") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                移除
+                                            </Typography>)
+                                    }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>

@@ -4,25 +4,28 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import ".././modal.css";
 import { tokens } from "../../../theme";
-import { format } from 'date-fns';
 import { useMutation } from "@apollo/client";
-import { SendVerificationCode } from "../../../graphQL/Mutations";
+import { CreateStore } from "../../../graphQL/Mutations";
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    geocodeByPlaceId,
+    getLatLng,
+} from 'react-places-autocomplete';
+
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    status: yup.string().required("required"),
-    reason: yup.string().required("required"),
+    brandId: yup.string().required("required"),
     name: yup.string().required("required"),
     intro: yup.string().required("required").nullable(),
-    brand_id: yup.string().required("required"),
-    brand_name: yup.string().required("required"),
-    location_address: yup.string().required("required"),
-    location_description: yup.string().required("required").nullable(),
-    principal_name: yup.string().required("required"),
-    principal_lineUrl: yup.string().required("required"),
-    principal_email: yup.string().required("required").nullable(),
+
+    principalName: yup.string().required("required"),
+    principalAccount: yup.string().required("required"),
+    principalPassword: yup.string().required("required"),
+    principalLineUrl: yup.string().required("required"),
+    principalEmail: yup.string().email("invalid email").required("required"),
 });
 
 
@@ -30,33 +33,102 @@ export default function CreateStoreModal() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
-
+    const [{ address, city, district, coordinates }, setLocation] = useState({
+        address: "",
+        city: "",
+        district: "",
+        coordinates: {
+            lat: 0,
+            lng: 120,
+        }
+    });
+    const [inputAddress, setInputAddress] = useState("");
     var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
 
 
     const initialValues = {
-        id: 0,
-        status: "",
-        reason: "None",
-        brand_id: "",
-        brand_name: "",
+        brandId: "1",
+        brandName: "None",
         name: "",
         intro: "",
+
         cover: "https://img.icons8.com/fluency/48/null/test-account.png",
-        location_address: "",
-        location_description: "",
-        principal_name: "",
-        principal_lineUrl: "",
-        principal_email: "",
+        //locations get from location state
+
+        principalName: "",
+        principalAccount: "",
+        principalPassword: "",
+        principalLineUrl: "https://lin.ee/",
+        principalEmail: "",
     };
 
+    //create store mutation
+    const [ApolloCreateStore, { loading, error, data }] = useMutation(CreateStore);
+    useEffect(() => {
+        if (data) {
+            console.log(data);
+            window.location.reload();
+        }
+        else {
+            console.log(error)
+        }
+    }, [data]);
 
     const handleFormSubmit = (values) => {
-        //FIXME: CALL GQL API TO UPDATE THE DATA
         console.log("FORM SUBMIT");
         console.log(values);
-        // SendCode({ variables: { phone: { number: "0974148571", country: "tw" }, type: "signup" } });
+        console.log("city" + city + ", district" + district + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        ApolloCreateStore({
+            variables: {
+                brandId: values.brandId,
+                name: values.name,
+                intro: values.intro,
+                location: {
+                    city: city,
+                    district: district,
+                    address: address,
+                    coordinate: {
+                        latitude: coordinates.lat,
+                        longitude: coordinates.lng
+                    },
+                    description: null
+                },
+                principal: {
+                    name: values.principalName,
+                    account: values.principalAccount,
+                    password: values.principalPassword,
+                    lineUrl: values.principalLineUrl,
+                    email: values.principalEmail
+                }
+            }
+        });
     };
+
+
+
+
+
+
+
+    const handleLocationSelect = async value => {
+        const results = await geocodeByAddress(value);
+        console.log(results);
+        const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
+        const latLng = await getLatLng(results[0]);
+        const city = results[0].address_components[4].long_name;
+        const district = results[0].address_components[3].long_name;
+
+        setInputAddress(value);
+        setLocation({
+            address: formattedAddress,
+            city: city,
+            district: district,
+            coordinates: latLng
+        });
+        console.log("Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        //this.props.onAddressSelected();
+    };
+
 
 
     const toggleModal = () => {
@@ -100,7 +172,7 @@ export default function CreateStoreModal() {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"2rem"}>
+                                            <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
                                                 <img
                                                     alt="profile-user"
                                                     width="100px"
@@ -109,17 +181,37 @@ export default function CreateStoreModal() {
                                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                                 />
                                             </Box>
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem .5rem" }}>
-                                                    UID: {initialValues.id}
-                                                </Typography>
-                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem .5rem" }}>
-                                                    |
-                                                </Typography>
-                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".25rem 0.5" }}>
-                                                    {initialValues.status}
-                                                </Typography>
+
+                                            {/* Brand info */}
+                                            <Box display={"flex"}>
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="品牌id"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.brandId}
+                                                    name="brand_id"
+                                                    error={!!touched.brandId && !!errors.brandId}
+                                                    helperText={touched.brandId && errors.brandId}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="品牌名稱"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.brandName}
+                                                    name="brandName"
+                                                    error={!!touched.brandName && !!errors.brandName}
+                                                    helperText={touched.brandName && errors.brandName}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
                                             </Box>
+
 
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
@@ -138,73 +230,109 @@ export default function CreateStoreModal() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="Intro"
+                                                label="店面介紹"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.intro}
                                                 name="intro"
                                                 error={!!touched.intro && !!errors.intro}
                                                 helperText={touched.intro && errors.intro}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                                             />
-                                            <Box display={"flex"}>
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="品牌id"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.brand_id}
-                                                    name="brand_id"
-                                                    error={!!touched.brand_id && !!errors.brand_id}
-                                                    helperText={touched.brand_id && errors.brand_id}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="品牌名稱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.brand_name}
-                                                    name="brand_name"
-                                                    error={!!touched.brand_name && !!errors.brand_name}
-                                                    helperText={touched.brand_name && errors.brand_name}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                            </Box>
+
+                                            {/* Search Store location */}
+                                            <PlacesAutocomplete
+                                                className="places_autocomplete"
+                                                value={inputAddress}
+                                                onChange={setInputAddress}
+                                                onSelect={handleLocationSelect}
+                                            >
+                                                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                                    <div>
+                                                        <TextField
+                                                            className="modal_input_textfield"
+                                                            fullWidth
+                                                            label="搜索店面地點 ..."
+                                                            variant="filled"
+                                                            type="text"
+                                                            sx={{ margin: "1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                            {...getInputProps({
+                                                                placeholder: '搜索店面地點 ...',
+                                                                className: 'location-search-input',
+                                                            })}
+                                                        />
+                                                        <div className="autocomplete-dropdown-container">
+                                                            {loading && <div>Loading...</div>}
+                                                            {suggestions.map(suggestion => {
+                                                                const className = suggestion.active
+                                                                    ? 'suggestion-item--active'
+                                                                    : 'suggestion-item';
+                                                                // inline style for demonstration purpose
+                                                                const style = suggestion.active
+                                                                    ? { backgroundColor: colors.primary[500], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" } //color when hover
+                                                                    : { backgroundColor: colors.primary[400], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" }; //background color
+                                                                return (
+                                                                    <div
+                                                                        {...getSuggestionItemProps(suggestion, {
+                                                                            className,
+                                                                            style,
+                                                                        })}
+                                                                    >
+                                                                        <span>{suggestion.description}</span>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </PlacesAutocomplete>
 
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面縣市"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.location_address}
-                                                    name="location_address"
-                                                    error={!!touched.location_address && !!errors.location_address}
-                                                    helperText={touched.location_address && errors.location_address}
+                                                    value={city}
+                                                    name="city"
+                                                    error={!!touched.city && !!errors.city}
+                                                    helperText={touched.city && errors.city}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面鄉鎮"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.location_description}
-                                                    name="location_description"
-                                                    error={!!touched.location_description && !!errors.location_description}
-                                                    helperText={touched.location_description && errors.location_description}
+                                                    value={district}
+                                                    name="district"
+                                                    error={!!touched.district && !!errors.district}
+                                                    helperText={touched.district && errors.district}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    disabled={true}
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="店面地址"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={address}
+                                                    name="address"
+                                                    error={!!touched.address && !!errors.address}
+                                                    helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
+
 
                                             <Box display={"flex"}>
                                                 <TextField
@@ -214,12 +342,42 @@ export default function CreateStoreModal() {
                                                     label="負責人名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principal_name}
-                                                    name="principal_name"
-                                                    error={!!touched.principal_name && !!errors.principal_name}
-                                                    helperText={touched.principal_name && errors.principal_name}
+                                                    value={values.principalName}
+                                                    name="principalName"
+                                                    error={!!touched.principalName && !!errors.principalName}
+                                                    helperText={touched.principalName && errors.principalName}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人賬號"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalAccount}
+                                                    name="principalAccount"
+                                                    error={!!touched.principalAccount && !!errors.principalAccount}
+                                                    helperText={touched.principalAccount && errors.principalAccount}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人密碼"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalPassword}
+                                                    name="principalPassword"
+                                                    error={!!touched.principalPassword && !!errors.principalPassword}
+                                                    helperText={touched.principalPassword && errors.principalPassword}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                            </Box>
+
+                                            <Box display={"flex"}>
+
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -227,10 +385,10 @@ export default function CreateStoreModal() {
                                                     label="負責人line"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principal_lineUrl}
-                                                    name="principal_lineUrl"
-                                                    error={!!touched.principal_lineUrl && !!errors.principal_lineUrl}
-                                                    helperText={touched.principal_lineUrl && errors.principal_lineUrl}
+                                                    value={values.principalLineUrl}
+                                                    name="principalLineUrl"
+                                                    error={!!touched.principalLineUrl && !!errors.principalLineUrl}
+                                                    helperText={touched.principalLineUrl && errors.principalLineUrl}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
@@ -240,29 +398,16 @@ export default function CreateStoreModal() {
                                                     label="負責人信箱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principal_email}
-                                                    name="principal_email"
-                                                    error={!!touched.principal_email && !!errors.principal_email}
-                                                    helperText={touched.principal_email && errors.principal_email}
+                                                    value={values.principalEmail}
+                                                    name="principalEmail"
+                                                    error={!!touched.principalEmail && !!errors.principalEmail}
+                                                    helperText={touched.principalEmail && errors.principalEmail}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="封鎖原因"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.reason}
-                                                name="reason"
-                                                error={!!touched.reason && !!errors.reason}
-                                                helperText={touched.reason && errors.reason}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button type="submit" onClick={toggleModal} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                                            <Button onClick={toggleModal} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {cancelTitle}
                                                 </Typography>

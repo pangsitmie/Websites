@@ -35,7 +35,7 @@ const Dashboard = () => {
             setIsLogin(true);
         }
         else {
-            console.log("NO DATA")
+            console.log("NO LOGIN DATA")
         }
     }, [data]);
 
@@ -51,7 +51,7 @@ const Dashboard = () => {
             setIsLogin(true);
         }
         else {
-            console.log("NO DATA")
+            console.log("NO GET ACCESS TOKEN DATA")
         }
     }, [data1]);
 

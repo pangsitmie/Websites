@@ -57,8 +57,14 @@ mutation BannedBrand($brandId: ID!, $statusId: EBannedBrandStatus!) {
 `
 
 // Stores
-// export const CreateStore = gql`
-// `
+export const CreateStore = gql`
+mutation CreateStore($brandId: ID!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String) {
+  createStore(brandId: $brandId, name: $name, location: $location, principal: $principal, intro: $intro) {
+    id
+    name
+  }
+}
+`
 
 export const UpdateStore = gql`
 mutation UpdateStore($storeId: ID!, $name: String, $intro: String, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
