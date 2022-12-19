@@ -14,10 +14,23 @@ import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
+import axios from 'axios';
+
+// console.log("AXIOS")
+// axios.get("https://jsonmock.hackerrank.com/api/stocks?date=5-January-2000")
+//     .then(response => console.log(response.data))
+//     .catch(error => console.log(error));
+
 const Dashboard = () => {
 
-    //GOOGLE MAP
-
+    const [apiData, setApiData] = useState([])
+    useEffect(() => {
+        axios.get("https://jsonmock.hackerrank.com/api/stocks?date=5-January-2000")
+            .then(response => setApiData(response.data))
+            .catch(error => console.log(error));
+    }, [])
+    console.log("API DATA")
+    console.log(apiData)
 
     //THEME
     const theme = useTheme();
@@ -71,15 +84,10 @@ const Dashboard = () => {
         })
     };
 
-
-
-
-
-
     return (
         <div>
             <div>THIS IS DASHBOARD</div>
-
+            {/* {count} */}
             <div>
                 <Button onClick={handleClick} sx={{ background: "#fff" }}>
                     LOGIN
@@ -89,15 +97,21 @@ const Dashboard = () => {
                     LOGIN
                 </Button>
             </div>
-            <Map />
+            {/* <Map /> */}
 
 
-
-
-
-
+            {/* display the data fetched from the api */}
+            <div>
+                <p>Date: {apiData.data[0].date}</p>
+                <p>Open: {apiData.data[0].open}</p>
+                <p>Close: {apiData.data[0].close}</p>
+                <p>High: {apiData.data[0].high}</p>
+                <p>Low: {apiData.data[0].low}</p>
+            </div>
         </div>
     )
 }
 
 export default Dashboard
+
+
