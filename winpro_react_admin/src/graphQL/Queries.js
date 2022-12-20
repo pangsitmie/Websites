@@ -1,20 +1,54 @@
 import { gql } from "@apollo/client";
 
-// export const GetUsers = gql`
+export const GetAllMember = gql`
+query GetAllMember {
+  getAllMember{
+    id
+    profile {
+      memberId
+      nickname
+      birthday
+    }
+    phone {
+      country
+      number
+    }
+    status {
+      name
+    }
+    career {
+      memberId
+      continuousLoginDays
+      totalLoginDays
+      lastSignAt
+    }
+  }
+}
+`
+export const BanMember = gql`
+query GetMember($params: [MemberArgs!]!, $reason: String!) {
+  getMember(params: $params) {
+    id
+    status {
+      name
+    }
+    ban(reason: $reason)
+  }
+}
+`
 
-// `
+export const UnbanMember = gql`
+query GetMember($params: [MemberArgs!]!, $reason: String!) {
+  getMember(params: $params) {
+    id
+    status {
+      name
+    }
+    unban(reason: $reason)
+  }
+}
+`
 
-// export const GetStoresByCoordinate = gql`
-// query GetStoresByCoordinate($coordinate: CoordinateInput!) {
-//   getStoresByCoordinate(coordinate: $coordinate) {
-//     id
-//     name
-//     brand {
-//       id  
-//     }
-//   }
-// }
-// `
 export const GetStoresByCoordinate = gql`
 query GetStoresByCoordinate($coordinate: CoordinateInput!) {
   getStoresByCoordinate(coordinate: $coordinate) {
@@ -71,6 +105,14 @@ query GetAllBrands {
     currency {
       name
     }
+  }
+}
+`
+export const GetBrandList = gql`
+query GetAllBrands {
+  getAllBrands {
+    id
+    name
   }
 }
 `

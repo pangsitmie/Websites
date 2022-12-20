@@ -157,13 +157,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="機台管理"
               to="/machine-management"
               icon={<PrecisionManufacturingIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="告示牌管理"
               to="/billboard-management"

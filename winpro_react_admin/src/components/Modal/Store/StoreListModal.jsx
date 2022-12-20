@@ -74,7 +74,7 @@ export default function StoreListModal({ props }) {
 
 
     initialValues.id = props.id;
-    initialValues.status = props.status.name.toUpperCase();
+    initialValues.status = props.status.name;
     // initialValues.reason = props.status.description;
     initialValues.brandId = props.brand.id;
     initialValues.brandName = props.brand.name;
@@ -293,9 +293,26 @@ export default function StoreListModal({ props }) {
                                                 />
                                             </Box>
                                             <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "0.5rem" }}>
-                                                    {initialValues.status}
-                                                </Typography>
+                                                {(() => {
+                                                    if (initialValues.status === "disable") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                                停用
+                                                            </Typography>)
+                                                    }
+                                                    if (initialValues.status === "banned") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                封鎖
+                                                            </Typography>)
+                                                    }
+                                                    else {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                正常
+                                                            </Typography>)
+                                                    }
+                                                })()}
                                             </Box>
 
                                             <Box display={"flex"} justifyContent={"space-between"}>

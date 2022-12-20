@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import ".././modal.css";
 import { tokens } from "../../../theme";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { CreateStore } from "../../../graphQL/Mutations";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
+import { GetBrandList } from "../../../graphQL/Queries";
+import { IntegrationInstructions } from "@mui/icons-material";
 
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    brandId: yup.string().required("required"),
+    // brandId: yup.string().required("required"),
     name: yup.string().required("required"),
     intro: yup.string().required("required").nullable(),
 
@@ -43,12 +45,15 @@ export default function CreateStoreModal() {
         }
     });
     const [inputAddress, setInputAddress] = useState("");
+    const [{ brandId, brandName }, setBrandInfo] = useState({
+        brandId: "null",
+        brandName: "null",
+    });
     var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
 
 
+
     const initialValues = {
-        brandId: "1",
-        brandName: "None",
         name: "",
         intro: "",
 
@@ -60,6 +65,26 @@ export default function CreateStoreModal() {
         principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
+    };
+
+    const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
+    const [brandListFilter, setBrandListFilter] = useState('');
+    const [brandList, setBrandList] = useState([]);
+    useEffect(() => {
+        if (data1) {
+            setBrandList(data1.getAllBrands);
+        }
+
+    }, [data1]);
+    const handleBrandListChange = (e) => {
+        const targetId = e.target.value;
+        console.log(targetId);
+        console.log(brandList[targetId - 1].name);
+        setBrandListFilter(targetId);
+        setBrandInfo({
+            brandId: targetId,
+            brandName: brandList[targetId - 1].name
+        });
     };
 
     //create store mutation
@@ -77,10 +102,11 @@ export default function CreateStoreModal() {
     const handleFormSubmit = (values) => {
         console.log("FORM SUBMIT");
         console.log(values);
+        console.log(brandId + brandName);
         console.log("city" + city + ", district" + district + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
         ApolloCreateStore({
             variables: {
-                brandId: values.brandId,
+                brandId: brandId,
                 name: values.name,
                 intro: values.intro,
                 location: {
@@ -103,12 +129,6 @@ export default function CreateStoreModal() {
             }
         });
     };
-
-
-
-
-
-
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
@@ -182,34 +202,57 @@ export default function CreateStoreModal() {
                                                 />
                                             </Box>
 
+
                                             {/* Brand info */}
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="品牌id"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.brandId}
-                                                    name="brand_id"
+                                                    value={brandId}
+                                                    name="brandId"
                                                     error={!!touched.brandId && !!errors.brandId}
                                                     helperText={touched.brandId && errors.brandId}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="品牌名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.brandName}
+                                                    value={brandName}
                                                     name="brandName"
                                                     error={!!touched.brandName && !!errors.brandName}
                                                     helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={brandListFilter}
+                                                        label="brandListFilter"
+                                                        onChange={handleBrandListChange}
+                                                    >
+                                                        {brandList.map((brand, i) => (
+                                                            <MenuItem
+                                                                value={brand.id}
+                                                                key={`${brand.id}-${i}`}
+                                                            >
+                                                                {brand.name}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
                                             </Box>
 
 

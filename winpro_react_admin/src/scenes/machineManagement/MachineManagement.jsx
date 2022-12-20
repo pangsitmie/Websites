@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useQuery, gql } from '@apollo/client'
 
 // QUERIES
@@ -11,10 +12,17 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
 import { citiesData } from "../../data/mockData";
-import MachineListModal from '../../components/Modal/MachineListModal';
+import CreateMachineModal from '../../components/Modal/Machine/CreateMachineModal';
+import MachineListModal from '../../components/Modal/Machine/MachineListModal';
 
 
 const MachineManagement = () => {
+    const location = useLocation();
+    const state = location.state;
+    console.log(state); // output: "the-page-id"
+    console.log(state.data.id); // output: "the-page-id"
+    console.log(state.data.name); // output: "the-page-id"
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -23,6 +31,8 @@ const MachineManagement = () => {
     // STATES
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
+
+
 
     //REF
     const brandRef = useRef('');
@@ -50,11 +60,10 @@ const MachineManagement = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
 
-
-
     return (
         <Box p={2}>
-            <h1 className='userManagement_title'>機台管理</h1>
+            <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
+            <h2 >{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</h2>
             {/* SEARCH DIV */}
             <Box display="flex" marginBottom={5}>
                 {/* name Search */}
@@ -63,30 +72,7 @@ const MachineManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌過濾" inputRef={brandRef} />
-                </Box>
-
-                <Box>
-                    <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                        <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
-                        <Select
-                            sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={cityFilter}
-                            label="cityFilter"
-                            onChange={handleCityChange}
-                        >
-                            {citiesData.map((city, i) => (
-                                <MenuItem
-                                    value={city.name}
-                                    key={`${city.id}-${i}`}
-                                >
-                                    {city.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={brandRef} />
                 </Box>
 
                 {/* SEARCH BTN */}
@@ -112,7 +98,7 @@ const MachineManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <MachineListModal type="new" />
+                    <CreateMachineModal props={state.data} />
                 </Box>
             </Box>
 
@@ -170,7 +156,7 @@ const MachineManagement = () => {
                             display={"flex"}
                             alignItems={"center"} justifyContent={"center"}
                             borderRadius="4px">
-                            <MachineListModal type="edit" id={machine.id} />
+                            <MachineListModal props={machine} />
                         </Box>
                     </Box>
                 ))}

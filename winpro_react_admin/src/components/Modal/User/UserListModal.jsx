@@ -1,28 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import "./modal.css";
-import IMG from "../../assets/user.png";
-import { tokens } from "../../theme";
-import { mockDataUser } from "../../data/mockData";
+import ".././modal.css";
+import IMG from "../../../assets/user.png";
+import { tokens } from "../../../theme";
+import { mockDataUser } from "../../../data/mockData";
+import { BanMember, UnbanMember } from "../../../graphQL/Queries";
+import { useLazyQuery } from "@apollo/client";
 
-
-
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-  status: yup.string().required("required"),
-  reason: yup.string().required("required"),
-  uid: yup.string().required("required"),
-  username: yup.string().required("required"),
-  imgURL: yup.string().required("required"),
-  phone: yup.string().required("required"),
-  password: yup.string().required("required"),
-  sex: yup.string().required("required"),
-  birthday: yup.string().required("required"),
+
 });
 
 
@@ -32,53 +22,97 @@ export default function UserListModal({ props }) {
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
 
-
-
   const initialValues = {
     id: 0,
     status: "",
-    reason: "None",
-    enable: true,
-    uid: 0,
-    username: "",
-    imgURL: "",
+    nickname: "",
+    birthday: "",
+
+    imgURL: "https://img.icons8.com/fluency/48/null/test-account.png",
     phone: "",
-    password: "",
-    sex: 0, //0=male , 1 = female
-    birthday: ""
+
+    continuousLoginDays: "",
+    totalLoginDays: "",
+    lastSignAt: ""
   };
+
   if (props != null) {
-    initialValues.status = props.name;
-    initialValues.reason = props.name;
-    initialValues.uid = props.id;
-    initialValues.username = props.name;
-    initialValues.imgURL = props.name;
-    initialValues.phone = props.name;
-    initialValues.password = props.name;
+    initialValues.id = props.id;
+    initialValues.status = props.status.name;
+    initialValues.nickname = props.profile.nickname;
+    initialValues.birthday = props.profile.birthday;
+    //initialValues.imgURL = props.imgURL;
+    initialValues.phone = props.phone.number;
+
+    initialValues.continuousLoginDays = props.career.continuousLoginDays;
+    initialValues.totalLoginDays = props.career.totalLoginDays;
+    initialValues.lastSignAt = props.career.lastSignAt;
   }
-  // if (props.id != null) {
-  //   initialValues.status = mockDataUser[props.id].status;
-  //   initialValues.reason = mockDataUser[props.id].reason;
-  //   initialValues.uid = mockDataUser[props.id].uid;
-  //   initialValues.username = mockDataUser[props.id].username;
-  //   initialValues.imgURL = mockDataUser[props.id].imgURL;
-  //   initialValues.phone = mockDataUser[props.id].phone;
-  //   initialValues.password = mockDataUser[props.id].password;
-  //   initialValues.sex = mockDataUser[props.id].sex;
-  //   initialValues.birthday = mockDataUser[props.id].birthday;
-  // }
+
+
+  // GQL
+  const [ApolloBanUser, { loading, error, data }] = useLazyQuery(BanMember);
+  useEffect(() => {
+    if (data) {
+      console.log(data.getMember);
+      window.location.reload();
+    }
+    else {
+      console.log("NO DATA")
+    }
+  }, [data]);
+
+
+  const [ApolloUnbanUser, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(UnbanMember);
+  useEffect(() => {
+    if (data1) {
+      console.log(data1.getMember);
+      window.location.reload();
+    }
+    else {
+      console.log("NO DATA")
+    }
+  }, [data1]);
+
 
   const handleFormSubmit = (values) => {
-    console.log("HELLO");
-    console.log(values);
+    console.log("FORM SUBMIT");
   };
 
   const handleBlock = (e) => {
-    const id = e.target.id;
-    console.log(id);
+    const targetId = e.target.id;
+    console.log(targetId);
     var result = window.confirm("Are you sure you want to block this user?");
     if (result) {
-      console.log("blocked");
+      ApolloBanUser({
+        variables: {
+          reason: "null",
+          params: [
+            {
+              id: targetId
+            }
+          ]
+        }
+      })
+    } else {
+      console.log("not blocked");
+    }
+  };
+  const handleUnblock = (e) => {
+    const targetId = e.target.id;
+    console.log(targetId);
+    var result = window.confirm("Are you sure you want to Unblock this user?");
+    if (result) {
+      ApolloUnbanUser({
+        variables: {
+          reason: "null",
+          params: [
+            {
+              id: targetId
+            }
+          ]
+        }
+      })
     } else {
       console.log("not blocked");
     }
@@ -107,7 +141,6 @@ export default function UserListModal({ props }) {
           <div onClick={toggleModal} className="overlay"></div>
           <div className="modal-content">
             <Box m="20px">
-              {initialValues.username}
               <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 更新
               </Typography>
@@ -137,12 +170,20 @@ export default function UserListModal({ props }) {
                         />
                       </Box>
                       <Box textAlign="center">
-                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: "1rem 0 0 0" }}>
-                          UID: {initialValues.uid}
-                        </Typography>
-                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem 0 1rem 0" }}>
-                          {initialValues.status}
-                        </Typography>
+                        {(() => {
+                          if (initialValues.status === "banned") {
+                            return (
+                              <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                封鎖
+                              </Typography>)
+                          }
+                          else {
+                            return (
+                              <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                正常
+                              </Typography>)
+                          }
+                        })()}
                       </Box>
 
                       <TextField className="modal_input_textfield"
@@ -152,10 +193,10 @@ export default function UserListModal({ props }) {
                         label="暱稱"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.username}
+                        value={values.nickname}
                         name="username"
-                        error={!!touched.username && !!errors.username}
-                        helperText={touched.username && errors.username}
+                        error={!!touched.nickname && !!errors.nickname}
+                        helperText={touched.nickname && errors.nickname}
                         sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                       />
                       {/* PHONE */}
@@ -172,71 +213,72 @@ export default function UserListModal({ props }) {
                         helperText={touched.phone && errors.phone}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
-
-                      {/* PASSWORD */}
                       <TextField
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="密碼"
+                        label="使用者生日"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.password}
-                        name="password"
-                        error={!!touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
+                        value={values.birthday}
+                        name="birthday"
+                        error={!!touched.birthday && !!errors.birthday}
+                        helperText={touched.birthday && errors.birthday}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
+
                       <Box display={"flex"}>
+
                         <TextField
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="性別"
+                          label="連續登錄天數"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.sex}
-                          name="sex"
-                          error={!!touched.sex && !!errors.sex}
-                          helperText={touched.sex && errors.sex}
-                          sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          value={values.continuousLoginDays}
+                          name="continuousLoginDays"
+                          error={!!touched.continuousLoginDays && !!errors.continuousLoginDays}
+                          helperText={touched.continuousLoginDays && errors.continuousLoginDays}
+                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="使用者生日"
+                          label="總登錄天數"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.birthday}
-                          name="birthday"
-                          error={!!touched.birthday && !!errors.birthday}
-                          helperText={touched.birthday && errors.birthday}
+                          value={values.totalLoginDays}
+                          name="totalLoginDays"
+                          error={!!touched.totalLoginDays && !!errors.totalLoginDays}
+                          helperText={touched.totalLoginDays && errors.totalLoginDays}
+                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="最後登錄"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.lastSignAt}
+                          name="lastSignAt"
+                          error={!!touched.lastSignAt && !!errors.lastSignAt}
+                          helperText={touched.lastSignAt && errors.lastSignAt}
                           sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                       </Box>
-                      <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="封鎖原因"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.reason}
-                        name="reason"
-                        error={!!touched.reason && !!errors.reason}
-                        helperText={touched.reason && errors.reason}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                      />
+
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" onClick={handleBlock} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                      <Button onClick={handleBlock} id={values.id} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           Block
                         </Typography>
                       </Button>
-                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                      <Button onClick={handleUnblock} id={values.id} color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           Unblock
                         </Typography>

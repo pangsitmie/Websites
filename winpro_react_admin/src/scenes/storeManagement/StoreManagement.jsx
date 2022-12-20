@@ -13,6 +13,7 @@ import { color } from '@mui/system';
 import { citiesData } from "../../data/mockData";
 import StoreListModal from '../../components/Modal/Store/StoreListModal';
 import CreateStoreModal from '../../components/Modal/Store/CreateStoreModal'
+import { Link } from 'react-router-dom';
 
 
 const StoreManagement = () => {
@@ -201,11 +202,11 @@ const StoreManagement = () => {
                     p="10px"
                 >
 
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面名稱</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名稱</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面地址</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>幾臺資料</Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
                 </Box>
                 <Box
@@ -224,7 +225,6 @@ const StoreManagement = () => {
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.id}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.brand.name}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.address}</Box>
@@ -257,6 +257,27 @@ const StoreManagement = () => {
                                 })()}
                             </Box>
 
+
+                            <Box
+                                width={"15%"}
+                                height={"100%"}
+                                display={"flex"}
+                                alignItems={"center"} justifyContent={"center"}
+                                borderRadius="4px"
+                            >
+
+                                <Link
+                                    to={"/machine-management"}
+                                    state={{
+                                        data: store,
+                                    }}
+                                >
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid #e1e2fe", borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
+                                        機台管理
+                                    </Button>
+                                </Link>
+
+                            </Box>
                             <Box
                                 width={"15%"}
                                 display={"flex"}

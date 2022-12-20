@@ -260,11 +260,6 @@ export default function CreateBrandModal() {
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" onClick={toggleModal} variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px", border: "2px solid #ff2f00" }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          {cancelTitle}
-                        </Typography>
-                      </Button>
                       <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           {confirmTitle}

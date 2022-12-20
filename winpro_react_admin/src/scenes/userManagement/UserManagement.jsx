@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import "./userManagement.css"
 // QUERIES
-import { GetStoresByCoordinate } from '../../graphQL/Queries'
+import { GetAllMember, GetStoresByCoordinate } from '../../graphQL/Queries'
 import { mockDataUser } from "../../data/mockData";
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
@@ -11,7 +11,8 @@ import { ColorModeContext, tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import UserListModal from '../../components/Modal/UserListModal';
+import UserListModal from '../../components/Modal/User/UserListModal';
+
 
 const UserManagement = () => {
     //THEME
@@ -23,7 +24,7 @@ const UserManagement = () => {
     const [status, setStatus] = useState('');
 
     //REF
-    const nameValueRef = useRef('');
+    const searchValueRef = useRef('');
     const phoneValueRef = useRef('');
 
     //FUNCTIONS
@@ -31,20 +32,44 @@ const UserManagement = () => {
         setStatus(e.target.value);
     };
 
-    const submitSearch = () => {
-        console.log(nameValueRef.current.value + " " + phoneValueRef.current.value + status);
-    }
+
 
     //GQL
-    const { loading, error, data } = useQuery(GetStoresByCoordinate, { variables: { coordinate: { latitude: 24.1043367, longitude: 120.6 } } });
-    const [stores, setStores] = useState([]);
+    const { loading, error, data } = useQuery(GetAllMember);
+    const [initMember, setInitMember] = useState([]);
+    const [members, setMembers] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data.getStoresByCoordinate);
-            setStores(data.getStoresByCoordinate);
+            console.log(data.getAllMember);
+            setInitMember(data.getAllMember);
+            setMembers(data.getAllMember);
         }
 
     }, [data]);
+
+    const submitSearch = () => {
+        //CALL SEARCH FUNCTION
+        let searchValue = searchValueRef.current.value;
+        console.log("submitSearch" + searchValue)
+
+        if (searchValue.length > 2) {
+            let search = memberArraySearch(members, searchValue);
+            setMembers(search)
+        }
+
+        else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setMembers(initMember)
+        }
+    }
+    //SEARCH FUNCTION
+    const memberArraySearch = (array, keyword) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.profile.nickname.match(new RegExp(searchTerm, 'g')) ||
+                value.phone.number.match(new RegExp(searchTerm, 'g'))
+        })
+    }
 
     return (
         <Box p={2}>
@@ -57,16 +82,9 @@ const UserManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Name Search" inputRef={nameValueRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Name & Phone Search" inputRef={searchValueRef} />
                 </Box>
                 {/* phone search */}
-                <Box
-                    display="flex"
-                    mr={2}
-                    backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Phone Search" inputRef={phoneValueRef} />
-                </Box>
                 <FormControl sx={{ minWidth: 150 }} >
                     <InputLabel id="demo-simple-select-label" >Status</InputLabel>
                     <Select
@@ -129,32 +147,54 @@ const UserManagement = () => {
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>暱稱</Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>手機</Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} paddingLeft={"1.5rem"}>更新資料</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
                 </Box>
 
-                {stores.map((store, i) => (
+                {members.map((member, i) => (
                     <Box
-                        key={`${store.id}-${i}`}
+                        key={`${member.id}-${i}`}
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center"
                         borderBottom={`4px solid ${colors.primary[500]}`}
                         p="10px"
                     >
-                        <Box>
-                            <Typography variant="h5" color={colors.grey[100]} >
-                                {store.id}
-                            </Typography>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.id}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile.nickname}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone.number}</Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            {(() => {
+                                if (member.status.name === "disable") {
+                                    return (
+                                        <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                            停用
+                                        </Typography>)
+                                }
+                                else if (member.status.name === "banned") {
+                                    return (
+                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                            封鎖
+                                        </Typography>)
+                                }
+                                else if (member.status.name === "removed") {
+                                    return (
+                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                            移除
+                                        </Typography>)
+                                }
+                                else {
+                                    return (
+                                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                            正常
+                                        </Typography>)
+                                }
+                            })()}
                         </Box>
-                        <Box color={colors.grey[100]}>{store.name}</Box>
-                        <Box
-                            display={"flex"}
-                            p="0px 10px"
-                            borderRadius="4px">
-                            <UserListModal props={store} />
-                        </Box>
+                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><UserListModal props={member} /></Box>
+
+
                     </Box>
                 ))}
 
