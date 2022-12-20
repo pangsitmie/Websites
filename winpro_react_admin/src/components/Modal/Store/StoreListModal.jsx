@@ -7,17 +7,24 @@ import { tokens } from "../../../theme";
 import { format } from 'date-fns';
 import { useMutation } from "@apollo/client";
 import { BannedStore, RemoveStore, UpdateStore } from "../../../graphQL/Mutations";
+import PlacesAutocomplete, {
+    geocodeByAddress,
+    geocodeByPlaceId,
+    getLatLng,
+} from 'react-places-autocomplete';
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    status: yup.string().required("required"),
-    reason: yup.string().required("required"),
     name: yup.string().required("required"),
+    status: yup.string().required("required"),
     intro: yup.string().required("required").nullable(),
+    brandId: yup.string().required("required"),
+    brandName: yup.string().required("required"),
     // location_address: yup.string().required("required"),
     principalName: yup.string().required("required"),
+    // principalPassword: yup.string().required("required"),
     principalLineUrl: yup.string().required("required"),
     principalEmail: yup.string().required("required").nullable(),
 });
@@ -27,44 +34,59 @@ export default function StoreListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
-
-    //REF
-    const [storeStatus, setStorestatus] = React.useState('');
+    const [{ address, city, district, coordinates }, setLocation] = useState({
+        address: props.location.address,
+        city: props.location.city,
+        district: props.location.district,
+        coordinates: {
+            lat: 0,
+            lng: 120,
+        }
+    });
+    const [storeStatus, setStorestatus] = React.useState(props.status.name);
     const handleStatusChange = (event) => {
         setStorestatus(event.target.value);
     };
-
+    const [inputAddress, setInputAddress] = useState("");
     var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", blockTitle = "封鎖";
 
 
     const initialValues = {
         id: -1,
-        status: "",
-        brand_id: "",
-        brand_name: "",
+        brandId: -1,
+        brandName: "",
         name: "",
         intro: "",
         cover: "https://img.icons8.com/fluency/48/null/test-account.png",
-        location_address: "",
-        location_description: "",
+
+        //locations get from location state
+        status: "",
+
+        city: "",
+        district: "",
+        address: "",
         principalName: "",
+        principalAccount: "",
         principalPassword: "",
-        principalLineUrl: "",
+        principalLineUrl: "https://lin.ee/",
         principalEmail: "",
     };
 
 
     initialValues.id = props.id;
     initialValues.status = props.status.name.toUpperCase();
-    initialValues.reason = props.status.description;
-    initialValues.brand_id = props.brand.id;
-    initialValues.brand_name = props.brand.name;
+    // initialValues.reason = props.status.description;
+    initialValues.brandId = props.brand.id;
+    initialValues.brandName = props.brand.name;
     initialValues.name = props.name;
     initialValues.intro = props.intro;
     initialValues.cover = "https://img.icons8.com/fluency/48/null/test-account.png";
-    initialValues.location_address = props.location.address;
-    initialValues.location_description = props.location.description;
+    initialValues.city = props.location.city;
+    initialValues.district = props.location.district;
+    initialValues.address = props.location.address;
+
     initialValues.principalName = props.principal.name;
+    initialValues.principalPassword = "";
     initialValues.principalLineUrl = props.principal.lineUrl;
     initialValues.principalEmail = props.principal.email;
 
@@ -119,6 +141,16 @@ export default function StoreListModal({ props }) {
                     storeId: values.id,
                     name: values.name,
                     intro: values.intro,
+                    location: {
+                        city: city,
+                        district: district,
+                        address: address,
+                        coordinate: {
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        },
+                        description: null
+                    },
                     principal: {
                         name: values.principalName,
                         lineUrl: values.principalLineUrl,
@@ -134,6 +166,16 @@ export default function StoreListModal({ props }) {
                     storeId: values.id,
                     name: values.name,
                     intro: values.intro,
+                    location: {
+                        city: city,
+                        district: district,
+                        address: address,
+                        coordinate: {
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        },
+                        description: null
+                    },
                     principal: {
                         name: values.principalName,
                         password: values.principalPassword,
@@ -144,6 +186,25 @@ export default function StoreListModal({ props }) {
                 }
             });
         }
+    };
+
+    const handleLocationSelect = async value => {
+        const results = await geocodeByAddress(value);
+        console.log(results);
+        const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
+        const latLng = await getLatLng(results[0]);
+        const city = results[0].address_components[4].long_name;
+        const district = results[0].address_components[3].long_name;
+
+        setInputAddress(value);
+        setLocation({
+            address: formattedAddress,
+            city: city,
+            district: district,
+            coordinates: latLng
+        });
+        console.log("Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        //this.props.onAddressSelected();
     };
 
     const handleDelete = (e) => {
@@ -288,10 +349,10 @@ export default function StoreListModal({ props }) {
                                                     label="品牌id"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.brand_id}
-                                                    name="brand_id"
-                                                    error={!!touched.brand_id && !!errors.brand_id}
-                                                    helperText={touched.brand_id && errors.brand_id}
+                                                    value={values.brandId}
+                                                    name="brandId"
+                                                    error={!!touched.brandId && !!errors.brandId}
+                                                    helperText={touched.brandId && errors.brandId}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
 
@@ -303,40 +364,102 @@ export default function StoreListModal({ props }) {
                                                     label="品牌名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.brand_name}
-                                                    name="brand_name"
-                                                    error={!!touched.brand_name && !!errors.brand_name}
-                                                    helperText={touched.brand_name && errors.brand_name}
+                                                    value={values.brandName}
+                                                    name="brandName"
+                                                    error={!!touched.brandName && !!errors.brandName}
+                                                    helperText={touched.brandName && errors.brandName}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
 
+                                            <PlacesAutocomplete
+                                                className="places_autocomplete"
+                                                value={inputAddress}
+                                                onChange={setInputAddress}
+                                                onSelect={handleLocationSelect}
+                                            >
+                                                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                                    <div>
+                                                        <TextField
+                                                            className="modal_input_textfield"
+                                                            fullWidth
+                                                            label="搜索店面地點 ..."
+                                                            variant="filled"
+                                                            type="text"
+                                                            sx={{ margin: "1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                            {...getInputProps({
+                                                                placeholder: '搜索店面地點 ...',
+                                                                className: 'location-search-input',
+                                                            })}
+                                                        />
+                                                        <div className="autocomplete-dropdown-container">
+                                                            {loading && <div>Loading...</div>}
+                                                            {suggestions.map(suggestion => {
+                                                                const className = suggestion.active
+                                                                    ? 'suggestion-item--active'
+                                                                    : 'suggestion-item';
+                                                                // inline style for demonstration purpose
+                                                                const style = suggestion.active
+                                                                    ? { backgroundColor: colors.primary[500], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" } //color when hover
+                                                                    : { backgroundColor: colors.primary[400], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" }; //background color
+                                                                return (
+                                                                    <div
+                                                                        {...getSuggestionItemProps(suggestion, {
+                                                                            className,
+                                                                            style,
+                                                                        })}
+                                                                    >
+                                                                        <span>{suggestion.description}</span>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </PlacesAutocomplete>
+
                                             {/* STORE ADDRESS */}
-                                            <Box display={"flex"} justifyContent={"space-between"} >
+                                            <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面縣市"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.location_address}
-                                                    name="location_address"
-                                                    error={!!touched.location_address && !!errors.location_address}
-                                                    helperText={touched.location_address && errors.location_address}
+                                                    value={city}
+                                                    name="city"
+                                                    error={!!touched.city && !!errors.city}
+                                                    helperText={touched.city && errors.city}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面鄉鎮"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.location_description}
-                                                    name="location_description"
-                                                    error={!!touched.location_description && !!errors.location_description}
-                                                    helperText={touched.location_description && errors.location_description}
+                                                    value={district}
+                                                    name="district"
+                                                    error={!!touched.district && !!errors.district}
+                                                    helperText={touched.district && errors.district}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    disabled={true}
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="店面地址"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={address}
+                                                    name="address"
+                                                    error={!!touched.address && !!errors.address}
+                                                    helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>

@@ -67,14 +67,10 @@ mutation CreateStore($brandId: ID!, $name: String!, $location: CreateStoreLocati
 `
 
 export const UpdateStore = gql`
-mutation UpdateStore($storeId: ID!, $name: String, $intro: String, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
-  updateStore(storeId: $storeId, name: $name, intro: $intro, principal: $principal, statusId: $statusId) {
+mutation UpdateStore($storeId: ID!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
+  updateStore(storeId: $storeId, name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId) {
     id
     name
-    brand {
-      id
-      name
-    }
   }
 }
 `

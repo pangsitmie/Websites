@@ -23,14 +23,14 @@ import axios from 'axios';
 
 const Dashboard = () => {
 
-    const [apiData, setApiData] = useState([])
-    useEffect(() => {
-        axios.get("https://jsonmock.hackerrank.com/api/stocks?date=5-January-2000")
-            .then(response => setApiData(response.data))
-            .catch(error => console.log(error));
-    }, [])
-    console.log("API DATA")
-    console.log(apiData)
+    // const [apiData, setApiData] = useState([])
+    // useEffect(() => {
+    //     axios.get("https://jsonmock.hackerrank.com/api/stocks?date=5-January-2000")
+    //         .then(response => setApiData(response.data))
+    //         .catch(error => console.log(error));
+    // }, [])
+    // console.log("API DATA")
+    // console.log(apiData)
 
     //THEME
     const theme = useTheme();
@@ -101,13 +101,13 @@ const Dashboard = () => {
 
 
             {/* display the data fetched from the api */}
-            <div>
+            {/* <div>
                 <p>Date: {apiData.data[0].date}</p>
                 <p>Open: {apiData.data[0].open}</p>
                 <p>Close: {apiData.data[0].close}</p>
                 <p>High: {apiData.data[0].high}</p>
                 <p>Low: {apiData.data[0].low}</p>
-            </div>
+            </div> */}
         </div>
     )
 }
