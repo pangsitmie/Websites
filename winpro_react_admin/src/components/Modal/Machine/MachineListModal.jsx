@@ -32,17 +32,23 @@ export default function MachineListModal({ props }) {
     var btnTitle = "", confirmTitle = "", cancelTitle = "";
 
     const initialValues = {
-        storeId: "",
-        storeName: "",
-        machineCode: "",
-        machineName: "",
+        UUID: "",
+        name: "",
+        code: "",
+        price: 0,
+        payload: "",
+        desc: "",
     };
 
     btnTitle = "修改";
     confirmTitle = "新增";
     cancelTitle = "取消";
-    initialValues.storeId = props.id;
-    initialValues.storeName = props.name;
+    initialValues.UUID = props.uuid;
+    initialValues.name = props.name;
+    initialValues.code = props.code;
+    initialValues.price = props.price;
+    initialValues.payload = props.payload;
+    initialValues.desc = props.description;
 
 
     const handleFormSubmit = (values) => {
@@ -91,65 +97,60 @@ export default function MachineListModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display={"flex"}>
-                                                <TextField className="modal_input_textfield"
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面id"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.storeId}
-                                                    name="storeId"
-                                                    error={!!touched.storeId && !!errors.storeId}
-                                                    helperText={touched.storeId && errors.storeId}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                                />
-                                                <TextField className="modal_input_textfield"
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面名稱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.storeName}
-                                                    name="storeName"
-                                                    error={!!touched.storeName && !!errors.storeName}
-                                                    helperText={touched.storeName && errors.storeName}
-                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                                />
-                                            </Box>
-                                            <TextField
+
+                                            <TextField className="modal_input_textfield"
                                                 fullWidth
+                                                disabled={true}
                                                 variant="filled"
                                                 type="text"
-                                                label="機台碼"
+                                                label="UUID"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.machineCode}
-                                                name="machineCode"
-                                                error={!!touched.machineCode && !!errors.machineCode}
-                                                helperText={touched.machineCode && errors.machineCode}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                value={values.UUID}
+                                                name="UUID"
+                                                error={!!touched.UUID && !!errors.UUID}
+                                                helperText={touched.UUID && errors.UUID}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                                             />
-                                            <TextField
+                                            <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
                                                 label="機台名稱"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.machineName}
-                                                name="machineName"
-                                                error={!!touched.machineName && !!errors.machineName}
-                                                helperText={touched.machineName && errors.machineName}
+                                                value={values.name}
+                                                name="name"
+                                                error={!!touched.name && !!errors.name}
+                                                helperText={touched.name && errors.name}
+                                                sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="機台號碼"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.code}
+                                                name="code"
+                                                error={!!touched.code && !!errors.code}
+                                                helperText={touched.code && errors.code}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-
-
-
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Payload"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.payload}
+                                                name="payload"
+                                                error={!!touched.payload && !!errors.payload}
+                                                helperText={touched.payload && errors.payload}
+                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
                                             {/* SPENDING */}
                                             <TextField
                                                 fullWidth
@@ -158,18 +159,29 @@ export default function MachineListModal({ props }) {
                                                 label="機台單次花費金額"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.spending}
-                                                name="spending"
-                                                error={!!touched.spending && !!errors.spending}
-                                                helperText={touched.spending && errors.spending}
+                                                value={values.price}
+                                                name="price"
+                                                error={!!touched.price && !!errors.price}
+                                                helperText={touched.price && errors.price}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-
-
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="備註"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.desc}
+                                                name="desc"
+                                                error={!!touched.desc && !!errors.desc}
+                                                helperText={touched.desc && errors.desc}
+                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {confirmTitle}
                                                 </Typography>

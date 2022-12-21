@@ -165,7 +165,7 @@ const BrandManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        品牌列表
+                        品牌清單
                     </Typography>
                 </Box>
                 <Box
@@ -178,13 +178,25 @@ const BrandManagement = () => {
                     maxHeight={"100px"}
 
                 >
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌負責人</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>VAT</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
 
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">ID</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌負責人</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">VAT</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                    </Box>
                 </Box>
                 <Box
                     backgroundColor={colors.primary[400]}

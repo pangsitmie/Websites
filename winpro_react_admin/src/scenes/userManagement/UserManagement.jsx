@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import React, { useEffect, useState, useRef } from 'react'
+import { useQuery, } from '@apollo/client'
 import "./userManagement.css"
 // QUERIES
-import { GetAllMember, GetStoresByCoordinate } from '../../graphQL/Queries'
-import { mockDataUser } from "../../data/mockData";
+import { GetAllMember } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
 
 // ICONS
 import InputBase from "@mui/material/InputBase";
@@ -18,14 +17,12 @@ const UserManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     // STATES
     const [status, setStatus] = useState('');
 
     //REF
     const searchValueRef = useRef('');
-    const phoneValueRef = useRef('');
 
     //FUNCTIONS
     const handleChange = (e) => {
@@ -44,7 +41,9 @@ const UserManagement = () => {
             setInitMember(data.getAllMember);
             setMembers(data.getAllMember);
         }
-
+        else {
+            console.log(error);
+        }
     }, [data]);
 
     const submitSearch = () => {
@@ -56,7 +55,6 @@ const UserManagement = () => {
             let search = memberArraySearch(members, searchValue);
             setMembers(search)
         }
-
         else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
             setMembers(initMember)
         }
@@ -134,7 +132,7 @@ const UserManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        使用者名稱
+                        使用者清單
                     </Typography>
                 </Box>
                 <Box
@@ -145,11 +143,21 @@ const UserManagement = () => {
                     colors={colors.grey[100]}
                     p="15px 25px 15px 15px"
                 >
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>暱稱</Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>手機</Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">ID</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">暱稱</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">手機</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                    </Box>
                 </Box>
 
                 {members.map((member, i) => (

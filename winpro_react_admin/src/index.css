@@ -62,3 +62,13 @@ body,
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+a,
+a:link,
+a:visited,
+a:focus,
+a:hover,
+a:active {
+  text-decoration: none;
+  cursor: pointer;
+}

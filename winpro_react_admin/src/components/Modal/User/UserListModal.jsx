@@ -4,9 +4,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ".././modal.css";
-import IMG from "../../../assets/user.png";
 import { tokens } from "../../../theme";
-import { mockDataUser } from "../../../data/mockData";
 import { BanMember, UnbanMember } from "../../../graphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
 

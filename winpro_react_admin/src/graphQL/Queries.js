@@ -80,7 +80,7 @@ query GetStoresByCoordinate($coordinate: CoordinateInput!) {
   }
 }
 `
-
+// Brand
 export const GetAllBrands = gql`
 query GetAllBrands {
   getAllBrands {
@@ -116,10 +116,34 @@ query GetAllBrands {
   }
 }
 `
-
+// Store
 export const GetAllStores = gql`
 query GetAllStores {
   getAllStores {
+    id
+    name
+    brand {
+      id
+      name
+    }
+    status {
+      id
+      description
+      name
+    }
+    location {
+      city
+      district
+      address
+      storeId
+    }
+  }
+}
+`
+
+export const GetStore = gql`
+query GetStore($args: [Args!]!) {
+  getStore(args: $args) {
     id
     name
     cover
@@ -134,20 +158,39 @@ query GetAllStores {
       name
     }
     location {
-      address
-      district
       city
-      storeId
+      district
+      address
+      description
     }
     principal {
-      id
       name
       lineUrl
       email
     }
+    machines {
+      uuid
+      code
+      price
+      name
+      description
+    }
   }
 }
 `
+
+export const CreateMachineFromGetStores = gql`
+query GetStore($args: [Args!]!, $storeId: ID!, $code: String!, $price: Int, $name: String, $description: String) {
+  getStore(args: $args) {
+    createMachine(storeId: $storeId, code: $code, price: $price, name: $name, description: $description) {
+      uuid
+      code
+    }
+  }
+}
+`
+
+
 export const GetAccessToken = gql`
 query getAccessToken($refreshToken: String!) {
   getAccessToken(refreshToken: $refreshToken)

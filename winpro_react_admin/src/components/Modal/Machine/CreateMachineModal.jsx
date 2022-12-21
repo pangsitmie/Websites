@@ -1,27 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import ".././modal.css";
 import { tokens } from "../../../theme";
-import { mockMachineData } from "../../../data/mockData";
+import { useLazyQuery } from "@apollo/client";
+import { CreateMachineFromGetStores } from "../../../graphQL/Queries";
 
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
-    machineCode: yup.string().required("required"),
-    uuid: yup.string().required("required"),
-    reason: yup.string().required("required"),
-    brandInfo_id: yup.string().required("required"),
-    brandInfo_name: yup.string().required("required"),
-    storeInfo_id: yup.string().required("required"),
-    storeInfo_name: yup.string().required("required"),
-    nfcid: yup.string().required("required"),
-    qrcode: yup.string().required("required"),
-    name: yup.string().required("required"),
-    spending: yup.string().required("required"),
-    remarks: yup.string().required("required"),
+    // storeId: yup.string().required("店面id必填"),
+    name: yup.string().required("機台名稱必填"),
+    code: yup.string().required("機台碼必填"),
+    price: yup.string().required("機台單次花費金額必填"),
+    description: yup.string().required("備註必填"),
 });
 
 
@@ -30,25 +23,52 @@ export default function CreateMachineModal({ props }) {
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
 
-    var btnTitle = "", confirmTitle = "", cancelTitle = "";
+    var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
 
     const initialValues = {
         storeId: "",
         storeName: "",
-        machineCode: "",
-        machineName: "",
+        name: "",
+        code: "",
+        price: "",
+        description: ""
     };
 
-    btnTitle = "修改";
-    confirmTitle = "新增";
-    cancelTitle = "取消";
     initialValues.storeId = props.id;
     initialValues.storeName = props.name;
 
 
+
+    // GQL
+    const [ApolloCreateMachineFromGetStores, { loading, error, data }] = useLazyQuery(CreateMachineFromGetStores);
+    useEffect(() => {
+        if (data) {
+            console.log(data.getStore);
+            window.location.reload();
+        }
+        else {
+            console.log("NO DATA")
+        }
+    }, [data]);
+
     const handleFormSubmit = (values) => {
         console.log("FORM SUBMIT");
         console.log(values);
+        //FIXME: put ApolloCreateMachineFromGetAllStores here!
+        ApolloCreateMachineFromGetStores({
+            variables: {
+                args: [
+                    {
+                        id: props.id
+                    }
+                ],
+                storeId: props.id,
+                name: values.name,
+                code: values.code,
+                price: parseInt(values.price),
+                description: values.description,
+            }
+        });
     };
 
     const toggleModal = () => {
@@ -126,51 +146,58 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台碼"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.machineCode}
-                                                name="machineCode"
-                                                error={!!touched.machineCode && !!errors.machineCode}
-                                                helperText={touched.machineCode && errors.machineCode}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
                                                 label="機台名稱"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.machineName}
-                                                name="machineName"
-                                                error={!!touched.machineName && !!errors.machineName}
-                                                helperText={touched.machineName && errors.machineName}
+                                                value={values.name}
+                                                name="name"
+                                                error={!!touched.name && !!errors.name}
+                                                helperText={touched.name && errors.name}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-
-
-
-                                            {/* SPENDING */}
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台單次花費金額"
+                                                label="機台號碼"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.spending}
-                                                name="spending"
-                                                error={!!touched.spending && !!errors.spending}
-                                                helperText={touched.spending && errors.spending}
+                                                value={values.code}
+                                                name="code"
+                                                error={!!touched.code && !!errors.code}
+                                                helperText={touched.code && errors.code}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-
-
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="價格"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.price}
+                                                name="price"
+                                                error={!!touched.price && !!errors.price}
+                                                helperText={touched.price && errors.price}
+                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="備註"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.description}
+                                                name="description"
+                                                error={!!touched.description && !!errors.description}
+                                                helperText={touched.description && errors.description}
+                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {confirmTitle}
                                                 </Typography>

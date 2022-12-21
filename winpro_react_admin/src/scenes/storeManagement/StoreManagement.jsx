@@ -169,7 +169,7 @@ const StoreManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <CreateStoreModal type="new" />
+                    <CreateStoreModal />
                 </Box>
             </Box>
 
@@ -190,7 +190,7 @@ const StoreManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        店面名稱
+                        店面清單
                     </Typography>
                 </Box>
                 <Box
@@ -202,12 +202,24 @@ const StoreManagement = () => {
                     p="10px"
                 >
 
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面名稱</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名稱</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面地址</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>幾臺資料</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">店面名稱</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">店面地址</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">幾臺資料</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                    </Box>
                 </Box>
                 <Box
 

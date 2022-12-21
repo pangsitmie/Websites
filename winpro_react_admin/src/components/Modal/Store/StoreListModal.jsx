@@ -5,8 +5,9 @@ import * as yup from "yup";
 import ".././modal.css";
 import { tokens } from "../../../theme";
 import { format } from 'date-fns';
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { BannedStore, RemoveStore, UpdateStore } from "../../../graphQL/Mutations";
+import { GetStore } from "../../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
@@ -43,6 +44,9 @@ export default function StoreListModal({ props }) {
             lng: 120,
         }
     });
+
+
+
     const [storeStatus, setStorestatus] = React.useState(props.status.name);
     const handleStatusChange = (event) => {
         setStorestatus(event.target.value);
@@ -50,8 +54,7 @@ export default function StoreListModal({ props }) {
     const [inputAddress, setInputAddress] = useState("");
     var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", blockTitle = "封鎖";
 
-
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState({
         id: -1,
         brandId: -1,
         brandName: "",
@@ -70,25 +73,11 @@ export default function StoreListModal({ props }) {
         principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
-    };
+    });
 
 
-    initialValues.id = props.id;
-    initialValues.status = props.status.name;
-    // initialValues.reason = props.status.description;
-    initialValues.brandId = props.brand.id;
-    initialValues.brandName = props.brand.name;
-    initialValues.name = props.name;
-    initialValues.intro = props.intro;
-    initialValues.cover = "https://img.icons8.com/fluency/48/null/test-account.png";
-    initialValues.city = props.location.city;
-    initialValues.district = props.location.district;
-    initialValues.address = props.location.address;
 
-    initialValues.principalName = props.principal.name;
-    initialValues.principalPassword = "";
-    initialValues.principalLineUrl = props.principal.lineUrl;
-    initialValues.principalEmail = props.principal.email;
+
 
     // =================================================================================
     // REMOVE STORE MUTATION
@@ -128,7 +117,42 @@ export default function StoreListModal({ props }) {
         }
     }, [data2]);
 
-
+    const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
+        , {
+            variables: {
+                args: [
+                    {
+                        id: props.id
+                    }
+                ],
+            }
+        }
+    );
+    useEffect(() => {
+        if (data3) {
+            // SET THE initial value using data3
+            setInitialValues({
+                id: props.id,
+                status: props.status.name,
+                name: data3.getStore[0].name,
+                intro: data3.getStore[0].intro,
+                cover: "https://img.icons8.com/fluency/48/null/test-account.png",
+                brandId: data3.getStore[0].brand.id,
+                brandName: data3.getStore[0].brand.name,
+                city: data3.getStore[0].location.city,
+                district: data3.getStore[0].location.district,
+                address: data3.getStore[0].location.address,
+                principalName: data3.getStore[0].principal.name,
+                principalAccount: data3.getStore[0].principal.account,
+                principalPassword: data3.getStore[0].principal.password,
+                principalLineUrl: data3.getStore[0].principal.lineUrl,
+                principalEmail: data3.getStore[0].principal.email,
+            });
+        }
+        else {
+            console.log("No data update")
+        }
+    }, []);
 
     const handleFormSubmit = (values) => {
         //FIXME: CALL GQL API TO UPDATE THE DATA
@@ -540,17 +564,17 @@ export default function StoreListModal({ props }) {
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px", border: "2px solid #ff2f00" }}>
+                                            <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", border: "2px solid #ff2f00" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {deleteTitle}
                                                 </Typography>
                                             </Button>
-                                            <Button onClick={handleBan} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px", border: "2px solid #fff" }}>
+                                            <Button onClick={handleBan} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", border: "2px solid #fff" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {blockTitle}
                                                 </Typography>
                                             </Button>
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {confirmTitle}
                                                 </Typography>

@@ -63,7 +63,7 @@ const MachineManagement = () => {
     return (
         <Box p={2}>
             <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
-            <h2 >{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</h2>
+            <Typography variant="h4" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
             {/* SEARCH DIV */}
             <Box display="flex" marginBottom={5}>
                 {/* name Search */}
@@ -81,6 +81,7 @@ const MachineManagement = () => {
                         backgroundColor: colors.blueAccent[400],
                         color: colors.grey[100],
                         minWidth: "150px",
+                        height: "50px",
                         borderRadius: "10px",
                         marginLeft: "20px",
                         padding: "0px"
@@ -107,6 +108,7 @@ const MachineManagement = () => {
             <Box className="recent_transaction_container"
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
+                height={"40vh"}
             >
                 <Box
                     display="flex"
@@ -117,7 +119,7 @@ const MachineManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        機台名稱
+                        機台清單
                     </Typography>
                 </Box>
                 <Box
@@ -125,44 +127,78 @@ const MachineManagement = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
+                    background={colors.grey[300]}
                     p="10px"
+                    maxHeight={"100px"}
                 >
 
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>ID</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>機台名稱</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>狀態</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>品牌名稱</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>店面地址</Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>更新資料</Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">UUID</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機台名稱</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機台號碼</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">價格</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                    </Box>
                 </Box>
 
-                {mockMachineData.map((machine, i) => (
-                    <Box
-                        key={`${machine.id}-${i}`}
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid ${colors.primary[500]}`}
-                        p="10px"
-                    >
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.id}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.status}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.brandInfo.name}</Box>
-                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>{machine.storeInfo.name}</Box>
+                <Box
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"100%"}
+                    overflow={"auto"}
+                >
+                    {state.data.machines.map((machine, i) => (
                         <Box
-                            width={"15%"}
-                            display={"flex"}
-                            alignItems={"center"} justifyContent={"center"}
-                            borderRadius="4px">
-                            <MachineListModal props={machine} />
+                            key={`${machine.id}-${i}`}
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            p="10px"
+                        >
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{machine.uuid}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.code}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{currencyFormatter(machine.price)}</Box>
+                            <Box
+                                width={"20%"}
+                                display={"flex"}
+                                alignItems={"center"} justifyContent={"center"}
+                                borderRadius="4px">
+                                <MachineListModal props={machine} />
+                            </Box>
                         </Box>
-                    </Box>
-                ))}
+                    ))}
+                </Box>
             </Box>
         </Box >
     )
+}
+const defaultOptions = {
+    significantDigits: 2,
+    thousandsSeparator: ',',
+    decimalSeparator: '.',
+    symbol: 'NT'
+}
+
+const currencyFormatter = (value, options) => {
+    if (typeof value !== 'number') value = 0.0
+    options = { ...defaultOptions, ...options }
+    value = value.toFixed(options.significantDigits)
+
+    const [currency, decimal] = value.split('.')
+    return `${options.symbol} ${currency.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        options.thousandsSeparator
+    )}${options.decimalSeparator}${decimal}`
 }
 
 export default MachineManagement
