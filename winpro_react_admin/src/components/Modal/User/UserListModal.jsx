@@ -77,19 +77,20 @@ export default function UserListModal({ props }) {
     console.log("FORM SUBMIT");
   };
 
-  const handleBlock = (e) => {
-    const targetId = e.target.id;
-    console.log(targetId);
+  const handleBlock = () => {
+    //FIXME: Handle ban/block must be put in confirm Modal
     var result = window.confirm("Are you sure you want to block this user?");
     if (result) {
       ApolloBanUser({
         variables: {
-          reason: "null",
           params: [
             {
-              id: targetId
+              id: props.id,
+              phone: props.phone.number
             }
-          ]
+          ],
+          reason: "null",
+          "expireAt": null
         }
       })
     } else {
@@ -97,18 +98,23 @@ export default function UserListModal({ props }) {
     }
   };
   const handleUnblock = (e) => {
+    //FIXME: Handle unban must have 1 textfiled for reason
     const targetId = e.target.id;
     console.log(targetId);
     var result = window.confirm("Are you sure you want to Unblock this user?");
     if (result) {
       ApolloUnbanUser({
         variables: {
-          reason: "null",
           params: [
             {
-              id: targetId
+              id: props.id,
+              phone: {
+                country: "tw",
+                number: props.phone.number
+              }
             }
-          ]
+          ],
+          reason: "null"
         }
       })
     } else {
@@ -270,14 +276,14 @@ export default function UserListModal({ props }) {
 
 
                     </Box>
-                    <Box display="flex" justifyContent="center" >
-                      <Button onClick={handleBlock} id={values.id} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
+                    <Box display="flex" justifyContent="center" padding="1rem 0" >
+                      <Button onClick={handleBlock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           Block
                         </Typography>
                       </Button>
-                      <Button onClick={handleUnblock} id={values.id} color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".5rem", margin: ".5rem", borderRadius: "6px" }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                      <Button onClick={handleUnblock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                           Unblock
                         </Typography>
                       </Button>

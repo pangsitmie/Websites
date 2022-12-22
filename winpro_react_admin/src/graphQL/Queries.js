@@ -26,13 +26,9 @@ query GetAllMember {
 }
 `
 export const BanMember = gql`
-query GetMember($params: [MemberArgs!]!, $reason: String!) {
+query GetMember($params: [MemberArgs!]!, $reason: String!, $expireAt: Int) {
   getMember(params: $params) {
-    id
-    status {
-      name
-    }
-    ban(reason: $reason)
+    ban(reason: $reason, expireAt: $expireAt)
   }
 }
 `
@@ -40,10 +36,6 @@ query GetMember($params: [MemberArgs!]!, $reason: String!) {
 export const UnbanMember = gql`
 query GetMember($params: [MemberArgs!]!, $reason: String!) {
   getMember(params: $params) {
-    id
-    status {
-      name
-    }
     unban(reason: $reason)
   }
 }
