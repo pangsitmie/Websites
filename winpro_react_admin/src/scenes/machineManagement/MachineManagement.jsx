@@ -14,14 +14,15 @@ import { color } from '@mui/system';
 import { citiesData } from "../../data/mockData";
 import CreateMachineModal from '../../components/Modal/Machine/CreateMachineModal';
 import MachineListModal from '../../components/Modal/Machine/MachineListModal';
+import { GetStore } from '../../graphQL/Queries';
 
 
 const MachineManagement = () => {
     const location = useLocation();
     const state = location.state;
     console.log(state); // output: "the-page-id"
-    console.log(state.data.id); // output: "the-page-id"
-    console.log(state.data.name); // output: "the-page-id"
+    console.log("STATE" + state.data.id); // output: "the-page-id"
+    console.log("STATE" + state.data.name); // output: "the-page-id"
 
     //THEME
     const theme = useTheme();
@@ -31,12 +32,32 @@ const MachineManagement = () => {
     // STATES
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
-
-
+    const [machineData, setMachineData] = useState([]);
 
     //REF
     const brandRef = useRef('');
     const searchRef = useRef('');
+
+    const { loading, error, data } = useQuery(GetStore
+        , {
+            variables: {
+                args: [
+                    {
+                        id: state.data.id
+                    }
+                ],
+            }
+        }
+    );
+    useEffect(() => {
+        if (data) {
+            console.log("asdfasdf" + data.getStore[0].machines);
+            setMachineData(data.getStore[0].machines);
+        }
+        else {
+            console.log("no data");
+        }
+    }, [data]);
 
 
     //FUNCTIONS
@@ -142,7 +163,7 @@ const MachineManagement = () => {
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機台號碼</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">價格</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">連接狀態</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
@@ -155,7 +176,7 @@ const MachineManagement = () => {
                     height={"100%"}
                     overflow={"auto"}
                 >
-                    {state.data.machines.map((machine, i) => (
+                    {machineData.map((machine, i) => (
                         <Box
                             key={`${machine.id}-${i}`}
                             display="flex"
@@ -167,7 +188,25 @@ const MachineManagement = () => {
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{machine.uuid}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.name}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.code}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{currencyFormatter(machine.price)}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {(() => {
+                                    if (machine.connStatus === true) {
+                                        return (
+                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                連線中
+                                            </Typography>
+                                        )
+                                    }
+                                    else {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                已斷線
+                                            </Typography>
+                                        )
+                                    }
+                                })()}
+                            </Box>
+                            {/* <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{currencyFormatter(machine.price)}</Box> */}
                             <Box
                                 width={"20%"}
                                 display={"flex"}

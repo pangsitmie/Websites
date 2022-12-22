@@ -49,51 +49,14 @@ query GetMember($params: [MemberArgs!]!, $reason: String!) {
 }
 `
 
-export const GetStoresByCoordinate = gql`
-query GetStoresByCoordinate($coordinate: CoordinateInput!) {
-  getStoresByCoordinate(coordinate: $coordinate) {
-    id
-    name
-    brand {
-      id
-      name
-    }
-    createdAt
-    cover
-    intro
-    location {
-      address
-      description
-    }
-    status {
-      id
-      description
-      name
-    }
-    principal {
-      id
-      name
-      lineUrl
-      email
-      createdAt
-    }
-  }
-}
-`
-// Brand
+// ========================= Brand =========================
 export const GetAllBrands = gql`
 query GetAllBrands {
   getAllBrands {
     id
     name
     vatNumber
-    cover
-    intro
-    logo
-    createdAt
     status {
-      id
-      description
       name
     }
     principal {
@@ -101,9 +64,6 @@ query GetAllBrands {
       name
       lineUrl
       email
-    }
-    currency {
-      name
     }
   }
 }
@@ -116,7 +76,58 @@ query GetAllBrands {
   }
 }
 `
-// Store
+
+export const GetBrand = gql`
+query GetBrand($args: [BrandArgs!]!) {
+  getBrand(args: $args) {
+    id
+    name
+    vatNumber
+    status {
+      name
+    }
+    currency {
+      name
+    }
+    cover
+    intro
+    logo
+    principal {
+      id
+      name
+      lineUrl
+      email
+      createdAt
+    }
+  }
+}
+`
+export const UpdateBrand = gql`
+query GetBrand($args: [BrandArgs!]!, $name: String, $vatNumber: String, $intro: String, $currencyName: String, $principal: UpdateBrandPrincipalArgs, $statusId: EUpdateBrandStatus) {
+  getBrand(args: $args) {
+    updateBrand(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId) {
+      id
+      name
+    }
+  }
+}
+`
+export const BanBrand = gql`
+query GetBrand($args: [BrandArgs!]!, $expireAt: Int, $reason: String!) {
+  getBrand(args: $args) {
+    banBrand(expireAt: $expireAt, reason: $reason)
+  }
+}
+`
+export const RemoveBrand = gql`
+query GetBrand($args: [BrandArgs!]!) {
+  getBrand(args: $args) {
+    removeBrand
+  }
+}
+`
+
+//========================= STORES =========================
 export const GetAllStores = gql`
 query GetAllStores {
   getAllStores {
@@ -178,11 +189,45 @@ query GetStore($args: [Args!]!) {
   }
 }
 `
+export const CreateStore = gql`
+query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String) {
+  getBrand(args: $args) {
+    createStore(name: $name, location: $location, principal: $principal, intro: $intro) {
+      id
+      name
+    }
+  }
+}
+`
 
-export const CreateMachineFromGetStores = gql`
-query GetStore($args: [Args!]!, $storeId: ID!, $code: String!, $price: Int, $name: String, $description: String) {
+export const UpdateStore = gql`
+query GetStore($args: [Args!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
   getStore(args: $args) {
-    createMachine(storeId: $storeId, code: $code, price: $price, name: $name, description: $description) {
+    updateStore(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId) {
+      id
+      name
+    }
+  }
+}
+`
+export const BanStore = gql`
+query GetStore($args: [Args!]!, $reason: String!, $expireAt: Int) {
+  getStore(args: $args) {
+    banStore(reason: $reason, expireAt: $expireAt)
+  }
+}
+`
+export const RemoveStore = gql`
+query GetStore($args: [Args!]!) {
+  getStore(args: $args) {
+    removeStore
+  }
+}
+`
+export const CreateMachineFromGetStores = gql`
+query GetStore($args: [Args!]!, $code: String!, $price: Int, $name: String, $description: String) {
+  getStore(args: $args) {
+    createMachine(code: $code, price: $price, name: $name, description: $description) {
       uuid
       code
     }

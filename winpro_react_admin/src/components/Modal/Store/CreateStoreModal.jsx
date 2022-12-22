@@ -4,8 +4,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import ".././modal.css";
 import { tokens } from "../../../theme";
-import { useMutation, useQuery } from "@apollo/client";
-import { CreateStore } from "../../../graphQL/Mutations";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { CreateStore } from "../../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
@@ -87,8 +87,8 @@ export default function CreateStoreModal() {
         });
     };
 
-    //create store mutation
-    const [ApolloCreateStore, { loading, error, data }] = useMutation(CreateStore);
+    //create store
+    const [ApolloCreateStore, { loading, error, data }] = useLazyQuery(CreateStore);
     useEffect(() => {
         if (data) {
             console.log(data);
@@ -106,7 +106,12 @@ export default function CreateStoreModal() {
         console.log("city" + city + ", district" + district + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
         ApolloCreateStore({
             variables: {
-                brandId: brandId,
+                args: [
+                    {
+                        id: brandId
+                    }
+                ],
+                // brandId: brandId,
                 name: values.name,
                 intro: values.intro,
                 location: {
@@ -117,7 +122,7 @@ export default function CreateStoreModal() {
                         latitude: coordinates.lat,
                         longitude: coordinates.lng
                     },
-                    description: null
+                    description: "null"
                 },
                 principal: {
                     name: values.principalName,

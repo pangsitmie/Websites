@@ -189,19 +189,34 @@ export default function CreateBrandModal() {
                         helperText={touched.principalName && errors.principalName}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
-                      <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="負責人密碼"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.principalPassword}
-                        name="principalPassword"
-                        error={!!touched.principalPassword && !!errors.principalPassword}
-                        helperText={touched.principalPassword && errors.principalPassword}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                      />
+                      <Box display={"flex"} justifyContent={"space-between"} >
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="負責人密碼"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.principalPassword}
+                          name="principalPassword"
+                          error={!!touched.principalPassword && !!errors.principalPassword}
+                          helperText={touched.principalPassword && errors.principalPassword}
+                          sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="負責人電話"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.principalPhone}
+                          name="principalPhone"
+                          error={!!touched.principalPhone && !!errors.principalPhone}
+                          helperText={touched.principalPhone && errors.principalPhone}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                      </Box>
 
                       <Box display={"flex"} justifyContent={"space-between"} >
                         <TextField
@@ -228,22 +243,10 @@ export default function CreateBrandModal() {
                           name="principalEmail"
                           error={!!touched.principalEmail && !!errors.principalEmail}
                           helperText={touched.principalEmail && errors.principalEmail}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                        />
-
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="負責人電話"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.principalPhone}
-                          name="principalPhone"
-                          error={!!touched.principalPhone && !!errors.principalPhone}
-                          helperText={touched.principalPhone && errors.principalPhone}
                           sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
+
+
                       </Box>
                       <TextField
                         fullWidth

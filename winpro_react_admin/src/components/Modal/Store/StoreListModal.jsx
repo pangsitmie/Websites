@@ -5,14 +5,14 @@ import * as yup from "yup";
 import ".././modal.css";
 import { tokens } from "../../../theme";
 import { format } from 'date-fns';
-import { useQuery, useMutation } from "@apollo/client";
-import { BannedStore, RemoveStore, UpdateStore } from "../../../graphQL/Mutations";
-import { GetStore } from "../../../graphQL/Queries";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { GetStore, UpdateStore, RemoveStore } from "../../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
+import ConfirmModal from "../ConfirmModal";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -61,7 +61,7 @@ export default function StoreListModal({ props }) {
         name: "",
         intro: "",
         cover: "https://img.icons8.com/fluency/48/null/test-account.png",
-
+        logo: "https://img.icons8.com/fluency/48/null/test-account.png",
         //locations get from location state
         status: "",
 
@@ -81,42 +81,31 @@ export default function StoreListModal({ props }) {
 
     // =================================================================================
     // REMOVE STORE MUTATION
-    const [ApolloRemoveStore, { loading, error, data }] = useMutation(RemoveStore);
+    const [ApolloRemoveStore, { loading, error, data }] = useLazyQuery(RemoveStore);
     useEffect(() => {
         if (data) {
-            console.log(data.removeStore);
+            console.log("REMOVE SUCCESS");
             window.location.reload();
         }
         else {
-            console.log("NO DATA")
+            console.log("NO REMOVE STORE DATA")
         }
     }, [data]);
 
-    // BAN STORE MUTATION
-    const [ApolloBannedStore, { loading: loading1, error: error1, data: data1 }] = useMutation(BannedStore);
-    useEffect(() => {
-        if (data1) {
-            console.log(data1);
-            window.location.reload();
-        }
-        else {
-            console.log("NO DATA")
-        }
-    }, [data1]);
 
     //UPDATE STORE MUTATION
-    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useMutation(UpdateStore);
+    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateStore);
     useEffect(() => {
         if (data2) {
-            console.log(data2.updateStore.id);
             window.location.reload();
             console.log("UPDATE SUCCESS")
         }
         else {
-            console.log("No data update")
+            console.log("NO UPDATE STORE DATA")
         }
     }, [data2]);
 
+    // INITIAL VALUES FROM GET STORE QUERY
     const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
         , {
             variables: {
@@ -150,19 +139,19 @@ export default function StoreListModal({ props }) {
             });
         }
         else {
-            console.log("No data update")
+            console.log("NO GET STORE DETAILS DATA")
         }
-    }, []);
+    }, [data3]);
 
     const handleFormSubmit = (values) => {
-        //FIXME: CALL GQL API TO UPDATE THE DATA
-        console.log("FORM SUBMIT");
-        console.log(values);
-
         if (values.principalPassword === "") { //if password is empty, do not update password
             ApolloUpdateStore({
                 variables: {
-                    storeId: values.id,
+                    args: [
+                        {
+                            id: values.id
+                        }
+                    ],
                     name: values.name,
                     intro: values.intro,
                     location: {
@@ -173,7 +162,7 @@ export default function StoreListModal({ props }) {
                             latitude: coordinates.lat,
                             longitude: coordinates.lng
                         },
-                        description: null
+                        description: "some desc"
                     },
                     principal: {
                         name: values.principalName,
@@ -187,7 +176,11 @@ export default function StoreListModal({ props }) {
         else {
             ApolloUpdateStore({
                 variables: {
-                    storeId: values.id,
+                    args: [
+                        {
+                            id: values.id
+                        }
+                    ],
                     name: values.name,
                     intro: values.intro,
                     location: {
@@ -198,7 +191,7 @@ export default function StoreListModal({ props }) {
                             latitude: coordinates.lat,
                             longitude: coordinates.lng
                         },
-                        description: null
+                        description: "some desc"
                     },
                     principal: {
                         name: values.principalName,
@@ -214,7 +207,6 @@ export default function StoreListModal({ props }) {
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
-        console.log(results);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
         const city = results[0].address_components[4].long_name;
@@ -227,19 +219,18 @@ export default function StoreListModal({ props }) {
             district: district,
             coordinates: latLng
         });
-        console.log("Coordinate:" + coordinates.lat + "," + coordinates.lng);
-        //this.props.onAddressSelected();
     };
 
-    const handleDelete = (e) => {
-        const targetId = e.target.id;
-        console.log(targetId);
-        var result = window.confirm("Are you sure you want to delete this brand?");
+    const handleDelete = () => {
+        var result = window.confirm("Are you sure you want to delete this store?");
         if (result) {
             ApolloRemoveStore({
                 variables: {
-                    storeId: e.target.id,
-                    statusId: "removed"
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
                 }
             })
             console.log("deleted");
@@ -247,24 +238,6 @@ export default function StoreListModal({ props }) {
             console.log("not deleted");
         }
     };
-
-    const handleBan = (e) => {
-        const targetId = e.target.id;
-        console.log("Ban id:?" + targetId);
-        var result = window.confirm("Are you sure you want to ban this brand?");
-        if (result) {
-            ApolloBannedStore({
-                variables: {
-                    storeId: targetId,
-                    statusId: "banned"
-                }
-            })
-            console.log("banned");
-        } else {
-            console.log("not banned");
-        }
-    };
-
 
     const toggleModal = () => {
         setModal(!modal);
@@ -278,7 +251,6 @@ export default function StoreListModal({ props }) {
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
-
             <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
@@ -542,7 +514,7 @@ export default function StoreListModal({ props }) {
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}
-                                                    name="principal_lineUrl"
+                                                    name="principalLineUrl"
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
@@ -564,18 +536,16 @@ export default function StoreListModal({ props }) {
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", border: "2px solid #ff2f00" }}>
+                                            <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {deleteTitle}
                                                 </Typography>
                                             </Button>
-                                            <Button onClick={handleBan} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", border: "2px solid #fff" }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                    {blockTitle}
-                                                </Typography>
-                                            </Button>
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+
+                                            <ConfirmModal props={{ type: "store", id: props.id }} />
+
+                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                                                     {confirmTitle}
                                                 </Typography>
                                             </Button>

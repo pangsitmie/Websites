@@ -232,6 +232,12 @@ const BrandManagement = () => {
                                                 封鎖
                                             </Typography>)
                                     }
+                                    else if (brand.status.name === "removed") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                移除
+                                            </Typography>)
+                                    }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
@@ -241,7 +247,9 @@ const BrandManagement = () => {
                                 })()}
                             </Box>
 
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><BrandListModal props={brand} /></Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                <BrandListModal props={brand} />
+                            </Box>
                         </Box>
                     ))}
                 </Box>

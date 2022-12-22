@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 // import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useMutation } from '@apollo/client'
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import { format } from 'date-fns';
 import ".././modal.css";
 import IMG from "../../../assets/user.png";
 import { tokens } from "../../../theme";
-import { BannedBrand, RemoveBrand, UpdateBrand } from "../../../graphQL/Mutations";
+import { GetBrand, UpdateBrand, RemoveBrand } from "../../../graphQL/Queries";
+import ConfirmModal from "../ConfirmModal";
 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -31,14 +32,14 @@ export default function BrandListModal({ props }) {
   const [modal, setModal] = useState(false); //open or close modal
 
   //REF
-  const [brandStatus, setBrandStatus] = React.useState('');
+  const [brandStatus, setBrandStatus] = useState('');
   const handleStatusChange = (event) => {
     setBrandStatus(event.target.value);
   };
 
   var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", blockTitle = "封鎖";
 
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     id: -1,
     status: "",
     statusDesc: "",
@@ -50,24 +51,12 @@ export default function BrandListModal({ props }) {
     principalEmail: "",
     vatNumber: "",
     brandCoinName: "",
-  };
-
-  initialValues.id = props.id;
-  initialValues.status = props.status.name;
-  initialValues.statusDesc = props.status.description;
-  initialValues.name = props.name;
-  initialValues.intro = props.intro;
-  initialValues.principalName = props.principal.name;
-  initialValues.principalLineUrl = props.principal.lineUrl;
-  initialValues.principalEmail = props.principal.email;
-  initialValues.vatNumber = props.vatNumber;
-  initialValues.brandCoinName = props.currency.name;
-
+  });
 
   // =================================================================================
 
   // REMOVE BRAND MUTATION
-  const [ApolloRemoveBrand, { loading, error, data }] = useMutation(RemoveBrand);
+  const [ApolloRemoveBrand, { loading, error, data }] = useLazyQuery(RemoveBrand);
   useEffect(() => {
     if (data) {
       console.log(data.removeBrand);
@@ -78,23 +67,12 @@ export default function BrandListModal({ props }) {
     }
   }, [data]);
 
-  // BAN BRAND MUTATION
-  const [ApolloBannedBrand, { loading: loading1, error: error1, data: data1 }] = useMutation(BannedBrand);
-  useEffect(() => {
-    if (data1) {
-      console.log(data1);
-      window.location.reload();
-    }
-    else {
-      console.log("NO DATA")
-    }
-  }, [data1]);
+
 
   //UPDATE BRAND MUTATION
-  const [ApolloUpdateBrand, { loading: loading2, error: error2, data: data2 }] = useMutation(UpdateBrand);
+  const [ApolloUpdateBrand, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateBrand);
   useEffect(() => {
     if (data2) {
-      console.log(data2.updateBrand.id);
       window.location.reload();
       console.log("UPDATE SUCCESS")
     }
@@ -102,6 +80,41 @@ export default function BrandListModal({ props }) {
       console.log("No data update")
     }
   }, [data2]);
+
+  // INITIAL VALUES FROM GET BRAND QUERY
+  const { loading: loading3, error: error3, data: data3 } = useQuery(GetBrand
+    , {
+      variables: {
+        args: [
+          {
+            id: props.id
+          }
+        ],
+      }
+    }
+  );
+  useEffect(() => {
+    if (data3) {
+      console.log(data3.getBrand[0]);
+      setInitialValues({
+        id: props.id,
+        status: data3.getBrand[0].status.name,
+        name: data3.getBrand[0].name,
+        vatNumber: data3.getBrand[0].vatNumber,
+        intro: data3.getBrand[0].intro,
+
+        principalName: data3.getBrand[0].principal.name,
+        principalLineUrl: data3.getBrand[0].principal.lineUrl,
+        principalEmail: data3.getBrand[0].principal.email,
+        //password doesnt have initial value
+        brandCoinName: data3.getBrand[0].currency.name,
+      });
+      setBrandStatus(data3.getBrand[0].status.name)
+    }
+    else {
+      console.log("NO DATA ROM GET BRAND")
+    }
+  }, [data3]);
 
   // =================================================================================
   const handleFormSubmit = (values) => {
@@ -111,7 +124,11 @@ export default function BrandListModal({ props }) {
     if (values.principalPassword === "") { //if password is empty, do not update password
       ApolloUpdateBrand({
         variables: {
-          brandId: values.id,
+          args: [
+            {
+              id: values.id
+            }
+          ],
           name: values.name,
           vatNumber: values.vatNumber,
           intro: values.intro,
@@ -128,7 +145,11 @@ export default function BrandListModal({ props }) {
     else {
       ApolloUpdateBrand({
         variables: {
-          brandId: values.id,
+          args: [
+            {
+              id: values.id
+            }
+          ],
           name: values.name,
           vatNumber: values.vatNumber,
           intro: values.intro,
@@ -143,40 +164,23 @@ export default function BrandListModal({ props }) {
         }
       });
     }
-
   };
 
   const handleDelete = (e) => {
-    const targetId = e.target.id;
-    console.log(targetId);
     var result = window.confirm("Are you sure you want to delete this brand?");
     if (result) {
       ApolloRemoveBrand({
         variables: {
-          brandId: targetId,
-          statusId: "removed"
+          args: [
+            {
+              id: props.id
+            }
+          ]
         }
       })
       console.log("deleted");
     } else {
       console.log("not deleted");
-    }
-  };
-
-  const handleBan = (e) => {
-    const targetId = e.target.id;
-    console.log(targetId);
-    var result = window.confirm("Are you sure you want to ban this brand?");
-    if (result) {
-      ApolloBannedBrand({
-        variables: {
-          brandId: targetId,
-          statusId: "banned"
-        }
-      })
-      console.log("banned");
-    } else {
-      console.log("not banned");
     }
   };
 
@@ -388,18 +392,16 @@ export default function BrandListModal({ props }) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", border: "2px solid #ff2f00" }}>
+                      <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           {deleteTitle}
                         </Typography>
                       </Button>
-                      <Button onClick={handleBan} id={values.id} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", border: "2px solid #fff" }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          {blockTitle}
-                        </Typography>
-                      </Button>
-                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+
+                      <ConfirmModal props={{ type: "brand", id: props.id }} />
+
+                      <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                           {confirmTitle}
                         </Typography>
                       </Button>

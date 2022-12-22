@@ -62,7 +62,6 @@ export default function CreateMachineModal({ props }) {
                         id: props.id
                     }
                 ],
-                storeId: props.id,
                 name: values.name,
                 code: values.code,
                 price: parseInt(values.price),
