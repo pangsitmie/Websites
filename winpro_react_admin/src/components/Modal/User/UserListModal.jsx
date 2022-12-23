@@ -5,8 +5,9 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ".././modal.css";
 import { tokens } from "../../../theme";
-import { BanMember, UnbanMember } from "../../../graphQL/Queries";
+import { UnbanMember } from "../../../graphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
+import ConfirmModal from "../ConfirmModal";
 
 
 const checkoutSchema = yup.object().shape({
@@ -49,16 +50,16 @@ export default function UserListModal({ props }) {
 
 
   // GQL
-  const [ApolloBanUser, { loading, error, data }] = useLazyQuery(BanMember);
-  useEffect(() => {
-    if (data) {
-      console.log(data.getMember);
-      window.location.reload();
-    }
-    else {
-      console.log("NO DATA")
-    }
-  }, [data]);
+  // const [ApolloBanUser, { loading, error, data }] = useLazyQuery(BanMember);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data.getMember);
+  //     window.location.reload();
+  //   }
+  //   else {
+  //     console.log("NO DATA")
+  //   }
+  // }, [data]);
 
 
   const [ApolloUnbanUser, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(UnbanMember);
@@ -77,26 +78,7 @@ export default function UserListModal({ props }) {
     console.log("FORM SUBMIT");
   };
 
-  const handleBlock = () => {
-    //FIXME: Handle ban/block must be put in confirm Modal
-    var result = window.confirm("Are you sure you want to block this user?");
-    if (result) {
-      ApolloBanUser({
-        variables: {
-          params: [
-            {
-              id: props.id,
-              phone: props.phone.number
-            }
-          ],
-          reason: "null",
-          "expireAt": null
-        }
-      })
-    } else {
-      console.log("not blocked");
-    }
-  };
+
   const handleUnblock = (e) => {
     //FIXME: Handle unban must have 1 textfiled for reason
     const targetId = e.target.id;
@@ -277,11 +259,14 @@ export default function UserListModal({ props }) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" padding="1rem 0" >
-                      <Button onClick={handleBlock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
+                      {/* <Button onClick={handleBlock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           Block
                         </Typography>
-                      </Button>
+                      </Button> */}
+
+                      <ConfirmModal props={{ type: "member", id: props.id, phone: { country: "tw", number: props.phone.number } }} />
+
                       <Button onClick={handleUnblock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                           Unblock

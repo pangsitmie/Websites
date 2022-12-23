@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { tokens } from "../../theme";
 import * as yup from "yup";
 import { useLazyQuery } from '@apollo/client'
-import { BanBrand, BanStore } from "../../graphQL/Queries";
+import { BanMember, BanBrand, BanStore } from "../../graphQL/Queries";
 
 
 
@@ -23,6 +23,7 @@ export default function ConfirmModal({ props }) {
 
     const expireAtRef = useRef('') //creating a refernce for TextField Component
     const reasonRef = useRef('') //creating a refernce for TextField Component
+
 
     // BAN BRAND
     const [ApolloBanBrand, { loading, error, data }] = useLazyQuery(BanBrand);
@@ -47,6 +48,18 @@ export default function ConfirmModal({ props }) {
             console.log("NO DATA")
         }
     }, [data1]);
+
+    // BAN STORE
+    const [ApolloBanMember, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(BanMember);
+    useEffect(() => {
+        if (data2) {
+            console.log(data2);
+            window.location.reload();
+        }
+        else {
+            console.log("NO DATA")
+        }
+    }, [data2]);
 
 
     //date
@@ -91,6 +104,22 @@ export default function ConfirmModal({ props }) {
                         args: [
                             {
                                 id: targetId
+                            }
+                        ],
+                        expireAt: parseInt(unixSecond),
+                        reason: reasonRef.current.value
+                    }
+                })
+            case "member":
+                ApolloBanMember({
+                    variables: {
+                        params: [
+                            {
+                                id: targetId,
+                                phone: {
+                                    country: props.phone.country,
+                                    number: props.phone.number
+                                }
                             }
                         ],
                         expireAt: parseInt(unixSecond),
