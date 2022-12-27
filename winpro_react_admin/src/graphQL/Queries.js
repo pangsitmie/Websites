@@ -1,5 +1,14 @@
 import { gql } from "@apollo/client";
 
+
+// ========================= AUTH =========================
+export const GetManagerAccessToken = gql`
+query GetManagerAccessToken($refreshToken: String!) {
+  getManagerAccessToken(refreshToken: $refreshToken)
+}
+`
+
+// ========================= Member =========================
 export const GetAllMember = gql`
 query GetAllMember {
   getAllMember{

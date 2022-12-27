@@ -1,113 +1,158 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery, useMutation, useLazyQuery, ApolloClient, ApolloCache } from '@apollo/client'
+
 import App from '../../App';
 import "../../index.css";
-import { GetStoresByCoordinate } from '../../graphQL/Queries'
-import { Login } from '../../graphQL/Mutations'
-import { GetAccessToken } from '../../graphQL/Queries'
+import { ManagerLogin } from '../../graphQL/Mutations'
+import { GetManagerAccessToken } from '../../graphQL/Queries'
 import Map from '../../components/Maps'
 // THEME
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import * as yup from "yup";
+import { Formik } from "formik";
 
-// ICONS
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import { color } from '@mui/system';
-import axios from 'axios';
+const checkoutSchema = yup.object().shape({
+    account: yup.string().required("required"),
+    password: yup.string().required("required").nullable(),
+});
 
-// console.log("AXIOS")
-// axios.get("https://jsonmock.hackerrank.com/api/stocks?date=5-January-2000")
-//     .then(response => console.log(response.data))
-//     .catch(error => console.log(error));
 
 const Dashboard = () => {
-
-    const [apiData, setApiData] = useState([])
-    useEffect(() => {
-        axios.get("https://jsonmock.hackerrank.com/api/stocks?date=5-January-2000")
-            .then(response => setApiData(response.data))
-            .catch(error => console.log(error));
-    }, [])
-    console.log("API DATA")
-    console.log(apiData)
-
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
+    const initialValues = {
+        account: "",
+        password: ""
+    }
+
     //login state
     const [isLogin, setIsLogin] = useState(false);
+    const [accessToken, setAccessToken] = useState('');
 
     //login mutation
-    // const [apolloLogin, { loading, error, data }] = useMutation(Login);
-    // useEffect(() => {
-    //     if (data) {
-    //         console.log(data.login);
-    //         setIsLogin(true);
-    //     }
-    //     else {
-    //         console.log("NO LOGIN DATA")
-    //     }
-    // }, [data]);
+    const [apolloManagerLogin, { loading, error, data }] = useMutation(ManagerLogin);
+    useEffect(() => {
+        if (data) {
+            console.log("LOGIN TOKEN: " + data.managerLogin);
+            setIsLogin(true);
+            apolloGetManagerAccessToken({
+                variables: {
+                    refreshToken: "Bearer " + data.managerLogin
+                }
+            })
+        }
+        else {
+            console.log("NO LOGIN DATA")
+        }
+    }, [data]);
 
-    //get access token mutation
-    // const { loading1, error1, data1 } = useQuery(GetAccessToken, {
-    //     variables: {
-    //         refreshToken: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQiLCJ0b2tlblR5cGUiOiJSRUZSRVNIIiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTY3MDkwMzY5OCwiZXhwIjoxNjczNjY4NDk4fQ.GQGZUhmawYJ4QWuTtRzSddFcPN9H7a-rfPYDkQ2f39w"
-    //     }
-    // });
-    // useEffect(() => {
-    //     if (data1) {
-    //         console.log(data1.getAccessToken);
-    //         setIsLogin(true);
-    //     }
-    //     else {
-    //         console.log("NO GET ACCESS TOKEN DATA")
-    //     }
-    // }, [data1]);
+    //GET ACCESS TOKEN
+    const [apolloGetManagerAccessToken, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(GetManagerAccessToken);
+    useEffect(() => {
+        if (data1) {
+            console.log("ACCESS TOKEN: " + data1.getManagerAccessToken);
+            setAccessToken(data1.getManagerAccessToken);
+            localStorage.setItem('token', accessToken);
+            // handleLogin(accessToken);
+        }
+        else {
+            console.log("NO GET ACCESS TOKEN DATA")
+        }
+    }, [data1]);
 
 
-    const handleClick = () => {
-        console.log("CLICKED")
-        // apolloLogin({
-        //     variables: {
-        //         phone: {
-        //             country: "tw",
-        //             number: "0911111116"
-        //         },
-        //         password: "A23387696",
-        //         deviceCode: "",
-        //         firebaseToken: "",
-        //     }
-        // })
-    };
+
+    const handleFormSubmit = (values) => {
+        console.log(values);
+        apolloManagerLogin({
+            variables: {
+                account: values.account,
+                password: values.password
+            }
+        })
+    }
+
+
 
     return (
         <div>
             <div>THIS IS DASHBOARD</div>
             {/* {count} */}
             <div>
-                <Button onClick={handleClick} sx={{ background: "#fff" }}>
+                <Box m="20px">
+                    {initialValues.account}
+                    <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                        Login
+                    </Typography>
+
+                    <Formik
+                        onSubmit={handleFormSubmit}
+                        initialValues={initialValues}
+                        validationSchema={checkoutSchema}
+                    >
+                        {({
+                            values,
+                            errors,
+                            touched,
+                            handleBlur,
+                            handleChange,
+                            handleSubmit,
+                        }) => (
+                            <form onSubmit={handleSubmit}>
+                                <Box color={"black"}>
+                                    <TextField
+                                        fullWidth
+                                        variant="filled"
+                                        type="text"
+                                        label="Account"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.account}
+                                        name="account"
+                                        error={!!touched.account && !!errors.account}
+                                        helperText={touched.account && errors.account}
+                                        sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="filled"
+                                        type="text"
+                                        label="Password"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.password}
+                                        name="password"
+                                        error={!!touched.password && !!errors.password}
+                                        helperText={touched.password && errors.password}
+                                        sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                    />
+                                </Box>
+
+                                <Box display="flex" justifyContent="center" >
+                                    <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
+                                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                            Login
+                                        </Typography>
+                                    </Button>
+                                </Box>
+                            </form>
+                        )}
+                    </Formik>
+                </Box >
+
+                {/* <Button onClick={handleClick} sx={{ background: "#fff" }}>
                     LOGIN
-                </Button>
-                {isLogin ? <div>LOGGED IN </div> : <div>NOT LOGGED IN</div>}
+                </Button> */}
+                {isLogin ? <div>LOGGED IN {accessToken} </div> : <div>NOT LOGGED IN</div>}
                 <Button sx={{ background: "#fff" }}>
                     GET ACCESS TOKEN
                 </Button>
             </div>
             {/* <Map /> */}
-
-
-            {/* display the data fetched from the api */}
-            {/* <div>
-                <p>Date: {apiData.data[0].date}</p>
-                <p>Open: {apiData.data[0].open}</p>
-                <p>Close: {apiData.data[0].close}</p>
-                <p>High: {apiData.data[0].high}</p>
-                <p>Low: {apiData.data[0].low}</p>
-            </div> */}
         </div>
     )
 }

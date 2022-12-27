@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const Login = gql`
-mutation Login($phone: PhoneInput!, $password: String!, $deviceCode: String!, $firebaseToken: String!) {
-  login(phone: $phone, password: $password, deviceCode: $deviceCode, firebaseToken: $firebaseToken)
+export const ManagerLogin = gql`
+mutation ManagerLogin($account: String!, $password: String!) {
+  managerLogin(account: $account, password: $password)
 }
 `
 export const SendVerificationCode = gql`
