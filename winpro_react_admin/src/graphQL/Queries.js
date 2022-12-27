@@ -144,17 +144,18 @@ query GetAllStores {
       name
     }
     location {
+      storeId
       city
       district
       address
-      storeId
+      description
     }
   }
 }
 `
 
 export const GetStore = gql`
-query GetStore($args: [Args!]!) {
+query GetStore($args: [StoreArgs!]!) {
   getStore(args: $args) {
     id
     name
@@ -183,9 +184,13 @@ query GetStore($args: [Args!]!) {
     machines {
       uuid
       code
-      price
       name
-      description
+      status {
+        id
+        description
+        name
+      }
+      connStatus
     }
   }
 }
@@ -202,7 +207,7 @@ query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocat
 `
 
 export const UpdateStore = gql`
-query GetStore($args: [Args!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
+query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
   getStore(args: $args) {
     updateStore(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId) {
       id
@@ -212,21 +217,21 @@ query GetStore($args: [Args!]!, $name: String, $intro: String, $location: Update
 }
 `
 export const BanStore = gql`
-query GetStore($args: [Args!]!, $reason: String!, $expireAt: Int) {
+query GetStore($args: [StoreArgs!]!, $reason: String!, $expireAt: Int) {
   getStore(args: $args) {
     banStore(reason: $reason, expireAt: $expireAt)
   }
 }
 `
 export const RemoveStore = gql`
-query GetStore($args: [Args!]!) {
+query GetStore($args: [StoreArgs!]!) {
   getStore(args: $args) {
     removeStore
   }
 }
 `
 export const CreateMachineFromGetStores = gql`
-query GetStore($args: [Args!]!, $code: String!, $price: Int, $name: String, $description: String) {
+query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String) {
   getStore(args: $args) {
     createMachine(code: $code, price: $price, name: $name, description: $description) {
       uuid

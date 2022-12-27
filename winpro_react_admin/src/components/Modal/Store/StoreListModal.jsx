@@ -32,6 +32,8 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function StoreListModal({ props }) {
+    console.log("MODAL" + props);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -76,9 +78,6 @@ export default function StoreListModal({ props }) {
     });
 
 
-
-
-
     // =================================================================================
     // REMOVE STORE MUTATION
     const [ApolloRemoveStore, { loading, error, data }] = useLazyQuery(RemoveStore);
@@ -105,7 +104,7 @@ export default function StoreListModal({ props }) {
         }
     }, [data2]);
 
-    // INITIAL VALUES FROM GET STORE QUERY
+    // // INITIAL VALUES FROM GET STORE QUERY
     const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
         , {
             variables: {
