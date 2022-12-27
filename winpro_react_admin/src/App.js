@@ -59,13 +59,11 @@ function App() {
   const [isSidebar, setIsSidebar] = useState(true);
 
   //check if token is null if null navigate to login
-  // let navigate = useNavigate();
-  // const token = localStorage.getItem('token');
-  // if (token === null) {
-  //   navigate("/login");
-  // }
-
-
+  let navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  if (token === null) {
+    navigate("/login");
+  }
 
   return (
     <React.Fragment>

@@ -35,11 +35,9 @@ function LoginProvider() {
 
   return (
     <ApolloProvider client={client}>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <Login />
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+      <ThemeProvider theme={theme}>
+        <Login />
+      </ThemeProvider>
     </ApolloProvider>
   );
 }

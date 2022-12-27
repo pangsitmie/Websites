@@ -196,12 +196,9 @@ query GetStore($args: [StoreArgs!]!) {
 }
 `
 export const CreateStore = gql`
-query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String) {
-  getBrand(args: $args) {
-    createStore(name: $name, location: $location, principal: $principal, intro: $intro) {
-      id
-      name
-    }
+query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String) {
+  getStore(args: $args) {
+    createMachine(code: $code, price: $price, name: $name, description: $description) 
   }
 }
 `
@@ -240,7 +237,6 @@ query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String,
   }
 }
 `
-
 
 export const GetAccessToken = gql`
 query getAccessToken($refreshToken: String!) {

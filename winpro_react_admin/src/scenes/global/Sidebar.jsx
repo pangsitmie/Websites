@@ -157,13 +157,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="機台管理"
-              to="/machine-management"
-              icon={<PrecisionManufacturingIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
             <Item
               title="告示牌管理"
               to="/billboard-management"
@@ -178,13 +171,21 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "25px 0 5px 20px" }}
+            >
+              通知
+            </Typography>
             <Item
-              title="通知管理"
+              title="系統通知"
               to="/notification"
               icon={<NotificationsIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+
 
             <Typography
               variant="h6"
@@ -201,7 +202,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="品牌專屬幣發送管理"
+              title="品牌專屬幣發送"
               to="/brand-coins"
               icon={<MonetizationOnIcon />}
               selected={selected}
