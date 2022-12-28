@@ -180,7 +180,7 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="系統通知"
-              to="/notification"
+              to="/system-notification"
               icon={<NotificationsIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -247,13 +247,7 @@ const Sidebar = () => {
             >
               Version 1.0
             </Typography>
-            <Item
-              title="登出"
-              to="/account"
-              icon={<LogoutIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+
 
           </Box>
         </Menu>

@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import React, { useEffect, useState, useRef } from 'react'
+import { useQuery } from '@apollo/client'
 
 // QUERIES
 import { GetAllStores } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { color } from '@mui/system';
 import { citiesData } from "../../data/mockData";
-import StoreListModal from '../../components/Modal/Store/StoreListModal';
-import CreateStoreModal from '../../components/Modal/Store/CreateStoreModal'
+import StoreListModal from './StoreListModal';
+import CreateStoreModal from './CreateStoreModal'
 import { Link } from 'react-router-dom';
 
 
@@ -84,7 +83,6 @@ const StoreManagement = () => {
             setStores(data.getAllStores);
             SetInitStores(data.getAllStores);
         }
-
     }, [data]);
 
     return (
@@ -209,7 +207,7 @@ const StoreManagement = () => {
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">店面地址</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">店面縣市</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
@@ -239,7 +237,7 @@ const StoreManagement = () => {
                         >
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.brand.name}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.address}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.location.city}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
                                     if (store.status.name === "disable") {
@@ -269,7 +267,7 @@ const StoreManagement = () => {
                                 })()}
                             </Box>
 
-
+                            {/* BUTTON TO MACHINE MANAGEMENT */}
                             <Box
                                 width={"15%"}
                                 height={"100%"}
@@ -277,7 +275,6 @@ const StoreManagement = () => {
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px"
                             >
-
                                 <Link
                                     to={"/machine-management"}
                                     state={{
@@ -288,7 +285,6 @@ const StoreManagement = () => {
                                         機台管理
                                     </Button>
                                 </Link>
-
                             </Box>
                             <Box
                                 width={"15%"}

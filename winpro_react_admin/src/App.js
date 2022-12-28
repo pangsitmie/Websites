@@ -17,6 +17,9 @@ import UserManagement from "./scenes/userManagement/UserManagement";
 import BrandManagement from "./scenes/brandManagement/BrandManagement";
 import StoreManagement from "./scenes/storeManagement/StoreManagement";
 import MachineManagement from "./scenes/machineManagement/MachineManagement";
+import SystemNotificationManagement from "./scenes/systemNotificationManagement/SystemNotificationManagement";
+import SystemCoinManagement from "./scenes/systemCoinManagement copy/SystemCoinManagement";
+import BillboardManagement from "./scenes/billboardManagement/BillboardManagement";
 
 
 
@@ -65,6 +68,20 @@ function App() {
     navigate("/login");
   }
 
+  // async function refreshToken() {
+  //   try {
+  //     const response = await client.query({
+  //       query: REFRESH_TOKEN_MUTATION,
+  //       variables: { refreshToken: getRefreshTokenFromCookie() }, // Replace with your own function to retrieve the refresh token
+  //     });
+  //     const newAccessToken = response.data.refreshToken.accessToken;
+  //     client.writeData({ data: { token: newAccessToken } });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
+
   return (
     <React.Fragment>
       <ApolloProvider client={client}>
@@ -86,6 +103,9 @@ function App() {
                   <Route path="/brand-management" element={<BrandManagement />} />
                   <Route path="/store-management" element={<StoreManagement />} />
                   <Route path="/machine-management" element={<MachineManagement />} />
+                  <Route path="/billboard-management" element={<BillboardManagement />} />
+                  <Route path="/system-notification" element={<SystemNotificationManagement />} />
+                  <Route path="/system-coins" element={<SystemCoinManagement />} />
                 </Routes>
               </main>
             </div>

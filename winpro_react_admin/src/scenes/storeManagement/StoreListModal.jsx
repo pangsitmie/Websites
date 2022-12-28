@@ -2,142 +2,210 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import ".././modal.css";
-import { tokens } from "../../../theme";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { CreateStore } from "../../../graphQL/Queries";
+import "../../components/Modal/modal.css";
+import { tokens } from "../../theme";
+import { format } from 'date-fns';
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { GetStore, UpdateStore, RemoveStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
-import { GetBrandList } from "../../../graphQL/Queries";
-import { IntegrationInstructions } from "@mui/icons-material";
-
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    // brandId: yup.string().required("required"),
     name: yup.string().required("required"),
+    status: yup.string().required("required"),
     intro: yup.string().required("required").nullable(),
-
+    brandId: yup.string().required("required"),
+    brandName: yup.string().required("required"),
+    // location_address: yup.string().required("required"),
     principalName: yup.string().required("required"),
-    principalAccount: yup.string().required("required"),
-    principalPassword: yup.string().required("required"),
+    // principalPassword: yup.string().required("required"),
     principalLineUrl: yup.string().required("required"),
-    principalEmail: yup.string().email("invalid email").required("required"),
+    principalEmail: yup.string().required("required").nullable(),
 });
 
 
-export default function CreateStoreModal() {
+export default function StoreListModal({ props }) {
+    console.log("MODAL" + props);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
     const [{ address, city, district, coordinates }, setLocation] = useState({
-        address: "",
-        city: "",
-        district: "",
+        address: props.location.address,
+        city: props.location.city,
+        district: props.location.district,
         coordinates: {
             lat: 0,
             lng: 120,
         }
     });
+
+
+
+    const [storeStatus, setStorestatus] = React.useState(props.status.name);
+    const handleStatusChange = (event) => {
+        setStorestatus(event.target.value);
+    };
     const [inputAddress, setInputAddress] = useState("");
-    const [{ brandId, brandName }, setBrandInfo] = useState({
-        brandId: "null",
-        brandName: "null",
-    });
-    var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", blockTitle = "封鎖";
 
-
-
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState({
+        id: -1,
+        brandId: -1,
+        brandName: "",
         name: "",
         intro: "",
-
         cover: "https://img.icons8.com/fluency/48/null/test-account.png",
+        logo: "https://img.icons8.com/fluency/48/null/test-account.png",
         //locations get from location state
+        status: "",
 
+        city: "",
+        district: "",
+        address: "",
         principalName: "",
         principalAccount: "",
         principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
-    };
+    });
 
-    const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
-    const [brandListFilter, setBrandListFilter] = useState('');
-    const [brandList, setBrandList] = useState([]);
-    useEffect(() => {
-        if (data1) {
-            setBrandList(data1.getAllBrands);
-        }
 
-    }, [data1]);
-    const handleBrandListChange = (e) => {
-        const targetId = e.target.value;
-        console.log(targetId);
-        console.log(brandList[targetId - 1].name);
-        setBrandListFilter(targetId);
-        setBrandInfo({
-            brandId: targetId,
-            brandName: brandList[targetId - 1].name
-        });
-    };
-
-    //create store
-    const [ApolloCreateStore, { loading, error, data }] = useLazyQuery(CreateStore);
+    // =================================================================================
+    // REMOVE STORE MUTATION
+    const [ApolloRemoveStore, { loading, error, data }] = useLazyQuery(RemoveStore);
     useEffect(() => {
         if (data) {
-            console.log(data);
+            console.log("REMOVE SUCCESS");
             window.location.reload();
         }
         else {
-            console.log(error)
+            console.log("NO REMOVE STORE DATA")
         }
     }, [data]);
 
-    const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-        console.log(brandId + brandName);
-        console.log("city" + city + ", district" + district + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
-        ApolloCreateStore({
+
+    //UPDATE STORE MUTATION
+    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateStore);
+    useEffect(() => {
+        if (data2) {
+            window.location.reload();
+            console.log("UPDATE SUCCESS")
+        }
+        else {
+            console.log("NO UPDATE STORE DATA")
+        }
+    }, [data2]);
+
+    // // INITIAL VALUES FROM GET STORE QUERY
+    const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
+        , {
             variables: {
                 args: [
                     {
-                        id: brandId
+                        id: props.id
                     }
                 ],
-                // brandId: brandId,
-                name: values.name,
-                intro: values.intro,
-                location: {
-                    city: city,
-                    district: district,
-                    address: address,
-                    coordinate: {
-                        latitude: coordinates.lat,
-                        longitude: coordinates.lng
-                    },
-                    description: "null"
-                },
-                principal: {
-                    name: values.principalName,
-                    account: values.principalAccount,
-                    password: values.principalPassword,
-                    lineUrl: values.principalLineUrl,
-                    email: values.principalEmail
-                }
             }
-        });
+        }
+    );
+    useEffect(() => {
+        if (data3) {
+            // SET THE initial value using data3
+            setInitialValues({
+                id: props.id,
+                status: props.status.name,
+                name: data3.getStore[0].name,
+                intro: data3.getStore[0].intro,
+                cover: "https://img.icons8.com/fluency/48/null/test-account.png",
+                brandId: data3.getStore[0].brand.id,
+                brandName: data3.getStore[0].brand.name,
+                city: data3.getStore[0].location.city,
+                district: data3.getStore[0].location.district,
+                address: data3.getStore[0].location.address,
+                principalName: data3.getStore[0].principal.name,
+                principalAccount: data3.getStore[0].principal.account,
+                principalPassword: data3.getStore[0].principal.password,
+                principalLineUrl: data3.getStore[0].principal.lineUrl,
+                principalEmail: data3.getStore[0].principal.email,
+            });
+        }
+        else {
+            console.log("NO GET STORE DETAILS DATA")
+        }
+    }, [data3]);
+
+    const handleFormSubmit = (values) => {
+        if (values.principalPassword === "") { //if password is empty, do not update password
+            ApolloUpdateStore({
+                variables: {
+                    args: [
+                        {
+                            id: values.id
+                        }
+                    ],
+                    name: values.name,
+                    intro: values.intro,
+                    location: {
+                        city: city,
+                        district: district,
+                        address: address,
+                        coordinate: {
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        },
+                        description: "some desc"
+                    },
+                    principal: {
+                        name: values.principalName,
+                        lineUrl: values.principalLineUrl,
+                        email: values.principalEmail,
+                    },
+                    statusId: storeStatus
+                }
+            });
+        }
+        else {
+            ApolloUpdateStore({
+                variables: {
+                    args: [
+                        {
+                            id: values.id
+                        }
+                    ],
+                    name: values.name,
+                    intro: values.intro,
+                    location: {
+                        city: city,
+                        district: district,
+                        address: address,
+                        coordinate: {
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        },
+                        description: "some desc"
+                    },
+                    principal: {
+                        name: values.principalName,
+                        password: values.principalPassword,
+                        lineUrl: values.principalLineUrl,
+                        email: values.principalEmail,
+                    },
+                    statusId: storeStatus
+                }
+            });
+        }
     };
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
-        console.log(results);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
         const city = results[0].address_components[4].long_name;
@@ -150,11 +218,25 @@ export default function CreateStoreModal() {
             district: district,
             coordinates: latLng
         });
-        console.log("Coordinate:" + coordinates.lat + "," + coordinates.lng);
-        //this.props.onAddressSelected();
     };
 
-
+    const handleDelete = () => {
+        var result = window.confirm("Are you sure you want to delete this store?");
+        if (result) {
+            ApolloRemoveStore({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
+                }
+            })
+            console.log("deleted");
+        } else {
+            console.log("not deleted");
+        }
+    };
 
     const toggleModal = () => {
         setModal(!modal);
@@ -168,7 +250,6 @@ export default function CreateStoreModal() {
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
-
             <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
@@ -178,7 +259,7 @@ export default function CreateStoreModal() {
                     <div className="modal-content">
                         <Box m="20px">
                             {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                            <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                                 {btnTitle}
                             </Typography>
 
@@ -197,7 +278,7 @@ export default function CreateStoreModal() {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
+                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"1rem"}>
                                                 <img
                                                     alt="profile-user"
                                                     width="100px"
@@ -206,24 +287,87 @@ export default function CreateStoreModal() {
                                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                                 />
                                             </Box>
+                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                                                {(() => {
+                                                    if (initialValues.status === "disable") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                                停用
+                                                            </Typography>)
+                                                    }
+                                                    if (initialValues.status === "banned") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                封鎖
+                                                            </Typography>)
+                                                    }
+                                                    else {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                正常
+                                                            </Typography>)
+                                                    }
+                                                })()}
+                                            </Box>
 
-
-                                            {/* Brand info */}
+                                            <Box display={"flex"} justifyContent={"space-between"}>
+                                                <TextField className="modal_input_textfield"
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="暱稱"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.name}
+                                                    name="name"
+                                                    error={!!touched.name && !!errors.name}
+                                                    helperText={touched.name && errors.name}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                />
+                                                <FormControl sx={{ minWidth: 150 }} >
+                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={storeStatus}
+                                                        label="storeStatus"
+                                                        onChange={handleStatusChange}
+                                                    >
+                                                        <MenuItem value={"normal"}>正常</MenuItem>
+                                                        <MenuItem value={"disable"}>停用</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                            <TextField className="modal_input_textfield"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="Intro"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.intro}
+                                                name="intro"
+                                                error={!!touched.intro && !!errors.intro}
+                                                helperText={touched.intro && errors.intro}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                            />
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
-                                                    disabled={true}
                                                     variant="filled"
+                                                    disabled={true}
                                                     type="text"
                                                     label="品牌id"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={brandId}
+                                                    value={values.brandId}
                                                     name="brandId"
                                                     error={!!touched.brandId && !!errors.brandId}
                                                     helperText={touched.brandId && errors.brandId}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+
                                                 <TextField
                                                     fullWidth
                                                     disabled={true}
@@ -232,63 +376,14 @@ export default function CreateStoreModal() {
                                                     label="品牌名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={brandName}
+                                                    value={values.brandName}
                                                     name="brandName"
                                                     error={!!touched.brandName && !!errors.brandName}
                                                     helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
-                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
-                                                    <Select
-                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        value={brandListFilter}
-                                                        label="brandListFilter"
-                                                        onChange={handleBrandListChange}
-                                                    >
-                                                        {brandList.map((brand, i) => (
-                                                            <MenuItem
-                                                                value={brand.id}
-                                                                key={`${brand.id}-${i}`}
-                                                            >
-                                                                {brand.name}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
                                             </Box>
 
-
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="暱稱"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                            />
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="店面介紹"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.intro}
-                                                name="intro"
-                                                error={!!touched.intro && !!errors.intro}
-                                                helperText={touched.intro && errors.intro}
-                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                            />
-
-                                            {/* Search Store location */}
                                             <PlacesAutocomplete
                                                 className="places_autocomplete"
                                                 value={inputAddress}
@@ -381,8 +476,7 @@ export default function CreateStoreModal() {
                                                 />
                                             </Box>
 
-
-                                            <Box display={"flex"}>
+                                            <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -400,19 +494,6 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人賬號"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalAccount}
-                                                    name="principalAccount"
-                                                    error={!!touched.principalAccount && !!errors.principalAccount}
-                                                    helperText={touched.principalAccount && errors.principalAccount}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
                                                     label="負責人密碼"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -423,9 +504,7 @@ export default function CreateStoreModal() {
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
-
-                                            <Box display={"flex"}>
-
+                                            <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -453,15 +532,19 @@ export default function CreateStoreModal() {
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
+
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button onClick={toggleModal} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px" }}>
+                                            <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                    {cancelTitle}
+                                                    {deleteTitle}
                                                 </Typography>
                                             </Button>
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+
+                                            <ConfirmModal props={{ type: "store", id: props.id }} />
+
+                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                                                     {confirmTitle}
                                                 </Typography>
                                             </Button>
@@ -475,7 +558,6 @@ export default function CreateStoreModal() {
             )
             }
         </>
-
     );
 
 

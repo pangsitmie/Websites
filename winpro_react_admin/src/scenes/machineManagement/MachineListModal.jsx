@@ -3,8 +3,8 @@ import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ".././modal.css";
-import { tokens } from "../../../theme";
+import "../../components/Modal/modal.css";
+import { tokens } from "../../theme";
 
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 

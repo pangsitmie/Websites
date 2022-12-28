@@ -14,10 +14,7 @@ mutation SendVerificationCode($phone: PhoneInput!, $type: EVerificationCodeType!
 // Brands
 export const CreateBrand = gql`
 mutation CreateBrand($name: String!, $vatNumber: String!, $principal: CreateBrandPrincipalArgs!, $intro: String, $currencyName: String) {
-  createBrand(name: $name, vatNumber: $vatNumber, principal: $principal, intro: $intro, currencyName: $currencyName) {
-    id
-    name
-  }
+  createBrand(name: $name, vatNumber: $vatNumber, principal: $principal, intro: $intro, currencyName: $currencyName)
 }
 `
 

@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
+import { format } from 'date-fns';
 
 // THEME
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import CreateMachineModal from './CreateMachineModal';
-import MachineListModal from './MachineListModal';
-import { GetStore } from '../../graphQL/Queries';
+import { color } from '@mui/system';
+import { citiesData } from "../../data/mockData";
+// import CreateMachineModal from './CreateMachineModal';
+// import MachineListModal from './MachineListModal';
+import { GetBillboardList } from '../../graphQL/Queries';
+import CreateBillboardModal from './CreateBillboardModal';
 
-
-const MachineManagement = () => {
+const BillboardManagement = () => {
     const location = useLocation();
     const state = location.state;
     console.log(state); // output: "the-page-id"
@@ -28,13 +31,13 @@ const MachineManagement = () => {
     // STATES
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
-    const [machineData, setMachineData] = useState([]);
+    const [billboardData, setBillboardData] = useState([]);
 
     //REF
     const brandRef = useRef('');
     const searchRef = useRef('');
 
-    const { loading, error, data } = useQuery(GetStore
+    const { loading, error, data } = useQuery(GetBillboardList
         , {
             variables: {
                 args: [
@@ -47,8 +50,8 @@ const MachineManagement = () => {
     );
     useEffect(() => {
         if (data) {
-            console.log("asdfasdf" + data.getStore[0].machines);
-            setMachineData(data.getStore[0].machines);
+            console.log(data.getBrand[0].getBillboardList);
+            setBillboardData(data.getBrand[0].getBillboardList);
         }
         else {
             console.log("no data");
@@ -79,8 +82,7 @@ const MachineManagement = () => {
 
     return (
         <Box p={2}>
-            <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
-            <Typography variant="h4" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
+            <h1 className='userManagement_title'>{state.data.name} - 告示牌管理</h1>
             {/* SEARCH DIV */}
             <Box display="flex" marginBottom={5}>
                 {/* name Search */}
@@ -116,7 +118,7 @@ const MachineManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <CreateMachineModal props={state.data} />
+                    <CreateBillboardModal props={state.data} />
                 </Box>
             </Box>
 
@@ -150,16 +152,16 @@ const MachineManagement = () => {
                 >
 
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">UUID</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機台名稱</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">内容</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機台號碼</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">連接狀態</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
@@ -172,31 +174,31 @@ const MachineManagement = () => {
                     height={"100%"}
                     overflow={"auto"}
                 >
-                    {machineData.map((machine, i) => (
+                    {billboardData.map((item, i) => (
                         <Box
-                            key={`${machine.id}-${i}`}
+                            key={`${item.id}-${i}`}
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{machine.uuid}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.name}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.code}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.title}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.content}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (machine.connStatus === true) {
+                                    if (item.status.name === "normal") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                連線中
+                                                正常
                                             </Typography>
                                         )
                                     }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                已斷線
+                                                停用
                                             </Typography>
                                         )
                                     }
@@ -208,7 +210,7 @@ const MachineManagement = () => {
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <MachineListModal props={machine} />
+                                {/* <MachineListModal props={machine} /> */}
                             </Box>
                         </Box>
                     ))}
@@ -217,6 +219,7 @@ const MachineManagement = () => {
         </Box >
     )
 }
+
 const defaultOptions = {
     significantDigits: 2,
     thousandsSeparator: ',',
@@ -236,4 +239,4 @@ const currencyFormatter = (value, options) => {
     )}${options.decimalSeparator}${decimal}`
 }
 
-export default MachineManagement
+export default BillboardManagement

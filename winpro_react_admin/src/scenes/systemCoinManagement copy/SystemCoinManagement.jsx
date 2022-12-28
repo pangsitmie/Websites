@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useQuery } from '@apollo/client'
-// import { format } from 'date-fns';
+import { format } from 'date-fns';
 
 // QUERIES
-import { GetAllBrands } from '../../graphQL/Queries'
+import { ManagerGetAllNotificationSchedules } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -11,16 +11,13 @@ import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import BrandListModal from './BrandListModal';
-import CreateBrandModal from './CreateBrandModal';
-import { Link } from 'react-router-dom';
+import CreateSystemCoinModal from './CreateSystemCoinModal';
 
 
-const BrandManagement = () => {
+const SystemCoinManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
 
     // STATES
     // const [filter, setFilter] = useState('品牌名');
@@ -31,16 +28,14 @@ const BrandManagement = () => {
     const searchValueRef = useRef('');
     const filterRef = useRef('品牌名');
 
-    //FUNCTIONS
-    // const handleFilterChange = (e) => {
-    //     setFilter(e.target.value);
-    // };
+
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
     const handleReviewChange = (e) => {
         setReview(e.target.value);
     };
+
     const submitSearch = () => {
         // LOG SEARCH STATES
         console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
@@ -48,10 +43,10 @@ const BrandManagement = () => {
         //CALL SEARCH FUNCTION
         let value = searchValueRef.current.value;
         if (value.length > 2) {
-            let search = arraySearch(brands, value);
-            setBrands(search)
+            let search = arraySearch(notifications, value);
+            setNotifications(search)
         } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setBrands(initBrands)
+            setNotifications(initNotifications)
         }
     };
     //SEARCH FUNCTION
@@ -63,14 +58,16 @@ const BrandManagement = () => {
                 value.principal.name.match(new RegExp(searchTerm, 'g'))
         })
     }
+
     //GRAPHQL
-    const { loading, error, data } = useQuery(GetAllBrands);
-    const [initBrands, setInitBrands] = useState([]);
-    const [brands, setBrands] = useState([]);
+    const { loading, error, data } = useQuery(ManagerGetAllNotificationSchedules);
+    const [initNotifications, setInitNotifications] = useState([]);
+    const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         if (data) {
-            setInitBrands(data.getAllBrands); //all brand datas
-            setBrands(data.getAllBrands); //datas for display
+            console.log(data);
+            setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
+            setNotifications(data.managerGetAllNotificationSchedules); //datas for display
         }
         else {
             console.log(error);
@@ -78,12 +75,9 @@ const BrandManagement = () => {
         }
     }, [data]);
 
-
-
     return (
         <Box p={2}>
-            <h1 className='userManagement_title'>品牌管理</h1>
-            <p>Search: Filter {filterRef.current.value}, Status {status}, Review: {review}</p>
+            <h1 className='userManagement_title'>系統免費幣發送</h1>
             {/* SEARCH DIV */}
             <Box display="flex" paddingBottom={5}>
                 {/* name Search */}
@@ -145,7 +139,7 @@ const BrandManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <CreateBrandModal />
+                    <CreateSystemCoinModal />
                 </Box>
 
             </Box>
@@ -167,7 +161,7 @@ const BrandManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        品牌清單
+                        通知清單
                     </Typography>
                 </Box>
                 <Box
@@ -181,24 +175,23 @@ const BrandManagement = () => {
 
                 >
 
-
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Triger At</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌負責人</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Title</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">VAT</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Comment</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Expire At</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">告示牌管理</Typography>
-                    </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">刪除</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -208,67 +201,54 @@ const BrandManagement = () => {
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
-                    {brands.map((brand, i) => (
+                    {notifications.map((item, i) => (
                         <Box
-                            key={`${brand.id}-${i}`}
+                            key={`${item.id}-${i}`}
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.principal.name}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.vatNumber}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (brand.status.name === "disable") {
+                                    if (item.notification.expireAt === null) {
+                                        return "無"
+                                    }
+                                    else {
+                                        return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                    }
+                                })()}
+                            </Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {(() => {
+                                    if (item.status.name === "done") {
                                         return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
+                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                完成
                                             </Typography>)
                                     }
-                                    else if (brand.status.name === "banned") {
+                                    else if (item.status.name === "failed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                封鎖
-                                            </Typography>)
-                                    }
-                                    else if (brand.status.name === "removed") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                移除
+                                                失敗
                                             </Typography>)
                                     }
                                     else {
                                         return (
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 正常
                                             </Typography>)
                                     }
                                 })()}
                             </Box>
-                            <Box
-                                width={"15%"}
-                                height={"100%"}
-                                display={"flex"}
-                                alignItems={"center"} justifyContent={"center"}
-                                borderRadius="4px"
-                            >
-                                <Link
-                                    to={"/billboard-management"}
-                                    state={{
-                                        data: brand,
-                                    }}
-                                >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid #e1e2fe", borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
-                                        告示牌管理
-                                    </Button>
-                                </Link>
-                            </Box>
 
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                <BrandListModal props={brand} />
+                                {/* FIXME: change title to delete */}
+                                {/* <ConfirmModal props={brand} /> */}
                             </Box>
                         </Box>
                     ))}
@@ -278,4 +258,4 @@ const BrandManagement = () => {
     )
 }
 
-export default BrandManagement
+export default SystemCoinManagement

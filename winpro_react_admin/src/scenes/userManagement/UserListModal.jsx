@@ -3,16 +3,14 @@ import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ".././modal.css";
-import { tokens } from "../../../theme";
-import { UnbanMember } from "../../../graphQL/Queries";
+import "../../components/Modal/modal.css";
+import { tokens } from "../../theme";
+import { UnbanMember } from "../../graphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
-import ConfirmModal from "../ConfirmModal";
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 
 
-const checkoutSchema = yup.object().shape({
-
-});
+const checkoutSchema = yup.object().shape({});
 
 
 export default function UserListModal({ props }) {

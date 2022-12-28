@@ -10,7 +10,7 @@ import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import UserListModal from '../../components/Modal/User/UserListModal';
+import UserListModal from './UserListModal';
 
 
 const UserManagement = () => {

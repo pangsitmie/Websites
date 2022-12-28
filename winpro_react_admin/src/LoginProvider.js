@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
+import { useState } from "react";
+import { ThemeProvider } from "@mui/material";
+import { useMode } from "./theme";
 import Login from "./scenes/login/Login";
 
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 
 

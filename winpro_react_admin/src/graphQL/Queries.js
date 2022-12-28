@@ -106,10 +106,8 @@ query GetBrand($args: [BrandArgs!]!) {
 export const UpdateBrand = gql`
 query GetBrand($args: [BrandArgs!]!, $name: String, $vatNumber: String, $intro: String, $currencyName: String, $principal: UpdateBrandPrincipalArgs, $statusId: EUpdateBrandStatus) {
   getBrand(args: $args) {
-    updateBrand(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId) {
-      id
-      name
-    }
+    updateBrand(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId)
+     
   }
 }
 `
@@ -196,9 +194,9 @@ query GetStore($args: [StoreArgs!]!) {
 }
 `
 export const CreateStore = gql`
-query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String) {
-  getStore(args: $args) {
-    createMachine(code: $code, price: $price, name: $name, description: $description) 
+query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String) {
+  getBrand(args: $args) {
+    createStore(name: $name, location: $location, principal: $principal, intro: $intro)
   }
 }
 `
@@ -206,10 +204,7 @@ query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String,
 export const UpdateStore = gql`
 query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
   getStore(args: $args) {
-    updateStore(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId) {
-      id
-      name
-    }
+    updateStore(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId)
   }
 }
 `
@@ -230,10 +225,7 @@ query GetStore($args: [StoreArgs!]!) {
 export const CreateMachineFromGetStores = gql`
 query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String) {
   getStore(args: $args) {
-    createMachine(code: $code, price: $price, name: $name, description: $description) {
-      uuid
-      code
-    }
+    createMachine(code: $code, price: $price, name: $name, description: $description) 
   }
 }
 `
@@ -243,19 +235,66 @@ query getAccessToken($refreshToken: String!) {
   getAccessToken(refreshToken: $refreshToken)
 }
 `
-// export const GetStoresByCoordinate = gql`
-// query Brand($coordinate: CoordinateInput!) {
-//   getStoresByCoordinate(coordinate: $coordinate) {
-//     brand {
-//       id
-//       name
-//       lineUrl
-//       cover
-//       intro
-//       logo
-//       email
-//       createdAt
-//     }
-//   }
-// }
-// `
+
+// ========================= NOTIFICATIONS =========================
+
+export const ManagerGetAllNotificationSchedules = gql`
+query ManagerGetAllNotificationSchedules {
+  managerGetAllNotificationSchedules {
+    id
+    triggerAt
+    comment
+    status {
+      id
+      description
+      name
+    }
+    notification {
+      id
+      title
+      content
+      type {
+        id
+        name
+      }
+      expireAt
+    }
+  }
+}
+`
+
+export const ManagerSetNotificationScheduleToAllMember = gql`
+mutation ManagerSetNotificationScheduleToAllMember($comment: String!, $notification: ManagerCreateNotification!, $triggerAt: Int) {
+  managerSetNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
+}
+`
+
+// ========================= BILLBOARDS =========================
+export const GetBillboardList = gql`
+query GetBillboardList($args: [BrandArgs!]!) {
+  getBrand(args: $args) {
+    getBillboardList {
+      id
+      title
+      content
+      description
+    description
+      startAt
+      endAt
+      status {
+        id
+        description
+        name
+      }
+    }
+  }
+}
+`
+
+export const CreateBillboard = gql`
+query GetBrand($args: [BrandArgs!]!, $title: String!, $content: String!, $description: String, $endAt: Int, $startAt: Int!) {
+  getBrand(args: $args) {
+    createBillboard(title: $title, content: $content, description: $description, endAt: $endAt, startAt: $startAt)
+  }
+}
+`
