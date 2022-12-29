@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // QUERIES
-import { ManagerGetAllNotificationSchedules } from '../../graphQL/Queries'
+import { GetSentFreeCoinsList } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -60,14 +60,14 @@ const SystemCoinManagement = () => {
     }
 
     //GRAPHQL
-    const { loading, error, data } = useQuery(ManagerGetAllNotificationSchedules);
+    const { loading, error, data } = useQuery(GetSentFreeCoinsList);
     const [initNotifications, setInitNotifications] = useState([]);
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         if (data) {
             console.log(data);
             setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
-            setNotifications(data.managerGetAllNotificationSchedules); //datas for display
+            // setNotifications(data.managerGetAllNotificationSchedules); //datas for display
         }
         else {
             console.log(error);
@@ -211,7 +211,7 @@ const SystemCoinManagement = () => {
                             p="10px"
                         >
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
+                            {/* <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box> */}
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {

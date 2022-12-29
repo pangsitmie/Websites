@@ -188,7 +188,7 @@ const MachineManagement = () => {
                                 {(() => {
                                     if (machine.connStatus === true) {
                                         return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                            <Typography variant="h5" color={colors.greenAccent[400]} sx={{ margin: ".5rem .5rem" }}>
                                                 連線中
                                             </Typography>
                                         )

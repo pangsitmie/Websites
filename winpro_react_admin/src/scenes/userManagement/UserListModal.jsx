@@ -19,6 +19,9 @@ export default function UserListModal({ props }) {
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
 
+  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+
+
   const initialValues = {
     id: 0,
     status: "",
@@ -48,18 +51,6 @@ export default function UserListModal({ props }) {
 
 
   // GQL
-  // const [ApolloBanUser, { loading, error, data }] = useLazyQuery(BanMember);
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(data.getMember);
-  //     window.location.reload();
-  //   }
-  //   else {
-  //     console.log("NO DATA")
-  //   }
-  // }, [data]);
-
-
   const [ApolloUnbanUser, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(UnbanMember);
   useEffect(() => {
     if (data1) {
@@ -77,8 +68,7 @@ export default function UserListModal({ props }) {
   };
 
 
-  const handleUnblock = (e) => {
-    //FIXME: Handle unban must have 1 textfiled for reason
+  const handleUnBan = (e) => {
     const targetId = e.target.id;
     console.log(targetId);
     var result = window.confirm("Are you sure you want to Unblock this user?");
@@ -155,6 +145,12 @@ export default function UserListModal({ props }) {
                       </Box>
                       <Box textAlign="center">
                         {(() => {
+                          if (initialValues.status === "disable") {
+                            return (
+                              <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                停用
+                              </Typography>)
+                          }
                           if (initialValues.status === "banned") {
                             return (
                               <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
@@ -263,13 +259,22 @@ export default function UserListModal({ props }) {
                         </Typography>
                       </Button> */}
 
-                      <ConfirmModal props={{ type: "member", id: props.id, phone: { country: "tw", number: props.phone.number } }} />
+                      {values.status === "banned" ? (
+                        <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
+                          <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                            {unbanTitle}
+                          </Typography>
+                        </Button>
+                      ) : (
+                        <ConfirmModal props={{ type: "member", id: props.id, phone: { country: "tw", number: props.phone.number } }} />
+                      )}
+                      {/* <ConfirmModal props={{ type: "member", id: props.id, phone: { country: "tw", number: props.phone.number } }} /> */}
 
-                      <Button onClick={handleUnblock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                      {/* <Button onClick={handleUnblock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                           Unblock
                         </Typography>
-                      </Button>
+                      </Button> */}
                     </Box>
                   </form>
                 )}

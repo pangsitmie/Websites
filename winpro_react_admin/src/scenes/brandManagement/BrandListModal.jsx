@@ -8,8 +8,9 @@ import { format } from 'date-fns';
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { GetBrand, UpdateBrand, RemoveBrand } from "../../graphQL/Queries";
+import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
+import { replaceNullWithEmptyString } from "../../utils/Utils";
 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -32,12 +33,12 @@ export default function BrandListModal({ props }) {
   const [modal, setModal] = useState(false); //open or close modal
 
   //REF
-  const [brandStatus, setBrandStatus] = useState('');
+  const [status, setStatus] = useState('disable');
   const handleStatusChange = (event) => {
-    setBrandStatus(event.target.value);
+    setStatus(event.target.value);
   };
 
-  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", blockTitle = "封鎖";
+  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
   const [initialValues, setInitialValues] = useState({
     id: -1,
@@ -62,9 +63,6 @@ export default function BrandListModal({ props }) {
       console.log(data.removeBrand);
       window.location.reload();
     }
-    else {
-      console.log("NO DATA")
-    }
   }, [data]);
 
 
@@ -75,9 +73,6 @@ export default function BrandListModal({ props }) {
     if (data2) {
       window.location.reload();
       console.log("UPDATE SUCCESS")
-    }
-    else {
-      console.log("No data update")
     }
   }, [data2]);
 
@@ -95,31 +90,60 @@ export default function BrandListModal({ props }) {
   );
   useEffect(() => {
     if (data3) {
-      console.log(data3.getBrand[0]);
+      const nonNullData = replaceNullWithEmptyString(data3.getBrand[0]);
+
       setInitialValues({
         id: props.id,
-        status: data3.getBrand[0].status.name,
-        name: data3.getBrand[0].name,
-        vatNumber: data3.getBrand[0].vatNumber,
-        intro: data3.getBrand[0].intro,
+        status: nonNullData.status.name,
+        name: nonNullData.name,
+        vatNumber: nonNullData.vatNumber,
+        intro: nonNullData.intro,
 
-        principalName: data3.getBrand[0].principal.name,
-        principalLineUrl: data3.getBrand[0].principal.lineUrl,
-        principalEmail: data3.getBrand[0].principal.email,
+        principalName: nonNullData.principal.name,
+        principalLineUrl: nonNullData.principal.lineUrl,
+        principalEmail: nonNullData.principal.email,
         //password doesnt have initial value
-        brandCoinName: data3.getBrand[0].currency.name,
+        brandCoinName: nonNullData.currency.name,
       });
-      setBrandStatus(data3.getBrand[0].status.name)
-    }
-    else {
-      console.log("NO DATA ROM GET BRAND")
+
+      //set status only if not banned
+      if (nonNullData.status.name !== "banned") {
+        setStatus(nonNullData.status.name)
+      }
     }
   }, [data3]);
+
+  // UNBAN MUTATION
+  const [ApolloUnBanMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanBrand);
+  useEffect(() => {
+    if (data4) {
+      window.location.reload();
+    }
+  }, [data4]);
+
+  const handleUnBan = (e) => {
+    var result = window.confirm("Are you sure you want to unban this machine?");
+    if (result) {
+      ApolloUnBanMachine({
+        variables: {
+          args: [
+            {
+              id: props.id
+            }
+          ],
+        }
+      })
+      console.log("unbaned");
+    } else {
+      console.log("not deleted");
+    }
+  }
 
   // =================================================================================
   const handleFormSubmit = (values) => {
     console.log("SEND API REQUEST");
     console.log(values);
+    console.log("BRAND STAT" + status);
 
     if (values.principalPassword === "") { //if password is empty, do not update password
       ApolloUpdateBrand({
@@ -138,7 +162,27 @@ export default function BrandListModal({ props }) {
             email: values.principalEmail,
           },
           currencyName: values.brandCoinName,
-          statusId: brandStatus
+          statusId: status
+        }
+      });
+    }
+    else if (initialValues.status === "banned") { //if banned dont update status
+      ApolloUpdateBrand({
+        variables: {
+          args: [
+            {
+              id: values.id
+            }
+          ],
+          name: values.name,
+          vatNumber: values.vatNumber,
+          intro: values.intro,
+          principal: {
+            name: values.principalName,
+            lineUrl: values.principalLineUrl,
+            email: values.principalEmail,
+          },
+          currencyName: values.brandCoinName,
         }
       });
     }
@@ -160,7 +204,7 @@ export default function BrandListModal({ props }) {
             email: values.principalEmail,
           },
           currencyName: values.brandCoinName,
-          statusId: brandStatus
+          statusId: status
         }
       });
     }
@@ -183,6 +227,8 @@ export default function BrandListModal({ props }) {
       console.log("not deleted");
     }
   };
+
+
 
   const toggleModal = () => {
     setModal(!modal);
@@ -283,14 +329,16 @@ export default function BrandListModal({ props }) {
                           helperText={touched.vatNumber && errors.vatNumber}
                           sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
-                        <FormControl sx={{ minWidth: 150 }} >
+
+                        <FormControl sx={{ minWidth: 150 }}>
                           <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
                           <Select
+                            disabled={initialValues.status === "banned"}
                             sx={{ borderRadius: "10px", background: colors.primary[400] }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={brandStatus}
-                            label="brandStatus"
+                            value={status}
+                            label="status"
                             onChange={handleStatusChange}
                           >
                             <MenuItem value={"normal"}>正常</MenuItem>
@@ -398,7 +446,17 @@ export default function BrandListModal({ props }) {
                         </Typography>
                       </Button>
 
-                      <ConfirmModal props={{ type: "brand", id: props.id }} />
+                      {values.status === "banned" ? (
+                        <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
+                          <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                            {unbanTitle}
+                          </Typography>
+                        </Button>
+                      ) : (
+                        <ConfirmModal props={{ type: "brand", id: props.id }} />
+                      )}
+
+
 
                       <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>

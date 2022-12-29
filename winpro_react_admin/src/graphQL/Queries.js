@@ -7,6 +7,11 @@ query GetManagerAccessToken($refreshToken: String!) {
   getManagerAccessToken(refreshToken: $refreshToken)
 }
 `
+export const GetAccessToken = gql`
+query getAccessToken($refreshToken: String!) {
+  getAccessToken(refreshToken: $refreshToken)
+}
+`
 
 // ========================= Member =========================
 export const GetAllMember = gql`
@@ -41,7 +46,6 @@ query GetMember($params: [MemberArgs!]!, $reason: String!, $expireAt: Int) {
   }
 }
 `
-
 export const UnbanMember = gql`
 query GetMember($params: [MemberArgs!]!, $reason: String!) {
   getMember(params: $params) {
@@ -77,7 +81,6 @@ query GetAllBrands {
   }
 }
 `
-
 export const GetBrand = gql`
 query GetBrand($args: [BrandArgs!]!) {
   getBrand(args: $args) {
@@ -106,22 +109,28 @@ query GetBrand($args: [BrandArgs!]!) {
 export const UpdateBrand = gql`
 query GetBrand($args: [BrandArgs!]!, $name: String, $vatNumber: String, $intro: String, $currencyName: String, $principal: UpdateBrandPrincipalArgs, $statusId: EUpdateBrandStatus) {
   getBrand(args: $args) {
-    updateBrand(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId)
-     
+    update(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId)
   }
 }
 `
 export const BanBrand = gql`
 query GetBrand($args: [BrandArgs!]!, $expireAt: Int, $reason: String!) {
   getBrand(args: $args) {
-    banBrand(expireAt: $expireAt, reason: $reason)
+    ban(expireAt: $expireAt, reason: $reason)
+  }
+}
+`
+export const UnbanBrand = gql`
+query GetBrand($args: [BrandArgs!]!) {
+  getBrand(args: $args) {
+    unBan
   }
 }
 `
 export const RemoveBrand = gql`
 query GetBrand($args: [BrandArgs!]!) {
   getBrand(args: $args) {
-    removeBrand
+    remove
   }
 }
 `
@@ -151,7 +160,6 @@ query GetAllStores {
   }
 }
 `
-
 export const GetStore = gql`
 query GetStore($args: [StoreArgs!]!) {
   getStore(args: $args) {
@@ -200,25 +208,31 @@ query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocat
   }
 }
 `
-
 export const UpdateStore = gql`
 query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
   getStore(args: $args) {
-    updateStore(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId)
+    update(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId)
   }
 }
 `
 export const BanStore = gql`
 query GetStore($args: [StoreArgs!]!, $reason: String!, $expireAt: Int) {
   getStore(args: $args) {
-    banStore(reason: $reason, expireAt: $expireAt)
+    ban(reason: $reason, expireAt: $expireAt)
+  }
+}
+`
+export const UnbanStore = gql`
+query GetStore($args: [StoreArgs!]!) {
+  getStore(args: $args) {
+    unBan
   }
 }
 `
 export const RemoveStore = gql`
 query GetStore($args: [StoreArgs!]!) {
   getStore(args: $args) {
-    removeStore
+    remove
   }
 }
 `
@@ -230,14 +244,56 @@ query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String,
 }
 `
 
-export const GetAccessToken = gql`
-query getAccessToken($refreshToken: String!) {
-  getAccessToken(refreshToken: $refreshToken)
+// ========================= MACHINES =========================
+export const GetMachine = gql`
+query GetMachine($args: [MachineArgs!]!) {
+  getMachine(args: $args) {
+    uuid
+    code
+    price
+    name
+    description
+    qrCode
+    status {
+      id
+      description
+      name
+    }
+    connStatus
+  }
+}
+`
+export const UpdateMachine = gql`
+query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $description: String, $statusId: EUpdateStoreMachineStatus) {
+  getMachine(args: $args) {
+    update(price: $price, name: $name, description: $description, statusId: $statusId)
+  }
+}
+`
+
+export const BanMachine = gql`
+query GetMachine($args: [MachineArgs!]!) {
+  getMachine(args: $args) {
+    ban
+  }
+}
+`
+export const UnBanMachine = gql`
+query GetMachine($args: [MachineArgs!]!) {
+  getMachine(args: $args) {
+    unBan
+  }
+}
+`
+export const RemoveMachine = gql`
+query GetMachine($args: [MachineArgs!]!) {
+  getMachine(args: $args) {
+    remove
+  }
 }
 `
 
 // ========================= NOTIFICATIONS =========================
-
 export const ManagerGetAllNotificationSchedules = gql`
 query ManagerGetAllNotificationSchedules {
   managerGetAllNotificationSchedules {
@@ -290,11 +346,72 @@ query GetBillboardList($args: [BrandArgs!]!) {
   }
 }
 `
-
 export const CreateBillboard = gql`
 query GetBrand($args: [BrandArgs!]!, $title: String!, $content: String!, $description: String, $endAt: Int, $startAt: Int!) {
   getBrand(args: $args) {
     createBillboard(title: $title, content: $content, description: $description, endAt: $endAt, startAt: $startAt)
+  }
+}
+`
+export const GetBillboard = gql`
+query GetBillboard($args: [BillboardArgs!]!) {
+  getBillboard(args: $args) {
+    id
+    title
+    content
+    description
+    startAt
+    endAt
+    status {
+      id
+      description
+      name
+    name
+    }
+    images {
+      image
+    }
+  }
+}
+`
+export const UpdateBillboard = gql`
+query GetBillboard($args: [BillboardArgs!]!, $title: String, $content: String, $description: String, $startAt: Int, $endAt: Int) {
+  getBillboard(args: $args) {
+    update(title: $title, content: $content, description: $description, startAt: $startAt, endAt: $endAt)
+  }
+}
+`
+
+export const BanBillboard = gql`
+query GetBillboard($reason: String!, $args: [BillboardArgs!]!, $expireAt: Int) {
+  getBillboard(args: $args) {
+    ban(reason: $reason, expireAt: $expireAt)
+  }
+}
+`
+export const UnbanBillboard = gql`
+query GetBillboard($args: [BillboardArgs!]!) {
+  getBillboard(args: $args) {
+    unBan
+  }
+}
+`
+export const RemoveBillboard = gql`
+query GetBillboard($args: [BillboardArgs!]!) {
+  getBillboard(args: $args) {
+    remove
+  }
+}
+`
+
+// ========================= FREE COINS =========================
+export const GetSentFreeCoinsList = gql`
+query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
+  managerGetAllNotificationSchedules(onlyRewardType: $onlyRewardType) {
+    id
+    triggerAt
+    createdAt
+    comment
   }
 }
 `

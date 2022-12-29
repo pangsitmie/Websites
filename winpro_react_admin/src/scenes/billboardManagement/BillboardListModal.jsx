@@ -3,9 +3,14 @@ import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
+import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { useLazyQuery } from "@apollo/client";
-import { CreateBillboard } from "../../graphQL/Queries";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "../../graphQL/Queries";
+import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
+import { format } from 'date-fns';
+import ConfirmModal from "../../components/Modal/ConfirmModal";
+
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -15,12 +20,15 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function CreateBillboardModal({ props }) {
+export default function BillboardListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
     const [startAtDate, setStartAtDate] = useState('');
     const [endAtDate, setEndAtDate] = useState('');
+    const [billboardStatus, setBillboardStatus] = useState('');
+
+
 
     function handleStartAtDateChange(event) {
         setStartAtDate(event.target.value);
@@ -29,26 +37,104 @@ export default function CreateBillboardModal({ props }) {
     function handleEndAtDateChange(event) {
         setEndAtDate(event.target.value);
     }
+    const handleStatusChange = (event) => {
+        setBillboardStatus(event.target.value);
+    };
 
-    var btnTitle = "新增告示牌", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
-    const initialValues = {
+
+    const [initialValues, setInitialValues] = useState({
         title: "",
         content: "",
         description: "",
-    };
+        status: "",
+    });
 
     // GQL
-    const [ApolloCreateBillboard, { loading, error, data }] = useLazyQuery(CreateBillboard);
+
+    const [ApolloRemoveBillboard, { loading, error, data }] = useLazyQuery(RemoveBillboard);
     useEffect(() => {
         if (data) {
-            console.log(data.getBrand);
             window.location.reload();
         }
         else {
             console.log("NO DATA")
         }
     }, [data]);
+
+    //UPDATE BRAND MUTATION
+    const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateBillboard);
+    useEffect(() => {
+        if (data2) {
+            window.location.reload();
+            console.log("UPDATE SUCCESS")
+        }
+        else {
+            console.log("No data update")
+        }
+    }, [data2]);
+
+    // INITIAL VALUES FROM GET BILLBOARD
+    const { loading: loading3, error: error3, data: data3 } = useQuery(GetBillboard
+        , {
+            variables: {
+                args: [
+                    {
+                        id: props.id
+                    }
+                ],
+            }
+        }
+    );
+    useEffect(() => {
+        if (data3) {
+            const noNullData = replaceNullWithEmptyString(data3.getBillboard[0]);
+            console.log(noNullData.startAt);
+            console.log(noNullData.endAt);
+            setInitialValues({
+                title: noNullData.title,
+                content: noNullData.content,
+                description: noNullData.description,
+                status: noNullData.status.name,
+            });
+
+            const startAtDateTimeLocal = unixTimestampToDatetimeLocal(noNullData.startAt);
+            const endAtDateTimeLocal = unixTimestampToDatetimeLocal(noNullData.endAt);
+            setStartAtDate(startAtDateTimeLocal);
+            setEndAtDate(endAtDateTimeLocal);
+            // setBillboardStatus(data3.getBrand[0].status.name)
+        }
+        else {
+            console.log("NO DATA ROM GET BRAND")
+        }
+    }, [data3]);
+
+    // UNBAN MUTATION
+    const [ApolloUnBanBillboard, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanBillboard);
+    useEffect(() => {
+        if (data4) {
+            window.location.reload();
+        }
+    }, [data4]);
+
+    const handleUnBan = (e) => {
+        var result = window.confirm("Are you sure you want to unban this billboard?");
+        if (result) {
+            ApolloUnBanBillboard({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ],
+                }
+            })
+            console.log("unbaned");
+        } else {
+            console.log("not deleted");
+        }
+    }
 
     const handleFormSubmit = (values) => {
         console.log("FORM SUBMIT");
@@ -60,7 +146,7 @@ export default function CreateBillboardModal({ props }) {
         const startAtUnix = startAtDateObj.getTime() / 1000;
         const endAtUnix = endAtDateObj.getTime() / 1000;
 
-        ApolloCreateBillboard({
+        ApolloUpdateBillboard({
             variables: {
                 args: [
                     {
@@ -74,6 +160,24 @@ export default function CreateBillboardModal({ props }) {
                 endAt: endAtUnix,
             }
         });
+    };
+
+    const handleDelete = (e) => {
+        var result = window.confirm("Are you sure you want to delete this billboard?");
+        if (result) {
+            ApolloRemoveBillboard({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
+                }
+            })
+            console.log("deleted");
+        } else {
+            console.log("not deleted");
+        }
     };
 
     const toggleModal = () => {
@@ -117,6 +221,38 @@ export default function CreateBillboardModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
+                                            <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
+                                                <img
+                                                    alt="profile-user"
+                                                    width="100px"
+                                                    height="100px"
+                                                    src={IMG}
+                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
+                                                />
+                                            </Box>
+                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                                                {(() => {
+                                                    if (initialValues.status === "disable") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                                停用
+                                                            </Typography>)
+                                                    }
+                                                    if (initialValues.status === "banned") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                封鎖
+                                                            </Typography>)
+                                                    }
+                                                    else {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                正常
+                                                            </Typography>)
+                                                    }
+                                                })()}
+                                            </Box>
+
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 variant="filled"
@@ -187,8 +323,24 @@ export default function CreateBillboardModal({ props }) {
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
+                                            <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                                    {deleteTitle}
+                                                </Typography>
+                                            </Button>
+
+                                            {values.status === "banned" ? (
+                                                <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
+                                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                                        {unbanTitle}
+                                                    </Typography>
+                                                </Button>
+                                            ) : (
+                                                <ConfirmModal props={{ type: "billboard", id: props.id }} />
+                                            )}
+
+                                            <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                                                     {confirmTitle}
                                                 </Typography>
                                             </Button>

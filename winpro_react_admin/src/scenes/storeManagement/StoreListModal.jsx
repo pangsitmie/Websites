@@ -6,7 +6,7 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { format } from 'date-fns';
 import { useQuery, useLazyQuery } from "@apollo/client";
-import { GetStore, UpdateStore, RemoveStore } from "../../graphQL/Queries";
+import { GetStore, UpdateStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
@@ -49,12 +49,12 @@ export default function StoreListModal({ props }) {
 
 
 
-    const [storeStatus, setStorestatus] = React.useState(props.status.name);
+    const [status, setStatus] = useState('disable');
     const handleStatusChange = (event) => {
-        setStorestatus(event.target.value);
+        setStatus(event.target.value);
     };
     const [inputAddress, setInputAddress] = useState("");
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", blockTitle = "封鎖";
+    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
     const [initialValues, setInitialValues] = useState({
         id: -1,
@@ -104,7 +104,7 @@ export default function StoreListModal({ props }) {
         }
     }, [data2]);
 
-    // // INITIAL VALUES FROM GET STORE QUERY
+    // INITIAL VALUES FROM GET STORE QUERY
     const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
         , {
             variables: {
@@ -121,7 +121,7 @@ export default function StoreListModal({ props }) {
             // SET THE initial value using data3
             setInitialValues({
                 id: props.id,
-                status: props.status.name,
+                status: data3.getStore[0].status.name,
                 name: data3.getStore[0].name,
                 intro: data3.getStore[0].intro,
                 cover: "https://img.icons8.com/fluency/48/null/test-account.png",
@@ -136,6 +136,10 @@ export default function StoreListModal({ props }) {
                 principalLineUrl: data3.getStore[0].principal.lineUrl,
                 principalEmail: data3.getStore[0].principal.email,
             });
+            //set status only if not banned
+            if (data3.getStore[0].status.name !== "banned") {
+                setStatus(data3.getStore[0].status.name)
+            }
         }
         else {
             console.log("NO GET STORE DETAILS DATA")
@@ -168,7 +172,35 @@ export default function StoreListModal({ props }) {
                         lineUrl: values.principalLineUrl,
                         email: values.principalEmail,
                     },
-                    statusId: storeStatus
+                    statusId: status
+                }
+            });
+        }
+        else if (initialValues.status === "banned") {
+            ApolloUpdateStore({
+                variables: {
+                    args: [
+                        {
+                            id: values.id
+                        }
+                    ],
+                    name: values.name,
+                    intro: values.intro,
+                    location: {
+                        city: city,
+                        district: district,
+                        address: address,
+                        coordinate: {
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        },
+                        description: "some desc"
+                    },
+                    principal: {
+                        name: values.principalName,
+                        lineUrl: values.principalLineUrl,
+                        email: values.principalEmail,
+                    }
                 }
             });
         }
@@ -198,7 +230,7 @@ export default function StoreListModal({ props }) {
                         lineUrl: values.principalLineUrl,
                         email: values.principalEmail,
                     },
-                    statusId: storeStatus
+                    statusId: status
                 }
             });
         }
@@ -237,6 +269,35 @@ export default function StoreListModal({ props }) {
             console.log("not deleted");
         }
     };
+
+    // UNBAN MUTATION
+    const [ApolloUnBanStore, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanStore);
+    useEffect(() => {
+        if (data4) {
+            window.location.reload();
+        }
+        else {
+            console.log("No data update")
+        }
+    }, [data4]);
+    const handleUnBan = (e) => {
+        var result = window.confirm("Are you sure you want to unban this store?");
+        if (result) {
+            ApolloUnBanStore({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ],
+                    reason: "null"
+                }
+            })
+            console.log("unbaned");
+        } else {
+            console.log("not deleted");
+        }
+    }
 
     const toggleModal = () => {
         setModal(!modal);
@@ -327,11 +388,12 @@ export default function StoreListModal({ props }) {
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
                                                     <Select
+                                                        disabled={initialValues.status === "banned"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
-                                                        value={storeStatus}
-                                                        label="storeStatus"
+                                                        value={status}
+                                                        label="status"
                                                         onChange={handleStatusChange}
                                                     >
                                                         <MenuItem value={"normal"}>正常</MenuItem>
@@ -541,7 +603,16 @@ export default function StoreListModal({ props }) {
                                                 </Typography>
                                             </Button>
 
-                                            <ConfirmModal props={{ type: "store", id: props.id }} />
+                                            {values.status === "banned" ? (
+                                                <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
+                                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                                        {unbanTitle}
+                                                    </Typography>
+                                                </Button>
+                                            ) : (
+                                                <ConfirmModal props={{ type: "store", id: props.id }} />
+                                            )}
+                                            {/* <ConfirmModal props={{ type: "store", id: props.id }} /> */}
 
                                             <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>

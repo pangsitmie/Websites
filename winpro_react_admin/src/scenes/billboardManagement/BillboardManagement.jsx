@@ -15,6 +15,7 @@ import { citiesData } from "../../data/mockData";
 // import MachineListModal from './MachineListModal';
 import { GetBillboardList } from '../../graphQL/Queries';
 import CreateBillboardModal from './CreateBillboardModal';
+import BillboardListModal from './BillboardListModal';
 
 const BillboardManagement = () => {
     const location = useLocation();
@@ -188,17 +189,30 @@ const BillboardManagement = () => {
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (item.status.name === "normal") {
+                                    if (item.status.name === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
+                                                停用
                                             </Typography>
                                         )
                                     }
-                                    else {
+                                    else if (item.status.name === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
+                                                封鎖
+                                            </Typography>
+                                        )
+                                    }
+                                    else if (item.status.name === "removed") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                删除
+                                            </Typography>)
+                                    }
+                                    else {
+                                        return (
+                                            <Typography variant="h5" color={colors.greenAccent[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                正常
                                             </Typography>
                                         )
                                     }
@@ -210,7 +224,7 @@ const BillboardManagement = () => {
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                {/* <MachineListModal props={machine} /> */}
+                                <BillboardListModal props={item} />
                             </Box>
                         </Box>
                     ))}

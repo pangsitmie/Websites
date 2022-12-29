@@ -79,12 +79,17 @@ export default function CreateStoreModal() {
     const handleBrandListChange = (e) => {
         const targetId = e.target.value;
         console.log(targetId);
-        console.log(brandList[targetId - 1].name);
-        setBrandListFilter(targetId);
-        setBrandInfo({
-            brandId: targetId,
-            brandName: brandList[targetId - 1].name
-        });
+
+        //find the brand id from brand list
+        const brand = brandList.find(brand => brand.id === targetId);
+
+        if (brand) {
+            setBrandListFilter(targetId);
+            setBrandInfo({
+                brandId: targetId,
+                brandName: brand.name
+            });
+        }
     };
 
     //create store
@@ -251,9 +256,9 @@ export default function CreateStoreModal() {
                                                         {brandList.map((brand, i) => (
                                                             <MenuItem
                                                                 value={brand.id}
-                                                                key={`${brand.id}-${i}`}
+                                                                key={`${i}`}
                                                             >
-                                                                {brand.name}
+                                                                {brand.id} - {brand.name}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>

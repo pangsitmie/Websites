@@ -52,9 +52,6 @@ export default function CreateMachineModal({ props }) {
     }, [data]);
 
     const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-        //FIXME: put ApolloCreateMachineFromGetAllStores here!
         ApolloCreateMachineFromGetStores({
             variables: {
                 args: [

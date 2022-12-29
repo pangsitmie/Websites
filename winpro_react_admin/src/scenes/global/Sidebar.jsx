@@ -158,13 +158,6 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="告示牌管理"
-              to="/billboard-management"
-              icon={<FilterFramesIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title="廣告管理"
               to="/ads-management"
               icon={<AnnouncementIcon />}

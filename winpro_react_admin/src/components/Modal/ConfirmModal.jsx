@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { tokens } from "../../theme";
 import * as yup from "yup";
 import { useLazyQuery } from '@apollo/client'
-import { BanMember, BanBrand, BanStore } from "../../graphQL/Queries";
+import { BanMember, BanBrand, BanStore, BanBillboard, BanMachine } from "../../graphQL/Queries";
 
 
 
@@ -29,7 +29,6 @@ export default function ConfirmModal({ props }) {
     const [ApolloBanBrand, { loading, error, data }] = useLazyQuery(BanBrand);
     useEffect(() => {
         if (data) {
-            console.log(data);
             window.location.reload();
         }
         else {
@@ -41,7 +40,6 @@ export default function ConfirmModal({ props }) {
     const [ApolloBanStore, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(BanStore);
     useEffect(() => {
         if (data1) {
-            console.log(data1);
             window.location.reload();
         }
         else {
@@ -53,13 +51,23 @@ export default function ConfirmModal({ props }) {
     const [ApolloBanMember, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(BanMember);
     useEffect(() => {
         if (data2) {
-            console.log(data2);
             window.location.reload();
         }
         else {
             console.log("NO DATA")
         }
     }, [data2]);
+
+    // BAN BILLBOARD
+    const [ApolloBanBillboard, { loading: loading3, error: error3, data: data3 }] = useLazyQuery(BanBillboard);
+    useEffect(() => {
+        if (data3) {
+            window.location.reload();
+        }
+        else {
+            console.log("NO DATA")
+        }
+    }, [data3]);
 
 
     //date
@@ -126,6 +134,18 @@ export default function ConfirmModal({ props }) {
                         reason: reasonRef.current.value
                     }
                 })
+            case "billboard":
+                ApolloBanBillboard({
+                    variables: {
+                        args: [
+                            {
+                                id: targetId
+                            }
+                        ],
+                        expireAt: parseInt(unixSecond),
+                        reason: reasonRef.current.value
+                    }
+                })
         }
 
     };
@@ -139,7 +159,7 @@ export default function ConfirmModal({ props }) {
 
     return (
         <>
-            <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>封鎖</Button>
+            <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "2px solid #e36414" }}>封鎖</Button>
 
 
             {modal && (
