@@ -19,28 +19,31 @@ const checkoutSchema = yup.object().shape({
 
 
 const Login = () => {
-    //THEME
+    //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
+    //========================== INITIAL VALUES ==========================
     const initialValues = {
         account: "",
         password: ""
     }
 
-    //login state
-    const [isLoggedIn, setIsLogin] = useState(false);
-    const [accessToken, setAccessToken] = useState('');
+    // ========================== STATES AND HANDLERS ==========================
     let navigate = useNavigate();
 
+    const [isLoggedIn, setIsLogin] = useState(false);
+    const [accessToken, setAccessToken] = useState('');
 
 
-    //login mutation
+    //========================== GRAPHQL ==========================
+    //LOGIN
     const [apolloManagerLogin, { loading, error, data }] = useMutation(ManagerLogin);
     useEffect(() => {
         if (data) {
             console.log("LOGIN TOKEN: " + data.managerLogin);
+            localStorage.setItem('login_token', data.managerLogin);
             setIsLogin(true);
             apolloGetManagerAccessToken({
                 variables: {
@@ -70,7 +73,7 @@ const Login = () => {
     }, [data1]);
 
 
-
+    //========================== FUNCTIONS ==========================
     const handleFormSubmit = (values) => {
         console.log(values);
         apolloManagerLogin({
@@ -82,8 +85,7 @@ const Login = () => {
     }
 
 
-
-
+    // ========================== RETURN ==========================
     return (
         <Box className='login_container' backgroundColor={colors.primary[400]}>
             <Box m="20px">

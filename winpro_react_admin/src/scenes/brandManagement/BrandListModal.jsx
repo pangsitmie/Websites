@@ -27,19 +27,11 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function BrandListModal({ props }) {
-  //THEME
+  //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [modal, setModal] = useState(false); //open or close modal
 
-  //REF
-  const [status, setStatus] = useState('disable');
-  const handleStatusChange = (event) => {
-    setStatus(event.target.value);
-  };
-
-  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
-
+  //========================== INITIAL VALUES ==========================
   const [initialValues, setInitialValues] = useState({
     id: -1,
     status: "",
@@ -54,9 +46,20 @@ export default function BrandListModal({ props }) {
     brandCoinName: "",
   });
 
-  // =================================================================================
+  // ========================== STATES AND HANDLERS ==========================
+  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
-  // REMOVE BRAND MUTATION
+  const [modal, setModal] = useState(false); //open or close modal
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  const [status, setStatus] = useState('disable');
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
+
+  //========================== GRAPHQL ==========================
   const [ApolloRemoveBrand, { loading, error, data }] = useLazyQuery(RemoveBrand);
   useEffect(() => {
     if (data) {
@@ -65,9 +68,25 @@ export default function BrandListModal({ props }) {
     }
   }, [data]);
 
+  const handleDelete = (e) => {
+    var result = window.confirm("Are you sure you want to delete this brand?");
+    if (result) {
+      ApolloRemoveBrand({
+        variables: {
+          args: [
+            {
+              id: props.id
+            }
+          ]
+        }
+      })
+      console.log("deleted");
+    } else {
+      console.log("not deleted");
+    }
+  };
 
-
-  //UPDATE BRAND MUTATION
+  //UPDATE BRAND 
   const [ApolloUpdateBrand, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateBrand);
   useEffect(() => {
     if (data2) {
@@ -76,70 +95,6 @@ export default function BrandListModal({ props }) {
     }
   }, [data2]);
 
-  // INITIAL VALUES FROM GET BRAND QUERY
-  const { loading: loading3, error: error3, data: data3 } = useQuery(GetBrand
-    , {
-      variables: {
-        args: [
-          {
-            id: props.id
-          }
-        ],
-      }
-    }
-  );
-  useEffect(() => {
-    if (data3) {
-      const nonNullData = replaceNullWithEmptyString(data3.getBrand[0]);
-
-      setInitialValues({
-        id: props.id,
-        status: nonNullData.status.name,
-        name: nonNullData.name,
-        vatNumber: nonNullData.vatNumber,
-        intro: nonNullData.intro,
-
-        principalName: nonNullData.principal.name,
-        principalLineUrl: nonNullData.principal.lineUrl,
-        principalEmail: nonNullData.principal.email,
-        //password doesnt have initial value
-        brandCoinName: nonNullData.currency.name,
-      });
-
-      //set status only if not banned
-      if (nonNullData.status.name !== "banned") {
-        setStatus(nonNullData.status.name)
-      }
-    }
-  }, [data3]);
-
-  // UNBAN MUTATION
-  const [ApolloUnBanMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanBrand);
-  useEffect(() => {
-    if (data4) {
-      window.location.reload();
-    }
-  }, [data4]);
-
-  const handleUnBan = (e) => {
-    var result = window.confirm("Are you sure you want to unban this machine?");
-    if (result) {
-      ApolloUnBanMachine({
-        variables: {
-          args: [
-            {
-              id: props.id
-            }
-          ],
-        }
-      })
-      console.log("unbaned");
-    } else {
-      console.log("not deleted");
-    }
-  }
-
-  // =================================================================================
   const handleFormSubmit = (values) => {
     console.log("SEND API REQUEST");
     console.log(values);
@@ -210,30 +165,70 @@ export default function BrandListModal({ props }) {
     }
   };
 
-  const handleDelete = (e) => {
-    var result = window.confirm("Are you sure you want to delete this brand?");
+  // INITIAL VALUES FROM GET BRAND QUERY
+  const { loading: loading3, error: error3, data: data3 } = useQuery(GetBrand
+    , {
+      variables: {
+        args: [
+          {
+            id: props.id
+          }
+        ],
+      }
+    }
+  );
+  useEffect(() => {
+    if (data3) {
+      const nonNullData = replaceNullWithEmptyString(data3.getBrand[0]);
+
+      setInitialValues({
+        id: props.id,
+        status: nonNullData.status.name,
+        name: nonNullData.name,
+        vatNumber: nonNullData.vatNumber,
+        intro: nonNullData.intro,
+
+        principalName: nonNullData.principal.name,
+        principalLineUrl: nonNullData.principal.lineUrl,
+        principalEmail: nonNullData.principal.email,
+        //password doesnt have initial value
+        brandCoinName: nonNullData.currency.name,
+      });
+
+      //set status only if not banned
+      if (nonNullData.status.name !== "banned") {
+        setStatus(nonNullData.status.name)
+      }
+    }
+  }, [data3]);
+
+  // UNBAN MUTATION
+  const [ApolloUnBanMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanBrand);
+  useEffect(() => {
+    if (data4) {
+      window.location.reload();
+    }
+  }, [data4]);
+
+  const handleUnBan = (e) => {
+    var result = window.confirm("Are you sure you want to unban this machine?");
     if (result) {
-      ApolloRemoveBrand({
+      ApolloUnBanMachine({
         variables: {
           args: [
             {
               id: props.id
             }
-          ]
+          ],
         }
       })
-      console.log("deleted");
+      console.log("unbaned");
     } else {
       console.log("not deleted");
     }
-  };
+  }
 
-
-
-  const toggleModal = () => {
-    setModal(!modal);
-  };
-
+  //========================== RENDER ==========================
   if (modal) {
     document.body.classList.add('active-modal')
   } else {

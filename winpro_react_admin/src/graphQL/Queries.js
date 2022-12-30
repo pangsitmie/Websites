@@ -293,38 +293,6 @@ query GetMachine($args: [MachineArgs!]!) {
 }
 `
 
-// ========================= NOTIFICATIONS =========================
-export const ManagerGetAllNotificationSchedules = gql`
-query ManagerGetAllNotificationSchedules {
-  managerGetAllNotificationSchedules {
-    id
-    triggerAt
-    comment
-    status {
-      id
-      description
-      name
-    }
-    notification {
-      id
-      title
-      content
-      type {
-        id
-        name
-      }
-      expireAt
-    }
-  }
-}
-`
-
-export const ManagerSetNotificationScheduleToAllMember = gql`
-mutation ManagerSetNotificationScheduleToAllMember($comment: String!, $notification: ManagerCreateNotification!, $triggerAt: Int) {
-  managerSetNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
-}
-`
-
 // ========================= BILLBOARDS =========================
 export const GetBillboardList = gql`
 query GetBillboardList($args: [BrandArgs!]!) {
@@ -375,9 +343,9 @@ query GetBillboard($args: [BillboardArgs!]!) {
 }
 `
 export const UpdateBillboard = gql`
-query GetBillboard($args: [BillboardArgs!]!, $title: String, $content: String, $description: String, $startAt: Int, $endAt: Int) {
+query GetBillboard($args: [BillboardArgs!]!, $title: String, $content: String, $description: String, $startAt: Int, $endAt: Int, $statusId: EUpdateBrandBillboardStatus) {
   getBillboard(args: $args) {
-    update(title: $title, content: $content, description: $description, startAt: $startAt, endAt: $endAt)
+    update(title: $title, content: $content, description: $description, startAt: $startAt, endAt: $endAt, statusId: $statusId)
   }
 }
 `
@@ -404,7 +372,43 @@ query GetBillboard($args: [BillboardArgs!]!) {
 }
 `
 
+
+// ========================= NOTIFICATIONS =========================
+export const ManagerGetAllNotificationSchedules = gql`
+query ManagerGetAllNotificationSchedules {
+  managerGetAllNotificationSchedules {
+    id
+    triggerAt
+    comment
+    status {
+      id
+      description
+      name
+    }
+    notification {
+      id
+      title
+      content
+      type {
+        id
+        name
+      }
+      expireAt
+    }
+  }
+}
+`
+
+export const ManagerSetNotificationScheduleToAllMember = gql`
+mutation ManagerSetNotificationScheduleToAllMember($comment: String!, $notification: ManagerCreateNotification!, $triggerAt: Int) {
+  managerSetNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
+}
+`
+
 // ========================= FREE COINS =========================
+// ini dipake buat dapetin semua free coin yang udah dikirim
+// tapi disini dapet systemFree || brand dan ini dipake buat separasi 
+// liat notion buat details
 export const GetSentFreeCoinsList = gql`
 query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
   managerGetAllNotificationSchedules(onlyRewardType: $onlyRewardType) {
@@ -412,6 +416,63 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
     triggerAt
     createdAt
     comment
+    notification {
+      id
+      title
+      content
+      expireAt
+      reward {
+        id
+        content {
+          ... on CurrencyReward {
+            id
+            amount
+            currency {
+              id
+              name
+              createdAt
+              type {
+                id
+                description
+                name
+              }
+            }
+          }
+        }
+        limit
+        status {
+          id
+          description
+          name
+        id
+          description
+          name
+        }
+        sourceType {
+          id
+          description
+          name
+        }
+        endAt
+        startAt
+        description
+      }
+    }
+    status {
+      id
+      description
+      name
+    }
   }
 }
 `
+
+export const ManagerCreateCurrencyReward = gql`
+mutation ManagerCreateCurrencyReward($amount: Int!, $currencyId: String!, $sourceType: EManagerCreateRewardSourceType!, $startAt: Int!, $limit: Int, $description: String, $endAt: Int, $comment: String!, $notification: ManagerCreateNotificationField!, $triggerAt: Int) {
+  managerCreateCurrencyReward(amount: $amount, currencyId: $currencyId, sourceType: $sourceType, startAt: $startAt, limit: $limit, description: $description, endAt: $endAt) {
+    id
+    managerCreateNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
+  }
+}
+`
+

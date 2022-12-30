@@ -1,0 +1,349 @@
+import React, { useState, useEffect } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useMutation } from '@apollo/client'
+import { Formik } from "formik";
+import * as yup from "yup";
+import "../../components/Modal/modal.css";
+import IMG from "../../assets/user.png";
+import { tokens } from "../../theme";
+import { ManagerCreateCurrencyReward, ManagerSetNotificationScheduleToAllMember } from "../../graphQL/Queries";
+import { Navigate } from "react-router-dom";
+import { format } from 'date-fns';
+import { replaceNullWithEmptyString } from "../../utils/Utils";
+
+
+const checkoutSchema = yup.object().shape({
+  title: yup.string().required("required"),
+  content: yup.string().required("required"),
+  comment: yup.string().required("required"),
+  triggerAtDate: yup.string().required("required"),
+  expireAtDate: yup.string().required("required"),
+  startAtDate: yup.string().required("required"),
+  endAtDate: yup.string().required("required"),
+});
+
+
+export default function CreateSystemCoinModal() {
+  //========================== THEME ==========================
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  //========================== INITIAL VALUES ==========================
+  var btnTitle = "新增", confirmTitle = "新增", deleteTitle = "取消";
+  const [modal, setModal] = useState(false); //open or close modal
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  const [notifType, setNotifType] = useState('system');
+  const handleNotifTypeChange = (event) => {
+    setNotifType(event.target.value);
+  };
+  const [triggerAtDate, setTriggerAtDate] = useState('');
+  function handleTriggerAtDateChange(event) {
+    setTriggerAtDate(event.target.value);
+  }
+
+  const [expireAtDate, setExpireAtDate] = useState('');
+  function handleExpireAtDateChange(event) {
+    setExpireAtDate(event.target.value);
+  }
+
+  const [startAtDate, setStartAtDate] = useState('');
+  function handleStartAtDateChange(event) {
+    setStartAtDate(event.target.value);
+  }
+
+  const [endAtDate, setEndAtDate] = useState('');
+  function handleEndAtDateChange(event) {
+    setEndAtDate(event.target.value);
+  }
+
+  //========================== INITIAL VALUES ==========================
+  const [initialValues, setInitialValues] = useState({
+    title: "",
+    content: "",
+    comment: "",
+    rewardId: "",
+    triggerAtDate: "",
+    expireAtDate: "",
+    currencyID: "",
+    currencyName: "",
+    currencyAmount: "",
+    rewardLimit: "",
+    rewardDescription: "",
+    rewardStatus: "",
+    startAt: "",
+    endAt: "",
+  });
+
+
+  //========================== GRAPHQL ==========================
+  const [ApolloCreateSystemFreeCoinNotification, { loading, error, data }] = useMutation(ManagerCreateCurrencyReward);
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      window.location.reload();
+    }
+    else {
+      console.log(error)
+    }
+  }, [data]);
+
+
+
+
+
+
+
+  const handleFormSubmit = (values) => {
+    console.log("SEND CREATE NOTIFICATION REQUEST");
+    console.log(values);
+    const triggerAtDateObj = new Date(triggerAtDate);
+    const expireAtDateObj = new Date(expireAtDate);
+    const startAtDateObj = new Date(startAtDate);
+    const endAtDateObj = new Date(endAtDate);
+
+    const triggerAtUnix = triggerAtDateObj.getTime() / 1000;
+    const expireAtUnix = expireAtDateObj.getTime() / 1000;
+    const startAtUnix = startAtDateObj.getTime() / 1000;
+    const endAtUnix = endAtDateObj.getTime() / 1000;
+
+
+    ApolloCreateSystemFreeCoinNotification({
+      variables: {
+        amount: parseInt(values.currencyAmount),
+        currencyId: "1",
+        sourceType: "notification",
+        triggerAt: triggerAtUnix,
+        startAt: startAtUnix,
+        endAt: endAtUnix,
+        description: values.rewardDescription,
+        limit: parseInt(values.rewardLimit),
+        comment: values.comment,
+        notification: {
+          type: "freeCoin",
+          title: values.title,
+          content: values.content,
+          expireAt: expireAtUnix
+        },
+
+      }
+    });
+  };
+
+
+
+  if (modal) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
+
+  return (
+    <>
+      {/* THE CONTENT OF THE BUTTON */}
+      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
+
+      {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
+      {modal && (
+        <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+            <Box m="20px">
+              <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                {btnTitle}
+              </Typography>
+
+              <Formik
+                onSubmit={handleFormSubmit}
+                initialValues={initialValues}
+                validationSchema={checkoutSchema}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleBlur,
+                  handleChange,
+                  handleSubmit,
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Box color={"black"}>
+                      <Box display={"flex"} justifyContent={"space-between"}>
+                        <TextField className="modal_input_textfield"
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="標題"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.title}
+                          name="title"
+                          error={!!touched.title && !!errors.title}
+                          helperText={touched.title && errors.title}
+                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="備註"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.comment}
+                          name="comment"
+                          error={!!touched.comment && !!errors.comment}
+                          helperText={touched.comment && errors.comment}
+                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                      </Box>
+
+                      <TextField
+                        id="outlined-multiline-flexible"
+                        multiline
+                        fullWidth
+                        maxRows={4}
+                        variant="filled"
+                        type="text"
+                        label="内容"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.content}
+                        name="content"
+                        error={!!touched.content && !!errors.content}
+                        helperText={touched.content && errors.content}
+                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                      />
+
+                      <Box display={"flex"} justifyContent={"space-between"}>
+                        <TextField
+                          fullWidth
+                          id="datetime-local"
+                          label="排程時間"
+                          type="datetime-local"
+                          // defaultValue="2017-05-24T10:30"
+                          value={triggerAtDate}
+                          onChange={handleTriggerAtDateChange}
+                          sx={{ marginBottom: "1rem", mr: '1rem' }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+
+                        <TextField
+                          fullWidth
+                          id="datetime-local"
+                          label="過期時間"
+                          type="datetime-local"
+                          // defaultValue="2017-05-24T10:30"
+                          value={expireAtDate}
+                          onChange={handleExpireAtDateChange}
+                          sx={{ marginBottom: "1rem" }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                      </Box>
+
+                      <Typography variant="h4" sx={{ m: "1rem 0", textAlign: "center", fontSize: "1rem", fontWeight: "600", color: "#cecece" }}>
+                        Reward
+                      </Typography>
+
+
+
+                      <Box display={"flex"} justifyContent={"space-between"}>
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="數量"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.currencyAmount}
+                          name="currencyAmount"
+                          error={!!touched.currencyAmount && !!errors.currencyAmount}
+                          helperText={touched.currencyAmount && errors.currencyAmount}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="限定數量"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.rewardLimit}
+                          name="rewardLimit"
+                          error={!!touched.rewardLimit && !!errors.rewardLimit}
+                          helperText={touched.rewardLimit && errors.rewardLimit}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                      </Box>
+
+                      <TextField
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="獎勵描述"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.rewardDescription}
+                        name="rewardDescription"
+                        error={!!touched.rewardDescription && !!errors.rewardDescription}
+                        helperText={touched.rewardDescription && errors.rewardDescription}
+                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                      />
+
+
+
+                      <Box display={"flex"} justifyContent={"space-between"}>
+                        <TextField
+                          fullWidth
+                          id="datetime-local"
+                          label="獎勵開始時間"
+                          type="datetime-local"
+                          // defaultValue="2017-05-24T10:30"
+                          value={startAtDate}
+                          onChange={handleStartAtDateChange}
+                          sx={{ marginBottom: "1rem", mr: '1rem' }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                        <TextField
+                          fullWidth
+                          id="datetime-local"
+                          label="獎勵結束時間"
+                          type="datetime-local"
+                          // defaultValue="2017-05-24T10:30"
+                          value={endAtDate}
+                          onChange={handleEndAtDateChange}
+                          sx={{ marginBottom: "1rem" }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+
+                      </Box>
+
+
+                    </Box>
+                    <Box display="flex" justifyContent="center" >
+                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                          {confirmTitle}
+                        </Typography>
+                      </Button>
+                    </Box>
+                  </form>
+                )}
+              </Formik>
+            </Box >
+          </div>
+        </div>
+      )
+      }
+    </>
+  );
+}

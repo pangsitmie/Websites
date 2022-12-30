@@ -17,53 +17,31 @@ import { Link } from 'react-router-dom';
 
 
 const BrandManagement = () => {
-    //THEME
+    //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
+    // ========================== STATES AND HANDLERS ==========================
+    const [filter, setFilter] = useState('品牌名');
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
 
-    // STATES
-    // const [filter, setFilter] = useState('品牌名');
     const [status, setStatus] = useState('');
-    const [review, setReview] = useState('');
-
-    //REF
-    const searchValueRef = useRef('');
-    const filterRef = useRef('品牌名');
-
-    //FUNCTIONS
-    // const handleFilterChange = (e) => {
-    //     setFilter(e.target.value);
-    // };
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
+
+    const [review, setReview] = useState('');
     const handleReviewChange = (e) => {
         setReview(e.target.value);
     };
-    const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
 
-        //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
-            let search = arraySearch(brands, value);
-            setBrands(search)
-        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setBrands(initBrands)
-        }
-    };
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
+    // ========================== REF ==========================
+    const searchValueRef = useRef('');
+    const filterRef = useRef('品牌名');
 
-        return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
-    //GRAPHQL
+    //========================== GRAPHQL ==========================
     const { loading, error, data } = useQuery(GetAllBrands);
     const [initBrands, setInitBrands] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -79,7 +57,32 @@ const BrandManagement = () => {
     }, [data]);
 
 
+    // ========================== FUNCTIONS ==========================
+    const submitSearch = () => {
+        // LOG SEARCH STATES
+        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
 
+        //CALL SEARCH FUNCTION
+        let value = searchValueRef.current.value;
+        if (value.length > 2) {
+            let search = arraySearch(brands, value);
+            setBrands(search)
+        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setBrands(initBrands)
+        }
+    };
+
+    //SEARCH FUNCTION
+    const arraySearch = (array, keyword, filter) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.name.match(new RegExp(searchTerm, 'g')) ||
+                value.principal.name.match(new RegExp(searchTerm, 'g'))
+        })
+    }
+
+    // ========================== RETURN ==========================
     return (
         <Box p={2}>
             <h1 className='userManagement_title'>品牌管理</h1>

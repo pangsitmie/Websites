@@ -135,8 +135,6 @@ export default function MachineListModal({ props }) {
             if (nonNullData.status.name !== "banned") {
                 setStatus(nonNullData.status.name)
             }
-            // handleStatusChange(nonNullData.status.name)
-            // setStatus(data3.getBrand[0].status.name)
         }
     }, [data3]);
 
@@ -146,9 +144,6 @@ export default function MachineListModal({ props }) {
         if (data4) {
             window.location.reload();
         }
-        else {
-            console.log("No data update")
-        }
     }, [data4]);
 
     // UNBAN MUTATION
@@ -156,9 +151,6 @@ export default function MachineListModal({ props }) {
     useEffect(() => {
         if (data5) {
             window.location.reload();
-        }
-        else {
-            console.log("No data update")
         }
     }, [data5]);
 

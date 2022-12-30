@@ -19,7 +19,7 @@ export default function UserListModal({ props }) {
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
 
-  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+  var unbanTitle = "解封";
 
 
   const initialValues = {
@@ -253,11 +253,6 @@ export default function UserListModal({ props }) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" padding="1rem 0" >
-                      {/* <Button onClick={handleBlock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          Block
-                        </Typography>
-                      </Button> */}
 
                       {values.status === "banned" ? (
                         <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
@@ -268,13 +263,7 @@ export default function UserListModal({ props }) {
                       ) : (
                         <ConfirmModal props={{ type: "member", id: props.id, phone: { country: "tw", number: props.phone.number } }} />
                       )}
-                      {/* <ConfirmModal props={{ type: "member", id: props.id, phone: { country: "tw", number: props.phone.number } }} /> */}
 
-                      {/* <Button onClick={handleUnblock} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
-                          Unblock
-                        </Typography>
-                      </Button> */}
                     </Box>
                   </form>
                 )}

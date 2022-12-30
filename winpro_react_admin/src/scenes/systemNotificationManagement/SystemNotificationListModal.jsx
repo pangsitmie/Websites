@@ -20,7 +20,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function SystemNotificationListModal({ props }) {
-  //THEME
+  //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -28,7 +28,7 @@ export default function SystemNotificationListModal({ props }) {
   const [modal, setModal] = useState(false); //open or close modal
 
 
-
+  // ========================== STATES AND HANDLERS ==========================
   const [initialValues, setInitialValues] = useState({
     title: "",
     type: "",
@@ -36,9 +36,7 @@ export default function SystemNotificationListModal({ props }) {
     comments: "",
     triggerAtDate: "",
     expireAtDate: "",
-    rewardId: "",
   });
-
 
   useEffect(() => {
     console.log(props);
@@ -50,7 +48,6 @@ export default function SystemNotificationListModal({ props }) {
         comments: props.comment,
         triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         expireAtDate: "無",
-        rewardId: "",
       });
     }
     else {
@@ -61,13 +58,12 @@ export default function SystemNotificationListModal({ props }) {
         comments: props.comment,
         triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         expireAtDate: format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-        rewardId: "",
       });
     }
-  }, []);
+  }, [props]);
 
 
-  //create brand mutation
+  //========================== GRAPHQL ==========================
   const [ApolloDeleteNotification, { loading, error, data }] = useMutation(ManagerSetNotificationScheduleToAllMember);
   useEffect(() => {
     if (data) {
@@ -128,37 +124,21 @@ export default function SystemNotificationListModal({ props }) {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <Box color={"black"}>
-                      <Box display={"flex"} justifyContent={"space-between"}>
-                        <TextField className="modal_input_textfield"
-                          disabled={true}
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="標題"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.title}
-                          name="title"
-                          error={!!touched.title && !!errors.title}
-                          helperText={touched.title && errors.title}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                        />
-                        <TextField className="modal_input_textfield"
-                          disabled={true}
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="Type"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.type}
-                          name="type"
-                          error={!!touched.type && !!errors.type}
-                          helperText={touched.type && errors.type}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                        />
+                      <TextField className="modal_input_textfield"
+                        disabled={true}
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="標題"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.title}
+                        name="title"
+                        error={!!touched.title && !!errors.title}
+                        helperText={touched.title && errors.title}
+                        sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                      />
 
-                      </Box>
                       <TextField
                         disabled={true}
                         id="outlined-multiline-flexible"
@@ -210,7 +190,7 @@ export default function SystemNotificationListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="排程時間點"
+                        label="過期時間"
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.expireAtDate}
@@ -219,22 +199,6 @@ export default function SystemNotificationListModal({ props }) {
                         helperText={touched.expireAtDate && errors.expireAtDate}
                         sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
-                      <TextField
-                        disabled={true}
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="獎勵 ID"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.rewardId}
-                        name="rewardId"
-                        error={!!touched.rewardId && !!errors.rewardId}
-                        helperText={touched.rewardId && errors.rewardId}
-                        sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                      />
-
-
                     </Box>
                     <Box display="flex" justifyContent="center" >
                       <Button type="submit" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.redAccent[600] }}>

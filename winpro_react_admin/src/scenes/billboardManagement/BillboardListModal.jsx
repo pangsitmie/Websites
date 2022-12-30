@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
@@ -21,29 +21,11 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function BillboardListModal({ props }) {
+    //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [modal, setModal] = useState(false);
-    const [startAtDate, setStartAtDate] = useState('');
-    const [endAtDate, setEndAtDate] = useState('');
-    const [billboardStatus, setBillboardStatus] = useState('');
 
-
-
-    function handleStartAtDateChange(event) {
-        setStartAtDate(event.target.value);
-    }
-
-    function handleEndAtDateChange(event) {
-        setEndAtDate(event.target.value);
-    }
-    const handleStatusChange = (event) => {
-        setBillboardStatus(event.target.value);
-    };
-
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
-
-
+    //========================== INITIAL VALUES ==========================
     const [initialValues, setInitialValues] = useState({
         title: "",
         content: "",
@@ -51,8 +33,27 @@ export default function BillboardListModal({ props }) {
         status: "",
     });
 
-    // GQL
+    //========================== INITIAL VALUES ==========================
+    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
+    const [modal, setModal] = useState(false);
+
+    const [status, setStatus] = useState('disable');
+    const handleStatusChange = (event) => {
+        setStatus(event.target.value);
+    };
+
+    const [startAtDate, setStartAtDate] = useState('');
+    function handleStartAtDateChange(event) {
+        setStartAtDate(event.target.value);
+    }
+
+    const [endAtDate, setEndAtDate] = useState('');
+    function handleEndAtDateChange(event) {
+        setEndAtDate(event.target.value);
+    }
+
+    //========================== GRAPHQL ==========================
     const [ApolloRemoveBillboard, { loading, error, data }] = useLazyQuery(RemoveBillboard);
     useEffect(() => {
         if (data) {
@@ -62,6 +63,25 @@ export default function BillboardListModal({ props }) {
             console.log("NO DATA")
         }
     }, [data]);
+
+    const handleDelete = (e) => {
+        var result = window.confirm("Are you sure you want to delete this billboard?");
+        if (result) {
+            ApolloRemoveBillboard({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
+                }
+            })
+            console.log("deleted");
+        } else {
+            console.log("not deleted");
+        }
+    };
+
 
     //UPDATE BRAND MUTATION
     const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateBillboard);
@@ -89,20 +109,26 @@ export default function BillboardListModal({ props }) {
     );
     useEffect(() => {
         if (data3) {
-            const noNullData = replaceNullWithEmptyString(data3.getBillboard[0]);
-            console.log(noNullData.startAt);
-            console.log(noNullData.endAt);
+            const nonNullData = replaceNullWithEmptyString(data3.getBillboard[0]);
+            console.log(nonNullData.startAt);
+            console.log(nonNullData.endAt);
             setInitialValues({
-                title: noNullData.title,
-                content: noNullData.content,
-                description: noNullData.description,
-                status: noNullData.status.name,
+                title: nonNullData.title,
+                content: nonNullData.content,
+                description: nonNullData.description,
+                status: nonNullData.status.name,
             });
 
-            const startAtDateTimeLocal = unixTimestampToDatetimeLocal(noNullData.startAt);
-            const endAtDateTimeLocal = unixTimestampToDatetimeLocal(noNullData.endAt);
+            const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
+            const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
             setStartAtDate(startAtDateTimeLocal);
             setEndAtDate(endAtDateTimeLocal);
+
+            //set status only if not banned
+            if (nonNullData.status.name !== "banned") {
+                setStatus(nonNullData.status.name)
+            }
+
             // setBillboardStatus(data3.getBrand[0].status.name)
         }
         else {
@@ -158,27 +184,12 @@ export default function BillboardListModal({ props }) {
                 description: values.description,
                 startAt: startAtUnix,
                 endAt: endAtUnix,
+                statusId: status
             }
         });
     };
 
-    const handleDelete = (e) => {
-        var result = window.confirm("Are you sure you want to delete this billboard?");
-        if (result) {
-            ApolloRemoveBillboard({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ]
-                }
-            })
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
-        }
-    };
+
 
     const toggleModal = () => {
         setModal(!modal);
@@ -253,19 +264,37 @@ export default function BillboardListModal({ props }) {
                                                 })()}
                                             </Box>
 
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="標題"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.title}
-                                                name="title"
-                                                error={!!touched.title && !!errors.title}
-                                                helperText={touched.title && errors.title}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                            />
+                                            <Box display="flex" justifyContent="center" >
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="標題"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.title}
+                                                    name="title"
+                                                    error={!!touched.title && !!errors.title}
+                                                    helperText={touched.title && errors.title}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                />
+                                                <FormControl sx={{ minWidth: 150 }}>
+                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <Select
+                                                        disabled={initialValues.status === "banned"}
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={status}
+                                                        label="status"
+                                                        onChange={handleStatusChange}
+                                                    >
+                                                        <MenuItem value={"normal"}>正常</MenuItem>
+                                                        <MenuItem value={"disable"}>停用</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 variant="filled"

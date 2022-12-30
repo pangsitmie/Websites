@@ -12,6 +12,7 @@ import { tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateSystemCoinModal from './CreateSystemCoinModal';
+import SystemCoinListModal from './SystemCoinListModal';
 
 
 const SystemCoinManagement = () => {
@@ -60,14 +61,20 @@ const SystemCoinManagement = () => {
     }
 
     //GRAPHQL
-    const { loading, error, data } = useQuery(GetSentFreeCoinsList);
+    const { loading, error, data } = useQuery(GetSentFreeCoinsList,
+        {
+            variables: {
+                onlyRewardType: "currency",
+            }
+        }
+    );
     const [initNotifications, setInitNotifications] = useState([]);
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         if (data) {
             console.log(data);
             setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
-            // setNotifications(data.managerGetAllNotificationSchedules); //datas for display
+            setNotifications(data.managerGetAllNotificationSchedules); //datas for display
         }
         else {
             console.log(error);
@@ -201,57 +208,61 @@ const SystemCoinManagement = () => {
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
-                    {notifications.map((item, i) => (
-                        <Box
-                            key={`${item.id}-${i}`}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            borderBottom={`4px solid ${colors.primary[500]}`}
-                            p="10px"
-                        >
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                            {/* <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box> */}
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {(() => {
-                                    if (item.notification.expireAt === null) {
-                                        return "無"
-                                    }
-                                    else {
-                                        return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
-                                    }
-                                })()}
-                            </Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {(() => {
-                                    if (item.status.name === "done") {
-                                        return (
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                完成
-                                            </Typography>)
-                                    }
-                                    else if (item.status.name === "failed") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                失敗
-                                            </Typography>)
-                                    }
-                                    else {
-                                        return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
-                                            </Typography>)
-                                    }
-                                })()}
-                            </Box>
+                    {notifications.map((item, i) => {
+                        if (item.notification.reward.content.currency.type.name === "systemFree") {
+                            return (
+                                <Box
+                                    key={`${item.id}-${i}`}
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    borderBottom={`4px solid ${colors.primary[500]}`}
+                                    p="10px"
+                                >
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.reward.content.currency.type.name} - {item.notification.title}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                        {(() => {
+                                            if (item.notification.expireAt === null) {
+                                                return "無"
+                                            }
+                                            else {
+                                                return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                            }
+                                        })()}
+                                    </Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                        {(() => {
+                                            if (item.status.name === "done") {
+                                                return (
+                                                    <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                        完成
+                                                    </Typography>)
+                                            }
+                                            else if (item.status.name === "failed") {
+                                                return (
+                                                    <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                        失敗
+                                                    </Typography>)
+                                            }
+                                            else {
+                                                return (
+                                                    <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                        正常
+                                                    </Typography>)
+                                            }
+                                        })()}
+                                    </Box>
 
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {/* FIXME: change title to delete */}
-                                {/* <ConfirmModal props={brand} /> */}
-                            </Box>
-                        </Box>
-                    ))}
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                        {/* FIXME: change title to delete */}
+                                        <SystemCoinListModal props={item} />
+                                    </Box>
+                                </Box>
+                            )
+                        }
+                    })}
                 </Box>
             </Box>
         </Box >

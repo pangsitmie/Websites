@@ -32,8 +32,6 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function StoreListModal({ props }) {
-    console.log("MODAL" + props);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -86,9 +84,6 @@ export default function StoreListModal({ props }) {
             console.log("REMOVE SUCCESS");
             window.location.reload();
         }
-        else {
-            console.log("NO REMOVE STORE DATA")
-        }
     }, [data]);
 
 
@@ -98,9 +93,6 @@ export default function StoreListModal({ props }) {
         if (data2) {
             window.location.reload();
             console.log("UPDATE SUCCESS")
-        }
-        else {
-            console.log("NO UPDATE STORE DATA")
         }
     }, [data2]);
 
@@ -140,9 +132,6 @@ export default function StoreListModal({ props }) {
             if (data3.getStore[0].status.name !== "banned") {
                 setStatus(data3.getStore[0].status.name)
             }
-        }
-        else {
-            console.log("NO GET STORE DETAILS DATA")
         }
     }, [data3]);
 
@@ -275,9 +264,6 @@ export default function StoreListModal({ props }) {
     useEffect(() => {
         if (data4) {
             window.location.reload();
-        }
-        else {
-            console.log("No data update")
         }
     }, [data4]);
     const handleUnBan = (e) => {

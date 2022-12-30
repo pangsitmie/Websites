@@ -29,9 +29,7 @@ export default function CreateBrandModal() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  var btnTitle = "新增品牌", confirmTitle = "新增", cancelTitle = "取消";
-  const [modal, setModal] = useState(false); //open or close modal
-
+  //========================== INITIAL VALUES ==========================
   const initialValues = {
     name: "",
     intro: "",
@@ -45,7 +43,14 @@ export default function CreateBrandModal() {
     brandCoinName: "",
   };
 
-  //create brand mutation
+  // ========================== STATES AND HANDLERS ==========================
+  var btnTitle = "新增品牌", confirmTitle = "新增", cancelTitle = "取消";
+  const [modal, setModal] = useState(false); //open or close modal
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  //========================== GRAPHQL ==========================
   const [ApolloCreateBrand, { loading, error, data }] = useMutation(CreateBrand);
   useEffect(() => {
     if (data) {
@@ -57,7 +62,7 @@ export default function CreateBrandModal() {
     }
   }, [data]);
 
-
+  // ========================== FUNCTIONS ==========================
   const handleFormSubmit = (values) => {
     console.log("SEND CREATE BRAND API REQUEST");
     console.log(values);
@@ -81,16 +86,15 @@ export default function CreateBrandModal() {
     });
   };
 
-  const toggleModal = () => {
-    setModal(!modal);
-  };
 
+  // ========================== RENDER ==========================
   if (modal) {
     document.body.classList.add('active-modal')
   } else {
     document.body.classList.remove('active-modal')
   }
 
+  // ========================== RETURN ==========================
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}

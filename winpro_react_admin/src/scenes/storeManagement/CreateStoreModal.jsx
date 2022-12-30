@@ -344,7 +344,6 @@ export default function CreateStoreModal() {
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
-                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面縣市"
@@ -358,7 +357,6 @@ export default function CreateStoreModal() {
                                                 />
                                                 <TextField
                                                     fullWidth
-                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面鄉鎮"
@@ -372,7 +370,6 @@ export default function CreateStoreModal() {
                                                 />
                                                 <TextField
                                                     fullWidth
-                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面地址"

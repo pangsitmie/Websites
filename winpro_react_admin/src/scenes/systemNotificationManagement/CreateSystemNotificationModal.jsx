@@ -19,21 +19,11 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateSystemNotificationModal() {
-  //THEME
+  //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
-  const [modal, setModal] = useState(false); //open or close modal
-  const [notifType, setNotifType] = useState('system');
-  const [triggerAtDate, setTriggerAtDate] = useState('');
-  const [expireAtDate, setExpireAtDate] = useState('');
-
-
-  const handleNotifTypeChange = (event) => {
-    setNotifType(event.target.value);
-  };
-
+  //========================== INITIAL VALUES ==========================
   const initialValues = {
     title: "",
     content: "",
@@ -41,7 +31,51 @@ export default function CreateSystemNotificationModal() {
     rewardId: "",
   };
 
-  //create brand mutation
+  // ========================== STATES AND HANDLERS ==========================
+  var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
+
+  const [modal, setModal] = useState(false); //open or close modal
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  const [notifType, setNotifType] = useState('system');
+  const handleNotifTypeChange = (event) => {
+    setNotifType(event.target.value);
+  };
+
+  const [triggerAtDate, setTriggerAtDate] = useState('');
+  function handleTriggerAtDateChange(event) {
+    setTriggerAtDate(event.target.value);
+  }
+
+  const [expireAtDate, setExpireAtDate] = useState('');
+  function handleExpireAtDateChange(event) {
+    setExpireAtDate(event.target.value);
+  }
+
+  const handleFormSubmit = (values) => {
+    const triggerAtDateObj = new Date(triggerAtDate);
+    const expireAtDateObj = new Date(expireAtDate);
+
+    const triggerAtUnix = triggerAtDateObj.getTime() / 1000;
+    const expireAtUnix = expireAtDateObj.getTime() / 1000;
+
+    ApolloCreateNotification({
+      variables: {
+        comment: values.comments,
+        triggerAt: triggerAtUnix,
+        notification: {
+          type: "system",
+          title: values.title,
+          content: values.content,
+          expireAt: expireAtUnix,
+        }
+      }
+    });
+  };
+
+  //========================== GRAPHQL ==========================
   const [ApolloCreateNotification, { loading, error, data }] = useMutation(ManagerSetNotificationScheduleToAllMember);
   useEffect(() => {
     if (data) {
@@ -53,52 +87,14 @@ export default function CreateSystemNotificationModal() {
     }
   }, [data]);
 
-
-
-  function handleTriggerAtDateChange(event) {
-    setTriggerAtDate(event.target.value);
-  }
-
-  function handleExpireAtDateChange(event) {
-    setExpireAtDate(event.target.value);
-  }
-
-  const handleFormSubmit = (values) => {
-    // console.log("SEND CREATE NOTIFICATION REQUEST");
-    // console.log(values);
-    const triggerAtDateObj = new Date(triggerAtDate);
-    const expireAtDateObj = new Date(expireAtDate);
-
-    const triggerAtUnix = triggerAtDateObj.getTime() / 1000;
-    const expireAtUnix = expireAtDateObj.getTime() / 1000;
-    // console.log("UNIX" + triggerAtUnix + "===" + expireAtUnix)
-
-
-    ApolloCreateNotification({
-      variables: {
-        comment: values.comments,
-        triggerAt: triggerAtUnix,
-        notification: {
-          type: notifType,
-          title: values.title,
-          content: values.content,
-          expireAt: expireAtUnix,
-          rewardId: null
-        }
-      }
-    });
-  };
-
-  const toggleModal = () => {
-    setModal(!modal);
-  };
-
+  //========================== RENDER ==========================
   if (modal) {
     document.body.classList.add('active-modal')
   } else {
     document.body.classList.remove('active-modal')
   }
 
+  // ========================== RETURN ==========================
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}
@@ -129,35 +125,20 @@ export default function CreateSystemNotificationModal() {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <Box color={"black"}>
-                      <Box display={"flex"} justifyContent={"space-between"}>
-                        <TextField className="modal_input_textfield"
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="標題"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.title}
-                          name="title"
-                          error={!!touched.title && !!errors.title}
-                          helperText={touched.title && errors.title}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                        />
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">Type</InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={notifType}
-                            label="type"
-                            onChange={handleNotifTypeChange}
-                          >
-                            <MenuItem value={'system'}>system</MenuItem>
-                            <MenuItem value={'brandActivity'}>brandActivity</MenuItem>
-                            <MenuItem value={'freeCoin'}>freeCoin</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Box>
+                      <TextField className="modal_input_textfield"
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="標題"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.title}
+                        name="title"
+                        error={!!touched.title && !!errors.title}
+                        helperText={touched.title && errors.title}
+                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                      />
+
                       <TextField
                         id="outlined-multiline-flexible"
                         multiline
@@ -192,7 +173,7 @@ export default function CreateSystemNotificationModal() {
                       <TextField
                         fullWidth
                         id="datetime-local"
-                        label="排程時間點"
+                        label="排程時間"
                         type="datetime-local"
                         // defaultValue="2017-05-24T10:30"
                         value={triggerAtDate}
@@ -215,19 +196,7 @@ export default function CreateSystemNotificationModal() {
                           shrink: true,
                         }}
                       />
-                      <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="獎勵 ID"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.rewardId}
-                        name="rewardId"
-                        error={!!touched.rewardId && !!errors.rewardId}
-                        helperText={touched.rewardId && errors.rewardId}
-                        sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                      />
+
 
 
                     </Box>

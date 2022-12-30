@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // QUERIES
-import { ManagerGetAllNotificationSchedules } from '../../graphQL/Queries'
+import { GetSentFreeCoinsList } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -11,32 +11,63 @@ import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import CreateSystemNotificationModal from './CreateSystemNotificationModal';
-import SystemNotificationListModal from './SystemNotificationListModal';
+import CreateBrandCoinModal from './CreateBrandCoinModal';
+import BrandCoinListModal from './BrandCoinListModal';
 
 
-const SystemNotificationManagement = () => {
-    //========================== THEME ==========================
+const BrandCoinManagement = () => {
+    //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // ========================== STATES AND HANDLERS ==========================
+    // STATES
+    // const [filter, setFilter] = useState('品牌名');
     const [status, setStatus] = useState('');
+    const [review, setReview] = useState('');
+
+    //REF
+    const searchValueRef = useRef('');
+    const filterRef = useRef('品牌名');
+
+
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
-
-    const [review, setReview] = useState('');
     const handleReviewChange = (e) => {
         setReview(e.target.value);
     };
 
-    // ========================== REF ==========================
-    const searchValueRef = useRef('');
-    const filterRef = useRef('品牌名');
+    const submitSearch = () => {
+        // LOG SEARCH STATES
+        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
 
-    //========================== GRAPHQL ==========================
-    const { loading, error, data } = useQuery(ManagerGetAllNotificationSchedules);
+        //CALL SEARCH FUNCTION
+        let value = searchValueRef.current.value;
+        if (value.length > 2) {
+            let search = arraySearch(notifications, value);
+            setNotifications(search)
+        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setNotifications(initNotifications)
+        }
+    };
+    //SEARCH FUNCTION
+    const arraySearch = (array, keyword, filter) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.name.match(new RegExp(searchTerm, 'g')) ||
+                value.principal.name.match(new RegExp(searchTerm, 'g'))
+        })
+    }
+
+    //GRAPHQL
+    const { loading, error, data } = useQuery(GetSentFreeCoinsList,
+        {
+            variables: {
+                onlyRewardType: "currency",
+            }
+        }
+    );
     const [initNotifications, setInitNotifications] = useState([]);
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
@@ -51,35 +82,9 @@ const SystemNotificationManagement = () => {
         }
     }, [data]);
 
-    // ========================== FUNCTIONS ==========================
-    const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
-
-        //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
-            let search = arraySearch(notifications, value);
-            setNotifications(search)
-        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setNotifications(initNotifications)
-        }
-    };
-
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
-
-        return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
-
-    // ========================== RETURN ==========================
     return (
         <Box p={2}>
-            <h1 className='userManagement_title'>系統通知</h1>
+            <h1 className='userManagement_title'>品牌專屬幣發送</h1>
             {/* SEARCH DIV */}
             <Box display="flex" paddingBottom={5}>
                 {/* name Search */}
@@ -141,7 +146,7 @@ const SystemNotificationManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <CreateSystemNotificationModal />
+                    <CreateBrandCoinModal />
                 </Box>
 
             </Box>
@@ -177,19 +182,22 @@ const SystemNotificationManagement = () => {
 
                 >
 
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Triger At</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Title</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Comment</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Expire At</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">刪除</Typography>
                     </Box>
                 </Box>
@@ -201,7 +209,7 @@ const SystemNotificationManagement = () => {
                 >
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
-                        if (item.notification.type.name === "system") {
+                        if (item.notification.reward.content.currency.type.name === "brand") {
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}
@@ -211,9 +219,10 @@ const SystemNotificationManagement = () => {
                                     borderBottom={`4px solid ${colors.primary[500]}`}
                                     p="10px"
                                 >
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id} - {item.notification.type.name} - {item.notification.title}</Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.reward.content.currency.type.name} - {item.notification.title}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         {(() => {
                                             if (item.notification.expireAt === null) {
                                                 return "無"
@@ -223,7 +232,7 @@ const SystemNotificationManagement = () => {
                                             }
                                         })()}
                                     </Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         {(() => {
                                             if (item.status.name === "done") {
                                                 return (
@@ -246,8 +255,9 @@ const SystemNotificationManagement = () => {
                                         })()}
                                     </Box>
 
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        <SystemNotificationListModal props={item} />
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                        {/* FIXME: change title to delete */}
+                                        <BrandCoinListModal props={item} />
                                     </Box>
                                 </Box>
                             )
@@ -259,4 +269,4 @@ const SystemNotificationManagement = () => {
     )
 }
 
-export default SystemNotificationManagement
+export default BrandCoinManagement
