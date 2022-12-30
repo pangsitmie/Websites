@@ -74,14 +74,14 @@ const StoreManagement = () => {
     }
 
     //GQL
-    const { loading, error, data } = useQuery(GetAllStores, { variables: { limit: 10, offset: 0 } });
+    const { loading, error, data } = useQuery(GetAllStores);
     const [initStores, SetInitStores] = useState([]);
     const [stores, setStores] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data.getAllStores);
-            setStores(data.getAllStores);
-            SetInitStores(data.getAllStores);
+            console.log(data.managerGetStores);
+            setStores(data.managerGetStores);
+            SetInitStores(data.managerGetStores);
         }
     }, [data]);
 

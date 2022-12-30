@@ -56,12 +56,17 @@ query GetMember($params: [MemberArgs!]!, $reason: String!) {
 
 // ========================= Brand =========================
 export const GetAllBrands = gql`
-query GetAllBrands {
-  getAllBrands {
+query ManagerGetBrands {
+  managerGetBrands {
     id
     name
     vatNumber
+    cover
+    intro
+    logo
     status {
+      id
+      description
       name
     }
     principal {
@@ -69,13 +74,15 @@ query GetAllBrands {
       name
       lineUrl
       email
+      createdAt
     }
   }
 }
 `
+
 export const GetBrandList = gql`
-query GetAllBrands {
-  getAllBrands {
+query ManagerGetBrands {
+  managerGetBrands {
     id
     name
   }
@@ -137,8 +144,8 @@ query GetBrand($args: [BrandArgs!]!) {
 
 //========================= STORES =========================
 export const GetAllStores = gql`
-query GetAllStores {
-  getAllStores {
+query ManagerGetStores {
+  managerGetStores {
     id
     name
     brand {
@@ -187,7 +194,7 @@ query GetStore($args: [StoreArgs!]!) {
       lineUrl
       email
     }
-    machines {
+    managerGetMachines {
       uuid
       code
       name

@@ -6,10 +6,8 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { ManagerCreateCurrencyReward, ManagerSetNotificationScheduleToAllMember } from "../../graphQL/Queries";
-import { Navigate } from "react-router-dom";
-import { format } from 'date-fns';
-import { replaceNullWithEmptyString } from "../../utils/Utils";
+import { ManagerCreateCurrencyReward } from "../../graphQL/Queries";
+
 
 
 const checkoutSchema = yup.object().shape({

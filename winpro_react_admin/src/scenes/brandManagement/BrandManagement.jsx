@@ -47,8 +47,10 @@ const BrandManagement = () => {
     const [brands, setBrands] = useState([]);
     useEffect(() => {
         if (data) {
-            setInitBrands(data.getAllBrands); //all brand datas
-            setBrands(data.getAllBrands); //datas for display
+            console.log(data);
+            setInitBrands(data.managerGetBrands); //all brand datas
+            setBrands(data.managerGetBrands); //datas for display
+            console.log(brands);
         }
         else {
             console.log(error);
@@ -275,6 +277,7 @@ const BrandManagement = () => {
                             </Box>
                         </Box>
                     ))}
+
                 </Box>
             </Box>
         </Box >

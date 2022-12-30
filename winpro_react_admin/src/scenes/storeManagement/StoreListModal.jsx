@@ -242,21 +242,21 @@ export default function StoreListModal({ props }) {
     };
 
     const handleDelete = () => {
-        var result = window.confirm("Are you sure you want to delete this store?");
-        if (result) {
-            ApolloRemoveStore({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ]
-                }
-            })
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
-        }
+        // var result = window.confirm("Are you sure you want to delete this store?");
+        // if (result) {
+        //     ApolloRemoveStore({
+        //         variables: {
+        //             args: [
+        //                 {
+        //                     id: props.id
+        //                 }
+        //             ]
+        //         }
+        //     })
+        //     console.log("deleted");
+        // } else {
+        //     console.log("not deleted");
+        // }
     };
 
     // UNBAN MUTATION
@@ -267,22 +267,22 @@ export default function StoreListModal({ props }) {
         }
     }, [data4]);
     const handleUnBan = (e) => {
-        var result = window.confirm("Are you sure you want to unban this store?");
-        if (result) {
-            ApolloUnBanStore({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ],
-                    reason: "null"
-                }
-            })
-            console.log("unbaned");
-        } else {
-            console.log("not deleted");
-        }
+        // var result = window.confirm("Are you sure you want to unban this store?");
+        // if (result) {
+        //     ApolloUnBanStore({
+        //         variables: {
+        //             args: [
+        //                 {
+        //                     id: props.id
+        //                 }
+        //             ],
+        //             reason: "null"
+        //         }
+        //     })
+        //     console.log("unbaned");
+        // } else {
+        //     console.log("not deleted");
+        // }
     }
 
     const toggleModal = () => {

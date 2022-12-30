@@ -72,7 +72,7 @@ export default function CreateStoreModal() {
     const [brandList, setBrandList] = useState([]);
     useEffect(() => {
         if (data1) {
-            setBrandList(data1.getAllBrands);
+            setBrandList(data1.managerGetBrands);
         }
 
     }, [data1]);
