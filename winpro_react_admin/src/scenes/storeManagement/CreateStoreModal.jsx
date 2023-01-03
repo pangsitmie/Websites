@@ -13,6 +13,9 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
 import { IntegrationInstructions } from "@mui/icons-material";
+import { citiesData } from "../../data/mockData";
+import { areaData } from "../../data/cityData";
+
 
 
 const phoneRegExp =
@@ -52,6 +55,21 @@ export default function CreateStoreModal() {
     var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
 
 
+    const [cityFilter, setCityFilter] = useState('臺北市');
+    const handleCityChange = (e) => {
+        setCityFilter(e.target.value);
+        setAreaFilter(areaData[cityFilter]);
+    };
+
+    useEffect(() => {
+        setAreaFilter(areaData[cityFilter]);
+    }, [cityFilter]);
+
+    const [selectedArea, setSelectedArea] = useState('');
+    const [areaFilter, setAreaFilter] = useState([]);
+    const handleAreaChange = (e) => {
+        setSelectedArea(e.target.value);
+    };
 
     const initialValues = {
         name: "",
@@ -155,6 +173,7 @@ export default function CreateStoreModal() {
             district: district,
             coordinates: latLng
         });
+        setCityFilter(city);
         console.log("Coordinate:" + coordinates.lat + "," + coordinates.lng);
         //this.props.onAddressSelected();
     };
@@ -340,8 +359,56 @@ export default function CreateStoreModal() {
                                                 )}
                                             </PlacesAutocomplete>
 
+                                            <Box display={"flex"}>
+                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={cityFilter}
+                                                        label="cityFilter"
+                                                        onChange={handleCityChange}
+                                                    >
+                                                        {citiesData.map((city, i) => (
+                                                            <MenuItem
+                                                                value={city.name}
+                                                                key={`${city.id}-${i}`}
+                                                            >
+                                                                {city.name}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+
+                                                {/* AREA */}
+                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >area 過濾</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={areaFilter}
+                                                        label="areaFilter"
+                                                        onChange={handleAreaChange}
+                                                    >
+                                                        {areaFilter.map((area, i) => (
+                                                            <MenuItem
+                                                                value={area}
+                                                                key={area}
+                                                            >
+                                                                {area}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
+                                                {/* CITYFILTER */}
+
+
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -383,6 +450,11 @@ export default function CreateStoreModal() {
                                                 />
                                             </Box>
 
+
+                                            <Box color={"white"}>
+
+                                                coordinates.lat: {coordinates.lat} <br /> coordinates.lng: {coordinates.lng}
+                                            </Box>
 
                                             <Box display={"flex"}>
                                                 <TextField

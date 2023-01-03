@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { tokens } from "../../theme";
 import * as yup from "yup";
 import { useLazyQuery } from '@apollo/client'
-import { BanMember, BanBrand, BanStore, BanBillboard, BanMachine } from "../../graphQL/Queries";
+import { BanMember, BanBrand, BanStore, BanBillboard, BanMachine, BanAds } from "../../graphQL/Queries";
 
 
 
@@ -31,9 +31,6 @@ export default function ConfirmModal({ props }) {
         if (data) {
             window.location.reload();
         }
-        else {
-            console.log("NO DATA")
-        }
     }, [data]);
 
     // BAN STORE
@@ -41,9 +38,6 @@ export default function ConfirmModal({ props }) {
     useEffect(() => {
         if (data1) {
             window.location.reload();
-        }
-        else {
-            console.log("NO DATA")
         }
     }, [data1]);
 
@@ -53,9 +47,6 @@ export default function ConfirmModal({ props }) {
         if (data2) {
             window.location.reload();
         }
-        else {
-            console.log("NO DATA")
-        }
     }, [data2]);
 
     // BAN BILLBOARD
@@ -64,10 +55,23 @@ export default function ConfirmModal({ props }) {
         if (data3) {
             window.location.reload();
         }
-        else {
-            console.log("NO DATA")
-        }
     }, [data3]);
+
+    // BAN MACHINE
+    const [ApolloBanMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(BanMachine);
+    useEffect(() => {
+        if (data4) {
+            window.location.reload();
+        }
+    }, [data4]);
+
+    // BAN ADS
+    const [ApolloBanAds, { loading: loading5, error: error5, data: data5 }] = useLazyQuery(BanAds);
+    useEffect(() => {
+        if (data5) {
+            window.location.reload();
+        }
+    }, [data5]);
 
 
     //date
@@ -136,6 +140,30 @@ export default function ConfirmModal({ props }) {
                 })
             case "billboard":
                 ApolloBanBillboard({
+                    variables: {
+                        args: [
+                            {
+                                id: targetId
+                            }
+                        ],
+                        expireAt: parseInt(unixSecond),
+                        reason: reasonRef.current.value
+                    }
+                })
+            case "machine":
+                ApolloBanMachine({
+                    variables: {
+                        args: [
+                            {
+                                id: targetId
+                            }
+                        ],
+                        expireAt: parseInt(unixSecond),
+                        reason: reasonRef.current.value
+                    }
+                })
+            case "ads":
+                ApolloBanAds({
                     variables: {
                         args: [
                             {

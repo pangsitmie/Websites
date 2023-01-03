@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useMutation } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { ManagerSetNotificationScheduleToAllMember } from "../../graphQL/Queries";
-import { Navigate } from "react-router-dom";
+import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
 
@@ -26,7 +25,7 @@ export default function BrandCoinListModal({ props }) {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = "詳細資料", confirmTitle = "新增", deleteTitle = "取消";
+  var btnTitle = "詳細資料", deleteTitle = "刪除";
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -57,6 +56,7 @@ export default function BrandCoinListModal({ props }) {
     currencyID: "",
     currencyName: "",
     currencyAmount: "",
+    receiveDaysOverdue: "",
     rewardLimit: "",
     rewardDescription: "",
     rewardStatus: "",
@@ -75,6 +75,7 @@ export default function BrandCoinListModal({ props }) {
         currencyID: props.notification.reward.content.currency.id,
         currencyName: props.notification.reward.content.currency.name,
         currencyAmount: props.notification.reward.content.amount,
+        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? "無" : props.notification.reward.receiveDaysOverdue,
         rewardLimit: props.notification.reward.limit === null ? "無" : props.notification.reward.limit,
         rewardDescription: props.notification.reward.description === null ? "無" : props.notification.reward.description,
         rewardStatus: props.notification.reward.status.name,
@@ -85,16 +86,31 @@ export default function BrandCoinListModal({ props }) {
   }, [props]);
 
   //========================== GRAPHQL ==========================
-  // const [ApolloCreateNotification, { loading, error, data }] = useMutation(ManagerSetNotificationScheduleToAllMember);
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(data);
-  //     window.location.reload();
-  //   }
-  //   else {
-  //     console.log(error)
-  //   }
-  // }, [data]);
+  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DeleteNotification);
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      window.location.reload();
+    }
+    else {
+      console.log(error)
+    }
+  }, [data]);
+
+
+  const handleDelete = () => {
+    var result = window.confirm("Are you sure you want to delete this notification?");
+    if (result) {
+      ApolloRemoveNotification({
+        variables: {
+          ids: props.id
+        }
+      })
+      console.log("deleted");
+    } else {
+      console.log("not deleted");
+    }
+  };
 
 
 
@@ -168,6 +184,7 @@ export default function BrandCoinListModal({ props }) {
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField className="modal_input_textfield"
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="標題"
@@ -181,6 +198,7 @@ export default function BrandCoinListModal({ props }) {
                         />
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="備註"
@@ -198,6 +216,7 @@ export default function BrandCoinListModal({ props }) {
                         id="outlined-multiline-flexible"
                         multiline
                         fullWidth
+                        disabled={true}
                         maxRows={4}
                         variant="filled"
                         type="text"
@@ -249,6 +268,7 @@ export default function BrandCoinListModal({ props }) {
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="貨幣 ID"
@@ -262,6 +282,7 @@ export default function BrandCoinListModal({ props }) {
                         />
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="貨幣名稱"
@@ -278,6 +299,7 @@ export default function BrandCoinListModal({ props }) {
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="數量"
@@ -291,6 +313,7 @@ export default function BrandCoinListModal({ props }) {
                         />
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="限定數量"
@@ -300,6 +323,20 @@ export default function BrandCoinListModal({ props }) {
                           name="currencyLimit"
                           error={!!touched.rewardLimit && !!errors.rewardLimit}
                           helperText={touched.rewardLimit && errors.rewardLimit}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          disabled={true}
+                          variant="filled"
+                          type="number"
+                          label="獎勵使用期限"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.receiveDaysOverdue}
+                          name="receiveDaysOverdue"
+                          error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
+                          helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
                           sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                       </Box>
@@ -307,6 +344,7 @@ export default function BrandCoinListModal({ props }) {
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="獎勵描述"
@@ -320,6 +358,7 @@ export default function BrandCoinListModal({ props }) {
                         />
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="獎勵狀態"
@@ -336,6 +375,7 @@ export default function BrandCoinListModal({ props }) {
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="獎勵開始時間"
@@ -349,6 +389,7 @@ export default function BrandCoinListModal({ props }) {
                         />
                         <TextField
                           fullWidth
+                          disabled={true}
                           variant="filled"
                           type="text"
                           label="獎勵結束時間"
@@ -365,9 +406,9 @@ export default function BrandCoinListModal({ props }) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
+                      <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          {confirmTitle}
+                          {deleteTitle}
                         </Typography>
                       </Button>
                     </Box>

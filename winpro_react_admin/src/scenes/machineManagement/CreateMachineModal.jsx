@@ -168,7 +168,7 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="價格"
+                                                label="價格 (枚數)"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.price}

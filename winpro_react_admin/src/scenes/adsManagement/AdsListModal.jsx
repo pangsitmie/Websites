@@ -1,64 +1,102 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useLazyQuery, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery } from '@apollo/client'
 import "../../components/Modal/modal.css";
+import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { BanMachine, GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "../../graphQL/Queries";
+import { GetAds, RemoveAds, UnbanAds, UpdateAds } from "../../graphQL/Queries";
+import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 
-// {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
-    name: yup.string().required("required"),
-    price: yup.number().required("required"),
-    desc: yup.string().required("required"),
+    image: yup.string().required("required"),
+    url: yup.string().required("required"),
+    description: yup.string().required("required"),
+    startAtDate: yup.string().required("required"),
+    endAtDate: yup.string().required("required"),
+    status: yup.string().required("required"),
+    type: yup.string().required("required"),
 });
 
 
-export default function MachineListModal({ props }) {
+
+export default function AdsListModal({ props }) {
+    //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [modal, setModal] = useState(false);
-    //REF
+
+    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    const [modal, setModal] = useState(false); //open or close modal
+
+
+    // ========================== STATES AND HANDLERS ==========================
     const [status, setStatus] = useState('disable');
     const handleStatusChange = (event) => {
         setStatus(event.target.value);
     };
 
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
     const [initialValues, setInitialValues] = useState({
-        id: 0,
-        UUID: "",
-        name: "",
-        code: "",
-        price: 0,
-        qrCode: "",
+        image: "",
+        url: "https://img.icons8.com/fluency/48/null/test-account.png",
+        description: "",
+        startAtDate: "",
+        endAtDate: "",
         status: "",
-        connStatus: "",
-        desc: "",
+        type: "",
     });
 
 
-    // ===================== REMOVE MACHINE QUERY =====================
-    const [ApolloRemoveMachine, { loading, error, data }] = useLazyQuery(RemoveMachine);
+
+
+
+
+    //========================== GRAPHQL ==========================
+    const { loading, error, data } = useQuery(GetAds
+        , {
+            variables: {
+                args: [
+                    {
+                        id: props.id
+                    }
+                ],
+            }
+        }
+    );
     useEffect(() => {
         if (data) {
-            window.location.reload();
-        }
-        else {
-            console.log("NO DATA")
+            const nonNullData = replaceNullWithEmptyString(data.getAdvertisement[0]);
+            const expireAtDate = nonNullData.endAt === null ? "無" : format(new Date(nonNullData.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
+
+            console.log(expireAtDate);
+            setInitialValues({
+                image: nonNullData.image,
+                url: nonNullData.url,
+                description: nonNullData.description,
+                startAtDate: format(new Date(nonNullData.startAt), 'MM/dd/yyyy - HH:mm:ss'),
+                endAtDate: expireAtDate,
+                status: nonNullData.status.name,
+                type: nonNullData.type.name,
+            });
         }
     }, [data]);
 
-    // HANDLE REMOVE MACHINE
-    const handleDelete = (e) => {
-        var result = window.confirm("Are you sure you want to delete this machine?");
+    // REMOVE STORE MUTATION
+    const [ApolloRemoveAds, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(RemoveAds);
+    useEffect(() => {
+        if (data) {
+            console.log("REMOVE SUCCESS");
+            window.location.reload();
+        }
+    }, [data1]);
+
+    const handleDelete = () => {
+        var result = window.confirm("Are you sure you want to delete this advertisement?");
         if (result) {
-            ApolloRemoveMachine({
+            ApolloRemoveAds({
                 variables: {
                     args: [
                         {
@@ -74,104 +112,18 @@ export default function MachineListModal({ props }) {
     };
 
 
-
-    // ===================== INITIAL VALUES FROM GETMACHINE =====================
-    const { loading: loading3, error: error3, data: data3 } = useQuery(GetMachine
-        , {
-            variables: {
-                args: [
-                    {
-                        id: props.id
-                    }
-                ],
-            }
-        }
-    );
-    useEffect(() => {
-        if (data3) {
-            const nonNullData = replaceNullWithEmptyString(data3.getMachine[0]);
-            setInitialValues({
-                // ...initialValues,
-                // ...nonNullData
-                id: nonNullData.id,
-                UUID: nonNullData.uuid,
-                name: nonNullData.name,
-                code: nonNullData.code,
-                price: nonNullData.price,
-                qrCode: nonNullData.qrCode,
-                status: nonNullData.status.name,
-                desc: nonNullData.description,
-            });
-
-            //set status only if not banned
-            if (nonNullData.status.name !== "banned") {
-                setStatus(nonNullData.status.name)
-            }
-        }
-    }, [data3]);
-
-    // UPDATE BRAND MUTATION
-    const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UpdateMachine);
-    useEffect(() => {
-        if (data4) {
-            window.location.reload();
-        }
-    }, [data4]);
-
     // UNBAN MUTATION
-    const [ApolloUnBanMachine, { loading: loading5, error: error5, data: data5 }] = useLazyQuery(UnBanMachine);
+    const [ApolloUnBanAds, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UnbanAds);
     useEffect(() => {
-        if (data5) {
+        if (data2) {
             window.location.reload();
         }
-    }, [data5]);
-
-
-
-    const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-        console.log(status);
-
-        if (initialValues.status === "banned") { //if banned dont update status
-            ApolloUpdateMachine({
-                variables: {
-                    args: [
-                        {
-                            id: props.id,
-                        }
-                    ],
-                    name: values.name,
-                    price: parseInt(values.price),
-                    description: values.desc,
-                }
-            })
-        } else {
-            ApolloUpdateMachine({
-                variables: {
-                    args: [
-                        {
-                            id: props.id,
-                        }
-                    ],
-                    name: values.name,
-                    price: parseInt(values.price),
-                    description: values.desc,
-                    statusId: status
-                }
-            })
-        }
-
-    };
-
-
-
-
+    }, [data2]);
 
     const handleUnBan = (e) => {
-        var result = window.confirm("Are you sure you want to unban this machine?");
+        var result = window.confirm("Are you sure you want to unban this Advertisement?");
         if (result) {
-            ApolloUnBanMachine({
+            ApolloUnBanAds({
                 variables: {
                     args: [
                         {
@@ -185,7 +137,38 @@ export default function MachineListModal({ props }) {
         } else {
             console.log("not deleted");
         }
-    }
+    };
+
+
+    // UNBAN MUTATION
+    const [ApolloUpdateAds, { loading: loading3, error: error3, data: data3 }] = useLazyQuery(UpdateAds);
+    useEffect(() => {
+        if (data3) {
+            window.location.reload();
+        }
+    }, [data3]);
+
+    const handleFormSubmit = (values) => {
+        console.log(values);
+        ApolloUpdateAds({
+            variables: {
+                args: [
+                    {
+                        id: props.id,
+
+                    }
+                ],
+                image: values.image,
+                url: values.url,
+                description: values.description,
+                startAt: values.startAt,
+                endAt: values.endAt,
+                statusId: status,
+                type: values.type,
+            }
+        })
+
+    };
 
     const toggleModal = () => {
         setModal(!modal);
@@ -196,10 +179,10 @@ export default function MachineListModal({ props }) {
     } else {
         document.body.classList.remove('active-modal')
     }
+
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
-
             <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
@@ -208,11 +191,9 @@ export default function MachineListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                            <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                                 {btnTitle}
                             </Typography>
-
 
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -229,7 +210,18 @@ export default function MachineListModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-
+                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"1rem"}>
+                                                <img
+                                                    alt="profile-user"
+                                                    width="100px"
+                                                    height="100px"
+                                                    src="https://img.icons8.com/fluency/48/null/test-account.png"
+                                                    onClick={() => {
+                                                        // FIXME: UPLOAD IMAGE
+                                                    }}
+                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
+                                                />
+                                            </Box>
                                             <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
                                                 {(() => {
                                                     if (initialValues.status === "disable") {
@@ -238,16 +230,10 @@ export default function MachineListModal({ props }) {
                                                                 停用
                                                             </Typography>)
                                                     }
-                                                    else if (initialValues.status === "banned") {
+                                                    if (initialValues.status === "banned") {
                                                         return (
                                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                                 封鎖
-                                                            </Typography>)
-                                                    }
-                                                    else if (initialValues.status === "removed") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                删除
                                                             </Typography>)
                                                     }
                                                     else {
@@ -259,22 +245,22 @@ export default function MachineListModal({ props }) {
                                                 })()}
                                             </Box>
 
-
-                                            <Box display={"flex"} justifyContent={"center"}>
+                                            <Box display={"flex"} justifyContent={"space-between"}>
                                                 <TextField className="modal_input_textfield"
+                                                    disabled={true}
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="機台名稱"
+                                                    label="圖片名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.name}
-                                                    name="name"
-                                                    error={!!touched.name && !!errors.name}
-                                                    helperText={touched.name && errors.name}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    value={values.image}
+                                                    name="image"
+                                                    error={!!touched.image && !!errors.image}
+                                                    helperText={touched.image && errors.image}
+                                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                                                 />
-                                                <FormControl sx={{ minWidth: 150 }}>
+                                                <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
                                                     <Select
                                                         disabled={initialValues.status === "banned"}
@@ -291,80 +277,66 @@ export default function MachineListModal({ props }) {
                                                 </FormControl>
                                             </Box>
 
+                                            <TextField
+                                                id="outlined-multiline-flexible"
+                                                multiline
+                                                fullWidth
+                                                maxRows={4}
+                                                variant="filled"
+                                                type="text"
+                                                label="URL"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.url}
+                                                name="url"
+                                                error={!!touched.url && !!errors.url}
+                                                helperText={touched.url && errors.url}
+                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
 
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                disabled={true}
-                                                variant="filled"
-                                                type="text"
-                                                label="UUID"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.UUID}
-                                                name="UUID"
-                                                error={!!touched.UUID && !!errors.UUID}
-                                                helperText={touched.UUID && errors.UUID}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                disabled={true}
-                                                variant="filled"
-                                                type="text"
-                                                label="機台號碼"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.code}
-                                                name="code"
-                                                error={!!touched.code && !!errors.code}
-                                                helperText={touched.code && errors.code}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                disabled={true}
-                                                variant="filled"
-                                                type="text"
-                                                label="QR Code Payload"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.qrCode}
-                                                name="qrCode"
-                                                error={!!touched.qrCode && !!errors.qrCode}
-                                                helperText={touched.qrCode && errors.qrCode}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
-                                            {/* SPENDING */}
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台單次花費金額"
+                                                label="描述"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.price}
-                                                name="price"
-                                                error={!!touched.price && !!errors.price}
-                                                helperText={touched.price && errors.price}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                value={values.description}
+                                                name="description"
+                                                error={!!touched.description && !!errors.description}
+                                                helperText={touched.description && errors.description}
+                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="備註"
+                                                label="開始時間點"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.desc}
-                                                name="desc"
-                                                error={!!touched.desc && !!errors.desc}
-                                                helperText={touched.desc && errors.desc}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                value={values.startAtDate}
+                                                name="startAtDate"
+                                                error={!!touched.startAtDate && !!errors.startAtDate}
+                                                helperText={touched.startAtDate && errors.startAtDate}
+                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="過期時間"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.endAtDate}
+                                                name="endAtDate"
+                                                error={!!touched.endAtDate && !!errors.endAtDate}
+                                                helperText={touched.endAtDate && errors.endAtDate}
+                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
                                             <Box display="flex" justifyContent="center" >
-                                                <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
+                                                <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                         {deleteTitle}
                                                     </Typography>
@@ -377,10 +349,10 @@ export default function MachineListModal({ props }) {
                                                         </Typography>
                                                     </Button>
                                                 ) : (
-                                                    <ConfirmModal props={{ type: "machine", id: props.id }} />
+                                                    <ConfirmModal props={{ type: "ads", id: props.id }} />
                                                 )}
 
-                                                <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
+                                                <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                                                         {confirmTitle}
                                                     </Typography>
@@ -396,5 +368,5 @@ export default function MachineListModal({ props }) {
             )
             }
         </>
-    )
+    );
 }

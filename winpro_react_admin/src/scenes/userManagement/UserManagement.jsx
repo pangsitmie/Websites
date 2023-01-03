@@ -144,9 +144,6 @@ const UserManagement = () => {
                     p="15px 25px 15px 15px"
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">ID</Typography>
-                    </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">暱稱</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -169,7 +166,6 @@ const UserManagement = () => {
                         borderBottom={`4px solid ${colors.primary[500]}`}
                         p="10px"
                     >
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.id}</Box>
                         <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile.nickname}</Box>
                         <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone.number}</Box>
                         <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>

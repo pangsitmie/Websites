@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { ManagerSetNotificationScheduleToAllMember } from "../../graphQL/Queries";
+import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 
 
@@ -40,31 +40,21 @@ export default function SystemNotificationListModal({ props }) {
 
   useEffect(() => {
     console.log(props);
-    if (props.expireAt === null) {
-      setInitialValues({
-        title: props.notification.title,
-        type: props.notification.type.name,
-        content: props.notification.content,
-        comments: props.comment,
-        triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-        expireAtDate: "無",
-      });
-    }
-    else {
-      setInitialValues({
-        title: props.notification.title,
-        type: props.notification.type.name,
-        content: props.notification.content,
-        comments: props.comment,
-        triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-        expireAtDate: format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-      });
-    }
+    const expireAtDate = props.expireAt === null ? "無" : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
+
+    setInitialValues({
+      title: props.notification.title,
+      type: props.notification.type.name,
+      content: props.notification.content,
+      comments: props.comment,
+      triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+      expireAtDate: expireAtDate,
+    });
   }, [props]);
 
 
   //========================== GRAPHQL ==========================
-  const [ApolloDeleteNotification, { loading, error, data }] = useMutation(ManagerSetNotificationScheduleToAllMember);
+  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DeleteNotification);
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -76,13 +66,22 @@ export default function SystemNotificationListModal({ props }) {
   }, [data]);
 
 
-
-
-  const handleFormSubmit = (values) => {
-    console.log("SEND CREATE NOTIFICATION REQUEST");
-    console.log(values);
-    // FIXME: delete funciton
+  const handleDelete = () => {
+    var result = window.confirm("Are you sure you want to delete this notification?");
+    if (result) {
+      ApolloRemoveNotification({
+        variables: {
+          ids: props.id
+        }
+      })
+      console.log("deleted");
+    } else {
+      console.log("not deleted");
+    }
   };
+
+
+  const handleFormSubmit = (values) => { };
 
   const toggleModal = () => {
     setModal(!modal);
@@ -201,7 +200,7 @@ export default function SystemNotificationListModal({ props }) {
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.redAccent[600] }}>
+                      <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.redAccent[600] }}>
                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                           {deleteTitle}
                         </Typography>

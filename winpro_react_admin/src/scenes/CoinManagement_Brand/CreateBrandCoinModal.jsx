@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { ManagerCreateCurrencyReward } from "../../graphQL/Queries";
+import { GetBrandList } from "../../graphQL/Queries";
 
 
 
@@ -14,10 +15,16 @@ const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
   content: yup.string().required("required"),
   comment: yup.string().required("required"),
-  triggerAtDate: yup.string().required("required"),
-  expireAtDate: yup.string().required("required"),
-  startAtDate: yup.string().required("required"),
-  endAtDate: yup.string().required("required"),
+  // triggerAt: yup.string().required("required"),
+  // expireAt: yup.string().required("required"),
+
+  currencyAmount: yup.number().required("required"),
+  receiveDaysOverdue: yup.number().required("required"),
+  rewardLimit: yup.number().required("required"),
+  rewardDescription: yup.string().required("required"),
+
+  // startAt: yup.string().required("required"),
+  // endAt: yup.string().required("required"),
 });
 
 
@@ -68,6 +75,7 @@ export default function CreateBrandCoinModal() {
     currencyID: "",
     currencyName: "",
     currencyAmount: "",
+    receiveDaysOverdue: "",
     rewardLimit: "",
     rewardDescription: "",
     rewardStatus: "",
@@ -86,6 +94,35 @@ export default function CreateBrandCoinModal() {
       console.log(error)
     }
   }, [data]);
+
+  const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
+  const [{ brandId, brandName }, setBrandInfo] = useState({
+    brandId: "null",
+    brandName: "null",
+  });
+  const [brandListFilter, setBrandListFilter] = useState('');
+  const [brandList, setBrandList] = useState([]);
+  useEffect(() => {
+    if (data1) {
+      setBrandList(data1.managerGetBrands);
+    }
+
+  }, [data1]);
+  const handleBrandListChange = (e) => {
+    const targetId = e.target.value;
+    console.log(targetId);
+
+    //find the brand id from brand list
+    const brand = brandList.find(brand => brand.id === targetId);
+
+    if (brand) {
+      setBrandListFilter(targetId);
+      setBrandInfo({
+        brandId: targetId,
+        brandName: brand.name
+      });
+    }
+  };
 
 
 
@@ -109,8 +146,9 @@ export default function CreateBrandCoinModal() {
 
     ApolloCreateBrandFreeCoinNotification({
       variables: {
+        receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
         amount: parseInt(values.currencyAmount),
-        currencyId: "1",
+        currencyId: brandId,
         sourceType: "notification",
         triggerAt: triggerAtUnix,
         startAt: startAtUnix,
@@ -250,6 +288,43 @@ export default function CreateBrandCoinModal() {
 
 
                       <Box display={"flex"} justifyContent={"space-between"}>
+                        <FormControl sx={{ minWidth: 165, height: "100%" }}>
+                          <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
+                          <Select
+                            sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={brandListFilter}
+                            label="brandListFilter"
+                            onChange={handleBrandListChange}
+                          >
+                            {brandList.map((brand, i) => (
+                              <MenuItem
+                                value={brand.id}
+                                key={`${i}`}
+                              >
+                                {brand.id} - {brand.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="獎勵描述"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.rewardDescription}
+                          name="rewardDescription"
+                          error={!!touched.rewardDescription && !!errors.rewardDescription}
+                          helperText={touched.rewardDescription && errors.rewardDescription}
+                          sx={{ margin: "0rem 0rem 1rem 1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                      </Box>
+
+                      <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
                           variant="filled"
@@ -267,31 +342,30 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="限定數量"
+                          label="最大發送次數"
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardLimit}
                           name="rewardLimit"
                           error={!!touched.rewardLimit && !!errors.rewardLimit}
                           helperText={touched.rewardLimit && errors.rewardLimit}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="number"
+                          label="獎勵使用期限"
+                          placeholder="Null是不限制"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.receiveDaysOverdue}
+                          name="receiveDaysOverdue"
+                          error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
+                          helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
                           sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                       </Box>
-
-                      <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="獎勵描述"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.rewardDescription}
-                        name="rewardDescription"
-                        error={!!touched.rewardDescription && !!errors.rewardDescription}
-                        helperText={touched.rewardDescription && errors.rewardDescription}
-                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                      />
-
 
 
                       <Box display={"flex"} justifyContent={"space-between"}>

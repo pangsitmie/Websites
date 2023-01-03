@@ -47,8 +47,8 @@ const MachineManagement = () => {
     );
     useEffect(() => {
         if (data) {
-            console.log("asdfasdf" + data.getStore[0].machines);
-            setMachineData(data.getStore[0].machines);
+            console.log(data.getStore[0].managerGetMachines);
+            setMachineData(data.getStore[0].managerGetMachines);
         }
         else {
             console.log("no data");
@@ -63,16 +63,7 @@ const MachineManagement = () => {
     const handleCityChange = (e) => {
         setCityFilter(e.target.value);
     };
-    const handleDelete = (e) => {
-        const id = e.target.id;
-        console.log(id);
-        var result = window.confirm("Are you sure you want to delete this user?");
-        if (result) {
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
-        }
-    };
+
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
@@ -166,27 +157,28 @@ const MachineManagement = () => {
                     </Box>
                 </Box>
 
+                {/* machine data map here */}
                 <Box
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"100%"}
                     overflow={"auto"}
                 >
-                    {machineData.map((machine, i) => (
+                    {machineData.map((item, i) => (
                         <Box
-                            key={`${machine.id}-${i}`}
+                            key={`${item.id}-${i}`}
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{machine.uuid}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.name}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{machine.code}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.uuid}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id} - {item.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.code}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (machine.connStatus === true) {
+                                    if (item.connStatus === true) {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[400]} sx={{ margin: ".5rem .5rem" }}>
                                                 連線中
@@ -202,17 +194,17 @@ const MachineManagement = () => {
                                     }
                                 })()}
                             </Box>
-                            {/* <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{currencyFormatter(machine.price)}</Box> */}
                             <Box
                                 width={"20%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <MachineListModal props={machine} />
+                                <MachineListModal props={item} />
                             </Box>
                         </Box>
                     ))}
                 </Box>
+
             </Box>
         </Box >
     )

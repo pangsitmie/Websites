@@ -22,6 +22,7 @@ import SystemCoinManagement from "./scenes/CoinManagement_System/SystemCoinManag
 import BillboardManagement from "./scenes/billboardManagement/BillboardManagement";
 import BrandCoinManagement from "./scenes/CoinManagement_Brand/BrandCoinManagement";
 import { GetManagerAccessToken } from "./graphQL/Queries";
+import AdsManagement from "./scenes/adsManagement/AdsManagement";
 
 
 
@@ -121,6 +122,7 @@ function App() {
                   <Route path="/user-management" element={<UserManagement />} />
                   <Route path="/brand-management" element={<BrandManagement />} />
                   <Route path="/store-management" element={<StoreManagement />} />
+                  <Route path="/ads-management" element={<AdsManagement />} />
                   <Route path="/machine-management" element={<MachineManagement />} />
                   <Route path="/billboard-management" element={<BillboardManagement />} />
                   <Route path="/system-notification" element={<SystemNotificationManagement />} />

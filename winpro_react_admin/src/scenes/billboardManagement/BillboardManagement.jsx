@@ -51,8 +51,8 @@ const BillboardManagement = () => {
     );
     useEffect(() => {
         if (data) {
-            console.log(data.getBrand[0].getBillboardList);
-            setBillboardData(data.getBrand[0].getBillboardList);
+            console.log(data.getBrand[0].managerGetBillboards);
+            setBillboardData(data.getBrand[0].managerGetBillboards);
         }
         else {
             console.log("no data");
@@ -211,7 +211,7 @@ const BillboardManagement = () => {
                                     }
                                     else {
                                         return (
-                                            <Typography variant="h5" color={colors.greenAccent[100]} sx={{ margin: ".5rem .5rem" }}>
+                                            <Typography variant="h5" color={colors.greenAccent[400]} sx={{ margin: ".5rem .5rem" }}>
                                                 正常
                                             </Typography>
                                         )

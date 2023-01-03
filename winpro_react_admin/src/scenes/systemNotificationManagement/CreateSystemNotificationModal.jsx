@@ -6,7 +6,7 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { ManagerSetNotificationScheduleToAllMember } from "../../graphQL/Queries";
+import { CreateSystemNotification } from "../../graphQL/Mutations";
 import { Navigate } from "react-router-dom";
 
 
@@ -14,7 +14,6 @@ const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
   content: yup.string().required("required"),
   comments: yup.string().required("required"),
-  rewardId: yup.string().required("required"),
 });
 
 
@@ -76,7 +75,7 @@ export default function CreateSystemNotificationModal() {
   };
 
   //========================== GRAPHQL ==========================
-  const [ApolloCreateNotification, { loading, error, data }] = useMutation(ManagerSetNotificationScheduleToAllMember);
+  const [ApolloCreateNotification, { loading, error, data }] = useMutation(CreateSystemNotification);
   useEffect(() => {
     if (data) {
       console.log(data);

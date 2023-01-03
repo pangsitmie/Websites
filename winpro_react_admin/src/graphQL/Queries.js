@@ -195,6 +195,7 @@ query GetStore($args: [StoreArgs!]!) {
       email
     }
     managerGetMachines {
+      id
       uuid
       code
       name
@@ -255,6 +256,7 @@ query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String,
 export const GetMachine = gql`
 query GetMachine($args: [MachineArgs!]!) {
   getMachine(args: $args) {
+    id
     uuid
     code
     price
@@ -279,9 +281,9 @@ query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $descript
 `
 
 export const BanMachine = gql`
-query GetMachine($args: [MachineArgs!]!) {
+query GetMachine($args: [MachineArgs!]!, $expireAt: Int, $reason: String!) {
   getMachine(args: $args) {
-    ban
+    ban(expireAt: $expireAt, reason: $reason)
   }
 }
 `
@@ -302,14 +304,13 @@ query GetMachine($args: [MachineArgs!]!) {
 
 // ========================= BILLBOARDS =========================
 export const GetBillboardList = gql`
-query GetBillboardList($args: [BrandArgs!]!) {
+query ManagerGetBillboards($args: [BrandArgs!]!) {
   getBrand(args: $args) {
-    getBillboardList {
+    managerGetBillboards {
       id
       title
       content
       description
-    description
       startAt
       endAt
       status {
@@ -405,12 +406,14 @@ query ManagerGetAllNotificationSchedules {
   }
 }
 `
-
-export const ManagerSetNotificationScheduleToAllMember = gql`
-mutation ManagerSetNotificationScheduleToAllMember($comment: String!, $notification: ManagerCreateNotification!, $triggerAt: Int) {
-  managerSetNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
+export const DeleteNotification = gql`
+query ManagerGetNotificationSchedules($ids: [ID!]!) {
+  managerGetNotificationSchedules(ids: $ids) {
+    delete
+  }
 }
 `
+
 
 // ========================= FREE COINS =========================
 // ini dipake buat dapetin semua free coin yang udah dikirim
@@ -463,6 +466,7 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
         endAt
         startAt
         description
+        receiveDaysOverdue
       }
     }
     status {
@@ -475,11 +479,87 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
 `
 
 export const ManagerCreateCurrencyReward = gql`
-mutation ManagerCreateCurrencyReward($amount: Int!, $currencyId: String!, $sourceType: EManagerCreateRewardSourceType!, $startAt: Int!, $limit: Int, $description: String, $endAt: Int, $comment: String!, $notification: ManagerCreateNotificationField!, $triggerAt: Int) {
-  managerCreateCurrencyReward(amount: $amount, currencyId: $currencyId, sourceType: $sourceType, startAt: $startAt, limit: $limit, description: $description, endAt: $endAt) {
+mutation ManagerCreateCurrencyReward($currencyId: String!, $sourceType: EManagerCreateRewardSourceType!, $startAt: Int!, $limit: Int, $description: String, $endAt: Int, $comment: String!, $notification: ManagerCreateNotificationField!, $triggerAt: Int, $receiveDaysOverdue: Int!, $amount: Int!) {
+  managerCreateCurrencyReward(currencyId: $currencyId, sourceType: $sourceType, startAt: $startAt, limit: $limit, description: $description, endAt: $endAt, receiveDaysOverdue: $receiveDaysOverdue, amount: $amount) {
     id
     managerCreateNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
   }
 }
 `
 
+// ========================= ADS =========================
+export const GetAdsList = gql`
+query ManagerGetAdvertisements {
+  managerGetAdvertisements {
+    id
+    image
+    url
+    description
+    startAt
+    endAt
+    status {
+      id
+      description
+      name
+    }
+    type {
+      id
+      description
+      name
+    }
+  }
+}
+`
+
+export const GetAds = gql`
+query GetAdvertisement($args: [AdvertisementArgs!]!) {
+  getAdvertisement(args: $args) {
+    id
+    image
+    url
+    description
+    startAt
+    endAt
+    status {
+      id
+      description
+      name
+    }
+    type {
+      id
+      description
+      name
+    }
+  }
+}
+`
+export const UpdateAds = gql`
+query GetAdvertisement($args: [AdvertisementArgs!]!, $image: String, $url: String, $description: String, $startAt: Int, $endAt: Int, $statusId: EUpdateAdvertisementStatus) {
+  getAdvertisement(args: $args) {
+    update(image: $image, url: $url, description: $description, startAt: $startAt, endAt: $endAt, statusId: $statusId)
+  }
+}
+`
+
+export const BanAds = gql`
+query GetAdvertisement($args: [AdvertisementArgs!]!, $reason: String!, $expireAt: Int) {
+  getAdvertisement(args: $args) {
+    ban(reason: $reason, expireAt: $expireAt)
+  }
+}
+`
+
+export const UnbanAds = gql`
+query GetAdvertisement($args: [AdvertisementArgs!]!) {
+  getAdvertisement(args: $args) {
+    unBan
+  }
+}
+`
+export const RemoveAds = gql`
+query GetAdvertisement($args: [AdvertisementArgs!]!) {
+  getAdvertisement(args: $args) {
+    remove
+  }
+}
+`

@@ -14,10 +14,16 @@ const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
   content: yup.string().required("required"),
   comment: yup.string().required("required"),
-  triggerAtDate: yup.string().required("required"),
-  expireAtDate: yup.string().required("required"),
-  startAtDate: yup.string().required("required"),
-  endAtDate: yup.string().required("required"),
+  // triggerAt: yup.string().required("required"),
+  // expireAt: yup.string().required("required"),
+
+  currencyAmount: yup.number().required("required"),
+  receiveDaysOverdue: yup.number().required("required"),
+  rewardLimit: yup.number().required("required"),
+  rewardDescription: yup.string().required("required"),
+
+  // startAt: yup.string().required("required"),
+  // endAt: yup.string().required("required"),
 });
 
 
@@ -40,21 +46,37 @@ export default function CreateSystemCoinModal() {
   const [triggerAtDate, setTriggerAtDate] = useState('');
   function handleTriggerAtDateChange(event) {
     setTriggerAtDate(event.target.value);
+
+    // const newInitialValues = { ...initialValues };
+    // newInitialValues.triggerAt = event.target.value;
+    // setInitialValues(newInitialValues);
   }
 
   const [expireAtDate, setExpireAtDate] = useState('');
   function handleExpireAtDateChange(event) {
     setExpireAtDate(event.target.value);
+    // setInitialValues({
+    //   ...initialValues,
+    //   expireAt: event.target.value
+    // });
   }
 
   const [startAtDate, setStartAtDate] = useState('');
   function handleStartAtDateChange(event) {
     setStartAtDate(event.target.value);
+    // setInitialValues({
+    //   ...initialValues,
+    //   startAt: event.target.value
+    // });
   }
 
   const [endAtDate, setEndAtDate] = useState('');
   function handleEndAtDateChange(event) {
     setEndAtDate(event.target.value);
+    // setInitialValues({
+    //   ...initialValues,
+    //   endAt: event.target.value
+    // });
   }
 
   //========================== INITIAL VALUES ==========================
@@ -63,14 +85,13 @@ export default function CreateSystemCoinModal() {
     content: "",
     comment: "",
     rewardId: "",
-    triggerAtDate: "",
-    expireAtDate: "",
+    triggerAt: "",
+    expireAt: "",
     currencyID: "",
-    currencyName: "",
     currencyAmount: "",
+    receiveDaysOverdue: "",
     rewardLimit: "",
     rewardDescription: "",
-    rewardStatus: "",
     startAt: "",
     endAt: "",
   });
@@ -110,6 +131,7 @@ export default function CreateSystemCoinModal() {
 
     ApolloCreateSystemFreeCoinNotification({
       variables: {
+        receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
         amount: parseInt(values.currencyAmount),
         currencyId: "1",
         sourceType: "notification",
@@ -222,7 +244,10 @@ export default function CreateSystemCoinModal() {
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={triggerAtDate}
+                          name="triggerAt"
                           onChange={handleTriggerAtDateChange}
+                          error={!!touched.triggerAt && !!errors.triggerAt}
+                          helperText={touched.triggerAt && errors.triggerAt}
                           sx={{ marginBottom: "1rem", mr: '1rem' }}
                           InputLabelProps={{
                             shrink: true,
@@ -236,7 +261,10 @@ export default function CreateSystemCoinModal() {
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={expireAtDate}
+                          name="expireAt"
                           onChange={handleExpireAtDateChange}
+                          error={!!touched.expireAt && !!errors.expireAt}
+                          helperText={touched.expireAt && errors.expireAt}
                           sx={{ marginBottom: "1rem" }}
                           InputLabelProps={{
                             shrink: true,
@@ -268,13 +296,28 @@ export default function CreateSystemCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="限定數量"
+                          label="最大發送次數"
+                          placeholder="Null是不限制 或 1~60"
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardLimit}
                           name="rewardLimit"
                           error={!!touched.rewardLimit && !!errors.rewardLimit}
                           helperText={touched.rewardLimit && errors.rewardLimit}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="number"
+                          label="獎勵使用期限"
+                          placeholder="Null是不限制"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.receiveDaysOverdue}
+                          name="receiveDaysOverdue"
+                          error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
+                          helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
                           sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                       </Box>
@@ -303,7 +346,10 @@ export default function CreateSystemCoinModal() {
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={startAtDate}
+                          name="startAt"
                           onChange={handleStartAtDateChange}
+                          error={!!touched.startAt && !!errors.startAt}
+                          helperText={touched.startAt && errors.startAt}
                           sx={{ marginBottom: "1rem", mr: '1rem' }}
                           InputLabelProps={{
                             shrink: true,
@@ -316,7 +362,10 @@ export default function CreateSystemCoinModal() {
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={endAtDate}
+                          name="endAt"
                           onChange={handleEndAtDateChange}
+                          error={!!touched.endAt && !!errors.endAt}
+                          helperText={touched.endAt && errors.endAt}
                           sx={{ marginBottom: "1rem" }}
                           InputLabelProps={{
                             shrink: true,

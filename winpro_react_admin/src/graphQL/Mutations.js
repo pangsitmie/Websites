@@ -18,3 +18,15 @@ mutation CreateBrand($name: String!, $vatNumber: String!, $principal: CreateBran
 }
 `
 
+// ADS
+export const CreateAdvertisement = gql`
+mutation CreateAdvertisement($typeId: EAdvertisementType!, $image: String!, $url: String!, $startAt: Int!, $description: String, $endAt: Int) {
+  createAdvertisement(typeId: $typeId, image: $image, url: $url, startAt: $startAt, description: $description, endAt: $endAt)
+}
+`
+// NOTIFICATION
+export const CreateSystemNotification = gql`
+mutation ManagerSetNotificationScheduleToAllMember($comment: String!, $notification: ManagerCreateNotification!, $triggerAt: Int) {
+  managerSetNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
+}
+`

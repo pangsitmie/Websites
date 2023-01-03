@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useQuery } from '@apollo/client'
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 
 // QUERIES
-import { GetSentFreeCoinsList } from '../../graphQL/Queries'
+import { GetAdsList } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -11,32 +11,54 @@ import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import CreateSystemCoinModal from './CreateSystemCoinModal';
-import SystemCoinListModal from './SystemCoinListModal';
+import { Link } from 'react-router-dom';
+import { replaceNullWithEmptyString } from '../../utils/Utils';
+import { format } from 'date-fns';
+import AdsListModal from './AdsListModal';
+import CreateAdsModal from './CreateAdsModal';
 
-
-const SystemCoinManagement = () => {
-    //THEME
+const AdsManagement = () => {
+    //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // STATES
-    // const [filter, setFilter] = useState('品牌名');
+    // ========================== STATES AND HANDLERS ==========================
+    const [filter, setFilter] = useState('品牌名');
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
+
     const [status, setStatus] = useState('');
-    const [review, setReview] = useState('');
-
-    //REF
-    const searchValueRef = useRef('');
-    const filterRef = useRef('品牌名');
-
-
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
+
+    const [review, setReview] = useState('');
     const handleReviewChange = (e) => {
         setReview(e.target.value);
     };
 
+    // ========================== REF ==========================
+    const searchValueRef = useRef('');
+    const filterRef = useRef('品牌名');
+
+    //========================== GRAPHQL ==========================
+    const { loading, error, data } = useQuery(GetAdsList);
+    const [initAds, setInitAds] = useState([]);
+    const [ads, setAds] = useState([]);
+    useEffect(() => {
+        if (data) {
+            setInitAds(data.managerGetAdvertisements); //all brand datas
+            setAds(data.managerGetAdvertisements); //datas for display
+        }
+        else {
+            console.log(error);
+            console.log(loading);
+        }
+    }, [data]);
+
+
+    // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
         // LOG SEARCH STATES
         console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
@@ -44,12 +66,13 @@ const SystemCoinManagement = () => {
         //CALL SEARCH FUNCTION
         let value = searchValueRef.current.value;
         if (value.length > 2) {
-            let search = arraySearch(notifications, value);
-            setNotifications(search)
+            let search = arraySearch(ads, value);
+            setAds(search)
         } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setNotifications(initNotifications)
+            setAds(initAds)
         }
     };
+
     //SEARCH FUNCTION
     const arraySearch = (array, keyword, filter) => {
         const searchTerm = keyword
@@ -60,30 +83,10 @@ const SystemCoinManagement = () => {
         })
     }
 
-    //GRAPHQL
-    const { loading, error, data } = useQuery(GetSentFreeCoinsList,
-        {
-            variables: {
-                onlyRewardType: "currency",
-            }
-        }
-    );
-    const [initNotifications, setInitNotifications] = useState([]);
-    const [notifications, setNotifications] = useState([]);
-    useEffect(() => {
-        if (data) {
-            setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
-            setNotifications(data.managerGetAllNotificationSchedules); //datas for display
-        }
-        else {
-            console.log(error);
-            console.log(loading);
-        }
-    }, [data]);
-
+    // ========================== RETURN ==========================
     return (
         <Box p={2}>
-            <h1 className='userManagement_title'>系統免費幣發送</h1>
+            <h1 className='userManagement_title'>廣告管理</h1>
             {/* SEARCH DIV */}
             <Box display="flex" paddingBottom={5}>
                 {/* name Search */}
@@ -145,7 +148,7 @@ const SystemCoinManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <CreateSystemCoinModal />
+                    <CreateAdsModal />
                 </Box>
 
             </Box>
@@ -167,7 +170,7 @@ const SystemCoinManagement = () => {
                     p="15px"
                 >
                     <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        通知清單
+                        品牌清單
                     </Typography>
                 </Box>
                 <Box
@@ -181,23 +184,24 @@ const SystemCoinManagement = () => {
 
                 >
 
+
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Triger At</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">ID</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Title</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">File Name</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Comment</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">StartAt</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Expire At</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">End At</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">刪除</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -207,65 +211,67 @@ const SystemCoinManagement = () => {
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
-                    {notifications.map((item, i) => {
-                        if (item.notification.reward.content.currency.type.name === "systemFree") {
-                            return (
-                                <Box
-                                    key={`${item.id}-${i}`}
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    borderBottom={`4px solid ${colors.primary[500]}`}
-                                    p="10px"
-                                >
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id} - {item.notification.reward.content.currency.type.name} - {item.notification.title}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {(() => {
-                                            if (item.notification.expireAt === null) {
-                                                return "無"
-                                            }
-                                            else {
-                                                return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
-                                            }
-                                        })()}
-                                    </Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {(() => {
-                                            if (item.status.name === "done") {
-                                                return (
-                                                    <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        完成
-                                                    </Typography>)
-                                            }
-                                            else if (item.status.name === "failed") {
-                                                return (
-                                                    <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        失敗
-                                                    </Typography>)
-                                            }
-                                            else {
-                                                return (
-                                                    <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                        正常
-                                                    </Typography>)
-                                            }
-                                        })()}
-                                    </Box>
+                    {ads.map((item, i) => (
+                        <Box
+                            key={`${item.id}-${i}`}
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            p="10px"
+                        >
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.image}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {item.endAt === null ? (
+                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                        無
+                                    </Typography>
+                                ) : (
+                                    format(new Date(item.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                )}
+                            </Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {(() => {
+                                    if (item.status.name === "disable") {
+                                        return (
+                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                停用
+                                            </Typography>)
+                                    }
+                                    else if (item.status.name === "banned") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                封鎖
+                                            </Typography>)
+                                    }
+                                    else if (item.status.name === "removed") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                移除
+                                            </Typography>)
+                                    }
+                                    else {
+                                        return (
+                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                正常
+                                            </Typography>)
+                                    }
+                                })()}
+                            </Box>
 
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {/* FIXME: change title to delete */}
-                                        <SystemCoinListModal props={item} />
-                                    </Box>
-                                </Box>
-                            )
-                        }
-                    })}
+
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                <AdsListModal props={item} />
+                            </Box>
+                        </Box>
+                    ))}
+
                 </Box>
             </Box>
         </Box >
     )
 }
 
-export default SystemCoinManagement
+export default AdsManagement
