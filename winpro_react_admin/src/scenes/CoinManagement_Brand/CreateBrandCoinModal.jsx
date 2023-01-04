@@ -15,6 +15,7 @@ const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
   content: yup.string().required("required"),
   comment: yup.string().required("required"),
+
   // triggerAt: yup.string().required("required"),
   // expireAt: yup.string().required("required"),
 
@@ -96,9 +97,11 @@ export default function CreateBrandCoinModal() {
   }, [data]);
 
   const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
-  const [{ brandId, brandName }, setBrandInfo] = useState({
+  const [{ brandId, brandName, brandCoinId, brandCoinName }, setBrandInfo] = useState({
     brandId: "null",
     brandName: "null",
+    brandCoinId: "null",
+    brandCoinName: "null",
   });
   const [brandListFilter, setBrandListFilter] = useState('');
   const [brandList, setBrandList] = useState([]);
@@ -119,8 +122,11 @@ export default function CreateBrandCoinModal() {
       setBrandListFilter(targetId);
       setBrandInfo({
         brandId: targetId,
-        brandName: brand.name
+        brandName: brand.name,
+        brandCoinId: brand.currency.id,
+        brandCoinName: brand.currency.name,
       });
+      console.log(brand);
     }
   };
 
@@ -148,7 +154,7 @@ export default function CreateBrandCoinModal() {
       variables: {
         receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
         amount: parseInt(values.currencyAmount),
-        currencyId: brandId,
+        currencyId: brandCoinId,
         sourceType: "notification",
         triggerAt: triggerAtUnix,
         startAt: startAtUnix,
@@ -161,10 +167,10 @@ export default function CreateBrandCoinModal() {
           title: values.title,
           content: values.content,
           expireAt: expireAtUnix
-        },
-
+        }
       }
     });
+    console.log(brandCoinId);
   };
 
 
@@ -303,7 +309,7 @@ export default function CreateBrandCoinModal() {
                                 value={brand.id}
                                 key={`${i}`}
                               >
-                                {brand.id} - {brand.name}
+                                {brand.id} - {brand.name} - {brand.currency.id} - {brand.currency.name}
                               </MenuItem>
                             ))}
                           </Select>

@@ -13,6 +13,7 @@ import PlacesAutocomplete, {
     getLatLng,
 } from 'react-places-autocomplete';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
+import { areaData } from "../../data/cityData";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -35,10 +36,36 @@ export default function StoreListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
-    const [{ address, city, district, coordinates }, setLocation] = useState({
-        address: props.location.address,
-        city: props.location.city,
-        district: props.location.district,
+    const [status, setStatus] = useState('disable');
+    const handleStatusChange = (event) => {
+        setStatus(event.target.value);
+    };
+
+    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+
+
+    // ========================== CITY ==========================
+    const [cityFilter, setCityFilter] = useState('');
+    const [areaFilter, setAreaFilter] = useState([]); // list of area based on the city
+    const [selectedArea, setSelectedArea] = useState(''); // selected area
+
+    const handleCityChange = (event) => {
+        setCityFilter(event.target.value);
+        setAreaFilter(areaData[event.target.value]);
+        setSelectedArea('');
+    };
+    const handleAreaChange = (event) => {
+        setSelectedArea(event.target.value);
+    };
+
+    useEffect(() => {
+        console.log("city:" + cityFilter + ", selected area:" + selectedArea);
+    }, [cityFilter, areaFilter, selectedArea]);
+
+
+    const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
+    const [{ address, coordinates }, setLocation] = useState({
+        address: "",
         coordinates: {
             lat: 0,
             lng: 120,
@@ -47,12 +74,6 @@ export default function StoreListModal({ props }) {
 
 
 
-    const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
-        setStatus(event.target.value);
-    };
-    const [inputAddress, setInputAddress] = useState("");
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
     const [initialValues, setInitialValues] = useState({
         id: -1,
@@ -65,9 +86,7 @@ export default function StoreListModal({ props }) {
         //locations get from location state
         status: "",
 
-        city: "",
-        district: "",
-        address: "",
+
         principalName: "",
         principalAccount: "",
         principalPassword: "",
@@ -119,15 +138,23 @@ export default function StoreListModal({ props }) {
                 cover: "https://img.icons8.com/fluency/48/null/test-account.png",
                 brandId: data3.getStore[0].brand.id,
                 brandName: data3.getStore[0].brand.name,
-                city: data3.getStore[0].location.city,
-                district: data3.getStore[0].location.district,
-                address: data3.getStore[0].location.address,
+                // city, district, and address is used in state
                 principalName: data3.getStore[0].principal.name,
                 principalAccount: data3.getStore[0].principal.account,
-                principalPassword: data3.getStore[0].principal.password,
+                // princiapall password doesnt receive api data
                 principalLineUrl: data3.getStore[0].principal.lineUrl,
                 principalEmail: data3.getStore[0].principal.email,
             });
+            //set city
+            setCityFilter(data3.getStore[0].location.city);
+            //set area
+            setAreaFilter(areaData[data3.getStore[0].location.city]);
+            setSelectedArea(data3.getStore[0].location.district);
+            //set location
+            setLocation((prevState) => ({
+                ...prevState,
+                address: data3.getStore[0].location.address,
+            }));
             //set status only if not banned
             if (data3.getStore[0].status.name !== "banned") {
                 setStatus(data3.getStore[0].status.name)
@@ -136,97 +163,52 @@ export default function StoreListModal({ props }) {
     }, [data3]);
 
     const handleFormSubmit = (values) => {
-        if (values.principalPassword === "") { //if password is empty, do not update password
-            ApolloUpdateStore({
-                variables: {
-                    args: [
-                        {
-                            id: values.id
-                        }
-                    ],
-                    name: values.name,
-                    intro: values.intro,
-                    location: {
-                        city: city,
-                        district: district,
-                        address: address,
-                        coordinate: {
-                            latitude: coordinates.lat,
-                            longitude: coordinates.lng
-                        },
-                        description: "some desc"
-                    },
-                    principal: {
-                        name: values.principalName,
-                        lineUrl: values.principalLineUrl,
-                        email: values.principalEmail,
-                    },
-                    statusId: status
+        const variables = {
+            args: [
+                {
+                    id: values.id
                 }
-            });
+            ],
+            name: values.name,
+            intro: values.intro,
+            location: {
+                city: cityFilter,
+                district: selectedArea,
+                address: address,
+                description: "location description"
+            },
+            principal: {
+                name: values.principalName,
+                lineUrl: values.principalLineUrl,
+                email: values.principalEmail,
+            }
+        };
+
+        // if coordinate is not updated
+        if (coordinates.lat !== 0 && coordinates.lng !== 120) {
+            variables.location.coordinate = {
+                latitude: coordinates.lat,
+                longitude: coordinates.lng,
+            };
         }
-        else if (initialValues.status === "banned") {
-            ApolloUpdateStore({
-                variables: {
-                    args: [
-                        {
-                            id: values.id
-                        }
-                    ],
-                    name: values.name,
-                    intro: values.intro,
-                    location: {
-                        city: city,
-                        district: district,
-                        address: address,
-                        coordinate: {
-                            latitude: coordinates.lat,
-                            longitude: coordinates.lng
-                        },
-                        description: "some desc"
-                    },
-                    principal: {
-                        name: values.principalName,
-                        lineUrl: values.principalLineUrl,
-                        email: values.principalEmail,
-                    }
-                }
-            });
+
+        //if password is empty, dont update password
+        if (values.principalPassword !== "") {
+            variables.principal.password = values.principalPassword;
         }
-        else {
-            ApolloUpdateStore({
-                variables: {
-                    args: [
-                        {
-                            id: values.id
-                        }
-                    ],
-                    name: values.name,
-                    intro: values.intro,
-                    location: {
-                        city: city,
-                        district: district,
-                        address: address,
-                        coordinate: {
-                            latitude: coordinates.lat,
-                            longitude: coordinates.lng
-                        },
-                        description: "some desc"
-                    },
-                    principal: {
-                        name: values.principalName,
-                        password: values.principalPassword,
-                        lineUrl: values.principalLineUrl,
-                        email: values.principalEmail,
-                    },
-                    statusId: status
-                }
-            });
+
+        //if status is not banned, update status
+        if (initialValues.status !== "banned") {
+            variables.statusId = status;
         }
+        console.log(variables);
+
+        // ApolloUpdateStore({ variables });
     };
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
+        console.log(results);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
         const city = results[0].address_components[4].long_name;
@@ -235,10 +217,19 @@ export default function StoreListModal({ props }) {
         setInputAddress(value);
         setLocation({
             address: formattedAddress,
-            city: city,
-            district: district,
             coordinates: latLng
         });
+
+        if (city in areaData) {
+            setCityFilter(city); // SET THE CITY FILTER TO THE CITY OF THE SELECTED LOCATION
+            // SET THE AREA FILTER TO THE AREA OF THE SELECTED LOCATION
+            setAreaFilter(areaData[city]);
+            setSelectedArea(district); // SET THE SELECTED AREA TO THE AREA OF THE SELECTED LOCATION
+        }
+
+
+        console.log("city" + city + "district" + district + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        //this.props.onAddressSelected();
     };
 
     const handleDelete = () => {
@@ -480,37 +471,45 @@ export default function StoreListModal({ props }) {
 
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
+                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={cityFilter}
+                                                        label="cityFilter"
+                                                        onChange={handleCityChange}
+                                                        required // add the required prop
+                                                    >
+                                                        {Object.keys(areaData).map((city, i) => (
+                                                            <MenuItem value={city} key={`${city}-${i}`}>
+                                                                {city}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+
+                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >鄉鎮過濾</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={selectedArea}
+                                                        label="areaFilter"
+                                                        onChange={handleAreaChange}
+                                                        required // add the required prop
+                                                    >
+                                                        {areaFilter.map((area, i) => (
+                                                            <MenuItem value={area} key={area}>
+                                                                {area}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
                                                 <TextField
                                                     fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面縣市"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={city}
-                                                    name="city"
-                                                    error={!!touched.city && !!errors.city}
-                                                    helperText={touched.city && errors.city}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面鄉鎮"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={district}
-                                                    name="district"
-                                                    error={!!touched.district && !!errors.district}
-                                                    helperText={touched.district && errors.district}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label="店面地址"
@@ -518,6 +517,7 @@ export default function StoreListModal({ props }) {
                                                     onChange={handleChange}
                                                     value={address}
                                                     name="address"
+                                                    required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
@@ -551,6 +551,9 @@ export default function StoreListModal({ props }) {
                                                     helperText={touched.principalPassword && errors.principalPassword}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+                                            </Box>
+                                            <Box color={"white"}>
+                                                lat {coordinates.lat} - lng {coordinates.lng}
                                             </Box>
                                             <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField

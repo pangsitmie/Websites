@@ -96,73 +96,32 @@ export default function BrandListModal({ props }) {
   }, [data2]);
 
   const handleFormSubmit = (values) => {
-    console.log("SEND API REQUEST");
-    console.log(values);
-    console.log("BRAND STAT" + status);
+    const variables = {
+      args: [
+        {
+          id: values.id
+        }
+      ],
+      name: values.name,
+      vatNumber: values.vatNumber,
+      intro: values.intro,
+      principal: {
+        name: values.principalName,
+        lineUrl: values.principalLineUrl,
+        email: values.principalEmail,
+      },
+      currencyName: values.brandCoinName,
+    };
 
-    if (values.principalPassword === "") { //if password is empty, do not update password
-      ApolloUpdateBrand({
-        variables: {
-          args: [
-            {
-              id: values.id
-            }
-          ],
-          name: values.name,
-          vatNumber: values.vatNumber,
-          intro: values.intro,
-          principal: {
-            name: values.principalName,
-            lineUrl: values.principalLineUrl,
-            email: values.principalEmail,
-          },
-          currencyName: values.brandCoinName,
-          statusId: status
-        }
-      });
+    if (values.principalPassword !== "") {
+      variables.principal.password = values.principalPassword;
     }
-    else if (initialValues.status === "banned") { //if banned dont update status
-      ApolloUpdateBrand({
-        variables: {
-          args: [
-            {
-              id: values.id
-            }
-          ],
-          name: values.name,
-          vatNumber: values.vatNumber,
-          intro: values.intro,
-          principal: {
-            name: values.principalName,
-            lineUrl: values.principalLineUrl,
-            email: values.principalEmail,
-          },
-          currencyName: values.brandCoinName,
-        }
-      });
+
+    if (initialValues.status !== "banned") {
+      variables.statusId = status;
     }
-    else {
-      ApolloUpdateBrand({
-        variables: {
-          args: [
-            {
-              id: values.id
-            }
-          ],
-          name: values.name,
-          vatNumber: values.vatNumber,
-          intro: values.intro,
-          principal: {
-            name: values.principalName,
-            password: values.principalPassword,
-            lineUrl: values.principalLineUrl,
-            email: values.principalEmail,
-          },
-          currencyName: values.brandCoinName,
-          statusId: status
-        }
-      });
-    }
+
+    ApolloUpdateBrand({ variables });
   };
 
   // INITIAL VALUES FROM GET BRAND QUERY

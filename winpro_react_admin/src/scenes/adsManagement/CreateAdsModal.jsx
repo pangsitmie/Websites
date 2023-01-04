@@ -49,7 +49,7 @@ export default function CreateAdsModal({ props }) {
 
     const [initialValues, setInitialValues] = useState({
         image: "",
-        url: "https://img.icons8.com/fluency/48/null/test-account.png",
+        url: "https://cloudprogrammingonline.com/",
         description: "",
         startAtDate: "",
         endAtDate: "",

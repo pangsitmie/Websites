@@ -102,11 +102,29 @@ const MachineManagement = () => {
 
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     marginLeft={"auto"}
                     padding={"0"}
                 >
+                    <Button className=""
+                        sx={{
+                            backgroundColor: colors.primary[300],
+                            color: colors.grey[100],
+                            minWidth: "120px",
+                            height: "50px",
+                            borderRadius: "10px",
+                            padding: "0px",
+                            marginRight: "2rem",
+                            ':hover': {
+                                bgcolor: colors.primary[400],
+                                border: '1px solid white',
+                            }
+                        }}
+                        onClick={submitSearch}
+                    >
+                        <p className='btn_text'>下載 QR</p>
+                    </Button>
+
                     <CreateMachineModal props={state.data} />
                 </Box>
             </Box>

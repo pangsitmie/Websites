@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { CreateStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
@@ -12,8 +12,6 @@ import PlacesAutocomplete, {
     getLatLng,
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
-import { IntegrationInstructions } from "@mui/icons-material";
-import { citiesData } from "../../data/mockData";
 import { areaData } from "../../data/cityData";
 
 
@@ -22,9 +20,9 @@ const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    // brandId: yup.string().required("required"),
     name: yup.string().required("required"),
     intro: yup.string().required("required").nullable(),
+
 
     principalName: yup.string().required("required"),
     principalAccount: yup.string().required("required"),
@@ -37,17 +35,9 @@ const checkoutSchema = yup.object().shape({
 export default function CreateStoreModal() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    // ========================== STATE ==========================
     const [modal, setModal] = useState(false);
-    const [{ address, city, district, coordinates }, setLocation] = useState({
-        address: "",
-        city: "",
-        district: "",
-        coordinates: {
-            lat: 0,
-            lng: 120,
-        }
-    });
-    const [inputAddress, setInputAddress] = useState("");
     const [{ brandId, brandName }, setBrandInfo] = useState({
         brandId: "null",
         brandName: "null",
@@ -55,21 +45,63 @@ export default function CreateStoreModal() {
     var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
 
 
-    const [cityFilter, setCityFilter] = useState('臺北市');
-    const handleCityChange = (e) => {
-        setCityFilter(e.target.value);
-        setAreaFilter(areaData[cityFilter]);
+    // ========================== CITY ==========================
+    const [cityFilter, setCityFilter] = useState('');
+    const [areaFilter, setAreaFilter] = useState([]); // list of area based on the city
+    const [selectedArea, setSelectedArea] = useState(''); // selected area
+
+    const handleCityChange = (event) => {
+        setCityFilter(event.target.value);
+        setAreaFilter(areaData[event.target.value]);
+        setSelectedArea('');
+    };
+    const handleAreaChange = (event) => {
+        setSelectedArea(event.target.value);
     };
 
     useEffect(() => {
-        setAreaFilter(areaData[cityFilter]);
-    }, [cityFilter]);
+        console.log("city:" + cityFilter + ", selected area:" + selectedArea);
+    }, [cityFilter, areaFilter, selectedArea]);
 
-    const [selectedArea, setSelectedArea] = useState('');
-    const [areaFilter, setAreaFilter] = useState([]);
-    const handleAreaChange = (e) => {
-        setSelectedArea(e.target.value);
+
+    const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
+    const [{ address, coordinates }, setLocation] = useState({
+        address: "",
+        coordinates: {
+            lat: 0,
+            lng: 120,
+        }
+    });
+
+    const handleLocationSelect = async value => {
+        const results = await geocodeByAddress(value);
+        console.log(results);
+        const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
+        const latLng = await getLatLng(results[0]);
+        const city = results[0].address_components[4].long_name;
+        const district = results[0].address_components[3].long_name;
+
+        setInputAddress(value);
+        setLocation({
+            address: formattedAddress,
+            coordinates: latLng
+        });
+
+        if (city in areaData) {
+            setCityFilter(city); // SET THE CITY FILTER TO THE CITY OF THE SELECTED LOCATION
+            // SET THE AREA FILTER TO THE AREA OF THE SELECTED LOCATION
+            setAreaFilter(areaData[city]);
+            setSelectedArea(district); // SET THE SELECTED AREA TO THE AREA OF THE SELECTED LOCATION
+        }
+
+
+        console.log("city" + city + "district" + district + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        //this.props.onAddressSelected();
     };
+
+
+
+
 
     const initialValues = {
         name: "",
@@ -78,6 +110,7 @@ export default function CreateStoreModal() {
         cover: "https://img.icons8.com/fluency/48/null/test-account.png",
         //locations get from location state
 
+
         principalName: "",
         principalAccount: "",
         principalPassword: "",
@@ -85,6 +118,7 @@ export default function CreateStoreModal() {
         principalEmail: "",
     };
 
+    // =================== BRAND LIST ===================
     const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
     const [brandListFilter, setBrandListFilter] = useState('');
     const [brandList, setBrandList] = useState([]);
@@ -110,6 +144,7 @@ export default function CreateStoreModal() {
         }
     };
 
+    //============================================ GQL ==================================================
     //create store
     const [ApolloCreateStore, { loading, error, data }] = useLazyQuery(CreateStore);
     useEffect(() => {
@@ -126,7 +161,7 @@ export default function CreateStoreModal() {
         console.log("FORM SUBMIT");
         console.log(values);
         console.log(brandId + brandName);
-        console.log("city" + city + ", district" + district + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        console.log("city" + cityFilter + ", district" + selectedArea + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
         ApolloCreateStore({
             variables: {
                 args: [
@@ -134,18 +169,19 @@ export default function CreateStoreModal() {
                         id: brandId
                     }
                 ],
-                // brandId: brandId,
+                brandId: brandId,
                 name: values.name,
                 intro: values.intro,
+                cover: "null",
                 location: {
-                    city: city,
-                    district: district,
+                    city: cityFilter,
+                    district: selectedArea,
                     address: address,
                     coordinate: {
                         latitude: coordinates.lat,
                         longitude: coordinates.lng
                     },
-                    description: "null"
+                    description: "location description"
                 },
                 principal: {
                     name: values.principalName,
@@ -158,25 +194,7 @@ export default function CreateStoreModal() {
         });
     };
 
-    const handleLocationSelect = async value => {
-        const results = await geocodeByAddress(value);
-        console.log(results);
-        const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
-        const latLng = await getLatLng(results[0]);
-        const city = results[0].address_components[4].long_name;
-        const district = results[0].address_components[3].long_name;
 
-        setInputAddress(value);
-        setLocation({
-            address: formattedAddress,
-            city: city,
-            district: district,
-            coordinates: latLng
-        });
-        setCityFilter(city);
-        console.log("Coordinate:" + coordinates.lat + "," + coordinates.lng);
-        //this.props.onAddressSelected();
-    };
 
 
 
@@ -335,7 +353,7 @@ export default function CreateStoreModal() {
                                                         />
                                                         <div className="autocomplete-dropdown-container">
                                                             {loading && <div>Loading...</div>}
-                                                            {suggestions.map(suggestion => {
+                                                            {suggestions.map((suggestion, index) => {
                                                                 const className = suggestion.active
                                                                     ? 'suggestion-item--active'
                                                                     : 'suggestion-item';
@@ -345,6 +363,7 @@ export default function CreateStoreModal() {
                                                                     : { backgroundColor: colors.primary[400], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" }; //background color
                                                                 return (
                                                                     <div
+                                                                        key={index} // add a unique key prop
                                                                         {...getSuggestionItemProps(suggestion, {
                                                                             className,
                                                                             style,
@@ -359,82 +378,48 @@ export default function CreateStoreModal() {
                                                 )}
                                             </PlacesAutocomplete>
 
+
+
+                                            {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
+                                                {/* CITYFILTER */}
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
                                                     <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
                                                     <Select
-                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
                                                         value={cityFilter}
                                                         label="cityFilter"
                                                         onChange={handleCityChange}
+                                                        required // add the required prop
                                                     >
-                                                        {citiesData.map((city, i) => (
-                                                            <MenuItem
-                                                                value={city.name}
-                                                                key={`${city.id}-${i}`}
-                                                            >
-                                                                {city.name}
+                                                        {Object.keys(areaData).map((city, i) => (
+                                                            <MenuItem value={city} key={`${city}-${i}`}>
+                                                                {city}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
                                                 </FormControl>
 
-                                                {/* AREA */}
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >area 過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >鄉鎮過濾</InputLabel>
                                                     <Select
-                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
-                                                        value={areaFilter}
+                                                        value={selectedArea}
                                                         label="areaFilter"
                                                         onChange={handleAreaChange}
+                                                        required // add the required prop
                                                     >
                                                         {areaFilter.map((area, i) => (
-                                                            <MenuItem
-                                                                value={area}
-                                                                key={area}
-                                                            >
+                                                            <MenuItem value={area} key={area}>
                                                                 {area}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
                                                 </FormControl>
-                                            </Box>
-
-                                            {/* STORE ADDRESS */}
-                                            <Box display={"flex"}>
-                                                {/* CITYFILTER */}
-
-
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面縣市"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={city}
-                                                    name="city"
-                                                    error={!!touched.city && !!errors.city}
-                                                    helperText={touched.city && errors.city}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="店面鄉鎮"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={district}
-                                                    name="district"
-                                                    error={!!touched.district && !!errors.district}
-                                                    helperText={touched.district && errors.district}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -444,6 +429,7 @@ export default function CreateStoreModal() {
                                                     onChange={handleChange}
                                                     value={address}
                                                     name="address"
+                                                    required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
@@ -468,7 +454,7 @@ export default function CreateStoreModal() {
                                                     name="principalName"
                                                     error={!!touched.principalName && !!errors.principalName}
                                                     helperText={touched.principalName && errors.principalName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -481,7 +467,7 @@ export default function CreateStoreModal() {
                                                     name="principalAccount"
                                                     error={!!touched.principalAccount && !!errors.principalAccount}
                                                     helperText={touched.principalAccount && errors.principalAccount}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -494,7 +480,7 @@ export default function CreateStoreModal() {
                                                     name="principalPassword"
                                                     error={!!touched.principalPassword && !!errors.principalPassword}
                                                     helperText={touched.principalPassword && errors.principalPassword}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
 

@@ -23,6 +23,10 @@ const StoreManagement = () => {
     // STATES
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
+    const handleCityChange = (e) => {
+        setCityFilter(e.target.value);
+    };
+
 
     //REF
     const brandRef = useRef('');
@@ -32,9 +36,7 @@ const StoreManagement = () => {
     const handleSearchChange = (e) => {
         setSearchFilter(e.target.value);
     };
-    const handleCityChange = (e) => {
-        setCityFilter(e.target.value);
-    };
+
 
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);

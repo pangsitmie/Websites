@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,6 +9,10 @@ import { tokens } from "../../theme";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { BanMachine, GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "../../graphQL/Queries";
 import { replaceNullWithEmptyString } from "../../utils/Utils";
+import QRCode from "react-qr-code";
+import { saveAs } from 'file-saver';
+import svgToCanvas from 'svg-to-canvas';
+
 
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
@@ -20,6 +24,27 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineListModal({ props }) {
+
+    const canRef = useRef(null);
+    const handleDownloadClick = () => {
+        // Get the QR code element
+        // const qrCodeEl = canRef.current;
+        const qrCodeEl = document.getElementById('qr-code');
+
+        console.log(qrCodeEl);
+        const canvasEl = svgToCanvas(qrCodeEl);
+        console.log(canvasEl);
+
+        const dataUrl = canvasEl.toDataURL();
+
+        // Create a Blob object from the data URL
+        const blob = new Blob([dataUrl], { type: 'image/png' });
+
+        // Use the FileSaver library to save the Blob object as a file
+        saveAs(blob, 'qr-code.png');
+    };
+
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -167,7 +192,6 @@ export default function MachineListModal({ props }) {
 
 
 
-
     const handleUnBan = (e) => {
         var result = window.confirm("Are you sure you want to unban this machine?");
         if (result) {
@@ -208,10 +232,7 @@ export default function MachineListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
+
 
 
                             <Formik
@@ -228,36 +249,54 @@ export default function MachineListModal({ props }) {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <Box color={"black"}>
+                                        <Box color={"black"} >
 
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                {(() => {
-                                                    if (initialValues.status === "disable") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                停用
-                                                            </Typography>)
-                                                    }
-                                                    else if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                封鎖
-                                                            </Typography>)
-                                                    }
-                                                    else if (initialValues.status === "removed") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                删除
-                                                            </Typography>)
-                                                    }
-                                                    else {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                正常
-                                                            </Typography>)
-                                                    }
-                                                })()}
+                                            <Box display={"flex"} >
+                                                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: "white" }}>
+                                                        {btnTitle}
+                                                    </Typography>
+                                                    {(() => {
+                                                        if (initialValues.status === "disable") {
+                                                            return (
+                                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                                    停用
+                                                                </Typography>)
+                                                        }
+                                                        else if (initialValues.status === "banned") {
+                                                            return (
+                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                    封鎖
+                                                                </Typography>)
+                                                        }
+                                                        else if (initialValues.status === "removed") {
+                                                            return (
+                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                    删除
+                                                                </Typography>)
+                                                        }
+                                                        else {
+                                                            return (
+                                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                    正常
+                                                                </Typography>)
+                                                        }
+                                                    })()}
+
+                                                </Box>
+
+                                                <Box display={"flex"} justifyContent={"center"} padding={".5rem"} flexDirection={"column"} >
+                                                    <QRCode ref={canRef} id="qr-code" value="HELLO" size={100} />
+                                                    <Button
+                                                        sx={{ background: "#cecece", margin: "5px 0 10px 0", width: "100px" }}
+                                                        onClick={handleDownloadClick}
+                                                    >
+                                                        Download
+                                                    </Button>
+                                                </Box>
                                             </Box>
+
+
 
 
                                             <Box display={"flex"} justifyContent={"center"}>
@@ -320,6 +359,7 @@ export default function MachineListModal({ props }) {
                                                 helperText={touched.code && errors.code}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
+
                                             <TextField
                                                 fullWidth
                                                 disabled={true}
@@ -334,33 +374,34 @@ export default function MachineListModal({ props }) {
                                                 helperText={touched.qrCode && errors.qrCode}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-                                            {/* SPENDING */}
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="機台單次花費金額"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.price}
-                                                name="price"
-                                                error={!!touched.price && !!errors.price}
-                                                helperText={touched.price && errors.price}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="備註"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.desc}
-                                                name="desc"
-                                                error={!!touched.desc && !!errors.desc}
-                                                helperText={touched.desc && errors.desc}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
+                                            <Box display={"flex"}>
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="機台單次花費金額"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.price}
+                                                    name="price"
+                                                    error={!!touched.price && !!errors.price}
+                                                    helperText={touched.price && errors.price}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="備註"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.desc}
+                                                    name="desc"
+                                                    error={!!touched.desc && !!errors.desc}
+                                                    helperText={touched.desc && errors.desc}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                            </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
                                             <Box display="flex" justifyContent="center" >

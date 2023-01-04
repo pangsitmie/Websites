@@ -5,6 +5,7 @@ import { tokens } from "../../theme";
 import * as yup from "yup";
 import { useLazyQuery } from '@apollo/client'
 import { BanMember, BanBrand, BanStore, BanBillboard, BanMachine, BanAds } from "../../graphQL/Queries";
+import "./ConfirmModal.css";
 
 
 
@@ -191,22 +192,38 @@ export default function ConfirmModal({ props }) {
 
 
             {modal && (
-                <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                <div className="confirm-modal">
+                    <div onClick={toggleModal} className="confirm-overlay"></div>
+                    <div className="confirm-modal-content">
                         <Box m="20px">
 
                             {/* <TextField type="date" value={date} onChange={handleDateChange} /> */}
                             {/* <Button onClick={handleGetUnix}>Get Unix time</Button> */}
                             {unixTime && <div>Unix time: {unixTime}</div>}
                             <Box color={"black"}>
-                                <TextField className="modal_input_textfield"
+                                {/* <TextField className="modal_input_textfield"
+
                                     fullWidth
                                     variant="filled"
                                     label="Expire At"
                                     // inputRef={expireAtRef}
-                                    type="date" value={date} onChange={handleDateChange}
-                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                    type="date" 
+                                    value={date} 
+                                    onChange={handleDateChange}
+                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                /> */}
+                                <TextField
+                                    fullWidth
+                                    id="datetime-local"
+                                    label="過期時間"
+                                    type="datetime-local"
+                                    // defaultValue="2017-05-24T10:30"
+                                    value={date}
+                                    onChange={handleDateChange}
+                                    sx={{ marginBottom: "1rem" }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
                                 <TextField className="modal_input_textfield"
                                     fullWidth
@@ -214,7 +231,7 @@ export default function ConfirmModal({ props }) {
                                     type="text"
                                     label="封鎖原因"
                                     inputRef={reasonRef}
-                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                                 />
 
                             </Box>

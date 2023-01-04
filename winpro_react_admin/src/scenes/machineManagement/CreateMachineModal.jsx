@@ -142,19 +142,6 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台名稱"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
                                                 label="機台號碼"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
@@ -168,28 +155,43 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="價格 (枚數)"
+                                                label="機台名稱"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.price}
-                                                name="price"
-                                                error={!!touched.price && !!errors.price}
-                                                helperText={touched.price && errors.price}
+                                                value={values.name}
+                                                name="name"
+                                                error={!!touched.name && !!errors.name}
+                                                helperText={touched.name && errors.name}
                                                 sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                             />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="備註"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.description}
-                                                name="description"
-                                                error={!!touched.description && !!errors.description}
-                                                helperText={touched.description && errors.description}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
+                                            <Box display={"flex"}>
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="價格 (枚數)"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.price}
+                                                    name="price"
+                                                    error={!!touched.price && !!errors.price}
+                                                    helperText={touched.price && errors.price}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="備註"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.description}
+                                                    name="description"
+                                                    error={!!touched.description && !!errors.description}
+                                                    helperText={touched.description && errors.description}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+                                            </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 

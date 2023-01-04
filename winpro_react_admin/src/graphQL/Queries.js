@@ -85,6 +85,14 @@ query ManagerGetBrands {
   managerGetBrands {
     id
     name
+    currency {
+      id
+      name
+      type {
+        id
+        name
+      }
+    }
   }
 }
 `
@@ -98,6 +106,7 @@ query GetBrand($args: [BrandArgs!]!) {
       name
     }
     currency {
+      id
       name
     }
     cover
@@ -210,9 +219,9 @@ query GetStore($args: [StoreArgs!]!) {
 }
 `
 export const CreateStore = gql`
-query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String) {
+query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String, $cover: String!) {
   getBrand(args: $args) {
-    createStore(name: $name, location: $location, principal: $principal, intro: $intro)
+    createStore(name: $name, location: $location, principal: $principal, intro: $intro, cover: $cover)
   }
 }
 `

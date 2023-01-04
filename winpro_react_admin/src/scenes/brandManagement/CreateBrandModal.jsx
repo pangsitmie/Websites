@@ -71,6 +71,8 @@ export default function CreateBrandModal() {
         name: values.name,
         vatNumber: values.vatNumber,
         intro: values.intro,
+        cover: "null",
+        logo: "null",
         principal: {
           name: values.principalName,
           password: values.principalPassword,
