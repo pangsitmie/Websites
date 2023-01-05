@@ -206,6 +206,7 @@ query GetStore($args: [StoreArgs!]!) {
     managerGetMachines {
       id
       uuid
+      qrCode
       code
       name
       status {

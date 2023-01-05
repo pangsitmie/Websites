@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import React, { useEffect, useState, useContext, useRef, useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
 // THEME
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
@@ -13,12 +13,15 @@ import MachineListModal from './MachineListModal';
 import { GetStore } from '../../graphQL/Queries';
 
 
+// QRCODE
+import QRCode from 'qrcode'
+
 const MachineManagement = () => {
     const location = useLocation();
     const state = location.state;
-    console.log(state); // output: "the-page-id"
-    console.log("STATE" + state.data.id); // output: "the-page-id"
-    console.log("STATE" + state.data.name); // output: "the-page-id"
+    // console.log(state); // output: "the-page-id"
+    // console.log("STATE" + state.data.id); // output: "the-page-id"
+    // console.log("STATE" + state.data.name); // output: "the-page-id"
 
     //THEME
     const theme = useTheme();
@@ -29,6 +32,12 @@ const MachineManagement = () => {
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
     const [machineData, setMachineData] = useState([]);
+    useLayoutEffect(() => {
+        for (const machine of machineData) {
+            console.log(machine.qrCode);
+            generateQrCode(machine.name, machine.qrCode);
+        }
+    }, [machineData]);
 
     //REF
     const brandRef = useRef('');
@@ -56,6 +65,8 @@ const MachineManagement = () => {
     }, [data]);
 
 
+
+
     //FUNCTIONS
     const handleSearchChange = (e) => {
         setSearchFilter(e.target.value);
@@ -67,6 +78,35 @@ const MachineManagement = () => {
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
+
+    // const [imgUrl, setImgUrl] = useState(''); // for qr code generation
+    const generateQrCode = async (machineName, qrCodePaypload) => {
+        try {
+            const response = await QRCode.toDataURL(qrCodePaypload);
+            setImgUrls(prevUrls => ({ ...prevUrls, [machineName]: response }));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+
+
+
+    const [imgUrls, setImgUrls] = useState({}); // for qr code generation
+    function downloadImages() {
+        for (const [key, value] of Object.entries(imgUrls)) {
+            console.log(value);
+            const a = document.createElement('a');
+            a.download = key;
+            a.href = value;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    }
+
 
     return (
         <Box p={2}>
@@ -120,7 +160,7 @@ const MachineManagement = () => {
                                 border: '1px solid white',
                             }
                         }}
-                        onClick={submitSearch}
+                        onClick={downloadImages}
                     >
                         <p className='btn_text'>下載 QR</p>
                     </Button>

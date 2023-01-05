@@ -2,19 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
+// import useMediaQuery from "@mui/material/useMediaQuery";
 import { useQuery, useLazyQuery } from '@apollo/client'
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { BanMachine, GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "../../graphQL/Queries";
+import { GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "../../graphQL/Queries";
 import { replaceNullWithEmptyString } from "../../utils/Utils";
-import QRCode from "react-qr-code";
-import { saveAs } from 'file-saver';
-import svgToCanvas from 'svg-to-canvas';
+import QRCode from "qrcode";
 
-
-// {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -24,27 +20,6 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineListModal({ props }) {
-
-    const canRef = useRef(null);
-    const handleDownloadClick = () => {
-        // Get the QR code element
-        // const qrCodeEl = canRef.current;
-        const qrCodeEl = document.getElementById('qr-code');
-
-        console.log(qrCodeEl);
-        const canvasEl = svgToCanvas(qrCodeEl);
-        console.log(canvasEl);
-
-        const dataUrl = canvasEl.toDataURL();
-
-        // Create a Blob object from the data URL
-        const blob = new Blob([dataUrl], { type: 'image/png' });
-
-        // Use the FileSaver library to save the Blob object as a file
-        saveAs(blob, 'qr-code.png');
-    };
-
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -127,6 +102,8 @@ export default function MachineListModal({ props }) {
                 status: nonNullData.status.name,
                 desc: nonNullData.description,
             });
+            generateQrCode(nonNullData.qrCode);
+
 
             //set status only if not banned
             if (nonNullData.status.name !== "banned") {
@@ -189,9 +166,7 @@ export default function MachineListModal({ props }) {
 
     };
 
-
-
-
+    // ===================== BAN MACHINE QUERY =====================
     const handleUnBan = (e) => {
         var result = window.confirm("Are you sure you want to unban this machine?");
         if (result) {
@@ -211,6 +186,18 @@ export default function MachineListModal({ props }) {
         }
     }
 
+    // qrcode
+    const [imgUrl, setImgUrl] = useState(''); // for qr code generation
+    const generateQrCode = async (inputText) => {
+        try {
+            const response = await QRCode.toDataURL(inputText);
+            setImgUrl(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     const toggleModal = () => {
         setModal(!modal);
     };
@@ -220,6 +207,7 @@ export default function MachineListModal({ props }) {
     } else {
         document.body.classList.remove('active-modal')
     }
+
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
@@ -232,9 +220,6 @@ export default function MachineListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-
-
-
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
@@ -286,13 +271,15 @@ export default function MachineListModal({ props }) {
                                                 </Box>
 
                                                 <Box display={"flex"} justifyContent={"center"} padding={".5rem"} flexDirection={"column"} >
-                                                    <QRCode ref={canRef} id="qr-code" value="HELLO" size={100} />
-                                                    <Button
-                                                        sx={{ background: "#cecece", margin: "5px 0 10px 0", width: "100px" }}
-                                                        onClick={handleDownloadClick}
-                                                    >
-                                                        Download
-                                                    </Button>
+                                                    {
+                                                        imgUrl ?
+                                                            <a href={imgUrl} download>
+                                                                <img src={imgUrl} alt="qrcode" width={"100px"} height={"auto"} />
+                                                            </a> : null
+                                                    }
+                                                    <Typography variant="h5" color={colors.grey[500]} sx={{ textAlign: "center", fontSize: "10px", margin: "0rem .5rem" }}>
+                                                        Click to download
+                                                    </Typography>
                                                 </Box>
                                             </Box>
 
