@@ -4,15 +4,16 @@ import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard/Dashboard";
-import Form from "./scenes/form";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-// import Calendar from "./scenes/calendar/calendar";
 
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, useLazyQuery } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { GetManagerAccessToken } from "./graphQL/Queries";
+
+// SCENES
 import UserManagement from "./scenes/userManagement/UserManagement";
 import BrandManagement from "./scenes/brandManagement/BrandManagement";
 import StoreManagement from "./scenes/storeManagement/StoreManagement";
@@ -21,10 +22,25 @@ import SystemNotificationManagement from "./scenes/systemNotificationManagement/
 import SystemCoinManagement from "./scenes/CoinManagement_System/SystemCoinManagement";
 import BillboardManagement from "./scenes/billboardManagement/BillboardManagement";
 import BrandCoinManagement from "./scenes/CoinManagement_Brand/BrandCoinManagement";
-import { GetManagerAccessToken } from "./graphQL/Queries";
 import AdsManagement from "./scenes/adsManagement/AdsManagement";
 
-
+async function refreshToken() {
+  try {
+    const response = await client.query({
+      query: GetManagerAccessToken,
+      variables: {
+        variables: {
+          refreshToken: "Bearer " + localStorage.getItem('login_token')
+        }
+      }, // Replace with your own function to retrieve the refresh token
+    });
+    const newAccessToken = response.data.getManagerAccessToken;
+    client.writeData({ data: { token: newAccessToken } });
+    localStorage.setItem('token', newAccessToken);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -32,25 +48,27 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       alert(`Graphql error ${message}`)
       if (message === "Token過期") {
         const login_token = localStorage.getItem('login_token');
-        const { loading: loading1, error: error1, data: data1 } = useQuery(GetManagerAccessToken, {
-          variables: {
-            refreshToken: "Bearer " + login_token
-          }
-        });
-        useEffect(() => {
-          if (data1) {
-            console.log("ACCESS TOKEN: " + data1.getManagerAccessToken);
-            localStorage.setItem('token', data1.getManagerAccessToken);
-          }
-          else {
-            console.log("NO GET ACCESS TOKEN DATA")
-          }
-        }, [data1]);
+        localStorage.removeItem('token');
+        refreshToken();
+        // localStorage.setItem('token', "expired");
+        // const { loading: loading1, error: error1, data: data1 } = useQuery(GetManagerAccessToken, {
+        //   variables: {
+        //     refreshToken: "Bearer " + login_token
+        //   }
+        // });
+        // useEffect(() => {
+        //   if (data1) {
+        //     console.log("ACCESS TOKEN: " + data1.getManagerAccessToken);
+        //     localStorage.setItem('token', data1.getManagerAccessToken);
+        //   }
+        //   else {
+        //     console.log("NO GET ACCESS TOKEN DATA")
+        //   }
+        // }, [data1]);
       }
     })
   }
 });
-
 const link = from([
   errorLink,
   new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
@@ -82,24 +100,19 @@ function App() {
   const [isSidebar, setIsSidebar] = useState(true);
 
   //check if token is null if null navigate to login
-  let navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  if (token === null) {
-    navigate("/login");
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
 
-  // async function refreshToken() {
-  //   try {
-  //     const response = await client.query({
-  //       query: REFRESH_TOKEN_MUTATION,
-  //       variables: { refreshToken: getRefreshTokenFromCookie() }, // Replace with your own function to retrieve the refresh token
-  //     });
-  //     const newAccessToken = response.data.refreshToken.accessToken;
-  //     client.writeData({ data: { token: newAccessToken } });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+
+
+
+
+
 
 
   return (
