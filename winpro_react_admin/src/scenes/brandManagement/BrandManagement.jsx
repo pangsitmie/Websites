@@ -86,7 +86,7 @@ const BrandManagement = () => {
 
     // ========================== RETURN ==========================
     return (
-        <Box p={2}>
+        <Box p={2} >
             <h1 className='userManagement_title'>品牌管理</h1>
             <p>Search: Filter {filterRef.current.value}, Status {status}, Review: {review}</p>
             {/* SEARCH DIV */}

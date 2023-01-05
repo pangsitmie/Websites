@@ -15,6 +15,9 @@ import { GetStore } from '../../graphQL/Queries';
 
 // QRCODE
 import QRCode from 'qrcode'
+import jsPDF from 'jspdf';
+
+
 
 const MachineManagement = () => {
     const location = useLocation();
@@ -94,22 +97,33 @@ const MachineManagement = () => {
 
 
 
-    const [imgUrls, setImgUrls] = useState({}); // for qr code generation
-    function downloadImages() {
-        for (const [key, value] of Object.entries(imgUrls)) {
-            console.log(value);
-            const a = document.createElement('a');
-            a.download = key;
-            a.href = value;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
+    const [imgUrls, setImgUrls] = useState({});
+
+    //create pdf
+    function createPdfWithImages(images, keys) {
+        const doc = new jsPDF();
+
+        images.forEach((imageUrl, index) => {
+            const x = index % 2 === 0 ? 10 : 105;
+            const y = Math.floor(index / 2) % 2 === 0 ? 10 : 148;
+            doc.addImage(imageUrl, 'JPEG', x, y, 88, 88);
+            doc.text(keys[index], x + 44, y + 88, { align: 'center' });
+            if (index % 4 === 3) {
+                doc.addPage();
+            }
+        });
+        return doc;
     }
 
+    function downloadPdf() {
+        const keys = Object.keys(imgUrls);
+        const images = Object.values(imgUrls);
+        const doc = createPdfWithImages(images, keys);
+        doc.save(state.data.name + '機台 QR-CODES.pdf');
+    }
 
     return (
-        <Box p={2}>
+        <Box p={"0 1rem 1rem 1rem"}>
             <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
             <Typography variant="h4" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
             {/* SEARCH DIV */}
@@ -160,7 +174,7 @@ const MachineManagement = () => {
                                 border: '1px solid white',
                             }
                         }}
-                        onClick={downloadImages}
+                        onClick={downloadPdf}
                     >
                         <p className='btn_text'>下載 QR</p>
                     </Button>

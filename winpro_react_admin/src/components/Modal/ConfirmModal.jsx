@@ -199,19 +199,9 @@ export default function ConfirmModal({ props }) {
 
                             {/* <TextField type="date" value={date} onChange={handleDateChange} /> */}
                             {/* <Button onClick={handleGetUnix}>Get Unix time</Button> */}
-                            {unixTime && <div>Unix time: {unixTime}</div>}
-                            <Box color={"black"}>
-                                {/* <TextField className="modal_input_textfield"
 
-                                    fullWidth
-                                    variant="filled"
-                                    label="Expire At"
-                                    // inputRef={expireAtRef}
-                                    type="date" 
-                                    value={date} 
-                                    onChange={handleDateChange}
-                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                /> */}
+                            <Box padding={".5rem 0"}>Unix time: {unixTime}</Box>
+                            <Box color={"black"}>
                                 <TextField
                                     fullWidth
                                     id="datetime-local"
@@ -235,11 +225,11 @@ export default function ConfirmModal({ props }) {
                                 />
 
                             </Box>
-                            <Button onClick={handleBan} color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                    確認
-                                </Typography>
-                            </Button>
+
+                            <Box display={"flex"} justifyContent={"center"} padding={".5rem 0 0 0"}>
+                                <Button class="my-button" onClick={handleBan}>確認</Button>
+                            </Box>
+
 
 
                         </Box>

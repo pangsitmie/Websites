@@ -283,7 +283,7 @@ query GetMachine($args: [MachineArgs!]!) {
 }
 `
 export const UpdateMachine = gql`
-query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $description: String, $statusId: EUpdateStoreMachineStatus) {
+query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $description: String, $statusId: EUpdateMachineStatus) {
   getMachine(args: $args) {
     update(price: $price, name: $name, description: $description, statusId: $statusId)
   }

@@ -371,17 +371,12 @@ export default function CreateSystemCoinModal() {
                             shrink: true,
                           }}
                         />
-
                       </Box>
 
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          {confirmTitle}
-                        </Typography>
-                      </Button>
+                      <Button class="my-button" type="submit">{confirmTitle}</Button>
                     </Box>
                   </form>
                 )}

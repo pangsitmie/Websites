@@ -197,7 +197,6 @@ export default function MachineListModal({ props }) {
         }
     }
 
-
     const toggleModal = () => {
         setModal(!modal);
     };
@@ -273,7 +272,7 @@ export default function MachineListModal({ props }) {
                                                 <Box display={"flex"} justifyContent={"center"} padding={".5rem"} flexDirection={"column"} >
                                                     {
                                                         imgUrl ?
-                                                            <a href={imgUrl} download>
+                                                            <a href={imgUrl} download={initialValues.name + ".jpg"}>
                                                                 <img src={imgUrl} alt="qrcode" width={"100px"} height={"auto"} />
                                                             </a> : null
                                                     }
