@@ -227,7 +227,7 @@ export default function ConfirmModal({ props }) {
                             </Box>
 
                             <Box display={"flex"} justifyContent={"center"} padding={".5rem 0 0 0"}>
-                                <Button class="my-button" onClick={handleBan}>確認</Button>
+                                <button className="my-button" onClick={handleBan}>確認</button>
                             </Box>
 
 

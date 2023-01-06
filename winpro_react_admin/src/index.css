@@ -108,3 +108,46 @@ a:active {
   transition: .5s;
   transform: scale(0.95);
 }
+
+
+/* IMG OVERLAY */
+.hover-image-container {
+  position: relative;
+}
+
+.img_overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 95%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: rgba(46, 46, 46, 0.5);
+  pointer-events: none;
+}
+
+.logo_overlay {
+  border-radius: 50%;
+}
+
+.cover_overlay {
+  border-radius: 10px;
+}
+
+.hover-text {
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.hover-image-container:hover .img_overlay {
+  opacity: 1;
+}

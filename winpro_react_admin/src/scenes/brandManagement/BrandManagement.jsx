@@ -47,14 +47,8 @@ const BrandManagement = () => {
     const [brands, setBrands] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data);
             setInitBrands(data.managerGetBrands); //all brand datas
             setBrands(data.managerGetBrands); //datas for display
-            console.log(brands);
-        }
-        else {
-            console.log(error);
-            console.log(loading);
         }
     }, [data]);
 

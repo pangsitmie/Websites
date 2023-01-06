@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
@@ -8,6 +8,9 @@ import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { CreateBrand } from "../../graphQL/Mutations";
 import { Navigate } from "react-router-dom";
+import BRANDCOVER from "../../assets/BrandCover01.png";
+import { BrandUploadLogo, BrandUploadCover, UpdateBrandLogoCover } from "../../graphQL/Queries";
+
 
 
 const checkoutSchema = yup.object().shape({
@@ -35,6 +38,8 @@ export default function CreateBrandModal() {
     intro: "",
     vatNumber: "",
 
+    logo: "https://file-test.cloudprogrammingonline.com/files/92a6af6c4d26fdb0652fe6b18?serverId=1&fileType=IMAGE",
+    cover: "https://file-test.cloudprogrammingonline.com/files/92a6af6c4d26fdb0652fe6b17?serverId=1&fileType=IMAGE",
     principalName: "",
     principalPassword: "",
     principalLineUrl: "https://lin.ee/",
@@ -52,27 +57,29 @@ export default function CreateBrandModal() {
 
   //========================== GRAPHQL ==========================
   const [ApolloCreateBrand, { loading, error, data }] = useMutation(CreateBrand);
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-      window.location.reload();
-    }
-    else {
-      console.log(error)
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data);
+  //     window.location.reload();
+  //   }
+  // }, [data]);
+  const [ApolloUpdateBrandLogoCover, { loading: loadingLogoCover, error: errorLogo, data: dataLogoCover }] = useLazyQuery(UpdateBrandLogoCover);
+
+
 
   // ========================== FUNCTIONS ==========================
   const handleFormSubmit = (values) => {
     console.log("SEND CREATE BRAND API REQUEST");
     console.log(values);
+    // GET UPLOAD COVER LINK
+
+
+
     ApolloCreateBrand({
       variables: {
         name: values.name,
         vatNumber: values.vatNumber,
         intro: values.intro,
-        cover: "null",
-        logo: "null",
         principal: {
           name: values.principalName,
           password: values.principalPassword,
@@ -85,8 +92,121 @@ export default function CreateBrandModal() {
         },
         currencyName: values.brandCoinName
       }
-    });
+    })
+      //here we already get the id and we want to get the upload logo link
+      .then(({ data: brandData }) => {
+        const targetId = brandData.createBrand.id;
+        console.log(targetId);
+        ApolloBrandUploadLogo({
+          variables: {
+            args: [
+              {
+                id: targetId
+              }
+            ],
+            mimetype: "images/png",
+            fileSize: parseInt("1")
+          }
+        })
+          //here we already get the upload logo link, now we are going to upload the logo
+          .then(({ data: logoData }) => {
+            console.log(logoData.getBrand[0].genLogoUploadURI);
+
+            const uploadURI = logoData.getBrand[0].genLogoUploadURI;
+            const file = selectedLogoFile;
+            const formData = new FormData();
+            formData.append('encodeMethod', 'BINARY');
+            formData.append('uploadFile', file, file.name);
+
+            fetch(uploadURI, {
+              method: 'POST',
+              body: formData
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("targetId: " + targetId)
+                console.log(data.payload.filename);
+
+                //set logo url state so it can be used when update is called
+                setLogoURL(data.payload.filename);
+                alert("Upload logo success!");
+              })
+              .catch((error) => {
+                console.error(error);
+              })
+              //here we already upload the logo, now we are going to get the upload cover link
+              .then(() => {
+                console.log("targetId: " + targetId)
+                ApolloBrandUploadCover({
+                  variables: {
+                    args: [
+                      {
+                        id: targetId
+                      }
+                    ],
+                    mimetype: "images/png",
+                    fileSize: parseInt("1")
+                  }
+                })
+                  //here we already get the upload cover link, now we are going to upload the cover
+                  .then(({ data }) => {
+                    console.log("targetId: " + targetId)
+                    console.log(data.getBrand[0].genCoverUploadURI);
+
+                    const uploadURI = data.getBrand[0].genCoverUploadURI;
+                    const file = selectedCoverFile;
+                    const formData = new FormData();
+                    formData.append('encodeMethod', 'BINARY');
+                    formData.append('uploadFile', file, file.name);
+
+                    fetch(uploadURI, {
+                      method: 'POST',
+                      body: formData
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        console.log("targetId: " + targetId)
+                        console.log(data.payload.filename);
+
+                        //set logo url state so it can be used when update is called
+                        setCoverURL(data.payload.filename);
+                        alert("Upload cover success!");
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      })
+
+                      //here we already upload the cover, now we are going to update the brand
+                      .then(() => {
+                        console.log("logoURL: " + logoURL);
+                        console.log("coverURL: " + coverURL);
+                        console.log("targetId: " + targetId)
+                        ApolloUpdateBrandLogoCover({
+                          variables: {
+                            args: [
+                              {
+                                id: targetId
+                              }
+                            ],
+                            logo: logoURL,
+                            cover: coverURL
+                          }
+                        }).then(({ data }) => {
+                          console.log(data);
+                          alert("Update brand success!");
+                          // window.location.reload();
+                        })
+                      })
+                  })
+              }
+              )
+          })
+      })
   };
+
+
+
+
 
 
   // ========================== RENDER ==========================
@@ -95,6 +215,55 @@ export default function CreateBrandModal() {
   } else {
     document.body.classList.remove('active-modal')
   }
+  // UPLOAD LOGO 
+  const [ApolloBrandUploadLogo] = useLazyQuery(BrandUploadLogo);
+  const [ApolloBrandUploadCover] = useLazyQuery(BrandUploadCover);
+
+  // =========================== FILE UPLOAD ===========================
+  const [selectedLogoImage, setSelectedLogoImage] = useState(null);
+  const [selectedCoverImage, setSelectedCoverImage] = useState(null);
+
+  const [selectedLogoFile, setSelectedLogoFile] = useState(null);
+  const [selectedCoverFile, setSelectedCoverFile] = useState(null);
+
+  const [logoURL, setLogoURL] = useState("");
+  const [coverURL, setCoverURL] = useState("");
+
+  const logoFileInput = useRef(null);
+  const handleLogoImgClick = () => {
+    logoFileInput.current.click();
+  };
+
+  const coverFileInput = useRef(null);
+  const handleCoverImgClick = () => {
+    coverFileInput.current.click();
+  };
+
+  const handleLogoChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedLogoFile(file);
+    setSelectedLogoImage(URL.createObjectURL(file));
+    if (event.target.files.length > 0) {
+      // a file was selected, proceed with the upload
+      console.log("file selected");
+    } else {
+      // no file was selected, do nothing
+      console.log("no file selected");
+    }
+  };
+
+  const handleCoverChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedCoverFile(file);
+    setSelectedCoverImage(URL.createObjectURL(file));
+    if (event.target.files.length > 0) {
+      // a file was selected, proceed with the upload
+      console.log("file selected");
+    } else {
+      // no file was selected, do nothing
+      console.log("no file selected");
+    }
+  };
 
   // ========================== RETURN ==========================
   return (
@@ -127,17 +296,63 @@ export default function CreateBrandModal() {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <Box color={"black"}>
-                      <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
-                        <img
-                          alt="profile-user"
-                          width="100px"
-                          height="100px"
-                          src={IMG}
-                          style={{ cursor: "pointer", borderRadius: "50%" }}
-                        />
-                      </Box>
-                      <Box display={"flex"} justifyContent={"space-between"}>
 
+
+                      <Box display="flex" m={"1.2rem 0"} >
+                        {/* LOGO */}
+                        <Box display={"flex"} width={"40%"}
+                          justifyContent={"center"}
+                          alignItems={"center"}>
+                          <Box className="hover-image-container">
+                            <img
+                              alt="profile-user"
+                              width="100px"
+                              height="100px"
+                              style={{ cursor: "pointer", borderRadius: "50%" }}
+                              src={selectedLogoImage || values.logo}
+                              onClick={handleLogoImgClick}
+                            />
+                            <Box className="img_overlay logo_overlay">
+                              <Box className="hover-text">Upload image</Box>
+                            </Box>
+                          </Box>
+                          <input
+                            type="file"
+                            ref={logoFileInput}
+                            style={{ display: 'none' }}
+                            onChange={handleLogoChange}
+                          />
+                        </Box>
+
+                        {/* COVER */}
+                        <Box width={"60%"}  >
+                          <Box className="hover-image-container">
+                            <img
+                              alt="brand_cover"
+                              width="100%"
+                              height="100%"
+                              src={selectedCoverImage || values.cover}
+                              style={{
+                                cursor: "pointer", borderRadius: "12px"
+                              }}
+                              onClick={handleCoverImgClick}
+                            />
+
+                            <Box className="img_overlay cover_overlay">
+                              <Box className="hover-text">Upload image</Box>
+                            </Box>
+                          </Box>
+
+                          <input
+                            type="file"
+                            ref={coverFileInput}
+                            style={{ display: 'none' }}
+                            onChange={handleCoverChange}
+                          />
+                        </Box>
+                      </Box>
+
+                      <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField className="modal_input_textfield"
                           fullWidth
                           variant="filled"
@@ -165,6 +380,7 @@ export default function CreateBrandModal() {
                           sx={{ margin: "0 0rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
                       </Box>
+
                       <TextField
                         id="outlined-multiline-flexible"
                         multiline
@@ -195,6 +411,7 @@ export default function CreateBrandModal() {
                         helperText={touched.principalName && errors.principalName}
                         sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
+
                       <Box display={"flex"} justifyContent={"space-between"} >
                         <TextField
                           fullWidth
@@ -251,9 +468,8 @@ export default function CreateBrandModal() {
                           helperText={touched.principalEmail && errors.principalEmail}
                           sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
-
-
                       </Box>
+
                       <TextField
                         fullWidth
                         variant="filled"
@@ -269,7 +485,7 @@ export default function CreateBrandModal() {
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button class="my-button" type="submit">{confirmTitle}</Button>
+                      <button className="my-button" type="submit">{confirmTitle}</button>
                     </Box>
                   </form>
                 )}

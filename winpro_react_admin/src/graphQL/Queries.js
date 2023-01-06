@@ -123,9 +123,16 @@ query GetBrand($args: [BrandArgs!]!) {
 }
 `
 export const UpdateBrand = gql`
-query GetBrand($args: [BrandArgs!]!, $name: String, $vatNumber: String, $intro: String, $currencyName: String, $principal: UpdateBrandPrincipalArgs, $statusId: EUpdateBrandStatus) {
+query GetBrand($args: [BrandArgs!]!, $name: String, $vatNumber: String, $intro: String, $currencyName: String, $principal: UpdateBrandPrincipalArgs, $statusId: EUpdateBrandStatus, $cover: String, $logo: String) {
   getBrand(args: $args) {
-    update(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId)
+    update(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId, cover: $cover, logo: $logo)
+  }
+}
+`
+export const UpdateBrandLogoCover = gql`
+query GetBrand($args: [BrandArgs!]!, $cover: String, $logo: String) {
+  getBrand(args: $args) {
+    update(cover: $cover, logo: $logo)
   }
 }
 `
@@ -150,7 +157,20 @@ query GetBrand($args: [BrandArgs!]!) {
   }
 }
 `
-
+export const BrandUploadLogo = gql`
+query GetBrand($mimetype: String!, $fileSize: Int!, $args: [BrandArgs!]!) {
+  getBrand(args: $args) {
+    genLogoUploadURI(mimetype: $mimetype, fileSize: $fileSize)
+  }
+}
+`
+export const BrandUploadCover = gql`
+query GetBrand($args: [BrandArgs!]!, $mimetype: String!, $fileSize: Int!) {
+  getBrand(args: $args) {
+    genCoverUploadURI(mimetype: $mimetype, fileSize: $fileSize)
+  }
+}
+`
 //========================= STORES =========================
 export const GetAllStores = gql`
 query ManagerGetStores {

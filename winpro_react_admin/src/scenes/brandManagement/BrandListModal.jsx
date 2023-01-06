@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
-// import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
-import { format } from 'date-fns';
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
+import BRANDCOVER from "../../assets/cover_null.png";
 import { tokens } from "../../theme";
-import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand } from "../../graphQL/Queries";
+import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, BrandUploadLogo, BrandUploadCover } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { replaceNullWithEmptyString } from "../../utils/Utils";
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
@@ -38,6 +34,8 @@ export default function BrandListModal({ props }) {
     statusDesc: "",
     name: "",
     intro: "",
+    logo: "",
+    cover: "",
     principalName: "",
     principalPassword: "",
     principalLineUrl: "",
@@ -60,14 +58,11 @@ export default function BrandListModal({ props }) {
   };
 
   //========================== GRAPHQL ==========================
-  const [ApolloRemoveBrand, { loading, error, data }] = useLazyQuery(RemoveBrand);
-  useEffect(() => {
-    if (data) {
-      console.log(data.removeBrand);
-      window.location.reload();
-    }
-  }, [data]);
 
+  // ============ UPDATE BRAND ============
+  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateBrand);
+  // ============ REMOVE BRAND ============
+  const [ApolloRemoveBrand, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
   const handleDelete = (e) => {
     var result = window.confirm("Are you sure you want to delete this brand?");
     if (result) {
@@ -85,15 +80,37 @@ export default function BrandListModal({ props }) {
       console.log("not deleted");
     }
   };
-
-  //UPDATE BRAND 
-  const [ApolloUpdateBrand, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateBrand);
-  useEffect(() => {
-    if (data2) {
-      window.location.reload();
-      console.log("UPDATE SUCCESS")
+  // ============ UNBAN BRAND ============
+  const [ApolloUnBanMachine, { loading: loadingUnBan, error: errorUnBan, data: dataUnBan }] = useLazyQuery(UnbanBrand);
+  const handleUnBan = (e) => {
+    var result = window.confirm("Are you sure you want to unban this machine?");
+    if (result) {
+      ApolloUnBanMachine({
+        variables: {
+          args: [
+            {
+              id: props.id
+            }
+          ],
+        }
+      })
+      console.log("unbaned");
+    } else {
+      console.log("not deleted");
     }
-  }, [data2]);
+  }
+
+  useEffect(() => {
+    if (dataUpdate) {
+      window.location.reload();
+    }
+    if (dataRemove) {
+      window.location.reload();
+    }
+    if (dataUnBan) {
+      window.location.reload();
+    }
+  }, [dataUpdate, dataRemove, dataUnBan]);
 
   const handleFormSubmit = (values) => {
     const variables = {
@@ -103,6 +120,8 @@ export default function BrandListModal({ props }) {
         }
       ],
       name: values.name,
+      logo: logoURL,
+      cover: coverURL,
       vatNumber: values.vatNumber,
       intro: values.intro,
       principal: {
@@ -125,7 +144,7 @@ export default function BrandListModal({ props }) {
   };
 
   // INITIAL VALUES FROM GET BRAND QUERY
-  const { loading: loading3, error: error3, data: data3 } = useQuery(GetBrand
+  const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetBrand
     , {
       variables: {
         args: [
@@ -137,16 +156,19 @@ export default function BrandListModal({ props }) {
     }
   );
   useEffect(() => {
-    if (data3) {
-      const nonNullData = replaceNullWithEmptyString(data3.getBrand[0]);
+    if (dataInit) {
+      const nonNullData = replaceNullWithEmptyString(dataInit.getBrand[0]);
 
+      const defaultLogo = "https://file-test.cloudprogrammingonline.com/files/92a6af6c4d26fdb0652fe6b18?serverId=1&fileType=IMAGE"
+      const defaultCover = "https://file-test.cloudprogrammingonline.com/files/92a6af6c4d26fdb0652fe6b17?serverId=1&fileType=IMAGE"
       setInitialValues({
         id: props.id,
         status: nonNullData.status.name,
         name: nonNullData.name,
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,
-
+        logo: nonNullData.logo.length < 10 ? defaultLogo : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.logo + "?serverId=1&fileType=IMAGE",
+        cover: nonNullData.cover.length < 10 ? defaultCover : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.cover + "?serverId=1&fileType=IMAGE",
         principalName: nonNullData.principal.name,
         principalLineUrl: nonNullData.principal.lineUrl,
         principalEmail: nonNullData.principal.email,
@@ -158,34 +180,132 @@ export default function BrandListModal({ props }) {
       if (nonNullData.status.name !== "banned") {
         setStatus(nonNullData.status.name)
       }
-    }
-  }, [data3]);
 
-  // UNBAN MUTATION
-  const [ApolloUnBanMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanBrand);
-  useEffect(() => {
-    if (data4) {
-      window.location.reload();
     }
-  }, [data4]);
+  }, [dataInit]);
 
-  const handleUnBan = (e) => {
-    var result = window.confirm("Are you sure you want to unban this machine?");
-    if (result) {
-      ApolloUnBanMachine({
+
+
+  // UPLOAD LOGO 
+  const [ApolloBrandUploadLogo] = useLazyQuery(BrandUploadLogo);
+  const [ApolloBrandUploadCover] = useLazyQuery(BrandUploadCover);
+
+  // =========================== FILE UPLOAD ===========================
+  const [selectedLogoImage, setSelectedLogoImage] = useState(null);
+  const [selectedCoverImage, setSelectedCoverImage] = useState(null);
+
+  const [logoURL, setLogoURL] = useState("");
+  const [coverURL, setCoverURL] = useState("");
+
+  const logoFileInput = useRef(null);
+  const handleLogoImgClick = () => {
+    logoFileInput.current.click();
+  };
+
+  const coverFileInput = useRef(null);
+  const handleCoverImgClick = () => {
+    coverFileInput.current.click();
+  };
+
+  const handleLogoChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedLogoImage(URL.createObjectURL(file));
+    if (event.target.files.length > 0) {
+      // a file was selected, proceed with the upload
+      console.log("file selected");
+
+      // get the upload uri
+      ApolloBrandUploadLogo({
         variables: {
           args: [
             {
               id: props.id
             }
           ],
+          mimetype: "images/png",
+          fileSize: parseInt("1")
         }
-      })
-      console.log("unbaned");
+      }).then(({ data }) => {
+        console.log(data.getBrand[0].genLogoUploadURI);
+
+        //create formData body
+        const formData = new FormData();
+        formData.append('encodeMethod', 'BINARY');
+        formData.append('uploadFile', file, file.name);
+
+        fetch(data.getBrand[0].genLogoUploadURI, {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.payload.filename);
+
+            //set logo url state so it can be used when update is called
+            setLogoURL(data.payload.filename);
+            alert("Upload logo success!");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
+      });
+
     } else {
-      console.log("not deleted");
+      // no file was selected, do nothing
+      console.log("no file selected");
     }
-  }
+  };
+
+  const handleCoverChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedCoverImage(URL.createObjectURL(file));
+    if (event.target.files.length > 0) {
+      // a file was selected, proceed with the upload
+      console.log("file selected");
+
+      // get the upload uri
+      ApolloBrandUploadCover({
+        variables: {
+          args: [
+            {
+              id: props.id
+            }
+          ],
+          mimetype: "images/png",
+          fileSize: parseInt("1")
+        }
+      }).then(({ data }) => {
+        console.log(data);
+        console.log(data.getBrand[0].genCoverUploadURI);
+
+        //create formData body
+        const formData = new FormData();
+        formData.append('encodeMethod', 'BINARY');
+        formData.append('uploadFile', file, file.name);
+
+        fetch(data.getBrand[0].genCoverUploadURI, {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.payload.filename);
+
+            //set logo url state so it can be used when update is called
+            setCoverURL(data.payload.filename);
+            alert("Upload cover success!");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+
+    } else {
+      // no file was selected, do nothing
+      console.log("no file selected");
+    }
+  };
 
   //========================== RENDER ==========================
   if (modal) {
@@ -205,10 +325,6 @@ export default function BrandListModal({ props }) {
           <div onClick={toggleModal} className="overlay"></div>
           <div className="modal-content">
             <Box m="20px">
-              <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                {btnTitle}
-              </Typography>
-
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
@@ -223,16 +339,11 @@ export default function BrandListModal({ props }) {
                   handleSubmit,
                 }) => (
                   <form onSubmit={handleSubmit}>
-                    <Box color={"black"}>
-                      <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
-                        <img
-                          alt="profile-user"
-                          width="100px"
-                          height="100px"
-                          src={IMG}
-                          style={{ cursor: "pointer", borderRadius: "50%" }}
-                        />
-                      </Box>
+                    <Box>
+                      <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                        {btnTitle}
+                      </Typography>
+
                       <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
                         {(() => {
                           if (initialValues.status === "disable") {
@@ -255,6 +366,61 @@ export default function BrandListModal({ props }) {
                           }
                         })()}
                       </Box>
+
+                      <Box display="flex" m={"1.2rem 0"} >
+                        {/* LOGO */}
+                        <Box display={"flex"} width={"40%"}
+                          justifyContent={"center"}
+                          alignItems={"center"}>
+                          <Box className="hover-image-container">
+                            <img
+                              alt="profile-user"
+                              width="100px"
+                              height="100px"
+                              style={{ cursor: "pointer", borderRadius: "50%" }}
+                              src={selectedLogoImage || values.logo}
+                              onClick={handleLogoImgClick}
+                            />
+                            <Box className="img_overlay logo_overlay">
+                              <Box className="hover-text">Upload image</Box>
+                            </Box>
+                          </Box>
+                          <input
+                            type="file"
+                            ref={logoFileInput}
+                            style={{ display: 'none' }}
+                            onChange={handleLogoChange}
+                          />
+                        </Box>
+
+                        {/* COVER */}
+                        <Box width={"60%"}  >
+                          <Box className="hover-image-container">
+                            <img
+                              alt="brand_cover"
+                              width="100%"
+                              height="100%"
+                              src={selectedCoverImage || values.cover}
+                              style={{
+                                cursor: "pointer", borderRadius: "12px"
+                              }}
+                              onClick={handleCoverImgClick}
+                            />
+
+                            <Box className="img_overlay cover_overlay">
+                              <Box className="hover-text">Upload image</Box>
+                            </Box>
+                          </Box>
+
+                          <input
+                            type="file"
+                            ref={coverFileInput}
+                            style={{ display: 'none' }}
+                            onChange={handleCoverChange}
+                          />
+                        </Box>
+                      </Box>
+
                       <Box display={"flex"} justifyContent={"space-between"}>
 
                         <TextField className="modal_input_textfield"

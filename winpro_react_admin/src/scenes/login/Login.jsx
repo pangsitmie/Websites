@@ -90,7 +90,7 @@ const Login = () => {
         <Box className='login_container' backgroundColor={colors.primary[400]}>
             <Box m="20px">
                 <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "2.4rem", fontWeight: "600", color: "white" }}>
-                    Login
+                    Game Pay Login
                 </Typography>
 
                 <Formik
