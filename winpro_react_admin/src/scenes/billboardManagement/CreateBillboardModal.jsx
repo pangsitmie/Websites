@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -6,6 +6,7 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { useLazyQuery } from "@apollo/client";
 import { CreateBillboard } from "../../graphQL/Queries";
+import { defaultCoverURL } from "../../data/strings";
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -35,6 +36,7 @@ export default function CreateBillboardModal({ props }) {
     const initialValues = {
         title: "",
         content: "",
+        image: defaultCoverURL,
         description: "",
     };
 
@@ -49,6 +51,26 @@ export default function CreateBillboardModal({ props }) {
             console.log("NO DATA")
         }
     }, [data]);
+
+
+    const [selectedCoverImage, setSelectedCoverImage] = useState(null);
+
+    const coverFileInput = useRef(null);
+    const handleCoverImgClick = () => {
+        coverFileInput.current.click();
+    };
+    const handleCoverChange = (event) => {
+        const file = event.target.files[0];
+        // setSelectedCoverFile(file);
+        setSelectedCoverImage(URL.createObjectURL(file));
+        if (event.target.files.length > 0) {
+            // a file was selected, proceed with the upload
+            console.log("file selected");
+        } else {
+            // no file was selected, do nothing
+            console.log("no file selected");
+        }
+    };
 
     const handleFormSubmit = (values) => {
         console.log("FORM SUBMIT");
@@ -69,6 +91,7 @@ export default function CreateBillboardModal({ props }) {
                 ],
                 title: values.title,
                 content: values.content,
+                image: values.image,
                 description: values.description,
                 startAt: startAtUnix,
                 endAt: endAtUnix,
@@ -117,6 +140,32 @@ export default function CreateBillboardModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
+                                            {/* IMAGE */}
+                                            <Box padding={".5rem 1rem 1rem 1rem"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                                                <Box className="hover-image-container" width={"70%"}>
+                                                    <img
+                                                        alt="brand_cover"
+                                                        width="100%"
+                                                        src={selectedCoverImage || values.image}
+                                                        style={{
+                                                            cursor: "pointer", borderRadius: "12px"
+                                                        }}
+                                                        onClick={handleCoverImgClick}
+                                                    />
+
+                                                    <Box className="img_overlay cover_overlay">
+                                                        <Box className="hover-text">Upload image</Box>
+                                                    </Box>
+                                                </Box>
+
+                                                <input
+                                                    type="file"
+                                                    ref={coverFileInput}
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleCoverChange}
+                                                />
+                                            </Box>
+
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 variant="filled"

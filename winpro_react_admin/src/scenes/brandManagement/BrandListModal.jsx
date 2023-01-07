@@ -9,7 +9,9 @@ import { tokens } from "../../theme";
 import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, BrandUploadLogo, BrandUploadCover } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { replaceNullWithEmptyString } from "../../utils/Utils";
-
+import { defaultCoverURL, defaultLogoURL } from "../../data/strings";
+import LogoUpload from "../../components/Upload/LogoUpload";
+import CoverUpload from "../../components/Upload/CoverUpload";
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
@@ -120,8 +122,8 @@ export default function BrandListModal({ props }) {
         }
       ],
       name: values.name,
-      logo: logoURL,
-      cover: coverURL,
+      logo: logoFileName,
+      cover: coverFileName,
       vatNumber: values.vatNumber,
       intro: values.intro,
       principal: {
@@ -159,16 +161,17 @@ export default function BrandListModal({ props }) {
     if (dataInit) {
       const nonNullData = replaceNullWithEmptyString(dataInit.getBrand[0]);
 
-      const defaultLogo = "https://file-test.cloudprogrammingonline.com/files/92a6af6c4d26fdb0652fe6b18?serverId=1&fileType=IMAGE"
-      const defaultCover = "https://file-test.cloudprogrammingonline.com/files/92a6af6c4d26fdb0652fe6b17?serverId=1&fileType=IMAGE"
+      console.log(nonNullData.logo);
+      console.log(nonNullData.cover);
+
       setInitialValues({
         id: props.id,
         status: nonNullData.status.name,
         name: nonNullData.name,
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,
-        logo: nonNullData.logo.length < 10 ? defaultLogo : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.logo + "?serverId=1&fileType=IMAGE",
-        cover: nonNullData.cover.length < 10 ? defaultCover : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.cover + "?serverId=1&fileType=IMAGE",
+        logo: nonNullData.logo ? "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.logo + "?serverId=1&fileType=IMAGE" : defaultLogoURL,
+        cover: nonNullData.cover ? "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.cover + "?serverId=1&fileType=IMAGE" : defaultCoverURL,
         principalName: nonNullData.principal.name,
         principalLineUrl: nonNullData.principal.lineUrl,
         principalEmail: nonNullData.principal.email,
@@ -184,128 +187,21 @@ export default function BrandListModal({ props }) {
     }
   }, [dataInit]);
 
-
-
-  // UPLOAD LOGO 
-  const [ApolloBrandUploadLogo] = useLazyQuery(BrandUploadLogo);
-  const [ApolloBrandUploadCover] = useLazyQuery(BrandUploadCover);
-
   // =========================== FILE UPLOAD ===========================
-  const [selectedLogoImage, setSelectedLogoImage] = useState(null);
-  const [selectedCoverImage, setSelectedCoverImage] = useState(null);
-
-  const [logoURL, setLogoURL] = useState("");
-  const [coverURL, setCoverURL] = useState("");
-
-  const logoFileInput = useRef(null);
-  const handleLogoImgClick = () => {
-    logoFileInput.current.click();
+  const [logoFileName, setLogoFileName] = useState('');
+  const handleUploadLogoSuccess = (name) => {
+    setLogoFileName(name);
   };
 
-  const coverFileInput = useRef(null);
-  const handleCoverImgClick = () => {
-    coverFileInput.current.click();
+  const [coverFileName, setCoverFileName] = useState('');
+  const handleUploadCoverSucess = (name) => {
+    setCoverFileName(name);
   };
 
-  const handleLogoChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedLogoImage(URL.createObjectURL(file));
-    if (event.target.files.length > 0) {
-      // a file was selected, proceed with the upload
-      console.log("file selected");
-
-      // get the upload uri
-      ApolloBrandUploadLogo({
-        variables: {
-          args: [
-            {
-              id: props.id
-            }
-          ],
-          mimetype: "images/png",
-          fileSize: parseInt("1")
-        }
-      }).then(({ data }) => {
-        console.log(data.getBrand[0].genLogoUploadURI);
-
-        //create formData body
-        const formData = new FormData();
-        formData.append('encodeMethod', 'BINARY');
-        formData.append('uploadFile', file, file.name);
-
-        fetch(data.getBrand[0].genLogoUploadURI, {
-          method: 'POST',
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.payload.filename);
-
-            //set logo url state so it can be used when update is called
-            setLogoURL(data.payload.filename);
-            alert("Upload logo success!");
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-
-      });
-
-    } else {
-      // no file was selected, do nothing
-      console.log("no file selected");
-    }
-  };
-
-  const handleCoverChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedCoverImage(URL.createObjectURL(file));
-    if (event.target.files.length > 0) {
-      // a file was selected, proceed with the upload
-      console.log("file selected");
-
-      // get the upload uri
-      ApolloBrandUploadCover({
-        variables: {
-          args: [
-            {
-              id: props.id
-            }
-          ],
-          mimetype: "images/png",
-          fileSize: parseInt("1")
-        }
-      }).then(({ data }) => {
-        console.log(data);
-        console.log(data.getBrand[0].genCoverUploadURI);
-
-        //create formData body
-        const formData = new FormData();
-        formData.append('encodeMethod', 'BINARY');
-        formData.append('uploadFile', file, file.name);
-
-        fetch(data.getBrand[0].genCoverUploadURI, {
-          method: 'POST',
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.payload.filename);
-
-            //set logo url state so it can be used when update is called
-            setCoverURL(data.payload.filename);
-            alert("Upload cover success!");
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      });
-
-    } else {
-      // no file was selected, do nothing
-      console.log("no file selected");
-    }
-  };
+  useEffect(() => {
+    console.log(logoFileName);
+    console.log(coverFileName);
+  }, [logoFileName, coverFileName]);
 
   //========================== RENDER ==========================
   if (modal) {
@@ -367,57 +263,16 @@ export default function BrandListModal({ props }) {
                         })()}
                       </Box>
 
-                      <Box display="flex" m={"1.2rem 0"} >
-                        {/* LOGO */}
-                        <Box display={"flex"} width={"40%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}>
-                          <Box className="hover-image-container">
-                            <img
-                              alt="profile-user"
-                              width="100px"
-                              height="100px"
-                              style={{ cursor: "pointer", borderRadius: "50%" }}
-                              src={selectedLogoImage || values.logo}
-                              onClick={handleLogoImgClick}
-                            />
-                            <Box className="img_overlay logo_overlay">
-                              <Box className="hover-text">Upload image</Box>
-                            </Box>
-                          </Box>
-                          <input
-                            type="file"
-                            ref={logoFileInput}
-                            style={{ display: 'none' }}
-                            onChange={handleLogoChange}
-                          />
+                      {/* UPLOAD LOGO & COVER BOX */}
+                      <Box display="flex" m={"1rem 0"} >
+                        <Box width={"35%"}>
+                          {/* UPLOAD LOGO COMPONENT */}
+                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} />
                         </Box>
 
-                        {/* COVER */}
-                        <Box width={"60%"}  >
-                          <Box className="hover-image-container">
-                            <img
-                              alt="brand_cover"
-                              width="100%"
-                              height="100%"
-                              src={selectedCoverImage || values.cover}
-                              style={{
-                                cursor: "pointer", borderRadius: "12px"
-                              }}
-                              onClick={handleCoverImgClick}
-                            />
-
-                            <Box className="img_overlay cover_overlay">
-                              <Box className="hover-text">Upload image</Box>
-                            </Box>
-                          </Box>
-
-                          <input
-                            type="file"
-                            ref={coverFileInput}
-                            style={{ display: 'none' }}
-                            onChange={handleCoverChange}
-                          />
+                        <Box width={"65%"}>
+                          {/* UPLOAD COVER COMPONENET */}
+                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"brand"} />
                         </Box>
                       </Box>
 

@@ -130,7 +130,7 @@ function App() {
                 <Topbar setIsSidebar={setIsSidebar} />
                 <Routes>
                   {/* <Route path="/" element={<UserManagement />} /> */}
-                  {/* <Route exact path="/" element={<Dashboard />} /> */}
+                  <Route exact path="/" element={<Dashboard />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/user-management" element={<UserManagement />} />
                   <Route path="/brand-management" element={<BrandManagement />} />

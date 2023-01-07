@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -13,6 +13,8 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
 import { areaData } from "../../data/cityData";
+import { defaultCoverURL } from "../../data/strings";
+import CoverUpload from "../../components/Upload/CoverUpload";
 
 
 
@@ -22,7 +24,6 @@ const phoneRegExp =
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
     intro: yup.string().required("required").nullable(),
-
 
     principalName: yup.string().required("required"),
     principalAccount: yup.string().required("required"),
@@ -99,18 +100,12 @@ export default function CreateStoreModal() {
         //this.props.onAddressSelected();
     };
 
-
-
-
-
     const initialValues = {
         name: "",
         intro: "",
 
-        cover: "https://img.icons8.com/fluency/48/null/test-account.png",
+        cover: defaultCoverURL,
         //locations get from location state
-
-
         principalName: "",
         principalAccount: "",
         principalPassword: "",
@@ -157,46 +152,51 @@ export default function CreateStoreModal() {
         }
     }, [data]);
 
+
+    const [coverFileName, setCoverFileName] = useState('');
+    const handleUploadCoverSucess = (name) => {
+        setCoverFileName(name);
+    };
+
     const handleFormSubmit = (values) => {
         console.log("FORM SUBMIT");
         console.log(values);
-        console.log(brandId + brandName);
-        console.log("city" + cityFilter + ", district" + selectedArea + "address:" + address + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
-        ApolloCreateStore({
-            variables: {
-                args: [
-                    {
-                        id: brandId
-                    }
-                ],
-                brandId: brandId,
-                name: values.name,
-                intro: values.intro,
-                cover: "null",
-                location: {
-                    city: cityFilter,
-                    district: selectedArea,
-                    address: address,
-                    coordinate: {
-                        latitude: coordinates.lat,
-                        longitude: coordinates.lng
-                    },
-                    description: "location description"
-                },
-                principal: {
-                    name: values.principalName,
-                    account: values.principalAccount,
-                    password: values.principalPassword,
-                    lineUrl: values.principalLineUrl,
-                    email: values.principalEmail
+
+
+        const variables = {
+            args: [
+                {
+                    id: brandId
                 }
+            ],
+            brandId: brandId,
+            name: values.name,
+            intro: values.intro,
+            location: {
+                city: cityFilter,
+                district: selectedArea,
+                address: address,
+                coordinate: {
+                    latitude: coordinates.lat,
+                    longitude: coordinates.lng
+                },
+                description: "location description"
+            },
+            principal: {
+                name: values.principalName,
+                account: values.principalAccount,
+                password: values.principalPassword,
+                lineUrl: values.principalLineUrl,
+                email: values.principalEmail
             }
-        });
+        }
+
+        if (coverFileName) {
+            variables.cover = coverFileName;
+        }
+
+        ApolloCreateStore({ variables });
     };
-
-
-
-
 
     const toggleModal = () => {
         setModal(!modal);
@@ -219,10 +219,7 @@ export default function CreateStoreModal() {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
+
 
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -239,14 +236,17 @@ export default function CreateStoreModal() {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
-                                                <img
-                                                    alt="profile-user"
-                                                    width="100px"
-                                                    height="100px"
-                                                    src={initialValues.cover}
-                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                                />
+
+                                            <Box display={"flex"} m={"1rem 0"}>
+                                                <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: "white" }}>
+                                                        {btnTitle}
+                                                    </Typography>
+                                                </Box>
+                                                <Box width={"65%"}>
+                                                    {/* UPLOAD COVER COMPONENET */}
+                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"store"} />
+                                                </Box>
                                             </Box>
 
 
@@ -515,16 +515,14 @@ export default function CreateStoreModal() {
                                             </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button onClick={toggleModal} color="error" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px" }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                    {cancelTitle}
-                                                </Typography>
-                                            </Button>
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
+                                            <Box display="flex" justifyContent="center" >
+                                                <button className="my-button" type="submit">{confirmTitle}</button>
+                                            </Box>
+                                            {/* <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {confirmTitle}
                                                 </Typography>
-                                            </Button>
+                                            </Button> */}
                                         </Box>
                                     </form>
                                 )}

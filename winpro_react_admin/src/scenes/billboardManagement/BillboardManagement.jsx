@@ -11,8 +11,6 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
 import { citiesData } from "../../data/mockData";
-// import CreateMachineModal from './CreateMachineModal';
-// import MachineListModal from './MachineListModal';
 import { GetBillboardList } from '../../graphQL/Queries';
 import CreateBillboardModal from './CreateBillboardModal';
 import BillboardListModal from './BillboardListModal';

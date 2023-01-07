@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
@@ -22,6 +22,20 @@ export default function CreateMachineModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
+    const [counterCheck, setCounterCheck] = useState('true');
+    const handleCounterCheckChange = (event) => {
+        setCounterCheck(event.target.value);
+    };
+
+    const [counterTypes, setCounterTypes] = useState({
+        coin: false,
+        gift: false,
+        exchange50: false,
+        exchange100: false,
+    });
+    const handleCounterTypesChange = (event) => {
+        setCounterTypes({ ...counterTypes, [event.target.name]: event.target.checked });
+    };
 
     var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
 
@@ -189,9 +203,94 @@ export default function CreateMachineModal({ props }) {
                                                     name="description"
                                                     error={!!touched.description && !!errors.description}
                                                     helperText={touched.description && errors.description}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
+
+                                            </Box>
+
+                                            <FormControl sx={{ minWidth: 150 }}>
+                                                <InputLabel id="demo-simple-select-label" >Counter Check</InputLabel>
+                                                <Select
+                                                    sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={counterCheck}
+                                                    label="Counter Check"
+                                                    onChange={handleCounterCheckChange}
+                                                >
+                                                    <MenuItem value={"true"}>是</MenuItem>
+                                                    <MenuItem value={"false"}>否</MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                            <Typography variant="h4" sx={{ marginTop: "1rem", color: "white" }}>機械錶</Typography>
+
+                                            <Box>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={counterTypes.coin}
+                                                            onChange={handleCounterTypesChange}
+                                                            name="coin"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label="入錶"
+                                                    style={{ color: colors.grey[100] }}
+                                                />
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={counterTypes.gift}
+                                                            onChange={handleCounterTypesChange}
+                                                            name="gift"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label="出錶"
+                                                    style={{ color: colors.grey[100] }}
+                                                />
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={counterTypes.exchange50}
+                                                            onChange={handleCounterTypesChange}
+                                                            name="exchange50"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label="Exchange 50"
+                                                    style={{ color: colors.grey[100] }}
+                                                />
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={counterTypes.exchange100}
+                                                            onChange={handleCounterTypesChange}
+                                                            name="exchange100"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label="Exchange 100"
+                                                    style={{ color: colors.grey[100] }}
                                                 />
                                             </Box>
+
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="機械錶數"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.description}
+                                                name="description"
+                                                error={!!touched.description && !!errors.description}
+                                                helperText={touched.description && errors.description}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                            />
+
+
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -14,6 +14,8 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { areaData } from "../../data/cityData";
+import { defaultCoverURL } from "../../data/strings";
+import CoverUpload from "../../components/Upload/CoverUpload";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -81,8 +83,7 @@ export default function StoreListModal({ props }) {
         brandName: "",
         name: "",
         intro: "",
-        cover: "https://img.icons8.com/fluency/48/null/test-account.png",
-        logo: "https://img.icons8.com/fluency/48/null/test-account.png",
+        cover: defaultCoverURL,
         //locations get from location state
         status: "",
 
@@ -135,7 +136,7 @@ export default function StoreListModal({ props }) {
                 status: data3.getStore[0].status.name,
                 name: data3.getStore[0].name,
                 intro: data3.getStore[0].intro,
-                cover: "https://img.icons8.com/fluency/48/null/test-account.png",
+                cover: data3.getStore[0].cover ? "https://file-test.cloudprogrammingonline.com/files/" + data3.getStore[0].cover + "?serverId=1&fileType=IMAGE" : defaultCoverURL,
                 brandId: data3.getStore[0].brand.id,
                 brandName: data3.getStore[0].brand.name,
                 // city, district, and address is used in state
@@ -162,49 +163,9 @@ export default function StoreListModal({ props }) {
         }
     }, [data3]);
 
-    const handleFormSubmit = (values) => {
-        const variables = {
-            args: [
-                {
-                    id: values.id
-                }
-            ],
-            name: values.name,
-            intro: values.intro,
-            location: {
-                city: cityFilter,
-                district: selectedArea,
-                address: address,
-                description: "location description"
-            },
-            principal: {
-                name: values.principalName,
-                lineUrl: values.principalLineUrl,
-                email: values.principalEmail,
-            }
-        };
 
-        // if coordinate is not updated
-        if (coordinates.lat !== 0 && coordinates.lng !== 120) {
-            variables.location.coordinate = {
-                latitude: coordinates.lat,
-                longitude: coordinates.lng,
-            };
-        }
 
-        //if password is empty, dont update password
-        if (values.principalPassword !== "") {
-            variables.principal.password = values.principalPassword;
-        }
 
-        //if status is not banned, update status
-        if (initialValues.status !== "banned") {
-            variables.statusId = status;
-        }
-        console.log(variables);
-
-        // ApolloUpdateStore({ variables });
-    };
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
@@ -276,10 +237,61 @@ export default function StoreListModal({ props }) {
         }
     }
 
+
+    const [coverFileName, setCoverFileName] = useState('');
+    const handleUploadCoverSucess = (name) => {
+        setCoverFileName(name);
+    };
+
+
+    const handleFormSubmit = (values) => {
+        const variables = {
+            args: [
+                {
+                    id: values.id
+                }
+            ],
+            name: values.name,
+            cover: coverFileName,
+            intro: values.intro,
+            location: {
+                city: cityFilter,
+                district: selectedArea,
+                address: address,
+                description: "location description"
+            },
+            principal: {
+                name: values.principalName,
+                lineUrl: values.principalLineUrl,
+                email: values.principalEmail,
+            }
+        };
+
+        // if coordinate is not updated
+        if (coordinates.lat !== 0 && coordinates.lng !== 120) {
+            variables.location.coordinate = {
+                latitude: coordinates.lat,
+                longitude: coordinates.lng,
+            };
+        }
+
+        //if password is empty, dont update password
+        if (values.principalPassword !== "") {
+            variables.principal.password = values.principalPassword;
+        }
+
+        //if status is not banned, update status
+        if (initialValues.status !== "banned") {
+            variables.statusId = status;
+        }
+        console.log(variables);
+
+        ApolloUpdateStore({ variables });
+    };
+
     const toggleModal = () => {
         setModal(!modal);
     };
-
     if (modal) {
         document.body.classList.add('active-modal')
     } else {
@@ -296,10 +308,7 @@ export default function StoreListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
+
 
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -315,37 +324,42 @@ export default function StoreListModal({ props }) {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"1rem"}>
-                                                <img
-                                                    alt="profile-user"
-                                                    width="100px"
-                                                    height="100px"
-                                                    src={initialValues.cover}
-                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                                />
-                                            </Box>
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                {(() => {
-                                                    if (initialValues.status === "disable") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                停用
-                                                            </Typography>)
-                                                    }
-                                                    if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                封鎖
-                                                            </Typography>)
-                                                    }
-                                                    else {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                正常
-                                                            </Typography>)
-                                                    }
-                                                })()}
+                                        <Box >
+
+                                            <Box display={"flex"} m={"1rem 0"}>
+                                                <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ mb: "10px", fontSize: "2rem", fontWeight: "600", color: "white" }}>
+                                                        {btnTitle}
+                                                    </Typography>
+
+                                                    <Box textAlign="center" display={"flex"} >
+                                                        {(() => {
+                                                            if (initialValues.status === "disable") {
+                                                                return (
+                                                                    <Typography variant="h5" color={colors.primary[100]} >
+                                                                        停用
+                                                                    </Typography>)
+                                                            }
+                                                            if (initialValues.status === "banned") {
+                                                                return (
+                                                                    <Typography variant="h5" color={colors.redAccent[500]}>
+                                                                        封鎖
+                                                                    </Typography>)
+                                                            }
+                                                            else {
+                                                                return (
+                                                                    <Typography variant="h5" color={colors.greenAccent[500]}>
+                                                                        正常
+                                                                    </Typography>)
+                                                            }
+                                                        })()}
+                                                    </Box>
+                                                </Box>
+
+                                                <Box width={"65%"}>
+                                                    {/* UPLOAD COVER COMPONENET */}
+                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"store"} />
+                                                </Box>
                                             </Box>
 
                                             <Box display={"flex"} justifyContent={"space-between"}>
@@ -360,6 +374,19 @@ export default function StoreListModal({ props }) {
                                                     name="name"
                                                     error={!!touched.name && !!errors.name}
                                                     helperText={touched.name && errors.name}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                />
+                                                <TextField className="modal_input_textfield"
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="Intro"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.intro}
+                                                    name="intro"
+                                                    error={!!touched.intro && !!errors.intro}
+                                                    helperText={touched.intro && errors.intro}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
@@ -378,19 +405,7 @@ export default function StoreListModal({ props }) {
                                                     </Select>
                                                 </FormControl>
                                             </Box>
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="Intro"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.intro}
-                                                name="intro"
-                                                error={!!touched.intro && !!errors.intro}
-                                                helperText={touched.intro && errors.intro}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
-                                            />
+
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth

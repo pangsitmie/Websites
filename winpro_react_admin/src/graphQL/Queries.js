@@ -242,14 +242,17 @@ query GetStore($args: [StoreArgs!]!) {
 export const CreateStore = gql`
 query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String, $cover: String!) {
   getBrand(args: $args) {
-    createStore(name: $name, location: $location, principal: $principal, intro: $intro, cover: $cover)
+    createStore(name: $name, location: $location, principal: $principal, intro: $intro, cover: $cover){
+      id
+      name
+    }
   }
 }
 `
 export const UpdateStore = gql`
-query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus) {
+query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus, $cover: String) {
   getStore(args: $args) {
-    update(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId)
+    update(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId, cover: $cover)
   }
 }
 `
@@ -275,9 +278,9 @@ query GetStore($args: [StoreArgs!]!) {
 }
 `
 export const CreateMachineFromGetStores = gql`
-query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String) {
+query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String, $counterCheck: Boolean, $counters: [CounterArgs!]) {
   getStore(args: $args) {
-    createMachine(code: $code, price: $price, name: $name, description: $description) 
+    createMachine(code: $code, price: $price, name: $name, description: $description, counterCheck: $counterCheck, counters: $counters) 
   }
 }
 `
@@ -355,7 +358,10 @@ query ManagerGetBillboards($args: [BrandArgs!]!) {
 export const CreateBillboard = gql`
 query GetBrand($args: [BrandArgs!]!, $title: String!, $content: String!, $description: String, $endAt: Int, $startAt: Int!) {
   getBrand(args: $args) {
-    createBillboard(title: $title, content: $content, description: $description, endAt: $endAt, startAt: $startAt)
+    createBillboard(title: $title, content: $content, description: $description, endAt: $endAt, startAt: $startAt){
+      id
+      title
+    }
   }
 }
 `
@@ -374,9 +380,7 @@ query GetBillboard($args: [BillboardArgs!]!) {
       name
     name
     }
-    images {
-      image
-    }
+    image
   }
 }
 `

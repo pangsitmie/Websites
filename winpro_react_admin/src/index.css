@@ -121,11 +121,11 @@ a:active {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 95%;
+  height: 96%;
   width: 100%;
   opacity: 0;
   transition: 0.5s ease;
-  background-color: rgba(46, 46, 46, 0.5);
+  background-color: rgba(88, 88, 88, 0.85);
   pointer-events: none;
 }
 

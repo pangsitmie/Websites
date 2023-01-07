@@ -51,9 +51,6 @@ const Login = () => {
                 }
             });
         }
-        else {
-            console.log("NO LOGIN DATA")
-        }
     }, [data]);
 
     //GET ACCESS TOKEN

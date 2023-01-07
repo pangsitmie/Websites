@@ -13,14 +13,29 @@ mutation SendVerificationCode($phone: PhoneInput!, $type: EVerificationCodeType!
 
 // Brands
 export const CreateBrand = gql`
-mutation CreateBrand($name: String!, $vatNumber: String!, $principal: CreateBrandPrincipalArgs!, $intro: String, $currencyName: String) {
-  createBrand(name: $name, vatNumber: $vatNumber, principal: $principal, intro: $intro, currencyName: $currencyName){
+mutation CreateBrand($name: String!, $vatNumber: String!, $principal: CreateBrandPrincipalArgs!, $intro: String, $currencyName: String, $cover: String, $logo: String) {
+  createBrand(name: $name, vatNumber: $vatNumber, principal: $principal, intro: $intro, currencyName: $currencyName, cover: $cover, logo: $logo){
     id
     name
   }
 }
 `
-
+export const UploadBrandLogo = gql`
+mutation GenBrandLogoUploadURI($mimetype: String!, $fileSize: Int!) {
+  genBrandLogoUploadURI(mimetype: $mimetype, fileSize: $fileSize)
+}
+`
+export const uploadBrandCover = gql`
+mutation GenBrandCoverUploadURI($mimetype: String!, $fileSize: Int!) {
+  genBrandCoverUploadURI(mimetype: $mimetype, fileSize: $fileSize)
+}
+`
+// STORE
+export const uploadStoreCover = gql`
+mutation GenStoreCoverUploadURI($mimetype: String!, $fileSize: Int!) {
+  genStoreCoverUploadURI(mimetype: $mimetype, fileSize: $fileSize)
+}
+`
 // ADS
 export const CreateAdvertisement = gql`
 mutation CreateAdvertisement($typeId: EAdvertisementType!, $image: String!, $url: String!, $startAt: Int!, $description: String, $endAt: Int) {

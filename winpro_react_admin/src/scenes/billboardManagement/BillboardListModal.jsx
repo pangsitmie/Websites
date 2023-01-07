@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -10,6 +10,7 @@ import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "
 import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { format } from 'date-fns';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
+import { defaultCoverURL } from "../../data/strings";
 
 
 const checkoutSchema = yup.object().shape({
@@ -30,6 +31,7 @@ export default function BillboardListModal({ props }) {
         title: "",
         content: "",
         description: "",
+        image: "",
         status: "",
     });
 
@@ -110,12 +112,14 @@ export default function BillboardListModal({ props }) {
     useEffect(() => {
         if (data3) {
             const nonNullData = replaceNullWithEmptyString(data3.getBillboard[0]);
+
             console.log(nonNullData.startAt);
             console.log(nonNullData.endAt);
             setInitialValues({
                 title: nonNullData.title,
                 content: nonNullData.content,
                 description: nonNullData.description,
+                image: nonNullData.image.length < 10 ? defaultCoverURL : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.image + "?serverId=1&fileType=IMAGE",
                 status: nonNullData.status.name,
             });
 
@@ -189,6 +193,24 @@ export default function BillboardListModal({ props }) {
         });
     };
 
+    const [selectedCoverImage, setSelectedCoverImage] = useState(null);
+
+    const coverFileInput = useRef(null);
+    const handleCoverImgClick = () => {
+        coverFileInput.current.click();
+    };
+    const handleCoverChange = (event) => {
+        const file = event.target.files[0];
+        // setSelectedCoverFile(file);
+        setSelectedCoverImage(URL.createObjectURL(file));
+        if (event.target.files.length > 0) {
+            // a file was selected, proceed with the upload
+            console.log("file selected");
+        } else {
+            // no file was selected, do nothing
+            console.log("no file selected");
+        }
+    };
 
 
     const toggleModal = () => {
@@ -212,10 +234,7 @@ export default function BillboardListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
+
 
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -232,15 +251,10 @@ export default function BillboardListModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" m={"1rem"}>
-                                                <img
-                                                    alt="profile-user"
-                                                    width="100px"
-                                                    height="100px"
-                                                    src={IMG}
-                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                                />
-                                            </Box>
+                                            <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                                                {btnTitle}
+                                            </Typography>
+
                                             <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
                                                 {(() => {
                                                     if (initialValues.status === "disable") {
@@ -263,6 +277,33 @@ export default function BillboardListModal({ props }) {
                                                     }
                                                 })()}
                                             </Box>
+
+
+                                            <Box padding={".5rem 1rem 1rem 1rem"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                                                <Box className="hover-image-container" width={"70%"}>
+                                                    <img
+                                                        alt="brand_cover"
+                                                        width="100%"
+                                                        src={selectedCoverImage || values.image}
+                                                        style={{
+                                                            cursor: "pointer", borderRadius: "12px"
+                                                        }}
+                                                        onClick={handleCoverImgClick}
+                                                    />
+
+                                                    <Box className="img_overlay cover_overlay">
+                                                        <Box className="hover-text">Upload image</Box>
+                                                    </Box>
+                                                </Box>
+
+                                                <input
+                                                    type="file"
+                                                    ref={coverFileInput}
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleCoverChange}
+                                                />
+                                            </Box>
+
 
                                             <Box display="flex" justifyContent="center" >
                                                 <TextField
