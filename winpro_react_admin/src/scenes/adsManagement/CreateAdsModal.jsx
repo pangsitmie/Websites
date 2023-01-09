@@ -10,6 +10,8 @@ import { CreateAdvertisement } from "../../graphQL/Mutations";
 import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
+import CoverUpload from "../../components/Upload/CoverUpload";
+import { defaultCoverURL } from "../../data/strings";
 
 
 const checkoutSchema = yup.object().shape({
@@ -48,8 +50,8 @@ export default function CreateAdsModal({ props }) {
     }
 
     const [initialValues, setInitialValues] = useState({
-        image: "",
-        url: "https://cloudprogrammingonline.com/",
+        image: defaultCoverURL,
+        url: "",
         description: "",
         startAtDate: "",
         endAtDate: "",
@@ -74,6 +76,13 @@ export default function CreateAdsModal({ props }) {
         }
     }, [data]);
 
+
+    // IMAGE UPLOAD
+    const [imageFileName, setImageFileName] = useState('');
+    const handleUploadImageSucess = (name) => {
+        setImageFileName(name);
+    };
+
     const handleFormSubmit = (values) => {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
@@ -81,24 +90,22 @@ export default function CreateAdsModal({ props }) {
         const startAtUnix = startAtDateObj.getTime() / 1000;
         const endAtUnix = endAtDateObj.getTime() / 1000;
 
-        ApolloCreateAds({
-            variables: {
-                image: values.image,
-                typeId: typeId,
-                url: values.url,
-                description: values.description,
-                startAt: startAtUnix,
-                endAt: endAtUnix,
-            }
-        });
+        const variables = {
+            typeId: typeId,
+            url: values.url,
+            description: values.description,
+            startAt: startAtUnix,
+            endAt: endAtUnix,
+        }
+        if (imageFileName) {
+            variables.image = imageFileName;
+        }
+
+        console.log(variables);
+        ApolloCreateAds({ variables });
+
+
     };
-
-
-
-
-
-
-
 
 
     const toggleModal = () => {
@@ -122,10 +129,6 @@ export default function CreateAdsModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
-
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
@@ -140,55 +143,38 @@ export default function CreateAdsModal({ props }) {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"1rem"}>
-                                                <img
-                                                    alt="profile-user"
-                                                    width="100px"
-                                                    height="100px"
-                                                    src="https://img.icons8.com/fluency/48/null/test-account.png"
-                                                    onClick={() => {
-                                                        // FIXME: UPLOAD IMAGE
-                                                    }}
-                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                                />
-                                            </Box>
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                {(() => {
-                                                    if (initialValues.status === "disable") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                停用
-                                                            </Typography>)
-                                                    }
-                                                    if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                封鎖
-                                                            </Typography>)
-                                                    }
-                                                    else {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                正常
-                                                            </Typography>)
-                                                    }
-                                                })()}
+                                        <Box >
+                                            <Box display={"flex"} m={"1rem 0"}>
+                                                <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: "white", lineHeight: "1.5" }}>
+                                                        新增<br /> 廣告
+                                                    </Typography>
+                                                </Box>
+                                                <Box width={"65%"}>
+                                                    {/* UPLOAD COVER COMPONENET */}
+                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={typeId} />
+                                                </Box>
                                             </Box>
 
+
+
                                             <Box display={"flex"} justifyContent={"space-between"}>
-                                                <TextField className="modal_input_textfield"
+
+                                                <TextField
+                                                    id="outlined-multiline-flexible"
+                                                    multiline
                                                     fullWidth
+                                                    maxRows={4}
                                                     variant="filled"
                                                     type="text"
-                                                    label="圖片名稱"
+                                                    label="URL"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.image}
-                                                    name="image"
-                                                    error={!!touched.image && !!errors.image}
-                                                    helperText={touched.image && errors.image}
-                                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    value={values.url}
+                                                    name="url"
+                                                    error={!!touched.url && !!errors.url}
+                                                    helperText={touched.url && errors.url}
+                                                    sx={{ margin: "0 1rem  1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
@@ -207,22 +193,7 @@ export default function CreateAdsModal({ props }) {
                                                 </FormControl>
                                             </Box>
 
-                                            <TextField
-                                                id="outlined-multiline-flexible"
-                                                multiline
-                                                fullWidth
-                                                maxRows={4}
-                                                variant="filled"
-                                                type="text"
-                                                label="URL"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.url}
-                                                name="url"
-                                                error={!!touched.url && !!errors.url}
-                                                helperText={touched.url && errors.url}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
+
 
                                             <TextField
                                                 fullWidth

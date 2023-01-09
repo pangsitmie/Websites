@@ -181,17 +181,18 @@ const SystemCoinManagement = () => {
 
                 >
 
+
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Triger At</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Title</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">描述</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Comment</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">Expire At</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
@@ -218,9 +219,10 @@ const SystemCoinManagement = () => {
                                     borderBottom={`4px solid ${colors.primary[500]}`}
                                     p="10px"
                                 >
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id} - {item.notification.reward.content.currency.type.name} - {item.notification.title}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
                                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
+                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+
                                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         {(() => {
                                             if (item.notification.expireAt === null) {

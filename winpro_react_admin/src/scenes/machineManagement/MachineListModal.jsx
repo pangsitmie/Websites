@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 // import useMediaQuery from "@mui/material/useMediaQuery";
@@ -29,6 +29,20 @@ export default function MachineListModal({ props }) {
         setStatus(event.target.value);
     };
 
+    // counter
+    const [counterCheck, setCounterCheck] = useState(true);
+    const handleCounterCheckChange = (event) => {
+        setCounterCheck(event.target.value);
+    };
+
+    const [countersToggle, setCountersToggle] = useState(false);
+    const handleCountersToggleChange = (event) => {
+        setCountersToggle(event.target.checked);
+    };
+    useEffect(() => {
+        console.log(countersToggle);
+    }, [countersToggle]);
+
     var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
     const [initialValues, setInitialValues] = useState({
         id: 0,
@@ -40,6 +54,8 @@ export default function MachineListModal({ props }) {
         status: "",
         connStatus: "",
         desc: "",
+
+        // FIXME: new initial value
     });
 
 
@@ -90,6 +106,7 @@ export default function MachineListModal({ props }) {
     useEffect(() => {
         if (data3) {
             const nonNullData = replaceNullWithEmptyString(data3.getMachine[0]);
+            console.log(nonNullData.status.name);
             setInitialValues({
                 // ...initialValues,
                 // ...nonNullData
@@ -108,6 +125,16 @@ export default function MachineListModal({ props }) {
             //set status only if not banned
             if (nonNullData.status.name !== "banned") {
                 setStatus(nonNullData.status.name)
+            }
+            setCounterCheck(nonNullData.counterInfo.counterCheck)
+
+            if (nonNullData.counterInfo.counters) {
+                setCountersToggle(true);
+                setInitialValues((prevState) => ({
+                    ...prevState,
+                    counterCoin: nonNullData.counterInfo.counters[0].count,
+                    counterGift: nonNullData.counterInfo.counters[1].count,
+                }));
             }
         }
     }, [data3]);
@@ -135,34 +162,33 @@ export default function MachineListModal({ props }) {
         console.log(values);
         console.log(status);
 
-        if (initialValues.status === "banned") { //if banned dont update status
-            ApolloUpdateMachine({
-                variables: {
-                    args: [
-                        {
-                            id: props.id,
-                        }
-                    ],
-                    name: values.name,
-                    price: parseInt(values.price),
-                    description: values.desc,
+        const variables = {
+            args: [
+                {
+                    id: props.id,
                 }
-            })
-        } else {
-            ApolloUpdateMachine({
-                variables: {
-                    args: [
-                        {
-                            id: props.id,
-                        }
-                    ],
-                    name: values.name,
-                    price: parseInt(values.price),
-                    description: values.desc,
-                    statusId: status
+            ],
+            name: values.name,
+            statusId: initialValues.status === 'banned' ? null : status,
+            price: parseInt(values.price),
+            description: values.desc,
+            counterCheck: counterCheck
+        };
+        if (countersToggle) {
+            variables.counters = [
+                {
+                    counterType: "coin",
+                    count: parseInt(values.counterCoin)
+                },
+                {
+                    counterType: "gift",
+                    count: parseInt(values.counterGift)
                 }
-            })
+            ]
         }
+        console.log(variables);
+        ApolloUpdateMachine({ variables });
+
 
     };
 
@@ -387,6 +413,70 @@ export default function MachineListModal({ props }) {
                                                     helperText={touched.desc && errors.desc}
                                                     sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+                                            </Box>
+
+                                            <FormControl
+                                                fullWidth>
+                                                <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
+                                                <Select
+                                                    sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={counterCheck}
+                                                    label="機械錶檢查"
+                                                    onChange={handleCounterCheckChange}
+                                                >
+                                                    <MenuItem value={true}>是</MenuItem>
+                                                    <MenuItem value={false}>否</MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                            <Typography variant="h4" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
+                                            <Box>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={countersToggle}
+                                                            onChange={handleCountersToggleChange}
+                                                            name="countersToggle"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label="機械錶"
+                                                    style={{ color: colors.grey[100] }}
+                                                />
+
+                                            </Box>
+
+                                            <Box display={countersToggle ? "block" : "none"}>
+                                                <Box display={"flex"}>
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label="入錶"
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.counterCoin}
+                                                        name="counterCoin"
+                                                        error={!!touched.counterCoin && !!errors.counterCoin}
+                                                        helperText={touched.counterCoin && errors.counterCoin}
+                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    />
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label="出錶"
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.counterGift}
+                                                        name="counterGift"
+                                                        error={!!touched.counterGift && !!errors.counterGift}
+                                                        helperText={touched.counterGift && errors.counterGift}
+                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    />
+                                                </Box>
                                             </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >

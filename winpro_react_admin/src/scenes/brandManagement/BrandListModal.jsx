@@ -77,9 +77,6 @@ export default function BrandListModal({ props }) {
           ]
         }
       })
-      console.log("deleted");
-    } else {
-      console.log("not deleted");
     }
   };
   // ============ UNBAN BRAND ============
@@ -96,9 +93,6 @@ export default function BrandListModal({ props }) {
           ],
         }
       })
-      console.log("unbaned");
-    } else {
-      console.log("not deleted");
     }
   }
 
@@ -160,10 +154,6 @@ export default function BrandListModal({ props }) {
   useEffect(() => {
     if (dataInit) {
       const nonNullData = replaceNullWithEmptyString(dataInit.getBrand[0]);
-
-      console.log(nonNullData.logo);
-      console.log(nonNullData.cover);
-
       setInitialValues({
         id: props.id,
         status: nonNullData.status.name,
@@ -197,11 +187,6 @@ export default function BrandListModal({ props }) {
   const handleUploadCoverSucess = (name) => {
     setCoverFileName(name);
   };
-
-  useEffect(() => {
-    console.log(logoFileName);
-    console.log(coverFileName);
-  }, [logoFileName, coverFileName]);
 
   //========================== RENDER ==========================
   if (modal) {
@@ -267,12 +252,12 @@ export default function BrandListModal({ props }) {
                       <Box display="flex" m={"1rem 0"} >
                         <Box width={"35%"}>
                           {/* UPLOAD LOGO COMPONENT */}
-                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} />
+                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} type={"logo"} />
                         </Box>
 
                         <Box width={"65%"}>
                           {/* UPLOAD COVER COMPONENET */}
-                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"brand"} />
+                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"logo"} />
                         </Box>
                       </Box>
 

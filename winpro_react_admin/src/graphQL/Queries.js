@@ -242,10 +242,7 @@ query GetStore($args: [StoreArgs!]!) {
 export const CreateStore = gql`
 query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String, $cover: String!) {
   getBrand(args: $args) {
-    createStore(name: $name, location: $location, principal: $principal, intro: $intro, cover: $cover){
-      id
-      name
-    }
+    createStore(name: $name, location: $location, principal: $principal, intro: $intro, cover: $cover)
   }
 }
 `
@@ -302,13 +299,20 @@ query GetMachine($args: [MachineArgs!]!) {
       name
     }
     connStatus
+    counterInfo {
+      counters {
+        counterType
+        count
+      }
+      counterCheck
+    }
   }
 }
 `
 export const UpdateMachine = gql`
-query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $description: String, $statusId: EUpdateMachineStatus) {
+query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $description: String, $statusId: EUpdateMachineStatus, $counterCheck: Boolean, $counters: [CounterArgs!]) {
   getMachine(args: $args) {
-    update(price: $price, name: $name, description: $description, statusId: $statusId)
+    update(price: $price, name: $name, description: $description, statusId: $statusId, counterCheck: $counterCheck, counters: $counters)
   }
 }
 `
@@ -356,12 +360,9 @@ query ManagerGetBillboards($args: [BrandArgs!]!) {
 }
 `
 export const CreateBillboard = gql`
-query GetBrand($args: [BrandArgs!]!, $title: String!, $content: String!, $description: String, $endAt: Int, $startAt: Int!) {
+query GetBrand($args: [BrandArgs!]!, $title: String!, $content: String!, $description: String, $endAt: Int, $startAt: Int!, $image: String) {
   getBrand(args: $args) {
-    createBillboard(title: $title, content: $content, description: $description, endAt: $endAt, startAt: $startAt){
-      id
-      title
-    }
+    createBillboard(title: $title, content: $content, description: $description, endAt: $endAt, startAt: $startAt, image: $image)
   }
 }
 `
@@ -385,9 +386,9 @@ query GetBillboard($args: [BillboardArgs!]!) {
 }
 `
 export const UpdateBillboard = gql`
-query GetBillboard($args: [BillboardArgs!]!, $title: String, $content: String, $description: String, $startAt: Int, $endAt: Int, $statusId: EUpdateBrandBillboardStatus) {
+query GetBillboard($args: [BillboardArgs!]!, $title: String, $content: String, $description: String, $startAt: Int, $endAt: Int, $statusId: EUpdateBrandBillboardStatus, $image: String) {
   getBillboard(args: $args) {
-    update(title: $title, content: $content, description: $description, startAt: $startAt, endAt: $endAt, statusId: $statusId)
+    update(title: $title, content: $content, description: $description, startAt: $startAt, endAt: $endAt, statusId: $statusId, image: $image)
   }
 }
 `
@@ -501,6 +502,8 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
         startAt
         description
         receiveDaysOverdue
+        belongToId
+        belongToRole
       }
     }
     status {
@@ -512,14 +515,7 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
 }
 `
 
-export const ManagerCreateCurrencyReward = gql`
-mutation ManagerCreateCurrencyReward($currencyId: String!, $sourceType: EManagerCreateRewardSourceType!, $startAt: Int!, $limit: Int, $description: String, $endAt: Int, $comment: String!, $notification: ManagerCreateNotificationField!, $triggerAt: Int, $receiveDaysOverdue: Int!, $amount: Int!) {
-  managerCreateCurrencyReward(currencyId: $currencyId, sourceType: $sourceType, startAt: $startAt, limit: $limit, description: $description, endAt: $endAt, receiveDaysOverdue: $receiveDaysOverdue, amount: $amount) {
-    id
-    managerCreateNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
-  }
-}
-`
+
 
 // ========================= ADS =========================
 export const GetAdsList = gql`

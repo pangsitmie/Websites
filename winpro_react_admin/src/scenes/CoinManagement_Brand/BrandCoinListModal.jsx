@@ -53,6 +53,7 @@ export default function BrandCoinListModal({ props }) {
     rewardId: "",
     triggerAtDate: "",
     expireAtDate: "",
+    belongToId: "",
     currencyID: "",
     currencyName: "",
     currencyAmount: "",
@@ -72,6 +73,7 @@ export default function BrandCoinListModal({ props }) {
         rewardId: props.rewardId,
         triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         expireAtDate: props.notification.expireAt === null ? "無" : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        belongToId: props.notification.reward.belongToId,
         currencyID: props.notification.reward.content.currency.id,
         currencyName: props.notification.reward.content.currency.name,
         currencyAmount: props.notification.reward.content.amount,
@@ -266,6 +268,20 @@ export default function BrandCoinListModal({ props }) {
                       </Typography>
 
                       <Box display={"flex"} justifyContent={"space-between"}>
+                        <TextField
+                          fullWidth
+                          disabled={true}
+                          variant="filled"
+                          type="text"
+                          label="屬於品牌 ID"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.belongToId}
+                          name="belongToId"
+                          error={!!touched.belongToId && !!errors.belongToId}
+                          helperText={touched.belongToId && errors.belongToId}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        />
                         <TextField
                           fullWidth
                           disabled={true}

@@ -308,8 +308,6 @@ export default function StoreListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-
-
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}

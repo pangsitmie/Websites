@@ -185,22 +185,19 @@ const AdsManagement = () => {
                 >
 
 
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">ID</Typography>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">廣告類型</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">File Name</Typography>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">StartAt</Typography>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">End At</Typography>
-                    </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
                     </Box>
                 </Box>
@@ -220,10 +217,9 @@ const AdsManagement = () => {
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.image}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {item.endAt === null ? (
                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                         無
@@ -232,7 +228,7 @@ const AdsManagement = () => {
                                     format(new Date(item.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
                                 )}
                             </Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
                                     if (item.status.name === "disable") {
                                         return (
@@ -262,7 +258,7 @@ const AdsManagement = () => {
                             </Box>
 
 
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 <AdsListModal props={item} />
                             </Box>
                         </Box>

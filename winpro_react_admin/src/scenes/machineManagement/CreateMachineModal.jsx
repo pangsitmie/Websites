@@ -22,20 +22,19 @@ export default function CreateMachineModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
-    const [counterCheck, setCounterCheck] = useState('true');
+    const [counterCheck, setCounterCheck] = useState(true);
     const handleCounterCheckChange = (event) => {
         setCounterCheck(event.target.value);
     };
 
-    const [counterTypes, setCounterTypes] = useState({
-        coin: false,
-        gift: false,
-        exchange50: false,
-        exchange100: false,
-    });
-    const handleCounterTypesChange = (event) => {
-        setCounterTypes({ ...counterTypes, [event.target.name]: event.target.checked });
+    const [countersToggle, setCountersToggle] = useState(false);
+    const handleCountersToggleChange = (event) => {
+        setCountersToggle(event.target.checked);
     };
+    useEffect(() => {
+        console.log(countersToggle);
+    }, [countersToggle]);
+
 
     var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
 
@@ -45,7 +44,9 @@ export default function CreateMachineModal({ props }) {
         name: "",
         code: "",
         price: "",
-        description: ""
+        description: "",
+        counterCoin: "",
+        counterGift: ""
     };
 
     initialValues.storeId = props.id;
@@ -66,19 +67,33 @@ export default function CreateMachineModal({ props }) {
     }, [data]);
 
     const handleFormSubmit = (values) => {
-        ApolloCreateMachineFromGetStores({
-            variables: {
-                args: [
-                    {
-                        id: props.id
-                    }
-                ],
-                name: values.name,
-                code: values.code,
-                price: parseInt(values.price),
-                description: values.description,
-            }
-        });
+        const variables = {
+            args: [
+                {
+                    id: props.id
+                }
+            ],
+            name: values.name,
+            code: values.code,
+            price: parseInt(values.price),
+            description: values.description,
+            counterCheck: counterCheck
+        };
+
+        if (countersToggle) {
+            variables.counters = [
+                {
+                    counterType: "coin",
+                    count: parseInt(values.counterCoin)
+                },
+                {
+                    counterType: "gift",
+                    count: parseInt(values.counterGift)
+                }
+            ]
+        }
+        console.log(variables);
+        ApolloCreateMachineFromGetStores({ variables });
     };
 
     const toggleModal = () => {
@@ -203,92 +218,76 @@ export default function CreateMachineModal({ props }) {
                                                     name="description"
                                                     error={!!touched.description && !!errors.description}
                                                     helperText={touched.description && errors.description}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
 
                                             </Box>
 
-                                            <FormControl sx={{ minWidth: 150 }}>
-                                                <InputLabel id="demo-simple-select-label" >Counter Check</InputLabel>
+
+
+                                            <FormControl
+                                                fullWidth>
+                                                <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
                                                 <Select
                                                     sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                     labelId="demo-simple-select-label"
                                                     id="demo-simple-select"
                                                     value={counterCheck}
-                                                    label="Counter Check"
+                                                    label="機械錶檢查"
                                                     onChange={handleCounterCheckChange}
                                                 >
-                                                    <MenuItem value={"true"}>是</MenuItem>
-                                                    <MenuItem value={"false"}>否</MenuItem>
+                                                    <MenuItem value={true}>是</MenuItem>
+                                                    <MenuItem value={false}>否</MenuItem>
                                                 </Select>
                                             </FormControl>
 
-                                            <Typography variant="h4" sx={{ marginTop: "1rem", color: "white" }}>機械錶</Typography>
-
+                                            <Typography variant="h4" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
                                             <Box>
                                                 <FormControlLabel
                                                     control={
                                                         <Checkbox
-                                                            checked={counterTypes.coin}
-                                                            onChange={handleCounterTypesChange}
-                                                            name="coin"
+                                                            checked={countersToggle}
+                                                            onChange={handleCountersToggleChange}
+                                                            name="countersToggle"
                                                             color="success"
                                                         />
                                                     }
-                                                    label="入錶"
+                                                    label="機械錶"
                                                     style={{ color: colors.grey[100] }}
                                                 />
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={counterTypes.gift}
-                                                            onChange={handleCounterTypesChange}
-                                                            name="gift"
-                                                            color="success"
-                                                        />
-                                                    }
-                                                    label="出錶"
-                                                    style={{ color: colors.grey[100] }}
-                                                />
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={counterTypes.exchange50}
-                                                            onChange={handleCounterTypesChange}
-                                                            name="exchange50"
-                                                            color="success"
-                                                        />
-                                                    }
-                                                    label="Exchange 50"
-                                                    style={{ color: colors.grey[100] }}
-                                                />
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={counterTypes.exchange100}
-                                                            onChange={handleCounterTypesChange}
-                                                            name="exchange100"
-                                                            color="success"
-                                                        />
-                                                    }
-                                                    label="Exchange 100"
-                                                    style={{ color: colors.grey[100] }}
-                                                />
+
                                             </Box>
 
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="機械錶數"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.description}
-                                                name="description"
-                                                error={!!touched.description && !!errors.description}
-                                                helperText={touched.description && errors.description}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
+                                            <Box display={countersToggle ? "block" : "none"}>
+                                                <Box display={"flex"}>
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label="入錶"
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.counterCoin}
+                                                        name="counterCoin"
+                                                        error={!!touched.counterCoin && !!errors.counterCoin}
+                                                        helperText={touched.counterCoin && errors.counterCoin}
+                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    />
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label="出錶"
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.counterGift}
+                                                        name="counterGift"
+                                                        error={!!touched.counterGift && !!errors.counterGift}
+                                                        helperText={touched.counterGift && errors.counterGift}
+                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    />
+                                                </Box>
+                                            </Box>
 
 
                                         </Box>

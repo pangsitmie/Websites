@@ -10,7 +10,8 @@ import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "
 import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { format } from 'date-fns';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { defaultCoverURL } from "../../data/strings";
+import { defaultLogoURL } from "../../data/strings";
+import LogoUpload from "../../components/Upload/LogoUpload";
 
 
 const checkoutSchema = yup.object().shape({
@@ -32,7 +33,7 @@ export default function BillboardListModal({ props }) {
         content: "",
         description: "",
         image: "",
-        status: "",
+        // status is handled in state
     });
 
     //========================== INITIAL VALUES ==========================
@@ -119,7 +120,7 @@ export default function BillboardListModal({ props }) {
                 title: nonNullData.title,
                 content: nonNullData.content,
                 description: nonNullData.description,
-                image: nonNullData.image.length < 10 ? defaultCoverURL : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.image + "?serverId=1&fileType=IMAGE",
+                image: nonNullData.image.length < 10 ? defaultLogoURL : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.image + "?serverId=1&fileType=IMAGE",
                 status: nonNullData.status.name,
             });
 
@@ -166,6 +167,12 @@ export default function BillboardListModal({ props }) {
         }
     }
 
+    // COVER UPLOAD
+    const [imageFileName, setImageFileName] = useState('');
+    const handleUploadImageSucess = (name) => {
+        setImageFileName(name);
+    };
+
     const handleFormSubmit = (values) => {
         console.log("FORM SUBMIT");
         console.log(values);
@@ -176,40 +183,24 @@ export default function BillboardListModal({ props }) {
         const startAtUnix = startAtDateObj.getTime() / 1000;
         const endAtUnix = endAtDateObj.getTime() / 1000;
 
-        ApolloUpdateBillboard({
-            variables: {
-                args: [
-                    {
-                        id: props.id
-                    }
-                ],
-                title: values.title,
-                content: values.content,
-                description: values.description,
-                startAt: startAtUnix,
-                endAt: endAtUnix,
-                statusId: status
-            }
-        });
-    };
-
-    const [selectedCoverImage, setSelectedCoverImage] = useState(null);
-
-    const coverFileInput = useRef(null);
-    const handleCoverImgClick = () => {
-        coverFileInput.current.click();
-    };
-    const handleCoverChange = (event) => {
-        const file = event.target.files[0];
-        // setSelectedCoverFile(file);
-        setSelectedCoverImage(URL.createObjectURL(file));
-        if (event.target.files.length > 0) {
-            // a file was selected, proceed with the upload
-            console.log("file selected");
-        } else {
-            // no file was selected, do nothing
-            console.log("no file selected");
+        const variables = {
+            args: [
+                {
+                    id: props.id
+                }
+            ],
+            title: values.title,
+            content: values.content,
+            description: values.description,
+            startAt: startAtUnix,
+            endAt: endAtUnix,
+            statusId: status
         }
+        if (imageFileName) {
+            variables.image = imageFileName;
+        }
+
+        ApolloUpdateBillboard({ variables });
     };
 
 
@@ -251,58 +242,45 @@ export default function BillboardListModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                                {btnTitle}
-                                            </Typography>
 
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                {(() => {
-                                                    if (initialValues.status === "disable") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                停用
-                                                            </Typography>)
-                                                    }
-                                                    if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                封鎖
-                                                            </Typography>)
-                                                    }
-                                                    else {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                正常
-                                                            </Typography>)
-                                                    }
-                                                })()}
-                                            </Box>
+                                            <Box display={"flex"} m={"1rem 0"}>
+                                                <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ mb: "10px", fontSize: "2rem", fontWeight: "600", color: "white" }}>
+                                                        {btnTitle}
+                                                    </Typography>
 
-
-                                            <Box padding={".5rem 1rem 1rem 1rem"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                <Box className="hover-image-container" width={"70%"}>
-                                                    <img
-                                                        alt="brand_cover"
-                                                        width="100%"
-                                                        src={selectedCoverImage || values.image}
-                                                        style={{
-                                                            cursor: "pointer", borderRadius: "12px"
-                                                        }}
-                                                        onClick={handleCoverImgClick}
-                                                    />
-
-                                                    <Box className="img_overlay cover_overlay">
-                                                        <Box className="hover-text">Upload image</Box>
+                                                    <Box textAlign="center" display={"flex"} >
+                                                        {(() => {
+                                                            if (initialValues.status === "disable") {
+                                                                return (
+                                                                    <Typography variant="h5" color={colors.primary[100]} >
+                                                                        停用
+                                                                    </Typography>)
+                                                            }
+                                                            if (initialValues.status === "banned") {
+                                                                return (
+                                                                    <Typography variant="h5" color={colors.redAccent[500]}>
+                                                                        封鎖
+                                                                    </Typography>)
+                                                            }
+                                                            else {
+                                                                return (
+                                                                    <Typography variant="h5" color={colors.greenAccent[500]}>
+                                                                        正常
+                                                                    </Typography>)
+                                                            }
+                                                        })()}
                                                     </Box>
                                                 </Box>
 
-                                                <input
-                                                    type="file"
-                                                    ref={coverFileInput}
-                                                    style={{ display: 'none' }}
-                                                    onChange={handleCoverChange}
-                                                />
+                                                <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
+                                                    {/* UPLOAD COVER COMPONENET */}
+                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={"billboard"} />
+                                                </Box>
                                             </Box>
+
+
+
 
 
                                             <Box display="flex" justifyContent="center" >

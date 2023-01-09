@@ -6,7 +6,9 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { useLazyQuery } from "@apollo/client";
 import { CreateBillboard } from "../../graphQL/Queries";
-import { defaultCoverURL } from "../../data/strings";
+import { defaultCoverURL, defaultLogoURL } from "../../data/strings";
+import CoverUpload from "../../components/Upload/CoverUpload";
+import LogoUpload from "../../components/Upload/LogoUpload";
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -36,7 +38,7 @@ export default function CreateBillboardModal({ props }) {
     const initialValues = {
         title: "",
         content: "",
-        image: defaultCoverURL,
+        image: defaultLogoURL,
         description: "",
     };
 
@@ -53,23 +55,10 @@ export default function CreateBillboardModal({ props }) {
     }, [data]);
 
 
-    const [selectedCoverImage, setSelectedCoverImage] = useState(null);
-
-    const coverFileInput = useRef(null);
-    const handleCoverImgClick = () => {
-        coverFileInput.current.click();
-    };
-    const handleCoverChange = (event) => {
-        const file = event.target.files[0];
-        // setSelectedCoverFile(file);
-        setSelectedCoverImage(URL.createObjectURL(file));
-        if (event.target.files.length > 0) {
-            // a file was selected, proceed with the upload
-            console.log("file selected");
-        } else {
-            // no file was selected, do nothing
-            console.log("no file selected");
-        }
+    // IMAGE UPLOAD
+    const [imageFileName, setImageFileName] = useState('');
+    const handleUploadImageSucess = (name) => {
+        setImageFileName(name);
     };
 
     const handleFormSubmit = (values) => {
@@ -82,21 +71,23 @@ export default function CreateBillboardModal({ props }) {
         const startAtUnix = startAtDateObj.getTime() / 1000;
         const endAtUnix = endAtDateObj.getTime() / 1000;
 
-        ApolloCreateBillboard({
-            variables: {
-                args: [
-                    {
-                        id: props.id
-                    }
-                ],
-                title: values.title,
-                content: values.content,
-                image: values.image,
-                description: values.description,
-                startAt: startAtUnix,
-                endAt: endAtUnix,
-            }
-        });
+        const variables = {
+            args: [
+                {
+                    id: props.id
+                }
+            ],
+            title: values.title,
+            content: values.content,
+            description: values.description,
+            startAt: startAtUnix,
+            endAt: endAtUnix,
+        }
+        if (imageFileName) {
+            variables.image = imageFileName;
+        }
+
+        ApolloCreateBillboard({ variables });
     };
 
     const toggleModal = () => {
@@ -120,10 +111,6 @@ export default function CreateBillboardModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
 
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -141,29 +128,19 @@ export default function CreateBillboardModal({ props }) {
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
                                             {/* IMAGE */}
-                                            <Box padding={".5rem 1rem 1rem 1rem"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                <Box className="hover-image-container" width={"70%"}>
-                                                    <img
-                                                        alt="brand_cover"
-                                                        width="100%"
-                                                        src={selectedCoverImage || values.image}
-                                                        style={{
-                                                            cursor: "pointer", borderRadius: "12px"
-                                                        }}
-                                                        onClick={handleCoverImgClick}
-                                                    />
 
-                                                    <Box className="img_overlay cover_overlay">
-                                                        <Box className="hover-text">Upload image</Box>
-                                                    </Box>
+                                            <Box display={"flex"} m={"1rem 0"}>
+                                                <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: "white", lineHeight: "1.5" }}>
+                                                        新增
+                                                        <br />
+                                                        告示牌
+                                                    </Typography>
                                                 </Box>
-
-                                                <input
-                                                    type="file"
-                                                    ref={coverFileInput}
-                                                    style={{ display: 'none' }}
-                                                    onChange={handleCoverChange}
-                                                />
+                                                <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
+                                                    {/* UPLOAD COVER COMPONENET */}
+                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={"billboard"} />
+                                                </Box>
                                             </Box>
 
                                             <TextField className="modal_input_textfield"

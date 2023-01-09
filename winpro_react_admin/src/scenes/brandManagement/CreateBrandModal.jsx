@@ -159,7 +159,7 @@ export default function CreateBrandModal() {
                       <Box display="flex" m={"1rem 0"} >
                         <Box width={"35%"}>
                           {/* UPLOAD LOGO COMPONENT */}
-                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} />
+                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} type={"logo"} />
                         </Box>
 
                         <Box width={"65%"}>

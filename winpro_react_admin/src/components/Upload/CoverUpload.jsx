@@ -1,13 +1,21 @@
 import React, { useState, useRef } from 'react'
 import { Box } from '@mui/material'
 import { useMutation } from '@apollo/client';
-import { uploadBrandCover, uploadStoreCover } from '../../graphQL/Mutations';
+import { UploadAdsImage, UploadBrandCover, UploadStoreCover } from '../../graphQL/Mutations';
 import { defaultCoverURL } from '../../data/strings';
 
 
 const CoverUpload = (props) => {
-    const [ApolloBrandUploadCover, { loading, error, data: brandData }] = useMutation(uploadBrandCover);
-    const [ApolloStoreUploadCover, { loading: storeLoading, error: storeError, data: storeData }] = useMutation(uploadStoreCover);
+    const stringPlaceHolder = {
+        brand: "Upload 900x300 image",
+        store: "Upload 900x300 image",
+        banner: "Upload 900x360 image",
+        placement: "Upload 900x300 image",
+    }
+
+    const [ApolloBrandUploadCover, { loading, error, data: brandData }] = useMutation(UploadBrandCover);
+    const [ApolloStoreUploadCover, { loading: storeLoading, error: storeError, data: storeData }] = useMutation(UploadStoreCover);
+    const [ApolloAdsUploadImage, { loading: adsLoading, error: adsError, data: adsData }] = useMutation(UploadAdsImage);
 
     const [selectedImage, setSelectedImage] = useState(null)
     const fileInput = useRef(null);
@@ -81,6 +89,40 @@ const CoverUpload = (props) => {
         });
     };
 
+
+
+    const adsUploadImage = (file) => {
+        // get the upload uri
+        ApolloAdsUploadImage({
+            variables: {
+                mimetype: "images/png",
+                fileSize: parseInt("2000")
+            }
+        }).then(({ data }) => {
+            const uploadURI = data.genAdvertisementImageUploadURI;
+            console.log(uploadURI);
+
+            //create formData body
+            const formData = new FormData();
+            formData.append('encodeMethod', 'BINARY');
+            formData.append('uploadFile', file, file.name);
+
+            fetch(uploadURI, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Advertisement Image Upload:" + data.payload.filename);
+                    props.handleSuccess(data.payload.filename);
+                    alert("Upload Advertisement Image Successful!");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        });
+    };
+
     const handleChange = (event) => {
         const file = event.target.files[0];
         setSelectedImage(URL.createObjectURL(file));
@@ -94,9 +136,14 @@ const CoverUpload = (props) => {
                 case "store":
                     storeUploadCover(file);
                     break;
-                default:
-                    alert("Error: No type selected");
+                case "banner":
+                    adsUploadImage(file);
                     break;
+                case "placement":
+                    adsUploadImage(file);
+                    break;
+                default:
+
             }
         } else {
             // no file was selected, do nothing
@@ -121,7 +168,7 @@ const CoverUpload = (props) => {
                         onClick={handleClick}
                     />
                     <Box className="img_overlay cover_overlay">
-                        <Box className="hover-text">Upload 900x300 image</Box>
+                        <Box className="hover-text">{stringPlaceHolder[props.type]}</Box>
                     </Box>
                 </Box>
                 <input

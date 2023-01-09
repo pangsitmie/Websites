@@ -4,9 +4,8 @@ import { useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { ManagerCreateCurrencyReward } from "../../graphQL/Queries";
+import { ManagerCreateCurrencyReward } from "../../graphQL/Mutations";
 
 
 
@@ -132,6 +131,8 @@ export default function CreateSystemCoinModal() {
     ApolloCreateSystemFreeCoinNotification({
       variables: {
         receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
+        belongToRole: "manager",
+        belongToId: "1",
         amount: parseInt(values.currencyAmount),
         currencyId: "1",
         sourceType: "notification",

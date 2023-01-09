@@ -6,7 +6,7 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
-import { ManagerCreateCurrencyReward } from "../../graphQL/Queries";
+import { ManagerCreateCurrencyReward } from "../../graphQL/Mutations";
 import { GetBrandList } from "../../graphQL/Queries";
 
 
@@ -149,28 +149,30 @@ export default function CreateBrandCoinModal() {
     const startAtUnix = startAtDateObj.getTime() / 1000;
     const endAtUnix = endAtDateObj.getTime() / 1000;
 
-
-    ApolloCreateBrandFreeCoinNotification({
-      variables: {
-        receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
-        amount: parseInt(values.currencyAmount),
-        currencyId: brandCoinId,
-        sourceType: "notification",
-        triggerAt: triggerAtUnix,
-        startAt: startAtUnix,
-        endAt: endAtUnix,
-        description: values.rewardDescription,
-        limit: parseInt(values.rewardLimit),
-        comment: values.comment,
-        notification: {
-          type: "freeCoin",
-          title: values.title,
-          content: values.content,
-          expireAt: expireAtUnix
-        }
+    const variables = {
+      receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
+      belongToRole: "brand",
+      belongToId: brandId,
+      amount: parseInt(values.currencyAmount),
+      currencyId: brandCoinId,
+      sourceType: "notification",
+      triggerAt: triggerAtUnix,
+      startAt: startAtUnix,
+      endAt: endAtUnix,
+      description: values.rewardDescription,
+      limit: parseInt(values.rewardLimit),
+      comment: values.comment,
+      notification: {
+        type: "freeCoin",
+        title: values.title,
+        content: values.content,
+        expireAt: expireAtUnix
       }
-    });
-    console.log(brandCoinId);
+    }
+
+    console.log(variables);
+    ApolloCreateBrandFreeCoinNotification({ variables });
+
   };
 
 

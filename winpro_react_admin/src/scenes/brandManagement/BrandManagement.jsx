@@ -82,7 +82,6 @@ const BrandManagement = () => {
     return (
         <Box p={2} >
             <h1 className='userManagement_title'>品牌管理</h1>
-            <p>Search: Filter {filterRef.current.value}, Status {status}, Review: {review}</p>
             {/* SEARCH DIV */}
             <Box display="flex" paddingBottom={5}>
                 {/* name Search */}
@@ -181,22 +180,19 @@ const BrandManagement = () => {
                 >
 
 
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌負責人</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">VAT</Typography>
-                    </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">告示牌管理</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
                     </Box>
                 </Box>
@@ -216,10 +212,9 @@ const BrandManagement = () => {
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.principal.name}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.vatNumber}</Box>
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.principal.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
                                     if (brand.status.name === "disable") {
                                         return (
@@ -248,7 +243,7 @@ const BrandManagement = () => {
                                 })()}
                             </Box>
                             <Box
-                                width={"15%"}
+                                width={"20%"}
                                 height={"100%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
@@ -266,7 +261,7 @@ const BrandManagement = () => {
                                 </Link>
                             </Box>
 
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 <BrandListModal props={brand} />
                             </Box>
                         </Box>

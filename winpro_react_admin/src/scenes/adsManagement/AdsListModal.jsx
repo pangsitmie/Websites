@@ -8,16 +8,17 @@ import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { GetAds, RemoveAds, UnbanAds, UpdateAds } from "../../graphQL/Queries";
 import { format } from 'date-fns';
-import { replaceNullWithEmptyString } from "../../utils/Utils";
+import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
+import CoverUpload from "../../components/Upload/CoverUpload";
+import { defaultCoverURL } from "../../data/strings";
 
 
 const checkoutSchema = yup.object().shape({
     image: yup.string().required("required"),
     url: yup.string().required("required"),
     description: yup.string().required("required"),
-    startAtDate: yup.string().required("required"),
-    endAtDate: yup.string().required("required"),
+
     status: yup.string().required("required"),
     type: yup.string().required("required"),
 });
@@ -34,23 +35,27 @@ export default function AdsListModal({ props }) {
 
 
     // ========================== STATES AND HANDLERS ==========================
+    const [initialValues, setInitialValues] = useState({
+        image: "",
+        url: "https://",
+        description: "",
+        // status is handled in state
+        type: "",
+    });
+
     const [status, setStatus] = useState('disable');
     const handleStatusChange = (event) => {
         setStatus(event.target.value);
     };
+    const [startAtDate, setStartAtDate] = useState('');
+    function handleStartAtDateChange(event) {
+        setStartAtDate(event.target.value);
+    }
 
-    const [initialValues, setInitialValues] = useState({
-        image: "",
-        url: "https://img.icons8.com/fluency/48/null/test-account.png",
-        description: "",
-        startAtDate: "",
-        endAtDate: "",
-        status: "",
-        type: "",
-    });
-
-
-
+    const [endAtDate, setEndAtDate] = useState('');
+    function handleEndAtDateChange(event) {
+        setEndAtDate(event.target.value);
+    }
 
 
 
@@ -69,18 +74,23 @@ export default function AdsListModal({ props }) {
     useEffect(() => {
         if (data) {
             const nonNullData = replaceNullWithEmptyString(data.getAdvertisement[0]);
-            const expireAtDate = nonNullData.endAt === null ? "無" : format(new Date(nonNullData.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
 
-            console.log(expireAtDate);
             setInitialValues({
-                image: nonNullData.image,
+                image: nonNullData.image.length < 10 ? defaultCoverURL : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.image + "?serverId=1&fileType=IMAGE",
                 url: nonNullData.url,
                 description: nonNullData.description,
-                startAtDate: format(new Date(nonNullData.startAt), 'MM/dd/yyyy - HH:mm:ss'),
-                endAtDate: expireAtDate,
                 status: nonNullData.status.name,
                 type: nonNullData.type.name,
             });
+
+            const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
+            const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
+            setStartAtDate(startAtDateTimeLocal);
+            setEndAtDate(endAtDateTimeLocal);
+
+            if (nonNullData.status.name !== "banned") {
+                setStatus(nonNullData.status.name)
+            }
         }
     }, [data]);
 
@@ -88,7 +98,6 @@ export default function AdsListModal({ props }) {
     const [ApolloRemoveAds, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(RemoveAds);
     useEffect(() => {
         if (data) {
-            console.log("REMOVE SUCCESS");
             window.location.reload();
         }
     }, [data1]);
@@ -105,9 +114,6 @@ export default function AdsListModal({ props }) {
                     ]
                 }
             })
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
         }
     };
 
@@ -133,9 +139,6 @@ export default function AdsListModal({ props }) {
                     reason: "null"
                 }
             })
-            console.log("unbaned");
-        } else {
-            console.log("not deleted");
         }
     };
 
@@ -148,25 +151,37 @@ export default function AdsListModal({ props }) {
         }
     }, [data3]);
 
-    const handleFormSubmit = (values) => {
-        console.log(values);
-        ApolloUpdateAds({
-            variables: {
-                args: [
-                    {
-                        id: props.id,
+    const [imageFileName, setImageFileName] = useState('');
+    const handleUploadImageSucess = (name) => {
+        setImageFileName(name);
+    };
 
-                    }
-                ],
-                image: values.image,
-                url: values.url,
-                description: values.description,
-                startAt: values.startAt,
-                endAt: values.endAt,
-                statusId: status,
-                type: values.type,
-            }
-        })
+    const handleFormSubmit = (values) => {
+
+        const startAtDateObj = new Date(startAtDate);
+        const endAtDateObj = new Date(endAtDate);
+
+        const startAtUnix = startAtDateObj.getTime() / 1000;
+        const endAtUnix = endAtDateObj.getTime() / 1000;
+
+        console.log(values);
+        const variables = {
+            args: [
+                {
+                    id: props.id,
+                }
+            ],
+            url: values.url,
+            description: values.description,
+            startAt: startAtUnix,
+            endAt: startAtUnix,
+            statusId: status,
+        }
+        if (imageFileName) {
+            variables.image = imageFileName;
+        }
+        console.log(variables)
+        ApolloUpdateAds({ variables })
 
     };
 
@@ -191,10 +206,6 @@ export default function AdsListModal({ props }) {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         <Box m="20px">
-                            <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                                {btnTitle}
-                            </Typography>
-
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
@@ -210,39 +221,19 @@ export default function AdsListModal({ props }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"}>
-                                            <Box display="flex" justifyContent="center" alignItems="center" mt={"1rem"}>
-                                                <img
-                                                    alt="profile-user"
-                                                    width="100px"
-                                                    height="100px"
-                                                    src="https://img.icons8.com/fluency/48/null/test-account.png"
-                                                    onClick={() => {
-                                                        // FIXME: UPLOAD IMAGE
-                                                    }}
-                                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                                />
-                                            </Box>
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                {(() => {
-                                                    if (initialValues.status === "disable") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                停用
-                                                            </Typography>)
-                                                    }
-                                                    if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                封鎖
-                                                            </Typography>)
-                                                    }
-                                                    else {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                正常
-                                                            </Typography>)
-                                                    }
-                                                })()}
+                                            <Box display={"flex"} m={"1rem 0"}>
+                                                <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: "white", lineHeight: "1.5" }}>
+                                                        修改廣告
+                                                    </Typography>
+                                                    <Typography variant="h5" sx={{ mt: ".5rem", textAlign: "left", fontSize: ".9rem", fontWeight: "600", color: "white", lineHeight: "1.5" }}>
+                                                        類型: {values.type}
+                                                    </Typography>
+                                                </Box>
+                                                <Box width={"65%"}>
+                                                    {/* UPLOAD COVER COMPONENET */}
+                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={values.type} />
+                                                </Box>
                                             </Box>
 
                                             <Box display={"flex"} justifyContent={"space-between"}>
@@ -309,29 +300,29 @@ export default function AdsListModal({ props }) {
                                             />
                                             <TextField
                                                 fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="開始時間點"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.startAtDate}
-                                                name="startAtDate"
-                                                error={!!touched.startAtDate && !!errors.startAtDate}
-                                                helperText={touched.startAtDate && errors.startAtDate}
-                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                id="datetime-local"
+                                                label="開始時間"
+                                                type="datetime-local"
+                                                // defaultValue="2017-05-24T10:30"
+                                                value={startAtDate}
+                                                onChange={handleStartAtDateChange}
+                                                sx={{ marginBottom: "1rem" }}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                             />
                                             <TextField
                                                 fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="過期時間"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.endAtDate}
-                                                name="endAtDate"
-                                                error={!!touched.endAtDate && !!errors.endAtDate}
-                                                helperText={touched.endAtDate && errors.endAtDate}
-                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                id="datetime-local"
+                                                label="結束時間"
+                                                type="datetime-local"
+                                                // defaultValue="2017-05-24T10:30"
+                                                value={endAtDate}
+                                                onChange={handleEndAtDateChange}
+                                                sx={{ marginBottom: "1rem" }}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                             />
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
