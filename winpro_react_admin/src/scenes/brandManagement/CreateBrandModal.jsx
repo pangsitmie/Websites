@@ -62,11 +62,6 @@ export default function CreateBrandModal() {
     setCoverFileName(name);
   };
 
-  useEffect(() => {
-    console.log(logoFileName);
-    console.log(coverFileName);
-  }, [logoFileName, coverFileName]);
-
 
   // ==================================================================
 

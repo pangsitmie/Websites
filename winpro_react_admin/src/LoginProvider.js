@@ -9,35 +9,16 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@ap
 import { onError } from '@apollo/client/link/error';
 
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, location, path }) => {
-      alert(`Graphql error ${message}`)
-    })
-  }
-});
 
-const link = from([
-  errorLink,
-  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
-]);
-
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: link
-});
 
 function LoginProvider() {
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
 
 
   return (
-    <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <Login />
-      </ThemeProvider>
-    </ApolloProvider>
+    <ThemeProvider theme={theme}>
+      <Login />
+    </ThemeProvider>
   );
 }
 
