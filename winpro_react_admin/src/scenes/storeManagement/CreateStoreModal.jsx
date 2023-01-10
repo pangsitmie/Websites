@@ -141,11 +141,7 @@ export default function CreateStoreModal() {
     const [ApolloCreateStore, { loading, error, data }] = useLazyQuery(CreateStore);
     useEffect(() => {
         if (data) {
-            console.log(data);
             window.location.reload();
-        }
-        else {
-            console.log(error)
         }
     }, [data]);
 

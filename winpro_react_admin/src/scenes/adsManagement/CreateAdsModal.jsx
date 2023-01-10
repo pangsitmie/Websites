@@ -71,9 +71,6 @@ export default function CreateAdsModal({ props }) {
             console.log(data);
             window.location.reload();
         }
-        else {
-            console.log(error)
-        }
     }, [data]);
 
 

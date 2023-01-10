@@ -16,7 +16,6 @@ const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#]{6,}$/;
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
   vatNumber: yup.string().required("required"),
-  // intro: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalPassword: yup.string().required("required").matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"), principalLineUrl: yup.string().required("required"),
   principalEmail: yup.string().email("invalid email"),
@@ -86,6 +85,7 @@ export default function CreateBrandModal() {
       vatNumber: values.vatNumber,
       logo: logoFileName,
       cover: coverFileName,
+      intro: values.intro,
       principal: {
         name: values.principalName,
         password: values.principalPassword,
@@ -97,9 +97,7 @@ export default function CreateBrandModal() {
       },
       currencyName: values.brandCoinName
     };
-    if (values.intro !== "") {
-      variables.intro = values.intro;
-    }
+
     if (values.principalEmail !== "") {
       variables.principal.email = values.principalEmail;
     }

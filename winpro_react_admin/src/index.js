@@ -13,15 +13,23 @@ import { ColorModeContext, useMode } from "./theme";
 
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, gql } from '@apollo/client';
+
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+let originalQuery;
+let originalVariables;
+
+const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, location, path }) => {
 
       if (message === "Token過期") {
-        console.log("TOKEN EXPIRES")
+        console.log("TOKEN EXPIRES");
+
+        originalQuery = operation.query;
+        originalVariables = operation.variables;
+
         const login_token = localStorage.getItem('login_token');
         localStorage.removeItem('token');
 
@@ -46,27 +54,17 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         // Store the new token in local storage
         localStorage.setItem('token', newToken);
 
-
-
-
-        // ==================
-        // Create the query document for the query you want to refetch
-        const refetchQuery = gql`
-        query Query {
-          healthCheck
-        }
-        `;
-
-        // Use the client.query method to refetch the query, passing in the context option to set the headers with the new token
-        await client.query({
-          query: refetchQuery,
-          context: {
+        client.link = authLink = setContext((_, { headers }) => {
+          return {
             headers: {
-              authorization: `Bearer ${newToken}`,
+              ...headers,
+              ...(newToken ? { authorization: `Bearer ${newToken}` } : {}),
             },
-          },
+          };
         });
-        // =================
+
+        // Re-execute the original query with the updated token and original variables
+        client.query({ query: originalQuery, variables: originalVariables });
       }
       else {
         alert(`Graphql error ${message}`)
@@ -77,10 +75,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" })
+  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
 ]);
 
-const authLink = setContext((_, { headers }) => {
+let authLink = setContext((_, { headers }) => {
   // Get the access token from local storage
   const token = localStorage.getItem('token');
 

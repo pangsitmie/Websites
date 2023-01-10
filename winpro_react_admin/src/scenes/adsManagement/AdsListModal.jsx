@@ -96,7 +96,7 @@ export default function AdsListModal({ props }) {
     // REMOVE STORE MUTATION
     const [ApolloRemoveAds, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(RemoveAds);
     useEffect(() => {
-        if (data) {
+        if (data1) {
             window.location.reload();
         }
     }, [data1]);

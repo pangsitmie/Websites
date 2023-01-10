@@ -52,8 +52,8 @@ const AdsManagement = () => {
             setAds(data.managerGetAdvertisements); //datas for display
         }
         else {
-            console.log(error);
-            console.log(loading);
+            // console.log(error);
+            // console.log(loading);
         }
     }, [data]);
 
