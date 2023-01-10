@@ -6,19 +6,20 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateBrand } from "../../graphQL/Mutations";
-import { defaultCoverURL, defaultLogoURL } from "../../data/strings";
+import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
+import { getImgURL } from "../../utils/Utils";
 
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
   vatNumber: yup.string().required("required"),
-  intro: yup.string().required("required"),
+  // intro: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalPassword: yup.string().required("required").matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"), principalLineUrl: yup.string().required("required"),
-  principalEmail: yup.string().email("invalid email").required("required"),
+  principalEmail: yup.string().email("invalid email"),
   principalPhone: yup.string().required("required"),
   brandCoinName: yup.string().required("required"),
 });
@@ -35,8 +36,6 @@ export default function CreateBrandModal() {
     intro: "",
     vatNumber: "",
 
-    logo: defaultLogoURL,
-    cover: defaultCoverURL,
     principalName: "",
     principalPassword: "",
     principalLineUrl: "https://lin.ee/",
@@ -53,11 +52,11 @@ export default function CreateBrandModal() {
   };
 
   // ========================== FILE UPLOAD ==========================
-  const [logoFileName, setLogoFileName] = useState('');
+  const [logoFileName, setLogoFileName] = useState(default_logo_360x360_filename);
   const handleUploadLogoSuccess = (name) => {
     setLogoFileName(name);
   };
-  const [coverFileName, setCoverFileName] = useState('');
+  const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
   const handleUploadCoverSucess = (name) => {
     setCoverFileName(name);
   };
@@ -85,12 +84,12 @@ export default function CreateBrandModal() {
     const variables = {
       name: values.name,
       vatNumber: values.vatNumber,
-      intro: values.intro,
+      logo: logoFileName,
+      cover: coverFileName,
       principal: {
         name: values.principalName,
         password: values.principalPassword,
         lineUrl: values.principalLineUrl,
-        email: values.principalEmail,
         phone: {
           country: "tw",
           number: values.principalPhone
@@ -98,15 +97,13 @@ export default function CreateBrandModal() {
       },
       currencyName: values.brandCoinName
     };
-
-    if (logoFileName) {
-      variables.logo = logoFileName;
+    if (values.intro !== "") {
+      variables.intro = values.intro;
     }
-
-    if (coverFileName) {
-      variables.cover = coverFileName;
+    if (values.principalEmail !== "") {
+      variables.principal.email = values.principalEmail;
     }
-
+    console.log(variables);
     ApolloCreateBrand({ variables });
   };
 
@@ -154,12 +151,12 @@ export default function CreateBrandModal() {
                       <Box display="flex" m={"1rem 0"} >
                         <Box width={"35%"}>
                           {/* UPLOAD LOGO COMPONENT */}
-                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} type={"logo"} />
+                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo")} type={"brand"} />
                         </Box>
 
                         <Box width={"65%"}>
                           {/* UPLOAD COVER COMPONENET */}
-                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"brand"} />
+                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"brand"} />
                         </Box>
                       </Box>
 

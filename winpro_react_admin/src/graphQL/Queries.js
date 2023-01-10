@@ -593,3 +593,14 @@ query GetAdvertisement($args: [AdvertisementArgs!]!) {
   }
 }
 `
+
+// ========================= VERSION =========================
+export const GetCurrentVersion = gql`
+query GetCurrentVersion($clientName: EAppClient!) {
+  getCurrentVersion(clientName: $clientName) {
+    server
+    ios
+    android
+  }
+}
+`

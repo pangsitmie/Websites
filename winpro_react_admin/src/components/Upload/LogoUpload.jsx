@@ -94,7 +94,7 @@ const LogoUpload = (props) => {
             // a file was selected, proceed with the upload
             console.log("file selected");
             switch (props.type) {
-                case "logo":
+                case "brand":
                     brandUploadLogo(file);
                     break;
                 case "billboard":

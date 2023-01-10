@@ -132,15 +132,6 @@ const Login = () => {
                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                 />
                             </Box>
-
-                            {/* <Box display="flex" justifyContent="center" >
-                                <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                        Login
-                                    </Typography>
-                                </Button>
-                                
-                            </Box> */}
                             <Box display="flex" justifyContent="center" >
                                 <button className="my-button" type="submit">Login</button>
                             </Box>
@@ -148,14 +139,6 @@ const Login = () => {
                     )}
                 </Formik>
             </Box >
-
-            {/* <Button onClick={handleClick} sx={{ background: "#fff" }}>
-                    LOGIN
-                </Button> */}
-            {isLoggedIn ? <Box display={"flex"} justifyContent={"center"} background={"#cecece"} color={"#fff"}>LOGGED IN {accessToken} </Box>
-                : <Box display={"flex"} justifyContent={"center"} background={"#cecece"} color={"#fff"}>NOT LOGGED IN</Box>
-            }
-
         </Box>
     )
 };

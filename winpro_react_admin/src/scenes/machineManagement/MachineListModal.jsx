@@ -15,7 +15,7 @@ import QRCode from "qrcode";
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
     price: yup.number().required("required"),
-    desc: yup.string().required("required"),
+    // desc: yup.string().required("required"),
 });
 
 
@@ -54,8 +54,6 @@ export default function MachineListModal({ props }) {
         status: "",
         connStatus: "",
         desc: "",
-
-        // FIXME: new initial value
     });
 
 
@@ -128,14 +126,20 @@ export default function MachineListModal({ props }) {
             }
             setCounterCheck(nonNullData.counterInfo.counterCheck)
 
-            if (nonNullData.counterInfo.counters) {
+            console.log(nonNullData.counterInfo);
+            if (Array.isArray(nonNullData.counterInfo.counters) && nonNullData.counterInfo.counters.length > 0) {
                 setCountersToggle(true);
-                setInitialValues((prevState) => ({
-                    ...prevState,
-                    counterCoin: nonNullData.counterInfo.counters[0].count,
-                    counterGift: nonNullData.counterInfo.counters[1].count,
-                }));
+
+                nonNullData.counterInfo.counters.forEach(counter => {
+                    const key = `${counter.counterType}`;
+                    console.log(key + "-" + counter.count);
+                    setInitialValues(prevState => ({
+                        ...prevState,
+                        [key]: counter.count,
+                    }));
+                });
             }
+
         }
     }, [data3]);
 
@@ -169,24 +173,25 @@ export default function MachineListModal({ props }) {
                 }
             ],
             name: values.name,
+            description: values.desc,
+
             statusId: initialValues.status === 'banned' ? null : status,
             price: parseInt(values.price),
-            description: values.desc,
             counterCheck: counterCheck
         };
         if (countersToggle) {
             variables.counters = [
                 {
                     counterType: "coin",
-                    count: parseInt(values.counterCoin)
+                    count: parseInt(values.coin)
                 },
                 {
                     counterType: "gift",
-                    count: parseInt(values.counterGift)
+                    count: parseInt(values.gift)
                 }
             ]
         }
-        console.log(variables);
+        // console.log(variables);
         ApolloUpdateMachine({ variables });
 
 
@@ -457,10 +462,10 @@ export default function MachineListModal({ props }) {
                                                         label="入錶"
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
-                                                        value={values.counterCoin}
-                                                        name="counterCoin"
-                                                        error={!!touched.counterCoin && !!errors.counterCoin}
-                                                        helperText={touched.counterCoin && errors.counterCoin}
+                                                        value={values.coin}
+                                                        name="coin"
+                                                        error={!!touched.coin && !!errors.coin}
+                                                        helperText={touched.coin && errors.coin}
                                                         sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                     />
                                                     <TextField
@@ -470,10 +475,10 @@ export default function MachineListModal({ props }) {
                                                         label="出錶"
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
-                                                        value={values.counterGift}
-                                                        name="counterGift"
-                                                        error={!!touched.counterGift && !!errors.counterGift}
-                                                        helperText={touched.counterGift && errors.counterGift}
+                                                        value={values.gift}
+                                                        name="gift"
+                                                        error={!!touched.gift && !!errors.gift}
+                                                        helperText={touched.gift && errors.gift}
                                                         sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                     />
                                                 </Box>

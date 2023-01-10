@@ -6,6 +6,7 @@ import { defaultCoverURL } from '../../data/strings';
 
 
 const CoverUpload = (props) => {
+    console.log(props.imagePlaceHolder);
     const stringPlaceHolder = {
         brand: "Upload 900x300 image",
         store: "Upload 900x300 image",

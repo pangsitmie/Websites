@@ -20,6 +20,7 @@ import SystemCoinManagement from "./scenes/CoinManagement_System/SystemCoinManag
 import BillboardManagement from "./scenes/billboardManagement/BillboardManagement";
 import BrandCoinManagement from "./scenes/CoinManagement_Brand/BrandCoinManagement";
 import AdsManagement from "./scenes/adsManagement/AdsManagement";
+import VersionManagement from "./scenes/version/VersionManagement";
 
 
 
@@ -65,6 +66,9 @@ function App() {
                 <Route path="/system-notification" element={<SystemNotificationManagement />} />
                 <Route path="/system-coins" element={<SystemCoinManagement />} />
                 <Route path="/brand-coins" element={<BrandCoinManagement />} />
+                {/* SYSTEM */}
+                <Route path="/version" element={<VersionManagement />} />
+
               </Routes>
             </main>
           </div>

@@ -14,7 +14,7 @@ const checkoutSchema = yup.object().shape({
     name: yup.string().required("機台名稱必填"),
     code: yup.string().required("機台碼必填"),
     price: yup.string().required("機台單次花費金額必填"),
-    description: yup.string().required("備註必填"),
+    // description: yup.string().required("備註必填"),
 });
 
 
@@ -76,10 +76,11 @@ export default function CreateMachineModal({ props }) {
             name: values.name,
             code: values.code,
             price: parseInt(values.price),
-            description: values.description,
             counterCheck: counterCheck
         };
-
+        if (values.description !== "") {
+            variables.description = values.description;
+        }
         if (countersToggle) {
             variables.counters = [
                 {
@@ -92,7 +93,6 @@ export default function CreateMachineModal({ props }) {
                 }
             ]
         }
-        console.log(variables);
         ApolloCreateMachineFromGetStores({ variables });
     };
 

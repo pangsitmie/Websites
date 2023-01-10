@@ -7,10 +7,10 @@ import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "../../graphQL/Queries";
-import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
+import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { format } from 'date-fns';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { defaultLogoURL } from "../../data/strings";
+import { defaultLogoURL, default_billboard_image_600x600_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 
 
@@ -18,7 +18,6 @@ const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
     title: yup.string().required("必填"),
     content: yup.string().required("必填"),
-    description: yup.string().required("必填"),
 });
 
 
@@ -32,7 +31,6 @@ export default function BillboardListModal({ props }) {
         title: "",
         content: "",
         description: "",
-        image: "",
         // status is handled in state
     });
 
@@ -120,7 +118,6 @@ export default function BillboardListModal({ props }) {
                 title: nonNullData.title,
                 content: nonNullData.content,
                 description: nonNullData.description,
-                image: nonNullData.image.length < 10 ? defaultLogoURL : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.image + "?serverId=1&fileType=IMAGE",
                 status: nonNullData.status.name,
             });
 
@@ -129,12 +126,13 @@ export default function BillboardListModal({ props }) {
             setStartAtDate(startAtDateTimeLocal);
             setEndAtDate(endAtDateTimeLocal);
 
+            if (nonNullData.image !== null || (nonNullData.image !== "null")) {
+                setImageFileName(nonNullData.image);
+            }
             //set status only if not banned
             if (nonNullData.status.name !== "banned") {
                 setStatus(nonNullData.status.name)
             }
-
-            // setBillboardStatus(data3.getBrand[0].status.name)
         }
         else {
             console.log("NO DATA ROM GET BRAND")
@@ -168,7 +166,7 @@ export default function BillboardListModal({ props }) {
     }
 
     // COVER UPLOAD
-    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileName, setImageFileName] = useState(default_billboard_image_600x600_filename);
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };
@@ -275,7 +273,7 @@ export default function BillboardListModal({ props }) {
 
                                                 <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={"billboard"} />
+                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "billboard")} type={"billboard"} />
                                                 </Box>
                                             </Box>
 

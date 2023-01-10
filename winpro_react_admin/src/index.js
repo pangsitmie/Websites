@@ -16,28 +16,6 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, 
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 
-
-
-
-// async function refreshToken() {
-//   try {
-
-//     const response = await client.query({
-//       query: GetManagerAccessToken,
-//       variables: {
-//         variables: {
-//           refreshToken: "Bearer " + localStorage.getItem('login_token')
-//         }
-//       }, // Replace with your own function to retrieve the refresh token
-//     });
-//     const newAccessToken = response.data.getManagerAccessToken;
-//     client.writeData({ data: { token: newAccessToken } });
-//     localStorage.setItem('token', newAccessToken);
-//     console.log(localStorage.getItem('token'));
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, location, path }) => {
@@ -99,7 +77,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
+  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" })
 ]);
 
 const authLink = setContext((_, { headers }) => {

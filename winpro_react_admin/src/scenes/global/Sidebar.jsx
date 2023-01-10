@@ -16,11 +16,12 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import UpdateIcon from '@mui/icons-material/Update';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
-import IMG from "../../assets/user.png";
+import LOGO from "../../assets/logo512.png";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -84,7 +85,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN
+                  GAME PAY
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -100,7 +101,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={IMG}
+                  src={LOGO}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -111,11 +112,9 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "1rem 0 1rem 0" }}
                 >
-                  黎信義
+                  ADMIN
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Software Engineer
-                </Typography>
+
               </Box>
             </Box>
           )}
@@ -218,8 +217,14 @@ const Sidebar = () => {
               系統
             </Typography>
 
-
             <Item
+              title="版本管控"
+              to="/version"
+              icon={<UpdateIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            {/* <Item
               title="統計"
               to="/statistics"
               icon={<BarChartIcon />}
@@ -232,7 +237,7 @@ const Sidebar = () => {
               icon={<AccountCircleIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -240,11 +245,11 @@ const Sidebar = () => {
             >
               Version 1.0
             </Typography>
-
-
           </Box>
         </Menu>
       </ProSidebar>
+      <a href="https://roundbytes.com/" rel="dofollow">.</a>
+
     </Box>
   );
 };

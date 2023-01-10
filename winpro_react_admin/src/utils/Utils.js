@@ -1,3 +1,5 @@
+import { defaultBillboardImageURL, defaultCoverURL, defaultLogoURL } from "../data/strings";
+
 export function replaceNullWithEmptyString(obj) {
     const newObj = {};
     for (let prop in obj) {
@@ -18,4 +20,18 @@ export function unixTimestampToDatetimeLocal(timestamp) {
     const hours = `0${date.getHours()}`.slice(-2);
     const minutes = `0${date.getMinutes()}`.slice(-2);
     return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+export function getImgURL(filename, type) {
+    if (filename === null || filename === undefined || filename === '' || filename === 'null')
+        switch (type) {
+            case 'logo':
+                return defaultLogoURL;
+            case 'cover':
+                return defaultCoverURL;
+            case 'billboard':
+                return defaultBillboardImageURL;
+        }
+    else
+        return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
 }

@@ -6,15 +6,14 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { useLazyQuery } from "@apollo/client";
 import { CreateBillboard } from "../../graphQL/Queries";
-import { defaultCoverURL, defaultLogoURL } from "../../data/strings";
-import CoverUpload from "../../components/Upload/CoverUpload";
+import { default_billboard_image_600x600_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
+import { getImgURL } from "../../utils/Utils";
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
     title: yup.string().required("必填"),
     content: yup.string().required("必填"),
-    description: yup.string().required("必填"),
 });
 
 
@@ -38,7 +37,6 @@ export default function CreateBillboardModal({ props }) {
     const initialValues = {
         title: "",
         content: "",
-        image: defaultLogoURL,
         description: "",
     };
 
@@ -56,7 +54,7 @@ export default function CreateBillboardModal({ props }) {
 
 
     // IMAGE UPLOAD
-    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileName, setImageFileName] = useState(default_billboard_image_600x600_filename);
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };
@@ -79,12 +77,10 @@ export default function CreateBillboardModal({ props }) {
             ],
             title: values.title,
             content: values.content,
+            image: imageFileName,
             description: values.description,
             startAt: startAtUnix,
             endAt: endAtUnix,
-        }
-        if (imageFileName) {
-            variables.image = imageFileName;
         }
 
         ApolloCreateBillboard({ variables });
@@ -102,7 +98,6 @@ export default function CreateBillboardModal({ props }) {
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
-
             <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
@@ -139,7 +134,7 @@ export default function CreateBillboardModal({ props }) {
                                                 </Box>
                                                 <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={"billboard"} />
+                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "billboard")} type={"billboard"} />
                                                 </Box>
                                             </Box>
 

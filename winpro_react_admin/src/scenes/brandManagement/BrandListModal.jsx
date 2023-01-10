@@ -4,21 +4,19 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import BRANDCOVER from "../../assets/cover_null.png";
 import { tokens } from "../../theme";
 import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, BrandUploadLogo, BrandUploadCover } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { replaceNullWithEmptyString } from "../../utils/Utils";
-import { defaultCoverURL, defaultLogoURL } from "../../data/strings";
+import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
+import { default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
-  intro: yup.string().required("required"),
+  // intro: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalLineUrl: yup.string().required("required"),
-  principalEmail: yup.string().email("invalid email").required("required"),
   vatNumber: yup.string().required("required"),
   brandCoinName: yup.string().required("required"),
 });
@@ -36,8 +34,6 @@ export default function BrandListModal({ props }) {
     statusDesc: "",
     name: "",
     intro: "",
-    logo: "",
-    cover: "",
     principalName: "",
     principalPassword: "",
     principalLineUrl: "",
@@ -116,26 +112,27 @@ export default function BrandListModal({ props }) {
         }
       ],
       name: values.name,
+      vatNumber: values.vatNumber,
       logo: logoFileName,
       cover: coverFileName,
-      vatNumber: values.vatNumber,
-      intro: values.intro,
       principal: {
         name: values.principalName,
         lineUrl: values.principalLineUrl,
-        email: values.principalEmail,
       },
       currencyName: values.brandCoinName,
     };
-
     if (values.principalPassword !== "") {
       variables.principal.password = values.principalPassword;
     }
-
     if (initialValues.status !== "banned") {
       variables.statusId = status;
     }
-
+    if (values.intro !== "") {
+      variables.intro = values.intro;
+    }
+    if (values.principalEmail !== "") {
+      variables.principal.email = values.principalEmail;
+    }
     ApolloUpdateBrand({ variables });
   };
 
@@ -160,8 +157,6 @@ export default function BrandListModal({ props }) {
         name: nonNullData.name,
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,
-        logo: nonNullData.logo ? "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.logo + "?serverId=1&fileType=IMAGE" : defaultLogoURL,
-        cover: nonNullData.cover ? "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.cover + "?serverId=1&fileType=IMAGE" : defaultCoverURL,
         principalName: nonNullData.principal.name,
         principalLineUrl: nonNullData.principal.lineUrl,
         principalEmail: nonNullData.principal.email,
@@ -169,6 +164,12 @@ export default function BrandListModal({ props }) {
         brandCoinName: nonNullData.currency.name,
       });
 
+      if (nonNullData.logo !== null || (nonNullData.logo !== "null")) {
+        setLogoFileName(nonNullData.logo);
+      }
+      if (nonNullData.cover !== null || (nonNullData.cover !== "null")) {
+        setCoverFileName(nonNullData.cover);
+      }
       //set status only if not banned
       if (nonNullData.status.name !== "banned") {
         setStatus(nonNullData.status.name)
@@ -178,12 +179,12 @@ export default function BrandListModal({ props }) {
   }, [dataInit]);
 
   // =========================== FILE UPLOAD ===========================
-  const [logoFileName, setLogoFileName] = useState('');
+  const [logoFileName, setLogoFileName] = useState(default_logo_360x360_filename);
   const handleUploadLogoSuccess = (name) => {
     setLogoFileName(name);
   };
 
-  const [coverFileName, setCoverFileName] = useState('');
+  const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
   const handleUploadCoverSucess = (name) => {
     setCoverFileName(name);
   };
@@ -252,12 +253,12 @@ export default function BrandListModal({ props }) {
                       <Box display="flex" m={"1rem 0"} >
                         <Box width={"35%"}>
                           {/* UPLOAD LOGO COMPONENT */}
-                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={values.logo} type={"logo"} />
+                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo")} type={"brand"} />
                         </Box>
 
                         <Box width={"65%"}>
                           {/* UPLOAD COVER COMPONENET */}
-                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"logo"} />
+                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"brand"} />
                         </Box>
                       </Box>
 

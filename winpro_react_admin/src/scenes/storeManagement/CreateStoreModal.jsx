@@ -13,23 +13,21 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
 import { areaData } from "../../data/cityData";
-import { defaultCoverURL } from "../../data/strings";
+import { defaultCoverURL, default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
+import { getImgURL } from "../../utils/Utils";
 
 
-
-const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    intro: yup.string().required("required").nullable(),
 
     principalName: yup.string().required("required"),
     principalAccount: yup.string().required("required"),
-    principalPassword: yup.string().required("required"),
+    principalPassword: yup.string().required("required").matches(passwordRegex),
     principalLineUrl: yup.string().required("required"),
-    principalEmail: yup.string().email("invalid email").required("required"),
+    principalEmail: yup.string().email("invalid email"),
 });
 
 
@@ -104,7 +102,6 @@ export default function CreateStoreModal() {
         name: "",
         intro: "",
 
-        cover: defaultCoverURL,
         //locations get from location state
         principalName: "",
         principalAccount: "",
@@ -153,16 +150,12 @@ export default function CreateStoreModal() {
     }, [data]);
 
 
-    const [coverFileName, setCoverFileName] = useState('');
+    const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
     const handleUploadCoverSucess = (name) => {
         setCoverFileName(name);
     };
 
     const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-
-
         const variables = {
             args: [
                 {
@@ -171,7 +164,7 @@ export default function CreateStoreModal() {
             ],
             brandId: brandId,
             name: values.name,
-            intro: values.intro,
+            cover: coverFileName,
             location: {
                 city: cityFilter,
                 district: selectedArea,
@@ -187,14 +180,18 @@ export default function CreateStoreModal() {
                 account: values.principalAccount,
                 password: values.principalPassword,
                 lineUrl: values.principalLineUrl,
-                email: values.principalEmail
             }
         }
-
-        if (coverFileName) {
-            variables.cover = coverFileName;
+        if (values.intro !== "") {
+            variables.intro = values.intro;
         }
-
+        if (values.principalEmail !== "") {
+            variables.principal.email = values.principalEmail;
+        }
+        // if (coverFileName) {
+        //     variables.cover = coverFileName;
+        // }
+        console.log(variables);
         ApolloCreateStore({ variables });
     };
 
@@ -245,7 +242,7 @@ export default function CreateStoreModal() {
                                                 </Box>
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"store"} />
+                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"store"} />
                                                 </Box>
                                             </Box>
 
@@ -518,11 +515,6 @@ export default function CreateStoreModal() {
                                             <Box display="flex" justifyContent="center" >
                                                 <button className="my-button" type="submit">{confirmTitle}</button>
                                             </Box>
-                                            {/* <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                    {confirmTitle}
-                                                </Typography>
-                                            </Button> */}
                                         </Box>
                                     </form>
                                 )}

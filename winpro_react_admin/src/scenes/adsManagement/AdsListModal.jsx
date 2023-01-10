@@ -17,7 +17,6 @@ import { defaultCoverURL } from "../../data/strings";
 const checkoutSchema = yup.object().shape({
     image: yup.string().required("required"),
     url: yup.string().required("required"),
-    description: yup.string().required("required"),
 
     status: yup.string().required("required"),
     type: yup.string().required("required"),

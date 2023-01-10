@@ -14,8 +14,9 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { areaData } from "../../data/cityData";
-import { defaultCoverURL } from "../../data/strings";
+import { default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
+import { getImgURL } from "../../utils/Utils";
 
 const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
@@ -23,14 +24,14 @@ const phoneRegExp =
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
     status: yup.string().required("required"),
-    intro: yup.string().required("required").nullable(),
+    // intro: yup.string().required("required"),
     brandId: yup.string().required("required"),
     brandName: yup.string().required("required"),
     // location_address: yup.string().required("required"),
     principalName: yup.string().required("required"),
     // principalPassword: yup.string().required("required"),
     principalLineUrl: yup.string().required("required"),
-    principalEmail: yup.string().required("required").nullable(),
+    principalEmail: yup.string().email("invalid email"),
 });
 
 
@@ -83,7 +84,6 @@ export default function StoreListModal({ props }) {
         brandName: "",
         name: "",
         intro: "",
-        cover: defaultCoverURL,
         //locations get from location state
         status: "",
 
@@ -131,12 +131,13 @@ export default function StoreListModal({ props }) {
     useEffect(() => {
         if (data3) {
             // SET THE initial value using data3
+            console.log("cover");
+            console.log(data3.getStore[0].cover);
             setInitialValues({
                 id: props.id,
                 status: data3.getStore[0].status.name,
                 name: data3.getStore[0].name,
                 intro: data3.getStore[0].intro,
-                cover: data3.getStore[0].cover ? "https://file-test.cloudprogrammingonline.com/files/" + data3.getStore[0].cover + "?serverId=1&fileType=IMAGE" : defaultCoverURL,
                 brandId: data3.getStore[0].brand.id,
                 brandName: data3.getStore[0].brand.name,
                 // city, district, and address is used in state
@@ -144,8 +145,17 @@ export default function StoreListModal({ props }) {
                 principalAccount: data3.getStore[0].principal.account,
                 // princiapall password doesnt receive api data
                 principalLineUrl: data3.getStore[0].principal.lineUrl,
-                principalEmail: data3.getStore[0].principal.email,
             });
+            if (data3.getStore[0].principal.email !== null) {
+                setInitialValues((prevState) => ({
+                    ...prevState,
+                    principalEmail: data3.getStore[0].principal.email,
+                }));
+            }
+
+            if (data3.getStore[0].cover !== null || (data3.getStore[0].cover !== "null")) {
+                setCoverFileName(data3.getStore[0].cover);
+            }
             //set city
             setCityFilter(data3.getStore[0].location.city);
             //set area
@@ -238,7 +248,7 @@ export default function StoreListModal({ props }) {
     }
 
 
-    const [coverFileName, setCoverFileName] = useState('');
+    const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
     const handleUploadCoverSucess = (name) => {
         setCoverFileName(name);
     };
@@ -253,7 +263,6 @@ export default function StoreListModal({ props }) {
             ],
             name: values.name,
             cover: coverFileName,
-            intro: values.intro,
             location: {
                 city: cityFilter,
                 district: selectedArea,
@@ -263,9 +272,14 @@ export default function StoreListModal({ props }) {
             principal: {
                 name: values.principalName,
                 lineUrl: values.principalLineUrl,
-                email: values.principalEmail,
             }
         };
+        if (values.principalEmail !== "") {
+            variables.principal.email = values.principalEmail;
+        }
+        if (values.intro !== "") {
+            variables.intro = values.intro;
+        }
 
         // if coordinate is not updated
         if (coordinates.lat !== 0 && coordinates.lng !== 120) {
@@ -356,7 +370,7 @@ export default function StoreListModal({ props }) {
 
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={values.cover} type={"store"} />
+                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"store"} />
                                                 </Box>
                                             </Box>
 

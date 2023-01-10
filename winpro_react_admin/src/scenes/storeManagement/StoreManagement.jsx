@@ -215,7 +215,7 @@ const StoreManagement = () => {
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">幾臺資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機臺資料</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
