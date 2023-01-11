@@ -14,14 +14,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import BrandListModal from './BrandListModal';
 import CreateBrandModal from './CreateBrandModal';
 import { Link } from 'react-router-dom';
+import Pagination from '../../components/Pagination';
 
 
 const BrandManagement = () => {
+    console.log("Brand management");
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     // ========================== STATES AND HANDLERS ==========================
+
     const [filter, setFilter] = useState('品牌名');
     const handleFilterChange = (e) => {
         setFilter(e.target.value);
@@ -78,19 +81,40 @@ const BrandManagement = () => {
         })
     }
 
+
+
+    // // PGNATION +++++++++++++++++++++
+    // const [pageData, setPageData] = useState([]);
+    // const [totalPages, setTotalPages] = useState(0);
+
+    // const fetchData = async ({ limit, offset }) => {
+    //     const response = await fetch(`https://your-api.com/data?limit=${limit}&offset=${offset}`);
+    //     const json = await response.json();
+    //     setPageData(json.data);
+    //     setTotalPages(json.totalPages);
+    // }
+
+    // useEffect(() => {
+    //     fetchData({ limit: 10, offset: 0 });
+    // }, []);
+
     // ========================== RETURN ==========================
     return (
-        <Box p={2} >
-            <h1 className='userManagement_title'>品牌管理</h1>
+        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+            <Box height={"10%"}>
+                <h1 className='userManagement_title'>品牌管理</h1>
+            </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" paddingBottom={5}>
+            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
                     mr={"1rem"}
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
+                    borderRadius="10px"
+                    height={"52px"}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
                     <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
@@ -124,37 +148,42 @@ const BrandManagement = () => {
                     </Select>
                 </FormControl>
                 {/* SEARCH BTN */}
-                <Button sx={{
-                    backgroundColor: colors.primary[300],
-                    color: colors.grey[100],
-                    minWidth: "150px",
-                    borderRadius: "10px",
-                    marginLeft: "20px",
-                    padding: "0px"
-                }}
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "120px",
+                        height: "52px",
+                        marginLeft: "1rem",
+                        borderRadius: "10px",
+                        padding: "0px",
+                        marginRight: "2rem",
+                        ':hover': {
+                            bgcolor: colors.primary[400],
+                            border: '1px solid white',
+                        }
+                    }}
                     onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
                     <p className='btn_text'>查詢</p>
                 </Button>
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     marginLeft={"auto"}
+                    height={"52px"}
                     padding={"0"}
                 >
                     <CreateBrandModal />
                 </Box>
-
             </Box>
 
 
             {/* TABLE DIV */}
             <Box
-                className="recent_transaction_container"
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"40vh"}
+                height={"52%"}
             >
                 <Box
                     display="flex"
@@ -175,7 +204,6 @@ const BrandManagement = () => {
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
                     p="10px"
-                    maxHeight={"100px"}
 
                 >
 
@@ -196,6 +224,7 @@ const BrandManagement = () => {
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
                     </Box>
                 </Box>
+
                 <Box
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
@@ -268,6 +297,7 @@ const BrandManagement = () => {
                     ))}
 
                 </Box>
+
             </Box>
         </Box >
     )

@@ -4,22 +4,17 @@ import { useLazyQuery, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { GetAds, RemoveAds, UnbanAds, UpdateAds } from "../../graphQL/Queries";
 import { format } from 'date-fns';
-import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
+import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import CoverUpload from "../../components/Upload/CoverUpload";
-import { defaultCoverURL } from "../../data/strings";
+import { default_ads_image_900x360_filename } from "../../data/strings";
 
 
 const checkoutSchema = yup.object().shape({
-    image: yup.string().required("required"),
     url: yup.string().required("required"),
-
-    status: yup.string().required("required"),
-    type: yup.string().required("required"),
 });
 
 
@@ -73,12 +68,9 @@ export default function AdsListModal({ props }) {
     useEffect(() => {
         if (data) {
             const nonNullData = replaceNullWithEmptyString(data.getAdvertisement[0]);
-
             setInitialValues({
-                image: nonNullData.image.length < 10 ? defaultCoverURL : "https://file-test.cloudprogrammingonline.com/files/" + nonNullData.image + "?serverId=1&fileType=IMAGE",
                 url: nonNullData.url,
                 description: nonNullData.description,
-                status: nonNullData.status.name,
                 type: nonNullData.type.name,
             });
 
@@ -87,6 +79,9 @@ export default function AdsListModal({ props }) {
             setStartAtDate(startAtDateTimeLocal);
             setEndAtDate(endAtDateTimeLocal);
 
+            if (nonNullData.image !== null || (nonNullData.image !== "null" || nonNullData.image !== "")) {
+                setImageFileName(nonNullData.image);
+            }
             if (nonNullData.status.name !== "banned") {
                 setStatus(nonNullData.status.name)
             }
@@ -150,7 +145,7 @@ export default function AdsListModal({ props }) {
         }
     }, [data3]);
 
-    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileName, setImageFileName] = useState(default_ads_image_900x360_filename);
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };
@@ -160,10 +155,10 @@ export default function AdsListModal({ props }) {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
-        const startAtUnix = startAtDateObj.getTime() / 1000;
-        const endAtUnix = endAtDateObj.getTime() / 1000;
+        let startAtUnix = startAtDateObj.getTime() / 1000;
+        let endAtUnix = endAtDateObj.getTime() / 1000;
+        let nowUnix = Math.floor(Date.now() / 1000);
 
-        console.log(values);
         const variables = {
             args: [
                 {
@@ -171,13 +166,23 @@ export default function AdsListModal({ props }) {
                 }
             ],
             url: values.url,
-            description: values.description,
-            startAt: startAtUnix,
-            endAt: startAtUnix,
-            statusId: status,
+            image: imageFileName
         }
-        if (imageFileName) {
-            variables.image = imageFileName;
+        //check if startAtUnix is filled
+        if (isNaN(startAtUnix)) {
+            startAtUnix = nowUnix;
+        }
+        //insert startAtUnix to variables
+        variables.startAt = startAtUnix;
+        //insert endAtUnix to variables if it is selected
+        if (!isNaN(endAtUnix) && endAtUnix !== 0) {
+            variables.endAt = endAtUnix;
+        }
+        if (values.description !== "") {
+            variables.description = values.description;
+        }
+        if (initialValues.status !== "banned") {
+            variables.statusId = status;
         }
         console.log(variables)
         ApolloUpdateAds({ variables })
@@ -231,24 +236,26 @@ export default function AdsListModal({ props }) {
                                                 </Box>
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={values.type} />
+                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "ads")} type={values.type} />
                                                 </Box>
                                             </Box>
 
-                                            <Box display={"flex"} justifyContent={"space-between"}>
-                                                <TextField className="modal_input_textfield"
-                                                    disabled={true}
+                                            <Box display={"flex"}>
+                                                <TextField
+                                                    id="outlined-multiline-flexible"
+                                                    multiline
                                                     fullWidth
+                                                    maxRows={4}
                                                     variant="filled"
                                                     type="text"
-                                                    label="圖片名稱"
+                                                    label="URL"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.image}
-                                                    name="image"
-                                                    error={!!touched.image && !!errors.image}
-                                                    helperText={touched.image && errors.image}
-                                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    value={values.url}
+                                                    name="url"
+                                                    error={!!touched.url && !!errors.url}
+                                                    helperText={touched.url && errors.url}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
@@ -267,22 +274,7 @@ export default function AdsListModal({ props }) {
                                                 </FormControl>
                                             </Box>
 
-                                            <TextField
-                                                id="outlined-multiline-flexible"
-                                                multiline
-                                                fullWidth
-                                                maxRows={4}
-                                                variant="filled"
-                                                type="text"
-                                                label="URL"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.url}
-                                                name="url"
-                                                error={!!touched.url && !!errors.url}
-                                                helperText={touched.url && errors.url}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                            />
+
 
                                             <TextField
                                                 fullWidth

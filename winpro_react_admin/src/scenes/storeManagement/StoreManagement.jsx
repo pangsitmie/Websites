@@ -16,6 +16,8 @@ import { Link } from 'react-router-dom';
 
 
 const StoreManagement = () => {
+    console.log("Store management");
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -81,7 +83,6 @@ const StoreManagement = () => {
     const [stores, setStores] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data.managerGetStores);
             setStores(data.managerGetStores);
             SetInitStores(data.managerGetStores);
         }

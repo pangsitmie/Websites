@@ -41,9 +41,6 @@ const UserManagement = () => {
             setInitMember(data.getAllMember);
             setMembers(data.getAllMember);
         }
-        else {
-            console.log(error);
-        }
     }, [data]);
 
     const submitSearch = () => {

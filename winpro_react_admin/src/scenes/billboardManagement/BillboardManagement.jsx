@@ -154,10 +154,10 @@ const BillboardManagement = () => {
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">内容</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
@@ -183,8 +183,16 @@ const BillboardManagement = () => {
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.title}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.content}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {item.endAt === null ? (
+                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                        無
+                                    </Typography>
+                                ) : (
+                                    format(new Date(item.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                )}
+                            </Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
                                     if (item.status.name === "disable") {

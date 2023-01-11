@@ -1,22 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useQuery, useMutation, useLazyQuery } from '@apollo/client'
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, BrandUploadLogo, BrandUploadCover } from "../../graphQL/Queries";
+import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import { default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
   // intro: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalLineUrl: yup.string().required("required"),
+  principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"), principalLineUrl: yup.string().required("required"),
+
   vatNumber: yup.string().required("required"),
   brandCoinName: yup.string().required("required"),
 });
@@ -48,6 +53,12 @@ export default function BrandListModal({ props }) {
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   const [status, setStatus] = useState('disable');
@@ -121,18 +132,19 @@ export default function BrandListModal({ props }) {
       },
       currencyName: values.brandCoinName,
     };
-    if (values.principalPassword !== "") {
-      variables.principal.password = values.principalPassword;
-    }
-    if (initialValues.status !== "banned") {
-      variables.statusId = status;
-    }
     if (values.intro !== "") {
       variables.intro = values.intro;
     }
     if (values.principalEmail !== "") {
       variables.principal.email = values.principalEmail;
     }
+    if (values.principalPassword !== "") {
+      variables.principal.password = values.principalPassword;
+    }
+    if (initialValues.status !== "banned") {
+      variables.statusId = status;
+    }
+
     ApolloUpdateBrand({ variables });
   };
 
@@ -151,6 +163,7 @@ export default function BrandListModal({ props }) {
   useEffect(() => {
     if (dataInit) {
       const nonNullData = replaceNullWithEmptyString(dataInit.getBrand[0]);
+
       setInitialValues({
         id: props.id,
         status: nonNullData.status.name,
@@ -338,20 +351,34 @@ export default function BrandListModal({ props }) {
                           helperText={touched.principalName && errors.principalName}
                           sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
-                        <TextField
-                          multiline
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label="負責人密碼 (不必要)"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.principalPassword}
-                          name="principalPassword"
-                          error={!!touched.principalPassword && !!errors.principalPassword}
-                          helperText={touched.principalPassword && errors.principalPassword}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                        />
+
+                        {/* PASSWORD INPUT */}
+                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                          <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                          <FilledInput
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.principalPassword}
+                            name="principalPassword"
+                            error={!!touched.principalPassword && !!errors.principalPassword}
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                          <FormHelperText error={!!touched.principalPassword && !!errors.principalPassword}>
+                            {touched.principalPassword && errors.principalPassword}
+                          </FormHelperText>
+                        </FormControl>
                       </Box>
 
                       <Box display={"flex"} justifyContent={"space-between"} >
@@ -397,8 +424,6 @@ export default function BrandListModal({ props }) {
                         helperText={touched.brandCoinName && errors.brandCoinName}
                         sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                       />
-
-
                     </Box>
                     <Box display="flex" justifyContent="center" >
                       <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { format } from 'date-fns';
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { GetStore, UpdateStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
@@ -16,22 +15,21 @@ import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { areaData } from "../../data/cityData";
 import { default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
-import { getImgURL } from "../../utils/Utils";
+import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-    name: yup.string().required("required"),
-    status: yup.string().required("required"),
-    // intro: yup.string().required("required"),
-    brandId: yup.string().required("required"),
-    brandName: yup.string().required("required"),
-    // location_address: yup.string().required("required"),
-    principalName: yup.string().required("required"),
-    // principalPassword: yup.string().required("required"),
-    principalLineUrl: yup.string().required("required"),
-    principalEmail: yup.string().email("invalid email"),
+    // name: yup.string().required("required"),
+    // status: yup.string().required("required"),
+    // // intro: yup.string().required("required"),
+    // brandId: yup.string().required("required"),
+    // brandName: yup.string().required("required"),
+    // // location_address: yup.string().required("required"),
+    // principalName: yup.string().required("required"),
+    // // principalPassword: yup.string().required("required"),
+    // principalLineUrl: yup.string().required("required"),
+    // principalEmail: yup.string().email("invalid email"),
 });
 
 
@@ -42,6 +40,13 @@ export default function StoreListModal({ props }) {
     const [status, setStatus] = useState('disable');
     const handleStatusChange = (event) => {
         setStatus(event.target.value);
+    };
+
+    //  ========================== PASSWORD VISIBILITY ==========================
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
@@ -60,10 +65,9 @@ export default function StoreListModal({ props }) {
     const handleAreaChange = (event) => {
         setSelectedArea(event.target.value);
     };
-
-    useEffect(() => {
-        console.log("city:" + cityFilter + ", selected area:" + selectedArea);
-    }, [cityFilter, areaFilter, selectedArea]);
+    // useEffect(() => {
+    //     console.log("city:" + cityFilter + ", selected area:" + selectedArea);
+    // }, [cityFilter, areaFilter, selectedArea]);
 
 
     const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
@@ -131,31 +135,28 @@ export default function StoreListModal({ props }) {
     useEffect(() => {
         if (data3) {
             // SET THE initial value using data3
-            console.log("cover");
-            console.log(data3.getStore[0].cover);
+            const nonNullData = replaceNullWithEmptyString(data3.getStore[0]);
+
             setInitialValues({
                 id: props.id,
-                status: data3.getStore[0].status.name,
-                name: data3.getStore[0].name,
-                intro: data3.getStore[0].intro,
-                brandId: data3.getStore[0].brand.id,
-                brandName: data3.getStore[0].brand.name,
+                status: nonNullData.status.name,
+                name: nonNullData.name,
+                intro: nonNullData.intro,
+                brandId: nonNullData.brand.id,
+                brandName: nonNullData.brand.name,
                 // city, district, and address is used in state
-                principalName: data3.getStore[0].principal.name,
-                principalAccount: data3.getStore[0].principal.account,
+                principalName: nonNullData.principal.name,
+                principalAccount: nonNullData.principal.account,
+                principalEmail: nonNullData.principal.email,
+                principalPassword: "",
                 // princiapall password doesnt receive api data
-                principalLineUrl: data3.getStore[0].principal.lineUrl,
+                principalLineUrl: nonNullData.principal.lineUrl,
             });
-            if (data3.getStore[0].principal.email !== null) {
-                setInitialValues((prevState) => ({
-                    ...prevState,
-                    principalEmail: data3.getStore[0].principal.email,
-                }));
-            }
 
             if (data3.getStore[0].cover !== null || (data3.getStore[0].cover !== "null")) {
                 setCoverFileName(data3.getStore[0].cover);
             }
+
             //set city
             setCityFilter(data3.getStore[0].location.city);
             //set area
@@ -179,7 +180,6 @@ export default function StoreListModal({ props }) {
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
-        console.log(results);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
         const city = results[0].address_components[4].long_name;
@@ -215,9 +215,6 @@ export default function StoreListModal({ props }) {
                     ]
                 }
             })
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
         }
     };
 
@@ -274,12 +271,14 @@ export default function StoreListModal({ props }) {
                 lineUrl: values.principalLineUrl,
             }
         };
-        if (values.principalEmail !== "") {
-            variables.principal.email = values.principalEmail;
-        }
+
         if (values.intro !== "") {
             variables.intro = values.intro;
         }
+        if (values.principalEmail !== "") {
+            variables.principal.email = values.principalEmail;
+        }
+
 
         // if coordinate is not updated
         if (coordinates.lat !== 0 && coordinates.lng !== 120) {
@@ -299,8 +298,7 @@ export default function StoreListModal({ props }) {
             variables.statusId = status;
         }
         console.log(variables);
-
-        ApolloUpdateStore({ variables });
+        // ApolloUpdateStore({ variables });
     };
 
     const toggleModal = () => {
@@ -392,7 +390,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="Intro"
+                                                    label="介紹 (選填)"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.intro}
@@ -565,24 +563,7 @@ export default function StoreListModal({ props }) {
                                                     helperText={touched.principalName && errors.principalName}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="負責人密碼"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalPassword}
-                                                    name="principalPassword"
-                                                    error={!!touched.principalPassword && !!errors.principalPassword}
-                                                    helperText={touched.principalPassword && errors.principalPassword}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                            </Box>
-                                            <Box color={"white"}>
-                                                lat {coordinates.lat} - lng {coordinates.lng}
-                                            </Box>
-                                            <Box display={"flex"} justifyContent={"space-between"} >
+
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -594,8 +575,14 @@ export default function StoreListModal({ props }) {
                                                     name="principalLineUrl"
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+                                            </Box>
+                                            <Box color={"white"}>
+                                                lat {coordinates.lat} - lng {coordinates.lng}
+                                            </Box>
+                                            <Box display={"flex"} justifyContent={"space-between"} >
+
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -607,8 +594,49 @@ export default function StoreListModal({ props }) {
                                                     name="principalEmail"
                                                     error={!!touched.principalEmail && !!errors.principalEmail}
                                                     helperText={touched.principalEmail && errors.principalEmail}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
+                                                {/* <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人密碼"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalPassword}
+                                                    name="principalPassword"
+                                                    error={!!touched.principalPassword && !!errors.principalPassword}
+                                                    helperText={touched.principalPassword && errors.principalPassword}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                /> */}
+                                                {/* PASSWORD INPUT */}
+                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                                                    <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                                                    <FilledInput
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.principalPassword}
+                                                        name="principalPassword"
+                                                        error={!!touched.principalPassword && !!errors.principalPassword}
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        endAdornment={
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                >
+                                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        }
+                                                    />
+                                                    <FormHelperText
+                                                        error={!!touched.principalPassword && !!errors.principalPassword}>
+                                                        {touched.principalPassword && errors.principalPassword}
+                                                    </FormHelperText>
+                                                </FormControl>
                                             </Box>
 
                                         </Box>

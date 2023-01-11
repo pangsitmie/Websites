@@ -51,10 +51,6 @@ const AdsManagement = () => {
             setInitAds(data.managerGetAdvertisements); //all brand datas
             setAds(data.managerGetAdvertisements); //datas for display
         }
-        else {
-            // console.log(error);
-            // console.log(loading);
-        }
     }, [data]);
 
 

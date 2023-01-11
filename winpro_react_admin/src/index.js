@@ -4,11 +4,7 @@ import "./index.css";
 import App from "./App";
 import LoginProvider from "./LoginProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { GetManagerAccessToken } from "./graphQL/Queries";
 
-
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
 // import Calendar from "./scenes/calendar/calendar";
 
 //APOLLO
@@ -19,8 +15,30 @@ import { onError } from '@apollo/client/link/error';
 
 let originalQuery;
 let originalVariables;
+// =====================new error link havent try ======
+
+// const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+//   if(!operation) return;
+//   if (graphQLErrors) {
+//     const errorPromises = graphQLErrors.map(({ message, location, path }) => {
+//         //... the rest of the code
+//     });
+//     Promise.all(errorPromises);
+//   }
+// });
+
+// const client = new ApolloClient({
+//   link: errorLink.concat(httpLink),
+//   cache: new InMemoryCache()
+// });
+
+// ===================== end  =====================
+
+
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+  if (!operation)
+    return;
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, location, path }) => {
 
@@ -87,6 +105,7 @@ let authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       ...(token ? { authorization: `Bearer ${token}` } : {}),
+      // cookie: `token=${token}; SameSite=None; Secure; HttpOnly;` // this one dont know whether to use or not
     },
   };
 });

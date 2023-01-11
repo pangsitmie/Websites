@@ -59,11 +59,7 @@ const MachineManagement = () => {
     );
     useEffect(() => {
         if (data) {
-            console.log(data.getStore[0].managerGetMachines);
             setMachineData(data.getStore[0].managerGetMachines);
-        }
-        else {
-            console.log("no data");
         }
     }, [data]);
 
@@ -138,15 +134,19 @@ const MachineManagement = () => {
                 </Box>
 
                 {/* SEARCH BTN */}
-                <Button className=""
+                <Button
                     sx={{
-                        backgroundColor: colors.blueAccent[400],
+                        backgroundColor: colors.primary[300],
                         color: colors.grey[100],
-                        minWidth: "150px",
+                        minWidth: "120px",
                         height: "50px",
                         borderRadius: "10px",
-                        marginLeft: "20px",
-                        padding: "0px"
+                        padding: "0px",
+                        marginRight: "2rem",
+                        ':hover': {
+                            bgcolor: colors.primary[400],
+                            border: '1px solid white',
+                        }
                     }}
                     onClick={submitSearch}
                 >
@@ -160,7 +160,7 @@ const MachineManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <Button className=""
+                    <Button
                         sx={{
                             backgroundColor: colors.primary[300],
                             color: colors.grey[100],

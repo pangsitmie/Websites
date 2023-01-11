@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -10,8 +10,12 @@ import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, defaul
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#]{6,}$/;
+
+
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
@@ -50,6 +54,14 @@ export default function CreateBrandModal() {
     setModal(!modal);
   };
 
+  //  ========================== PASSWORD VISIBILITY ==========================
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+
   // ========================== FILE UPLOAD ==========================
   const [logoFileName, setLogoFileName] = useState(default_logo_360x360_filename);
   const handleUploadLogoSuccess = (name) => {
@@ -78,14 +90,13 @@ export default function CreateBrandModal() {
   // ========================== FUNCTIONS ==========================
   const handleFormSubmit = (values) => {
     console.log("SEND CREATE BRAND API REQUEST");
-    console.log(values);
 
     const variables = {
       name: values.name,
       vatNumber: values.vatNumber,
       logo: logoFileName,
       cover: coverFileName,
-      intro: values.intro,
+      brandCoinName: values.brandCoinName,
       principal: {
         name: values.principalName,
         password: values.principalPassword,
@@ -95,16 +106,17 @@ export default function CreateBrandModal() {
           number: values.principalPhone
         }
       },
-      currencyName: values.brandCoinName
     };
 
+    if (values.intro !== "") {
+      variables.intro = values.intro;
+    }
     if (values.principalEmail !== "") {
       variables.principal.email = values.principalEmail;
     }
     console.log(variables);
     ApolloCreateBrand({ variables });
   };
-
 
   // ========================== MODAL TOGGLE ==========================
   if (modal) {
@@ -194,7 +206,7 @@ export default function CreateBrandModal() {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="品牌簡介"
+                        label="品牌簡介 (選填)"
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.intro}
@@ -223,19 +235,6 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人密碼"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.principalPassword}
-                          name="principalPassword"
-                          error={!!touched.principalPassword && !!errors.principalPassword}
-                          helperText={touched.principalPassword && errors.principalPassword}
-                          sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                        />
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          type="text"
                           label="負責人電話"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -243,11 +242,8 @@ export default function CreateBrandModal() {
                           name="principalPhone"
                           error={!!touched.principalPhone && !!errors.principalPhone}
                           helperText={touched.principalPhone && errors.principalPhone}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
-                      </Box>
-
-                      <Box display={"flex"} justifyContent={"space-between"} >
                         <TextField
                           fullWidth
                           variant="filled"
@@ -259,21 +255,51 @@ export default function CreateBrandModal() {
                           name="principalLineUrl"
                           error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                           helperText={touched.principalLineUrl && errors.principalLineUrl}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
+                      </Box>
+
+                      <Box display={"flex"} justifyContent={"space-between"} >
                         <TextField
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人電子信箱"
+                          label="負責人電子信箱 (選填)"
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalEmail}
                           name="principalEmail"
                           error={!!touched.principalEmail && !!errors.principalEmail}
                           helperText={touched.principalEmail && errors.principalEmail}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                         />
+                        {/* PASSWORD INPUT */}
+                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                          <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                          <FilledInput
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            value={values.principalPassword}
+                            name="principalPassword"
+                            error={!!touched.principalPassword && !!errors.principalPassword}
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                          <FormHelperText error={!!touched.principalPassword && !!errors.principalPassword}>
+                            {touched.principalPassword && errors.principalPassword}
+                          </FormHelperText>
+                        </FormControl>
                       </Box>
 
                       <TextField

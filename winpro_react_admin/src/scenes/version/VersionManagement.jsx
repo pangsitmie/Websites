@@ -51,9 +51,6 @@ const VersionManagement = () => {
         if (versionData) {
             window.location.reload();
         }
-        else {
-            console.log("error" + versionError);
-        }
     }, [versionData]);
 
 
@@ -62,9 +59,14 @@ const VersionManagement = () => {
     const handleFormSubmit = (values) => {
         const variables = {
             clientName: "gamePay",
-            android: values.android,
-            ios: values.ios
         };
+        if (values.android) {
+            variables.android = values.android;
+        }
+        if (values.ios) {
+            variables.ios = values.ios;
+        }
+
         console.log(variables);
         ApolloUpdateVersion({ variables });
     }
@@ -73,7 +75,7 @@ const VersionManagement = () => {
         <Box p={2}>
             <h1 className='userManagement_title'>版本管控</h1>
             <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.2rem", fontWeight: "500", color: "white" }}>
-                伺服器版本 - {initialValues.server} {initialValues.android}
+                伺服器版本 - {initialValues.server}
             </Typography>
             <Box m="5rem 2rem">
                 <Formik
@@ -92,7 +94,7 @@ const VersionManagement = () => {
                         <form onSubmit={handleSubmit}>
                             <Box color={"black"}>
                                 <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.5rem", fontWeight: "600", color: "white", textAlign: "center" }}>
-                                    Android
+                                    Android - {initialValues.android}
                                 </Typography>
                                 <Box display={"flex"} justifyContent={"center"}>
                                     <TextField
@@ -100,7 +102,7 @@ const VersionManagement = () => {
                                         id="outlined-basic"
                                         variant="filled"
                                         type="text"
-                                        label="Android 版本"
+                                        label="輸入新 Android 版本"
                                         placeholder={values.android}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
@@ -112,7 +114,7 @@ const VersionManagement = () => {
                                     /></Box>
 
                                 <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.5rem", fontWeight: "600", color: "white", textAlign: "center" }}>
-                                    IOS
+                                    IOS - {initialValues.ios}
                                 </Typography>
                                 <Box display={"flex"} justifyContent={"center"}>
                                     <TextField
@@ -120,7 +122,7 @@ const VersionManagement = () => {
                                         id="outlined-basic"
                                         variant="filled"
                                         type="text"
-                                        label="IOS 版本"
+                                        label="輸入新 IOS 版本"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.ios}

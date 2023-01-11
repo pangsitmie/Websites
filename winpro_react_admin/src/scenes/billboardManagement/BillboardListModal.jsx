@@ -126,7 +126,7 @@ export default function BillboardListModal({ props }) {
             setStartAtDate(startAtDateTimeLocal);
             setEndAtDate(endAtDateTimeLocal);
 
-            if (nonNullData.image !== null || (nonNullData.image !== "null")) {
+            if (nonNullData.image !== null || (nonNullData.image !== "null") || (nonNullData.image !== '')) {
                 setImageFileName(nonNullData.image);
             }
             //set status only if not banned
@@ -172,14 +172,12 @@ export default function BillboardListModal({ props }) {
     };
 
     const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
-        const startAtUnix = startAtDateObj.getTime() / 1000;
-        const endAtUnix = endAtDateObj.getTime() / 1000;
+        let startAtUnix = startAtDateObj.getTime() / 1000;
+        let endAtUnix = endAtDateObj.getTime() / 1000;
+        let nowUnix = Math.floor(Date.now() / 1000);
 
         const variables = {
             args: [
@@ -189,15 +187,25 @@ export default function BillboardListModal({ props }) {
             ],
             title: values.title,
             content: values.content,
-            description: values.description,
-            startAt: startAtUnix,
-            endAt: endAtUnix,
-            statusId: status
+            image: imageFileName
         }
-        if (imageFileName) {
-            variables.image = imageFileName;
+        //check if startAtUnix is filled
+        if (isNaN(startAtUnix)) {
+            startAtUnix = nowUnix;
         }
-
+        //insert startAtUnix to variables
+        variables.startAt = startAtUnix;
+        //insert endAtUnix to variables if it is selected
+        if (!isNaN(endAtUnix) && endAtUnix !== 0) {
+            variables.endAt = endAtUnix;
+        }
+        if (values.description !== "") {
+            variables.description = values.description;
+        }
+        if (initialValues.status !== "banned") {
+            variables.statusId = status;
+        }
+        console.log(variables);
         ApolloUpdateBillboard({ variables });
     };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
@@ -16,9 +16,10 @@ import { areaData } from "../../data/cityData";
 import { defaultCoverURL, default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d_!@#]{6,}$/;
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -37,6 +38,15 @@ export default function CreateStoreModal() {
 
     // ========================== STATE ==========================
     const [modal, setModal] = useState(false);
+
+
+    //  ========================== PASSWORD VISIBILITY ==========================
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
     const [{ brandId, brandName }, setBrandInfo] = useState({
         brandId: "null",
         brandName: "null",
@@ -58,9 +68,9 @@ export default function CreateStoreModal() {
         setSelectedArea(event.target.value);
     };
 
-    useEffect(() => {
-        console.log("city:" + cityFilter + ", selected area:" + selectedArea);
-    }, [cityFilter, areaFilter, selectedArea]);
+    // useEffect(() => {
+    //     console.log("city:" + cityFilter + ", selected area:" + selectedArea);
+    // }, [cityFilter, areaFilter, selectedArea]);
 
 
     const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
@@ -74,7 +84,6 @@ export default function CreateStoreModal() {
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
-        console.log(results);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
         const city = results[0].address_components[4].long_name;
@@ -122,7 +131,6 @@ export default function CreateStoreModal() {
     }, [data1]);
     const handleBrandListChange = (e) => {
         const targetId = e.target.value;
-        console.log(targetId);
 
         //find the brand id from brand list
         const brand = brandList.find(brand => brand.id === targetId);
@@ -169,7 +177,7 @@ export default function CreateStoreModal() {
                     latitude: coordinates.lat,
                     longitude: coordinates.lng
                 },
-                description: "location description"
+                // description: "location description"
             },
             principal: {
                 name: values.principalName,
@@ -184,11 +192,9 @@ export default function CreateStoreModal() {
         if (values.principalEmail !== "") {
             variables.principal.email = values.principalEmail;
         }
-        // if (coverFileName) {
-        //     variables.cover = coverFileName;
-        // }
+
         console.log(variables);
-        ApolloCreateStore({ variables });
+        // ApolloCreateStore({ variables });
     };
 
     const toggleModal = () => {
@@ -282,6 +288,7 @@ export default function CreateStoreModal() {
                                                         value={brandListFilter}
                                                         label="brandListFilter"
                                                         onChange={handleBrandListChange}
+                                                        required
                                                     >
                                                         {brandList.map((brand, i) => (
                                                             <MenuItem
@@ -300,7 +307,7 @@ export default function CreateStoreModal() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="暱稱"
+                                                label="暱稱 (選填)"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -425,14 +432,13 @@ export default function CreateStoreModal() {
                                                     required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
 
 
                                             <Box color={"white"}>
-
-                                                coordinates.lat: {coordinates.lat} <br /> coordinates.lng: {coordinates.lng}
+                                                lat: {coordinates.lat}, lng: {coordinates.lng}
                                             </Box>
 
                                             <Box display={"flex"}>
@@ -462,23 +468,51 @@ export default function CreateStoreModal() {
                                                     helperText={touched.principalAccount && errors.principalAccount}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="負責人密碼"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalPassword}
-                                                    name="principalPassword"
-                                                    error={!!touched.principalPassword && !!errors.principalPassword}
-                                                    helperText={touched.principalPassword && errors.principalPassword}
-                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
+
+                                                {/* PASSWORD INPUT */}
+                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                                                    <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                                                    <FilledInput
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.principalPassword}
+                                                        name="principalPassword"
+                                                        error={!!touched.principalPassword && !!errors.principalPassword}
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        endAdornment={
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                    edge="end"
+                                                                >
+                                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        }
+                                                    />
+                                                    <FormHelperText error={!!touched.principalPassword && !!errors.principalPassword}>
+                                                        {touched.principalPassword && errors.principalPassword}
+                                                    </FormHelperText>
+                                                </FormControl>
                                             </Box>
 
                                             <Box display={"flex"}>
 
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人信箱 (選填)"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalEmail}
+                                                    name="principalEmail"
+                                                    error={!!touched.principalEmail && !!errors.principalEmail}
+                                                    helperText={touched.principalEmail && errors.principalEmail}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                />
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -490,20 +524,7 @@ export default function CreateStoreModal() {
                                                     name="principalLineUrl"
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="負責人信箱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalEmail}
-                                                    name="principalEmail"
-                                                    error={!!touched.principalEmail && !!errors.principalEmail}
-                                                    helperText={touched.principalEmail && errors.principalEmail}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
                                                 />
                                             </Box>
                                         </Box>

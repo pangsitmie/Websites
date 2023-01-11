@@ -8,28 +8,27 @@ import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { CreateAdvertisement } from "../../graphQL/Mutations";
 import { format } from 'date-fns';
-import { replaceNullWithEmptyString } from "../../utils/Utils";
+import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import CoverUpload from "../../components/Upload/CoverUpload";
-import { defaultCoverURL } from "../../data/strings";
+import { default_ads_image_900x360_filename } from "../../data/strings";
 
 
 const checkoutSchema = yup.object().shape({
-    image: yup.string().required("required"),
     url: yup.string().required("required"),
-    description: yup.string().required("required"),
+    // description: yup.string().required("required"),
     // startAtDate: yup.string().required("required"),
     // endAtDate: yup.string().required("required"),
 });
 
 
 
-export default function CreateAdsModal({ props }) {
+export default function CreateAdsModal() {
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = "新增", confirmTitle = "新增", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = "新增", confirmTitle = "新增";
     const [modal, setModal] = useState(false); //open or close modal
 
 
@@ -50,8 +49,7 @@ export default function CreateAdsModal({ props }) {
     }
 
     const [initialValues, setInitialValues] = useState({
-        image: defaultCoverURL,
-        url: "",
+        url: "https://",
         description: "",
         startAtDate: "",
         endAtDate: "",
@@ -75,7 +73,7 @@ export default function CreateAdsModal({ props }) {
 
 
     // IMAGE UPLOAD
-    const [imageFileName, setImageFileName] = useState('');
+    const [imageFileName, setImageFileName] = useState(default_ads_image_900x360_filename);
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };
@@ -84,21 +82,32 @@ export default function CreateAdsModal({ props }) {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
-        const startAtUnix = startAtDateObj.getTime() / 1000;
-        const endAtUnix = endAtDateObj.getTime() / 1000;
+        let startAtUnix = startAtDateObj.getTime() / 1000;
+        let endAtUnix = endAtDateObj.getTime() / 1000;
+        let nowUnix = Math.floor(Date.now() / 1000);
+
 
         const variables = {
             typeId: typeId,
             url: values.url,
-            description: values.description,
-            startAt: startAtUnix,
-            endAt: endAtUnix,
-        }
-        if (imageFileName) {
-            variables.image = imageFileName;
+            image: imageFileName,
         }
 
-        console.log(variables);
+        //check if startAtUnix is filled
+        if (isNaN(startAtUnix)) {
+            startAtUnix = nowUnix;
+        }
+        //insert startAtUnix to variables
+        variables.startAt = startAtUnix;
+        //insert endAtUnix to variables if it is selected
+        if (!isNaN(endAtUnix)) {
+            variables.endAt = endAtUnix;
+        }
+        if (values.description !== '') {
+            variables.description = values.description;
+        }
+
+        // console.log(variables);
         ApolloCreateAds({ variables });
 
 
@@ -149,7 +158,7 @@ export default function CreateAdsModal({ props }) {
                                                 </Box>
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={values.image} type={typeId} />
+                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "ads")} type={typeId} />
                                                 </Box>
                                             </Box>
 

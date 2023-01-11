@@ -10,7 +10,7 @@ import { CreateMachineFromGetStores } from "../../graphQL/Queries";
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
-    // storeId: yup.string().required("店面id必填"),
+    storeId: yup.string().required("店面id必填"),
     name: yup.string().required("機台名稱必填"),
     code: yup.string().required("機台碼必填"),
     price: yup.string().required("機台單次花費金額必填"),

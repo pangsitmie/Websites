@@ -56,8 +56,8 @@ query GetMember($params: [MemberArgs!]!, $reason: String!) {
 
 // ========================= Brand =========================
 export const GetAllBrands = gql`
-query ManagerGetBrands {
-  managerGetBrands {
+query ManagerGetBrands($limit: Int, $offset: Int) {
+  managerGetBrands(limit: $limit, offset: $offset) {
     id
     name
     vatNumber

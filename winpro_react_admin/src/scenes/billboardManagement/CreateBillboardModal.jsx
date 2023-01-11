@@ -60,14 +60,13 @@ export default function CreateBillboardModal({ props }) {
     };
 
     const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
-        const startAtUnix = startAtDateObj.getTime() / 1000;
-        const endAtUnix = endAtDateObj.getTime() / 1000;
+        let startAtUnix = startAtDateObj.getTime() / 1000;
+        let endAtUnix = endAtDateObj.getTime() / 1000;
+        let nowUnix = Math.floor(Date.now() / 1000);
+
 
         const variables = {
             args: [
@@ -78,11 +77,21 @@ export default function CreateBillboardModal({ props }) {
             title: values.title,
             content: values.content,
             image: imageFileName,
-            description: values.description,
-            startAt: startAtUnix,
-            endAt: endAtUnix,
         }
-
+        //check if startAtUnix is filled
+        if (isNaN(startAtUnix)) {
+            startAtUnix = nowUnix;
+        }
+        //insert startAtUnix to variables
+        variables.startAt = startAtUnix;
+        //insert endAtUnix to variables if it is selected
+        if (!isNaN(endAtUnix)) {
+            variables.endAt = endAtUnix;
+        }
+        if (values.description !== '') {
+            variables.description = values.description;
+        }
+        // console.log(variables);
         ApolloCreateBillboard({ variables });
     };
 
