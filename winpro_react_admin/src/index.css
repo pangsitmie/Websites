@@ -76,6 +76,10 @@ a:active {
   cursor: pointer;
 }
 
+span {
+  font-size: 1rem;
+  font-weight: bold;
+}
 
 /* button */
 

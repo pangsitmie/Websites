@@ -133,11 +133,11 @@ export default function CreateBrandModal() {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal" >
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
-              <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+              <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                 {btnTitle}
               </Typography>
 
@@ -182,7 +182,7 @@ export default function CreateBrandModal() {
                           name="name"
                           error={!!touched.name && !!errors.name}
                           helperText={touched.name && errors.name}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                         />
                         <TextField
                           fullWidth
@@ -195,7 +195,7 @@ export default function CreateBrandModal() {
                           name="vatNumber"
                           error={!!touched.vatNumber && !!errors.vatNumber}
                           helperText={touched.vatNumber && errors.vatNumber}
-                          sx={{ margin: "0 0rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0 0rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -213,7 +213,7 @@ export default function CreateBrandModal() {
                         name="intro"
                         error={!!touched.intro && !!errors.intro}
                         helperText={touched.intro && errors.intro}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <TextField
@@ -227,7 +227,7 @@ export default function CreateBrandModal() {
                         name="principalName"
                         error={!!touched.principalName && !!errors.principalName}
                         helperText={touched.principalName && errors.principalName}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <Box display={"flex"} justifyContent={"space-between"} >
@@ -242,7 +242,7 @@ export default function CreateBrandModal() {
                           name="principalPhone"
                           error={!!touched.principalPhone && !!errors.principalPhone}
                           helperText={touched.principalPhone && errors.principalPhone}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -255,7 +255,7 @@ export default function CreateBrandModal() {
                           name="principalLineUrl"
                           error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                           helperText={touched.principalLineUrl && errors.principalLineUrl}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -271,10 +271,10 @@ export default function CreateBrandModal() {
                           name="principalEmail"
                           error={!!touched.principalEmail && !!errors.principalEmail}
                           helperText={touched.principalEmail && errors.principalEmail}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         {/* PASSWORD INPUT */}
-                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                           <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
@@ -313,7 +313,7 @@ export default function CreateBrandModal() {
                         name="brandCoinName"
                         error={!!touched.brandCoinName && !!errors.brandCoinName}
                         helperText={touched.brandCoinName && errors.brandCoinName}
-                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
@@ -323,8 +323,8 @@ export default function CreateBrandModal() {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

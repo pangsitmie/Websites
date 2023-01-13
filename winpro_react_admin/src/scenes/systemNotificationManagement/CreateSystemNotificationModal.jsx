@@ -101,9 +101,9 @@ export default function CreateSystemNotificationModal() {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {btnTitle}
@@ -135,7 +135,7 @@ export default function CreateSystemNotificationModal() {
                         name="title"
                         error={!!touched.title && !!errors.title}
                         helperText={touched.title && errors.title}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                       />
 
                       <TextField
@@ -152,7 +152,7 @@ export default function CreateSystemNotificationModal() {
                         name="content"
                         error={!!touched.content && !!errors.content}
                         helperText={touched.content && errors.content}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <TextField
@@ -166,7 +166,7 @@ export default function CreateSystemNotificationModal() {
                         name="comments"
                         error={!!touched.comments && !!errors.comments}
                         helperText={touched.comments && errors.comments}
-                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <TextField
@@ -210,8 +210,8 @@ export default function CreateSystemNotificationModal() {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

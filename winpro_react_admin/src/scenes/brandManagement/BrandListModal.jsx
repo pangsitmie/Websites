@@ -40,6 +40,7 @@ export default function BrandListModal({ props }) {
     name: "",
     intro: "",
     principalName: "",
+    principaPhone: "",
     principalPassword: "",
     principalLineUrl: "",
     principalEmail: "",
@@ -171,6 +172,7 @@ export default function BrandListModal({ props }) {
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,
         principalName: nonNullData.principal.name,
+        principaPhone: nonNullData.principal.phone.number,
         principalLineUrl: nonNullData.principal.lineUrl,
         principalEmail: nonNullData.principal.email,
         //password doesnt have initial value
@@ -216,9 +218,9 @@ export default function BrandListModal({ props }) {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
               <Formik
                 onSubmit={handleFormSubmit}
@@ -235,7 +237,7 @@ export default function BrandListModal({ props }) {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <Box>
-                      <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                      <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                         {btnTitle}
                       </Typography>
 
@@ -288,7 +290,7 @@ export default function BrandListModal({ props }) {
                           name="name"
                           error={!!touched.name && !!errors.name}
                           helperText={touched.name && errors.name}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                         />
                         <TextField
                           fullWidth
@@ -301,7 +303,7 @@ export default function BrandListModal({ props }) {
                           name="vatNumber"
                           error={!!touched.vatNumber && !!errors.vatNumber}
                           helperText={touched.vatNumber && errors.vatNumber}
-                          sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
 
                         <FormControl sx={{ minWidth: 150 }}>
@@ -335,7 +337,7 @@ export default function BrandListModal({ props }) {
                         name="intro"
                         error={!!touched.intro && !!errors.intro}
                         helperText={touched.intro && errors.intro}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                       <Box display={"flex"} justifyContent={"space-between"} >
                         <TextField
@@ -349,11 +351,11 @@ export default function BrandListModal({ props }) {
                           name="principalName"
                           error={!!touched.principalName && !!errors.principalName}
                           helperText={touched.principalName && errors.principalName}
-                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
 
                         {/* PASSWORD INPUT */}
-                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                           <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
@@ -393,7 +395,21 @@ export default function BrandListModal({ props }) {
                           name="principalLineUrl"
                           error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                           helperText={touched.principalLineUrl && errors.principalLineUrl}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                        />
+                        <TextField
+                          disabled={true}
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label="負責人手機"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.principaPhone}
+                          name="principaPhone"
+                          error={!!touched.principaPhone && !!errors.principaPhone}
+                          helperText={touched.principaPhone && errors.principaPhone}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
 
                         <TextField
@@ -407,7 +423,7 @@ export default function BrandListModal({ props }) {
                           name="principalEmail"
                           error={!!touched.principalEmail && !!errors.principalEmail}
                           helperText={touched.principalEmail && errors.principalEmail}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -422,18 +438,27 @@ export default function BrandListModal({ props }) {
                         name="brandCoinName"
                         error={!!touched.brandCoinName && !!errors.brandCoinName}
                         helperText={touched.brandCoinName && errors.brandCoinName}
-                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                      <Button onClick={handleDelete} id={values.id} variant="contained" sx={{
+                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff",
+                        ':hover': {
+                          bgcolor: colors.grey[300],
+                          border: '1px solid' + colors.primary[800],
+                          color: "white"
+                        }
+                      }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.primary[100] }}>
                           {deleteTitle}
                         </Typography>
                       </Button>
 
                       {values.status === "banned" ? (
-                        <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
+                        <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
+                          backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                        }}>
                           <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                             {unbanTitle}
                           </Typography>
@@ -444,8 +469,14 @@ export default function BrandListModal({ props }) {
 
 
 
-                      <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
+                      <Button type="submit" color="success" sx={{
+                        minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100],
+                        ':hover': {
+                          bgcolor: colors.grey[300],
+                          border: '1px solid' + colors.grey[800],
+                        }
+                      }}>
+                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[800] }}>
                           {confirmTitle}
                         </Typography>
                       </Button>
@@ -454,8 +485,8 @@ export default function BrandListModal({ props }) {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

@@ -39,9 +39,7 @@ export default function MachineListModal({ props }) {
     const handleCountersToggleChange = (event) => {
         setCountersToggle(event.target.checked);
     };
-    useEffect(() => {
-        console.log(countersToggle);
-    }, [countersToggle]);
+
 
     var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
     const [initialValues, setInitialValues] = useState({
@@ -63,9 +61,6 @@ export default function MachineListModal({ props }) {
         if (data) {
             window.location.reload();
         }
-        else {
-            console.log("NO DATA")
-        }
     }, [data]);
 
     // HANDLE REMOVE MACHINE
@@ -80,10 +75,7 @@ export default function MachineListModal({ props }) {
                         }
                     ]
                 }
-            })
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
+            });
         }
     };
 
@@ -104,7 +96,6 @@ export default function MachineListModal({ props }) {
     useEffect(() => {
         if (data3) {
             const nonNullData = replaceNullWithEmptyString(data3.getMachine[0]);
-            console.log(nonNullData.status.name);
             setInitialValues({
                 // ...initialValues,
                 // ...nonNullData
@@ -126,13 +117,12 @@ export default function MachineListModal({ props }) {
             }
             setCounterCheck(nonNullData.counterInfo.counterCheck)
 
-            console.log(nonNullData.counterInfo);
             if (Array.isArray(nonNullData.counterInfo.counters) && nonNullData.counterInfo.counters.length > 0) {
                 setCountersToggle(true);
 
                 nonNullData.counterInfo.counters.forEach(counter => {
                     const key = `${counter.counterType}`;
-                    console.log(key + "-" + counter.count);
+                    // console.log(key + "-" + counter.count);
                     setInitialValues(prevState => ({
                         ...prevState,
                         [key]: counter.count,
@@ -162,10 +152,6 @@ export default function MachineListModal({ props }) {
 
 
     const handleFormSubmit = (values) => {
-        console.log("FORM SUBMIT");
-        console.log(values);
-        console.log(status);
-
         const variables = {
             args: [
                 {
@@ -211,9 +197,7 @@ export default function MachineListModal({ props }) {
                     reason: "null"
                 }
             })
-            console.log("unbaned");
-        } else {
-            console.log("not deleted");
+
         }
     }
 
@@ -246,9 +230,9 @@ export default function MachineListModal({ props }) {
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
-                <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                <Box className="modal">
+                    <Box onClick={toggleModal} className="overlay"></Box>
+                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -268,31 +252,31 @@ export default function MachineListModal({ props }) {
 
                                             <Box display={"flex"} >
                                                 <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-                                                    <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: "white" }}>
+                                                    <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: colors.grey[200] }}>
                                                         {btnTitle}
                                                     </Typography>
                                                     {(() => {
                                                         if (initialValues.status === "disable") {
                                                             return (
-                                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
                                                                     停用
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "banned") {
                                                             return (
-                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
                                                                     封鎖
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "removed") {
                                                             return (
-                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
                                                                     删除
                                                                 </Typography>)
                                                         }
                                                         else {
                                                             return (
-                                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                                <Typography variant="h5" color={colors.greenAccent[300]} sx={{ margin: ".5rem 0" }}>
                                                                     正常
                                                                 </Typography>)
                                                         }
@@ -328,7 +312,7 @@ export default function MachineListModal({ props }) {
                                                     name="name"
                                                     error={!!touched.name && !!errors.name}
                                                     helperText={touched.name && errors.name}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }}>
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
@@ -360,7 +344,7 @@ export default function MachineListModal({ props }) {
                                                 name="UUID"
                                                 error={!!touched.UUID && !!errors.UUID}
                                                 helperText={touched.UUID && errors.UUID}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
                                             <TextField
                                                 fullWidth
@@ -374,7 +358,7 @@ export default function MachineListModal({ props }) {
                                                 name="code"
                                                 error={!!touched.code && !!errors.code}
                                                 helperText={touched.code && errors.code}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
 
                                             <TextField
@@ -389,7 +373,7 @@ export default function MachineListModal({ props }) {
                                                 name="qrCode"
                                                 error={!!touched.qrCode && !!errors.qrCode}
                                                 helperText={touched.qrCode && errors.qrCode}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <Box display={"flex"}>
                                                 <TextField
@@ -403,7 +387,7 @@ export default function MachineListModal({ props }) {
                                                     name="price"
                                                     error={!!touched.price && !!errors.price}
                                                     helperText={touched.price && errors.price}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -416,7 +400,7 @@ export default function MachineListModal({ props }) {
                                                     name="desc"
                                                     error={!!touched.desc && !!errors.desc}
                                                     helperText={touched.desc && errors.desc}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
 
@@ -466,7 +450,7 @@ export default function MachineListModal({ props }) {
                                                         name="coin"
                                                         error={!!touched.coin && !!errors.coin}
                                                         helperText={touched.coin && errors.coin}
-                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                     />
                                                     <TextField
                                                         fullWidth
@@ -479,7 +463,7 @@ export default function MachineListModal({ props }) {
                                                         name="gift"
                                                         error={!!touched.gift && !!errors.gift}
                                                         helperText={touched.gift && errors.gift}
-                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                     />
                                                 </Box>
                                             </Box>
@@ -513,8 +497,8 @@ export default function MachineListModal({ props }) {
                                 )}
                             </Formik>
                         </Box >
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             )
             }
         </>

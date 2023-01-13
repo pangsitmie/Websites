@@ -8,6 +8,8 @@ import { tokens } from "../../theme";
 import { UnbanMember } from "../../graphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
+import { default_logo_360x360_filename } from "../../data/strings";
+import { getImgURL } from "../../utils/Utils";
 
 
 const checkoutSchema = yup.object().shape({});
@@ -28,7 +30,7 @@ export default function UserListModal({ props }) {
     nickname: "",
     birthday: "",
 
-    imgURL: "https://img.icons8.com/fluency/48/null/test-account.png",
+    avatar: default_logo_360x360_filename,
     phone: "",
 
     continuousLoginDays: "",
@@ -40,13 +42,21 @@ export default function UserListModal({ props }) {
     initialValues.id = props.id;
     initialValues.status = props.status.name;
     initialValues.nickname = props.profile.nickname;
-    initialValues.birthday = props.profile.birthday;
-    //initialValues.imgURL = props.imgURL;
+
     initialValues.phone = props.phone.number;
 
     initialValues.continuousLoginDays = props.career.continuousLoginDays;
     initialValues.totalLoginDays = props.career.totalLoginDays;
-    initialValues.lastSignAt = props.career.lastSignAt;
+
+    if (props.profile.avatar !== null) {
+      initialValues.avatar = props.profile.avatar;
+    }
+    if (props.profile.birthday !== null) {
+      initialValues.birthday = props.profile.birthday;
+    }
+    if (props.career.lastSignAt !== null) {
+      initialValues.lastSignAt = props.career.lastSignAt;
+    }
   }
 
 
@@ -111,14 +121,10 @@ export default function UserListModal({ props }) {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
-              <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                更新
-              </Typography>
-
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
@@ -133,40 +139,50 @@ export default function UserListModal({ props }) {
                   handleSubmit,
                 }) => (
                   <form onSubmit={handleSubmit}>
-                    <Box color={"black"}>
-                      <Box display="flex" justifyContent="center" alignItems="center" mt={"2rem"}>
-                        <img
-                          alt="profile-user"
-                          width="100px"
-                          height="100px"
-                          src={initialValues.imgURL}
-                          style={{ cursor: "pointer", borderRadius: "50%" }}
-                        />
-                      </Box>
-                      <Box textAlign="center">
-                        {(() => {
-                          if (initialValues.status === "disable") {
-                            return (
-                              <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                停用
-                              </Typography>)
-                          }
-                          if (initialValues.status === "banned") {
-                            return (
-                              <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                封鎖
-                              </Typography>)
-                          }
-                          else {
-                            return (
-                              <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                正常
-                              </Typography>)
-                          }
-                        })()}
+                    <Box >
+                      <Box display={"flex"} m={"1rem 0"}>
+                        <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
+                          <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: "white", mt: "1rem" }}>
+                            使用者
+                          </Typography>
+                          <Box textAlign="left">
+                            {(() => {
+                              if (initialValues.status === "disable") {
+                                return (
+                                  <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
+                                    停用
+                                  </Typography>)
+                              }
+                              if (initialValues.status === "banned") {
+                                return (
+                                  <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
+                                    封鎖
+                                  </Typography>)
+                              }
+                              else {
+                                return (
+                                  <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem 0" }}>
+                                    正常
+                                  </Typography>)
+                              }
+                            })()}
+                          </Box>
+                        </Box>
+                        <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
+                          <img
+                            alt="profile-user"
+                            width="100px"
+                            height="100px"
+                            src={getImgURL(values.avatar)}
+                            style={{ borderRadius: "50%" }}
+                          />
+                        </Box>
                       </Box>
 
+
+
                       <TextField className="modal_input_textfield"
+                        disabled={true}
                         fullWidth
                         variant="filled"
                         type="text"
@@ -177,10 +193,11 @@ export default function UserListModal({ props }) {
                         name="username"
                         error={!!touched.nickname && !!errors.nickname}
                         helperText={touched.nickname && errors.nickname}
-                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                       />
                       {/* PHONE */}
                       <TextField
+                        disabled={true}
                         fullWidth
                         variant="filled"
                         type="text"
@@ -191,9 +208,10 @@ export default function UserListModal({ props }) {
                         name="phone"
                         error={!!touched.phone && !!errors.phone}
                         helperText={touched.phone && errors.phone}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                       <TextField
+                        disabled={true}
                         fullWidth
                         variant="filled"
                         type="text"
@@ -204,12 +222,12 @@ export default function UserListModal({ props }) {
                         name="birthday"
                         error={!!touched.birthday && !!errors.birthday}
                         helperText={touched.birthday && errors.birthday}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <Box display={"flex"}>
-
                         <TextField
+                          disabled={true}
                           fullWidth
                           variant="filled"
                           type="text"
@@ -220,9 +238,10 @@ export default function UserListModal({ props }) {
                           name="continuousLoginDays"
                           error={!!touched.continuousLoginDays && !!errors.continuousLoginDays}
                           helperText={touched.continuousLoginDays && errors.continuousLoginDays}
-                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
+                          disabled={true}
                           fullWidth
                           variant="filled"
                           type="text"
@@ -233,9 +252,10 @@ export default function UserListModal({ props }) {
                           name="totalLoginDays"
                           error={!!touched.totalLoginDays && !!errors.totalLoginDays}
                           helperText={touched.totalLoginDays && errors.totalLoginDays}
-                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
+                          disabled={true}
                           fullWidth
                           variant="filled"
                           type="text"
@@ -246,7 +266,7 @@ export default function UserListModal({ props }) {
                           name="lastSignAt"
                           error={!!touched.lastSignAt && !!errors.lastSignAt}
                           helperText={touched.lastSignAt && errors.lastSignAt}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -269,8 +289,8 @@ export default function UserListModal({ props }) {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

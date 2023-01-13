@@ -131,9 +131,9 @@ export default function CreateAdsModal() {
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
-                <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                <Box className="modal">
+                    <Box onClick={toggleModal} className="overlay"></Box>
+                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -152,7 +152,7 @@ export default function CreateAdsModal() {
                                         <Box >
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: "white", lineHeight: "1.5" }}>
+                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
                                                         新增<br /> 廣告
                                                     </Typography>
                                                 </Box>
@@ -180,7 +180,7 @@ export default function CreateAdsModal() {
                                                     name="url"
                                                     error={!!touched.url && !!errors.url}
                                                     helperText={touched.url && errors.url}
-                                                    sx={{ margin: "0 1rem  1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: "0 1rem  1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
@@ -212,7 +212,7 @@ export default function CreateAdsModal() {
                                                 name="description"
                                                 error={!!touched.description && !!errors.description}
                                                 helperText={touched.description && errors.description}
-                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <TextField
                                                 fullWidth
@@ -249,8 +249,8 @@ export default function CreateAdsModal() {
                                 )}
                             </Formik>
                         </Box >
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             )
             }
         </>

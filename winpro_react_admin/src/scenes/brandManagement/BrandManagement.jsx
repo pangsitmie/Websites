@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useQuery } from '@apollo/client'
 // import { format } from 'date-fns';
 
@@ -15,10 +15,10 @@ import BrandListModal from './BrandListModal';
 import CreateBrandModal from './CreateBrandModal';
 import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
+import Refresh from '../../components/Refresh';
 
 
 const BrandManagement = () => {
-    console.log("Brand management");
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -45,16 +45,27 @@ const BrandManagement = () => {
     const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
-    const { loading, error, data } = useQuery(GetAllBrands);
+
+    // PAGINATION
+    const [limit, setLimit] = useState(5);
+    const [offset, setOffset] = useState(0);
+    const handlePageChange = ({ limit, offset }) => {
+        setLimit(limit);
+        setOffset(offset);
+    }
+
     const [initBrands, setInitBrands] = useState([]);
     const [brands, setBrands] = useState([]);
+
+    const { loading, error, data } = useQuery(GetAllBrands, {
+        variables: { limit, offset }
+    });
     useEffect(() => {
         if (data) {
             setInitBrands(data.managerGetBrands); //all brand datas
             setBrands(data.managerGetBrands); //datas for display
         }
-    }, [data]);
-
+    }, [data, offset]);
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
@@ -83,21 +94,9 @@ const BrandManagement = () => {
 
 
 
-    // // PGNATION +++++++++++++++++++++
-    // const [pageData, setPageData] = useState([]);
-    // const [totalPages, setTotalPages] = useState(0);
 
-    // const fetchData = async ({ limit, offset }) => {
-    //     const response = await fetch(`https://your-api.com/data?limit=${limit}&offset=${offset}`);
-    //     const json = await response.json();
-    //     setPageData(json.data);
-    //     setTotalPages(json.totalPages);
-    // }
-
-    // useEffect(() => {
-    //     fetchData({ limit: 10, offset: 0 });
-    // }, []);
-
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :</p>;
     // ========================== RETURN ==========================
     return (
         <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
@@ -148,24 +147,25 @@ const BrandManagement = () => {
                     </Select>
                 </FormControl>
                 {/* SEARCH BTN */}
-                <Button
-                    sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "120px",
-                        height: "52px",
-                        marginLeft: "1rem",
-                        borderRadius: "10px",
-                        padding: "0px",
-                        marginRight: "2rem",
-                        ':hover': {
-                            bgcolor: colors.primary[400],
-                            border: '1px solid white',
-                        }
-                    }}
+                <Button sx={{
+                    backgroundColor: colors.primary[300],
+                    color: colors.grey[100],
+                    minWidth: "120px",
+                    height: "52px",
+                    marginLeft: "1rem",
+                    borderRadius: "10px",
+                    padding: "0px",
+                    marginRight: "2rem",
+                    ':hover': {
+                        bgcolor: colors.primary[300],
+                        border: '1px solid white',
+                    }
+                }}
                     onClick={submitSearch}>
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
-                    <p className='btn_text'>查詢</p>
+                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
+                    <Typography color={"white"} variant="h5" fontWeight="500">
+                        查詢
+                    </Typography>
                 </Button>
                 <Box
                     display="flex"
@@ -185,17 +185,30 @@ const BrandManagement = () => {
                 borderRadius="10px"
                 height={"52%"}
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        品牌清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -204,10 +217,7 @@ const BrandManagement = () => {
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
                     p="10px"
-
                 >
-
-
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
                     </Box>

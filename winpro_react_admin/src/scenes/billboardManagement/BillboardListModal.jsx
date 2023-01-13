@@ -228,8 +228,8 @@ export default function BillboardListModal({ props }) {
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
                 <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                    <Box onClick={toggleModal} className="overlay"></Box>
+                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
 
 
@@ -301,7 +301,7 @@ export default function BillboardListModal({ props }) {
                                                     name="title"
                                                     error={!!touched.title && !!errors.title}
                                                     helperText={touched.title && errors.title}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }}>
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
@@ -331,7 +331,7 @@ export default function BillboardListModal({ props }) {
                                                 name="content"
                                                 error={!!touched.content && !!errors.content}
                                                 helperText={touched.content && errors.content}
-                                                sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
 
                                             <TextField
@@ -345,7 +345,7 @@ export default function BillboardListModal({ props }) {
                                                 name="description"
                                                 error={!!touched.description && !!errors.description}
                                                 helperText={touched.description && errors.description}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <TextField
                                                 fullWidth
@@ -403,7 +403,7 @@ export default function BillboardListModal({ props }) {
                                 )}
                             </Formik>
                         </Box >
-                    </div>
+                    </Box>
                 </div>
             )
             }

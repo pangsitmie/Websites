@@ -128,14 +128,22 @@ const AdsManagement = () => {
                 <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
-                    minWidth: "150px",
+                    minWidth: "120px",
+                    height: "52px",
+                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    marginLeft: "20px",
-                    padding: "0px"
+                    padding: "0px",
+                    marginRight: "2rem",
+                    ':hover': {
+                        bgcolor: colors.primary[300],
+                        border: '1px solid white',
+                    }
                 }}
                     onClick={submitSearch}>
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
-                    <p className='btn_text'>查詢</p>
+                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
+                    <Typography color={"white"} variant="h5" fontWeight="500">
+                        查詢
+                    </Typography>
                 </Button>
                 <Box
                     display="flex"
@@ -213,11 +221,11 @@ const AdsManagement = () => {
                             borderBottom={`4px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type.name === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {item.endAt === null ? (
-                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem" }}>
                                         無
                                     </Typography>
                                 ) : (

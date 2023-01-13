@@ -190,9 +190,9 @@ export default function CreateBrandCoinModal() {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {btnTitle}
@@ -225,7 +225,7 @@ export default function CreateBrandCoinModal() {
                           name="title"
                           error={!!touched.title && !!errors.title}
                           helperText={touched.title && errors.title}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                         />
                         <TextField
                           fullWidth
@@ -238,7 +238,7 @@ export default function CreateBrandCoinModal() {
                           name="comment"
                           error={!!touched.comment && !!errors.comment}
                           helperText={touched.comment && errors.comment}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -256,7 +256,7 @@ export default function CreateBrandCoinModal() {
                         name="content"
                         error={!!touched.content && !!errors.content}
                         helperText={touched.content && errors.content}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <Box display={"flex"} justifyContent={"space-between"}>
@@ -328,7 +328,7 @@ export default function CreateBrandCoinModal() {
                           name="rewardDescription"
                           error={!!touched.rewardDescription && !!errors.rewardDescription}
                           helperText={touched.rewardDescription && errors.rewardDescription}
-                          sx={{ margin: "0rem 0rem 1rem 1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -344,7 +344,7 @@ export default function CreateBrandCoinModal() {
                           name="currencyAmount"
                           error={!!touched.currencyAmount && !!errors.currencyAmount}
                           helperText={touched.currencyAmount && errors.currencyAmount}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -357,7 +357,7 @@ export default function CreateBrandCoinModal() {
                           name="rewardLimit"
                           error={!!touched.rewardLimit && !!errors.rewardLimit}
                           helperText={touched.rewardLimit && errors.rewardLimit}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -371,7 +371,7 @@ export default function CreateBrandCoinModal() {
                           name="receiveDaysOverdue"
                           error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
                           helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -414,8 +414,8 @@ export default function CreateBrandCoinModal() {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

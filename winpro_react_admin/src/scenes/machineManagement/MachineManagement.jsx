@@ -10,8 +10,9 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateMachineModal from './CreateMachineModal';
 import MachineListModal from './MachineListModal';
-import { GetStore } from '../../graphQL/Queries';
-
+import { GetMachineList } from '../../graphQL/Queries';
+import Pagination from '../../components/Pagination';
+import Refresh from '../../components/Refresh';
 
 // QRCODE
 import QRCode from 'qrcode'
@@ -31,22 +32,30 @@ const MachineManagement = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    // STATES
+    // ====================== STATES ======================
+
+    // PAGINATION
+    const [limit, setLimit] = useState(10);
+    const [offset, setOffset] = useState(0);
+    const handlePageChange = ({ limit, offset }) => {
+        setLimit(limit);
+        setOffset(offset);
+    }
+
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
-    const [machineData, setMachineData] = useState([]);
-    useLayoutEffect(() => {
-        for (const machine of machineData) {
-            console.log(machine.qrCode);
-            generateQrCode(machine.name, machine.qrCode);
-        }
-    }, [machineData]);
+
+    const [initMachineDatas, setInitMachineDatas] = useState([]);
+    const [machineDatas, setMachineDatas] = useState([]);
+
+
+    const [imgUrls, setImgUrls] = useState({});
+
 
     //REF
-    const brandRef = useRef('');
     const searchRef = useRef('');
 
-    const { loading, error, data } = useQuery(GetStore
+    const { loading, error, data } = useQuery(GetMachineList
         , {
             variables: {
                 args: [
@@ -54,31 +63,51 @@ const MachineManagement = () => {
                         id: state.data.id
                     }
                 ],
+                // limit: limit,
+                // offset: offset
             }
         }
     );
     useEffect(() => {
         if (data) {
-            setMachineData(data.getStore[0].managerGetMachines);
+            setMachineDatas(data.getStore[0].managerGetMachines);
+            setInitMachineDatas(data.getStore[0].managerGetMachines);
         }
     }, [data]);
 
 
 
-
     //FUNCTIONS
-    const handleSearchChange = (e) => {
-        setSearchFilter(e.target.value);
-    };
-    const handleCityChange = (e) => {
-        setCityFilter(e.target.value);
-    };
-
     const submitSearch = () => {
-        console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
+        //CALL SEARCH FUNCTION
+        let value = searchRef.current.value;
+        if (value.length > 2) {
+            let search = arraySearch(machineDatas, value);
+            setMachineDatas(search)
+        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setMachineDatas(initMachineDatas)
+        }
     }
 
-    // const [imgUrl, setImgUrl] = useState(''); // for qr code generation
+    //SEARCH FUNCTION
+    const arraySearch = (array, keyword) => {
+        const searchTerm = keyword
+
+        return array.filter(value => {
+            return value.code.match(new RegExp(searchTerm, 'g')) ||
+                value.name.match(new RegExp(searchTerm, 'g'))
+        })
+    }
+
+    // =================== QR CODE ===================
+    useEffect(() => {
+        if (machineDatas) {
+            for (const machine of machineDatas) {
+                generateQrCode(machine.name, machine.qrCode);
+            }
+        }
+    }, [machineDatas]);
+
     const generateQrCode = async (machineName, qrCodePaypload) => {
         try {
             const response = await QRCode.toDataURL(qrCodePaypload);
@@ -87,13 +116,6 @@ const MachineManagement = () => {
             console.log(error);
         }
     }
-
-
-
-
-
-
-    const [imgUrls, setImgUrls] = useState({});
 
     //create pdf
     function createPdfWithImages(images, keys) {
@@ -118,6 +140,9 @@ const MachineManagement = () => {
         doc.save(state.data.name + '機台 QR-CODES.pdf');
     }
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error</p>;
+
     return (
         <Box p={"0 1rem 1rem 1rem"}>
             <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
@@ -130,28 +155,29 @@ const MachineManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={brandRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={searchRef} />
                 </Box>
 
                 {/* SEARCH BTN */}
-                <Button
-                    sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "120px",
-                        height: "50px",
-                        borderRadius: "10px",
-                        padding: "0px",
-                        marginRight: "2rem",
-                        ':hover': {
-                            bgcolor: colors.primary[400],
-                            border: '1px solid white',
-                        }
-                    }}
-                    onClick={submitSearch}
-                >
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
-                    <p className='btn_text'>查詢</p>
+                <Button sx={{
+                    backgroundColor: colors.primary[300],
+                    color: colors.grey[100],
+                    minWidth: "120px",
+                    height: "52px",
+                    marginLeft: "1rem",
+                    borderRadius: "10px",
+                    padding: "0px",
+                    marginRight: "2rem",
+                    ':hover': {
+                        bgcolor: colors.primary[300],
+                        border: '1px solid white',
+                    }
+                }}
+                    onClick={submitSearch}>
+                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
+                    <Typography color={"white"} variant="h5" fontWeight="500">
+                        查詢
+                    </Typography>
                 </Button>
 
                 <Box
@@ -160,23 +186,26 @@ const MachineManagement = () => {
                     marginLeft={"auto"}
                     padding={"0"}
                 >
-                    <Button
-                        sx={{
-                            backgroundColor: colors.primary[300],
-                            color: colors.grey[100],
-                            minWidth: "120px",
-                            height: "50px",
-                            borderRadius: "10px",
-                            padding: "0px",
-                            marginRight: "2rem",
-                            ':hover': {
-                                bgcolor: colors.primary[400],
-                                border: '1px solid white',
-                            }
-                        }}
+
+                    <Button sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "120px",
+                        height: "52px",
+                        marginLeft: "1rem",
+                        borderRadius: "10px",
+                        padding: "0px",
+                        marginRight: "2rem",
+                        ':hover': {
+                            bgcolor: colors.primary[300],
+                            border: '1px solid white',
+                        }
+                    }}
                         onClick={downloadPdf}
                     >
-                        <p className='btn_text'>下載 QR</p>
+                        <Typography color={"white"} variant="h5" fontWeight="500">
+                            下載 QR
+                        </Typography>
                     </Button>
 
                     <CreateMachineModal props={state.data} />
@@ -190,17 +219,30 @@ const MachineManagement = () => {
                 borderRadius="10px"
                 height={"40vh"}
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        機台清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -236,7 +278,7 @@ const MachineManagement = () => {
                     height={"100%"}
                     overflow={"auto"}
                 >
-                    {machineData.map((item, i) => (
+                    {machineDatas.map((item, i) => (
                         <Box
                             key={`${item.id}-${i}`}
                             display="flex"
@@ -281,23 +323,7 @@ const MachineManagement = () => {
         </Box >
     )
 }
-const defaultOptions = {
-    significantDigits: 2,
-    thousandsSeparator: ',',
-    decimalSeparator: '.',
-    symbol: 'NT'
-}
 
-const currencyFormatter = (value, options) => {
-    if (typeof value !== 'number') value = 0.0
-    options = { ...defaultOptions, ...options }
-    value = value.toFixed(options.significantDigits)
 
-    const [currency, decimal] = value.split('.')
-    return `${options.symbol} ${currency.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        options.thousandsSeparator
-    )}${options.decimalSeparator}${decimal}`
-}
 
 export default MachineManagement

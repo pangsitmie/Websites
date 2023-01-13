@@ -13,8 +13,8 @@ import { GetCurrentVersion } from "../../graphQL/Queries";
 
 
 const checkoutSchema = yup.object().shape({
-    android: yup.string().required("請輸入版本號"),
-    ios: yup.string().required("請輸入版本號"),
+    // android: yup.string().required("請輸入版本號"),
+    // ios: yup.string().required("請輸入版本號"),
 });
 
 
@@ -74,8 +74,8 @@ const VersionManagement = () => {
     return (
         <Box p={2}>
             <h1 className='userManagement_title'>版本管控</h1>
-            <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.2rem", fontWeight: "500", color: "white" }}>
-                伺服器版本 - {initialValues.server}
+            <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.2rem", fontWeight: "500", color: colors.grey[200] }}>
+                伺服器版本: {initialValues.server}
             </Typography>
             <Box m="5rem 2rem">
                 <Formik
@@ -92,8 +92,8 @@ const VersionManagement = () => {
                         handleSubmit,
                     }) => (
                         <form onSubmit={handleSubmit}>
-                            <Box color={"black"}>
-                                <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.5rem", fontWeight: "600", color: "white", textAlign: "center" }}>
+                            <Box >
+                                <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.5rem", fontWeight: "600", color: colors.grey[200], textAlign: "center" }}>
                                     Android - {initialValues.android}
                                 </Typography>
                                 <Box display={"flex"} justifyContent={"center"}>
@@ -102,7 +102,7 @@ const VersionManagement = () => {
                                         id="outlined-basic"
                                         variant="filled"
                                         type="text"
-                                        label="輸入新 Android 版本"
+                                        label="新 Android 版本"
                                         placeholder={values.android}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
@@ -110,26 +110,25 @@ const VersionManagement = () => {
                                         name="android"
                                         error={!!touched.android && !!errors.android}
                                         helperText={touched.android && errors.android}
-                                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                     /></Box>
 
-                                <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.5rem", fontWeight: "600", color: "white", textAlign: "center" }}>
+                                <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.5rem", fontWeight: "600", color: colors.grey[200], textAlign: "center" }}>
                                     IOS - {initialValues.ios}
                                 </Typography>
                                 <Box display={"flex"} justifyContent={"center"}>
                                     <TextField
-                                        className="modal_input_textfield"
-                                        id="outlined-basic"
                                         variant="filled"
                                         type="text"
-                                        label="輸入新 IOS 版本"
+                                        label="新 IOS 版本"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={values.ios}
                                         value={values.ios}
                                         name="ios"
                                         error={!!touched.ios && !!errors.ios}
                                         helperText={touched.ios && errors.ios}
-                                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                     />
                                 </Box>
 

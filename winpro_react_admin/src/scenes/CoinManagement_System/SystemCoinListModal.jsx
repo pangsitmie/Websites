@@ -133,11 +133,11 @@ export default function SystemCoinListModal({ props }) {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
-              <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+              <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                 {btnTitle}
               </Typography>
 
@@ -169,7 +169,7 @@ export default function SystemCoinListModal({ props }) {
                           name="title"
                           error={!!touched.title && !!errors.title}
                           helperText={touched.title && errors.title}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                         />
                         <TextField
                           fullWidth
@@ -183,7 +183,7 @@ export default function SystemCoinListModal({ props }) {
                           name="comments"
                           error={!!touched.comment && !!errors.comment}
                           helperText={touched.comment && errors.comment}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -202,7 +202,7 @@ export default function SystemCoinListModal({ props }) {
                         name="content"
                         error={!!touched.content && !!errors.content}
                         helperText={touched.content && errors.content}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <Box display={"flex"} justifyContent={"space-between"}>
@@ -218,7 +218,7 @@ export default function SystemCoinListModal({ props }) {
                           name="triggerAtDate"
                           error={!!touched.triggerAtDate && !!errors.triggerAtDate}
                           helperText={touched.triggerAtDate && errors.triggerAtDate}
-                          sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           disabled={true}
@@ -232,7 +232,7 @@ export default function SystemCoinListModal({ props }) {
                           name="expireAtDate"
                           error={!!touched.expireAtDate && !!errors.expireAtDate}
                           helperText={touched.expireAtDate && errors.expireAtDate}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -253,7 +253,7 @@ export default function SystemCoinListModal({ props }) {
                           name="currencyName"
                           error={!!touched.currencyName && !!errors.currencyName}
                           helperText={touched.currencyName && errors.currencyName}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -270,7 +270,7 @@ export default function SystemCoinListModal({ props }) {
                           name="currencyAmount"
                           error={!!touched.currencyAmount && !!errors.currencyAmount}
                           helperText={touched.currencyAmount && errors.currencyAmount}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -284,7 +284,7 @@ export default function SystemCoinListModal({ props }) {
                           name="currencyLimit"
                           error={!!touched.rewardLimit && !!errors.rewardLimit}
                           helperText={touched.rewardLimit && errors.rewardLimit}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -298,7 +298,7 @@ export default function SystemCoinListModal({ props }) {
                           name="receiveDaysOverdue"
                           error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
                           helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -315,7 +315,7 @@ export default function SystemCoinListModal({ props }) {
                           name="rewardDescription"
                           error={!!touched.rewardDescription && !!errors.rewardDescription}
                           helperText={touched.rewardDescription && errors.rewardDescription}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -329,7 +329,7 @@ export default function SystemCoinListModal({ props }) {
                           name="rewardStatus"
                           error={!!touched.rewardStatus && !!errors.rewardStatus}
                           helperText={touched.rewardStatus && errors.rewardStatus}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -346,7 +346,7 @@ export default function SystemCoinListModal({ props }) {
                           name="startAt"
                           error={!!touched.startAt && !!errors.startAt}
                           helperText={touched.startAt && errors.startAt}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -360,7 +360,7 @@ export default function SystemCoinListModal({ props }) {
                           name="endAt"
                           error={!!touched.endAt && !!errors.endAt}
                           helperText={touched.endAt && errors.endAt}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -377,8 +377,8 @@ export default function SystemCoinListModal({ props }) {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

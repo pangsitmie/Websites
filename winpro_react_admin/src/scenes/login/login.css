@@ -1,4 +1,16 @@
-.login_container {
-    padding: 15% 30% 0 30%;
+.login_page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
+    background-image: url("../../assets/login_bg2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 1rem;
+}
+
+.login_container {
+    background-color: rgba(141, 143, 230, 0.15);
+    padding: 2rem;
+    border-radius: 45px;
 }

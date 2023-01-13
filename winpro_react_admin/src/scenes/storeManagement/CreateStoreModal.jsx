@@ -214,9 +214,9 @@ export default function CreateStoreModal() {
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
-                <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                <Box className="modal">
+                    <Box onClick={toggleModal} className="overlay"></Box>
+                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
 
 
@@ -263,7 +263,7 @@ export default function CreateStoreModal() {
                                                     name="brandId"
                                                     error={!!touched.brandId && !!errors.brandId}
                                                     helperText={touched.brandId && errors.brandId}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -277,7 +277,7 @@ export default function CreateStoreModal() {
                                                     name="brandName"
                                                     error={!!touched.brandName && !!errors.brandName}
                                                     helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
                                                     <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
@@ -314,7 +314,7 @@ export default function CreateStoreModal() {
                                                 name="name"
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
@@ -327,7 +327,7 @@ export default function CreateStoreModal() {
                                                 name="intro"
                                                 error={!!touched.intro && !!errors.intro}
                                                 helperText={touched.intro && errors.intro}
-                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
 
                                             {/* Search Store location */}
@@ -345,7 +345,7 @@ export default function CreateStoreModal() {
                                                             label="搜索店面地點 ..."
                                                             variant="filled"
                                                             type="text"
-                                                            sx={{ margin: "1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                            sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
                                                                 placeholder: '搜索店面地點 ...',
                                                                 className: 'location-search-input',
@@ -432,7 +432,7 @@ export default function CreateStoreModal() {
                                                     required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
-                                                    sx={{ marginBottom: "0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
 
@@ -453,7 +453,7 @@ export default function CreateStoreModal() {
                                                     name="principalName"
                                                     error={!!touched.principalName && !!errors.principalName}
                                                     helperText={touched.principalName && errors.principalName}
-                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -466,11 +466,11 @@ export default function CreateStoreModal() {
                                                     name="principalAccount"
                                                     error={!!touched.principalAccount && !!errors.principalAccount}
                                                     helperText={touched.principalAccount && errors.principalAccount}
-                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
 
                                                 {/* PASSWORD INPUT */}
-                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                                                     <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
@@ -511,7 +511,7 @@ export default function CreateStoreModal() {
                                                     name="principalEmail"
                                                     error={!!touched.principalEmail && !!errors.principalEmail}
                                                     helperText={touched.principalEmail && errors.principalEmail}
-                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -524,7 +524,7 @@ export default function CreateStoreModal() {
                                                     name="principalLineUrl"
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
-                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
                                         </Box>
@@ -537,8 +537,8 @@ export default function CreateStoreModal() {
                                 )}
                             </Formik>
                         </Box >
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             )
             }
         </>

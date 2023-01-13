@@ -8,7 +8,6 @@ import { useQuery, useLazyQuery } from "@apollo/client";
 import { GetStore, UpdateStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
-    geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
 import ConfirmModal from "../../components/Modal/ConfirmModal";
@@ -20,16 +19,16 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 
 const checkoutSchema = yup.object().shape({
-    // name: yup.string().required("required"),
-    // status: yup.string().required("required"),
-    // // intro: yup.string().required("required"),
-    // brandId: yup.string().required("required"),
-    // brandName: yup.string().required("required"),
-    // // location_address: yup.string().required("required"),
-    // principalName: yup.string().required("required"),
-    // // principalPassword: yup.string().required("required"),
-    // principalLineUrl: yup.string().required("required"),
-    // principalEmail: yup.string().email("invalid email"),
+    name: yup.string().required("required"),
+    status: yup.string().required("required"),
+    // intro: yup.string().required("required"),
+    brandId: yup.string().required("required"),
+    brandName: yup.string().required("required"),
+    // location_address: yup.string().required("required"),
+    principalName: yup.string().required("required"),
+    // principalPassword: yup.string().required("required"),
+    principalLineUrl: yup.string().required("required"),
+    principalEmail: yup.string().email("invalid email"),
 });
 
 
@@ -264,7 +263,7 @@ export default function StoreListModal({ props }) {
                 city: cityFilter,
                 district: selectedArea,
                 address: address,
-                description: "location description"
+                description: "NONE"
             },
             principal: {
                 name: values.principalName,
@@ -298,7 +297,7 @@ export default function StoreListModal({ props }) {
             variables.statusId = status;
         }
         console.log(variables);
-        // ApolloUpdateStore({ variables });
+        ApolloUpdateStore({ variables });
     };
 
     const toggleModal = () => {
@@ -316,9 +315,9 @@ export default function StoreListModal({ props }) {
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
-                <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                <Box className="modal">
+                    <Box onClick={toggleModal} className="overlay"></Box>
+                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -384,7 +383,7 @@ export default function StoreListModal({ props }) {
                                                     name="name"
                                                     error={!!touched.name && !!errors.name}
                                                     helperText={touched.name && errors.name}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <TextField className="modal_input_textfield"
                                                     fullWidth
@@ -397,7 +396,7 @@ export default function StoreListModal({ props }) {
                                                     name="intro"
                                                     error={!!touched.intro && !!errors.intro}
                                                     helperText={touched.intro && errors.intro}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
@@ -429,7 +428,7 @@ export default function StoreListModal({ props }) {
                                                     name="brandId"
                                                     error={!!touched.brandId && !!errors.brandId}
                                                     helperText={touched.brandId && errors.brandId}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
 
                                                 <TextField
@@ -444,7 +443,7 @@ export default function StoreListModal({ props }) {
                                                     name="brandName"
                                                     error={!!touched.brandName && !!errors.brandName}
                                                     helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
 
@@ -462,7 +461,7 @@ export default function StoreListModal({ props }) {
                                                             label="搜索店面地點 ..."
                                                             variant="filled"
                                                             type="text"
-                                                            sx={{ margin: "1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                            sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
                                                                 placeholder: '搜索店面地點 ...',
                                                                 className: 'location-search-input',
@@ -545,7 +544,7 @@ export default function StoreListModal({ props }) {
                                                     required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
 
@@ -561,7 +560,7 @@ export default function StoreListModal({ props }) {
                                                     name="principalName"
                                                     error={!!touched.principalName && !!errors.principalName}
                                                     helperText={touched.principalName && errors.principalName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
 
                                                 <TextField
@@ -575,7 +574,7 @@ export default function StoreListModal({ props }) {
                                                     name="principalLineUrl"
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
-                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
                                             <Box color={"white"}>
@@ -594,23 +593,10 @@ export default function StoreListModal({ props }) {
                                                     name="principalEmail"
                                                     error={!!touched.principalEmail && !!errors.principalEmail}
                                                     helperText={touched.principalEmail && errors.principalEmail}
-                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-                                                {/* <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="負責人密碼"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalPassword}
-                                                    name="principalPassword"
-                                                    error={!!touched.principalPassword && !!errors.principalPassword}
-                                                    helperText={touched.principalPassword && errors.principalPassword}
-                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
-                                                /> */}
                                                 {/* PASSWORD INPUT */}
-                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }} >
+                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                                                     <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
@@ -667,8 +653,8 @@ export default function StoreListModal({ props }) {
                                 )}
                             </Formik>
                         </Box >
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             )
             }
         </>

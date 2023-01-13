@@ -94,20 +94,25 @@ const BillboardManagement = () => {
                 </Box>
 
                 {/* SEARCH BTN */}
-                <Button className=""
-                    sx={{
-                        backgroundColor: colors.blueAccent[400],
-                        color: colors.grey[100],
-                        minWidth: "150px",
-                        height: "50px",
-                        borderRadius: "10px",
-                        marginLeft: "20px",
-                        padding: "0px"
-                    }}
-                    onClick={submitSearch}
-                >
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
-                    <p className='btn_text'>查詢</p>
+                <Button sx={{
+                    backgroundColor: colors.primary[300],
+                    color: colors.grey[100],
+                    minWidth: "120px",
+                    height: "52px",
+                    marginLeft: "1rem",
+                    borderRadius: "10px",
+                    padding: "0px",
+                    marginRight: "2rem",
+                    ':hover': {
+                        bgcolor: colors.primary[300],
+                        border: '1px solid white',
+                    }
+                }}
+                    onClick={submitSearch}>
+                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
+                    <Typography color={"white"} variant="h5" fontWeight="500">
+                        查詢
+                    </Typography>
                 </Button>
 
                 <Box

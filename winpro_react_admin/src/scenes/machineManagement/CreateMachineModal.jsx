@@ -113,12 +113,12 @@ export default function CreateMachineModal({ props }) {
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
             {modal && (
-                <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                <Box className="modal">
+                    <Box onClick={toggleModal} className="overlay"></Box>
+                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
                             {initialValues.username}
-                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+                            <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                                 {btnTitle}
                             </Typography>
 
@@ -150,7 +150,7 @@ export default function CreateMachineModal({ props }) {
                                                     name="storeId"
                                                     error={!!touched.storeId && !!errors.storeId}
                                                     helperText={touched.storeId && errors.storeId}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <TextField className="modal_input_textfield"
                                                     fullWidth
@@ -164,7 +164,7 @@ export default function CreateMachineModal({ props }) {
                                                     name="storeName"
                                                     error={!!touched.storeName && !!errors.storeName}
                                                     helperText={touched.storeName && errors.storeName}
-                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                             </Box>
                                             <TextField
@@ -178,7 +178,7 @@ export default function CreateMachineModal({ props }) {
                                                 name="code"
                                                 error={!!touched.code && !!errors.code}
                                                 helperText={touched.code && errors.code}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <TextField
                                                 fullWidth
@@ -191,7 +191,7 @@ export default function CreateMachineModal({ props }) {
                                                 name="name"
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
-                                                sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <Box display={"flex"}>
                                                 <TextField
@@ -205,7 +205,7 @@ export default function CreateMachineModal({ props }) {
                                                     name="price"
                                                     error={!!touched.price && !!errors.price}
                                                     helperText={touched.price && errors.price}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
@@ -218,7 +218,7 @@ export default function CreateMachineModal({ props }) {
                                                     name="description"
                                                     error={!!touched.description && !!errors.description}
                                                     helperText={touched.description && errors.description}
-                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
 
                                             </Box>
@@ -271,7 +271,7 @@ export default function CreateMachineModal({ props }) {
                                                         name="counterCoin"
                                                         error={!!touched.counterCoin && !!errors.counterCoin}
                                                         helperText={touched.counterCoin && errors.counterCoin}
-                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                     />
                                                     <TextField
                                                         fullWidth
@@ -284,7 +284,7 @@ export default function CreateMachineModal({ props }) {
                                                         name="counterGift"
                                                         error={!!touched.counterGift && !!errors.counterGift}
                                                         helperText={touched.counterGift && errors.counterGift}
-                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                     />
                                                 </Box>
                                             </Box>
@@ -303,8 +303,8 @@ export default function CreateMachineModal({ props }) {
                                 )}
                             </Formik>
                         </Box >
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             )
             }
         </>

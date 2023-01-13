@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
@@ -101,8 +100,8 @@ export default function SystemNotificationListModal({ props }) {
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
         <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {btnTitle}
@@ -135,7 +134,7 @@ export default function SystemNotificationListModal({ props }) {
                         name="title"
                         error={!!touched.title && !!errors.title}
                         helperText={touched.title && errors.title}
-                        sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                        sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                       />
 
                       <TextField
@@ -153,7 +152,7 @@ export default function SystemNotificationListModal({ props }) {
                         name="content"
                         error={!!touched.content && !!errors.content}
                         helperText={touched.content && errors.content}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <TextField
@@ -168,7 +167,7 @@ export default function SystemNotificationListModal({ props }) {
                         name="comments"
                         error={!!touched.comments && !!errors.comments}
                         helperText={touched.comments && errors.comments}
-                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                       <TextField
                         disabled={true}
@@ -182,7 +181,7 @@ export default function SystemNotificationListModal({ props }) {
                         name="triggerAtDate"
                         error={!!touched.triggerAtDate && !!errors.triggerAtDate}
                         helperText={touched.triggerAtDate && errors.triggerAtDate}
-                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                       <TextField
                         disabled={true}
@@ -196,7 +195,7 @@ export default function SystemNotificationListModal({ props }) {
                         name="expireAtDate"
                         error={!!touched.expireAtDate && !!errors.expireAtDate}
                         helperText={touched.expireAtDate && errors.expireAtDate}
-                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
@@ -210,7 +209,7 @@ export default function SystemNotificationListModal({ props }) {
                 )}
               </Formik>
             </Box >
-          </div>
+          </Box>
         </div>
       )
       }

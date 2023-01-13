@@ -168,11 +168,11 @@ export default function CreateSystemCoinModal() {
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
+        <Box className="modal">
+          <Box onClick={toggleModal} className="overlay"></Box>
+          <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
-              <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
+              <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                 {btnTitle}
               </Typography>
 
@@ -203,7 +203,7 @@ export default function CreateSystemCoinModal() {
                           name="title"
                           error={!!touched.title && !!errors.title}
                           helperText={touched.title && errors.title}
-                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                          sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                         />
                         <TextField
                           fullWidth
@@ -216,7 +216,7 @@ export default function CreateSystemCoinModal() {
                           name="comment"
                           error={!!touched.comment && !!errors.comment}
                           helperText={touched.comment && errors.comment}
-                          sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -234,7 +234,7 @@ export default function CreateSystemCoinModal() {
                         name="content"
                         error={!!touched.content && !!errors.content}
                         helperText={touched.content && errors.content}
-                        sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
                       <Box display={"flex"} justifyContent={"space-between"}>
@@ -291,7 +291,7 @@ export default function CreateSystemCoinModal() {
                           name="currencyAmount"
                           error={!!touched.currencyAmount && !!errors.currencyAmount}
                           helperText={touched.currencyAmount && errors.currencyAmount}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -305,7 +305,7 @@ export default function CreateSystemCoinModal() {
                           name="rewardLimit"
                           error={!!touched.rewardLimit && !!errors.rewardLimit}
                           helperText={touched.rewardLimit && errors.rewardLimit}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
                           fullWidth
@@ -319,7 +319,7 @@ export default function CreateSystemCoinModal() {
                           name="receiveDaysOverdue"
                           error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
                           helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
-                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                          sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
 
@@ -334,7 +334,7 @@ export default function CreateSystemCoinModal() {
                         name="rewardDescription"
                         error={!!touched.rewardDescription && !!errors.rewardDescription}
                         helperText={touched.rewardDescription && errors.rewardDescription}
-                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: "#1F2A40", borderRadius: "5px" }}
+                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
 
@@ -383,8 +383,8 @@ export default function CreateSystemCoinModal() {
                 )}
               </Formik>
             </Box >
-          </div>
-        </div>
+          </Box>
+        </Box>
       )
       }
     </>

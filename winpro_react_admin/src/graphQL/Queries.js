@@ -15,13 +15,14 @@ query getAccessToken($refreshToken: String!) {
 
 // ========================= Member =========================
 export const GetAllMember = gql`
-query GetAllMember {
-  getAllMember{
+query GetAllMember($offset: Int, $limit: Int, $status: EMemberStatus) {
+  getAllMember(offset: $offset, limit: $limit, status: $status){
     id
     profile {
       memberId
       nickname
       birthday
+      avatar
     }
     phone {
       country
@@ -72,6 +73,10 @@ query ManagerGetBrands($limit: Int, $offset: Int) {
     principal {
       id
       name
+      phone {
+        country
+        number
+      }
       lineUrl
       email
       createdAt
@@ -115,6 +120,10 @@ query GetBrand($args: [BrandArgs!]!) {
     principal {
       id
       name
+      phone {
+        country
+        number
+      }
       lineUrl
       email
       createdAt
@@ -283,6 +292,27 @@ query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String,
 `
 
 // ========================= MACHINES =========================
+export const GetMachineList = gql`
+query GetStore($args: [StoreArgs!]!, $limit: Int, $offset: Int) {
+  getStore(args: $args) {
+    id
+    name
+    managerGetMachines(limit: $limit, offset: $offset) {
+      id
+      uuid
+      qrCode
+      code
+      name
+      status {
+        id
+        description
+        name
+      }
+      connStatus
+    }
+  }
+}
+`
 export const GetMachine = gql`
 query GetMachine($args: [MachineArgs!]!) {
   getMachine(args: $args) {

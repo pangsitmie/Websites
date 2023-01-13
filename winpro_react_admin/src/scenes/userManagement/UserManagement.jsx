@@ -11,6 +11,8 @@ import { tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import UserListModal from './UserListModal';
+import Pagination from '../../components/Pagination';
+import Refresh from '../../components/Refresh';
 
 
 const UserManagement = () => {
@@ -31,13 +33,21 @@ const UserManagement = () => {
 
 
 
-    //GQL
-    const { loading, error, data } = useQuery(GetAllMember);
+    // PAGINATION
+    const [limit, setLimit] = useState(10);
+    const [offset, setOffset] = useState(0);
+    const handlePageChange = ({ limit, offset }) => {
+        setLimit(limit);
+        setOffset(offset);
+    }
+
+    const { loading, error, data } = useQuery(GetAllMember, {
+        variables: { limit, offset }
+    });
     const [initMember, setInitMember] = useState([]);
     const [members, setMembers] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data.getAllMember);
             setInitMember(data.getAllMember);
             setMembers(data.getAllMember);
         }
@@ -46,7 +56,6 @@ const UserManagement = () => {
     const submitSearch = () => {
         //CALL SEARCH FUNCTION
         let searchValue = searchValueRef.current.value;
-        console.log("submitSearch" + searchValue)
 
         if (searchValue.length > 2) {
             let search = memberArraySearch(members, searchValue);
@@ -77,11 +86,11 @@ const UserManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px">
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="Name & Phone Search" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="暱稱 或 手機" inputRef={searchValueRef} />
                 </Box>
                 {/* phone search */}
                 <FormControl sx={{ minWidth: 150 }} >
-                    <InputLabel id="demo-simple-select-label" >Status</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                         labelId="demo-simple-select-label"
@@ -96,22 +105,26 @@ const UserManagement = () => {
                     </Select>
                 </FormControl>
                 {/* SEARCH BTN */}
-                <Button className=""
-                    sx={{
-                        backgroundColor: colors.blueAccent[400],
-                        color: colors.grey[100],
-                        minWidth: "150px",
-                        borderRadius: "10px",
-                        marginLeft: "20px",
-                        padding: "0px"
-                    }}
-                    onClick={submitSearch}
-                >
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem" }} />
-                    <p className='btn_text'>查詢</p>
+                <Button sx={{
+                    backgroundColor: colors.primary[300],
+                    color: colors.grey[100],
+                    minWidth: "120px",
+                    height: "52px",
+                    marginLeft: "1rem",
+                    borderRadius: "10px",
+                    padding: "0px",
+                    marginRight: "2rem",
+                    ':hover': {
+                        bgcolor: colors.primary[300],
+                        border: '1px solid white',
+                    }
+                }}
+                    onClick={submitSearch}>
+                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
+                    <Typography color={"white"} variant="h5" fontWeight="500">
+                        查詢
+                    </Typography>
                 </Button>
-
-
             </Box>
 
 
@@ -120,17 +133,30 @@ const UserManagement = () => {
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        使用者清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -198,28 +224,6 @@ const UserManagement = () => {
 
                     </Box>
                 ))}
-
-                {/* {mockDataUser.map((user, i) => (
-                    <Box
-                        key={`${user.id}-${i}`}
-                        display="flex"
-                        alignItems="center"
-                        borderBottom={`4px solid ${colors.primary[500]}`}
-                        p="10px"
-                    >
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.id}</Box>
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.username}</Box>
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.status}</Box>
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>{user.phone}</Box>
-                        <Box
-                            width={"20%"}
-                            display={"flex"}
-                            alignItems={"center"} justifyContent={"center"}
-                            borderRadius="4px">
-                            <UserListModal buttonTitle="更新" id={user.id} />
-                        </Box>
-                    </Box>
-                ))} */}
             </Box>
         </Box >
     )

@@ -34,7 +34,6 @@ body.active-modal {
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #141B2D;
     padding: 14px 15px;
     border-radius: 10px;
     max-width: 600px;

@@ -4,6 +4,8 @@ import Pagination from '../../components/Pagination';
 import { GetAllBrands } from '../../graphQL/Queries';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+import Refresh from '../../components/Refresh';
+
 
 const Promotion = () => {
     const theme = useTheme();
@@ -11,7 +13,6 @@ const Promotion = () => {
 
     const [limit, setLimit] = useState(5);
     const [offset, setOffset] = useState(0);
-    const [totalPages, setTotalPages] = useState(2);
 
     const [brands, setBrands] = useState([]);
 
@@ -41,36 +42,41 @@ const Promotion = () => {
             {/* SEARCH DIV */}
             <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
-
-
-                {/* SEARCH BTN */}
-
             </Box>
 
-            <Pagination
-                totalPages={totalPages}
-                limit={limit}
-                offset={offset}
-                onPageChange={handlePageChange}
-            />
             {/* TABLE DIV */}
             <Box
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"52%"}
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        品牌清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
+
+
                 <Box
                     display="flex"
                     justifyContent="space-between"
@@ -78,7 +84,6 @@ const Promotion = () => {
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
                     p="10px"
-
                 >
 
 

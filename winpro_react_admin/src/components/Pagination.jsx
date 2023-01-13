@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
-const Pagination = ({ totalPages, limit, offset, onPageChange }) => {
+import { Box, Button, Typography } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+const Pagination = ({ limit, offset, onPageChange }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
@@ -15,30 +16,26 @@ const Pagination = ({ totalPages, limit, offset, onPageChange }) => {
     }
 
     return (
-        <Box>
+        <Box width={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} pl={"11%"}>
             <Button
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
                 variant="contained"
-                sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fefefe" }}>
-                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                    Previous
-                </Typography>
+                sx={{ padding: ".5rem 1rem", margin: "0 2rem", borderRadius: "12px" }}>
+                <NavigateBeforeIcon sx={{ color: "white" }} />
             </Button>
 
-            <span>{currentPage}</span>
+            <span >{currentPage}</span>
 
             <Button
-                disabled={currentPage === totalPages}
+                // disabled={currentPage === totalPages}
                 onClick={() => handlePageChange(currentPage + 1)}
                 variant="contained"
-                sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fefefe" }}>
-                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                    Next
-                </Typography>
+                sx={{ padding: ".5rem 1rem", margin: "0 2rem", borderRadius: "12px" }}>
+                <NavigateNextIcon sx={{ color: "white" }} />
             </Button>
 
-        </Box>
+        </Box >
     );
 }
 
