@@ -4,6 +4,9 @@ import ROSETTA_LOGO from '../../assets/rosetta_logo.avif'
 import { NavLink, Link } from 'react-router-dom';
 import { FiAlignRight, FiXCircle, FiChevronDown } from "react-icons/fi";
 import { TbWorld } from 'react-icons/tb';
+
+import PERSONALIZE_ICON from '../../assets/personalize_icon.avif'
+import AI_EXIT from '../../assets/ai_exit.avif'
 const Header = () => {
     const [isMenu, setisMenu] = useState(false);
     const [isResponsiveclose, setResponsiveclose] = useState(false);
@@ -97,21 +100,30 @@ const Header = () => {
                                 <ul className={boxClassSubMenu1.join(' ')} >
                                     <li>
                                         <NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>
-                                            <div>
-                                                <div>
-                                                    <img>
-                                                    </img>
+                                            <div className='menu_dropdown_item'>
+                                                <div className='menu_dropdown_item_img'   >
+                                                    <img src={PERSONALIZE_ICON} alt="" />
                                                 </div>
                                                 <div>
                                                     <p className='menu_dropdown_title'>Personalize Product Recommenders</p>
                                                     <p className='menu_dropdown_desc'>Your customer data, your conversion optimization</p>
                                                 </div>
-
                                             </div>
-
                                         </NavLink>
                                     </li>
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>AI Exit-intent Promotions</NavLink> </li>
+                                    <li>
+                                        <NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>
+                                            <div className='menu_dropdown_item'>
+                                                <div className='menu_dropdown_item_img'   >
+                                                    <img src={AI_EXIT} alt="" />
+                                                </div>
+                                                <div>
+                                                    <p className='menu_dropdown_title'>AI Exit-intent Promotions</p>
+                                                    <p className='menu_dropdown_desc'>Prevent hesitant shoppers from bouncing</p>
+                                                </div>
+                                            </div>
+                                        </NavLink>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -121,8 +133,25 @@ const Header = () => {
                             {/* 服務平台 MENU ITEM */}
                             <li onClick={toggleSubmenu2} className="menu-item sub__menus__arrows" > <Link to="#">Resources<FiChevronDown /> </Link>
                                 <ul className={boxClassSubMenu2.join(' ')} >
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>Case Studies</NavLink> </li>
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>MarTech Blog</NavLink> </li>
+                                    <li>
+                                        <NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>
+                                            <div className='menu_dropdown_item'>
+                                                <div>
+                                                    <p className='menu_dropdown_title'>Case Studies</p>
+                                                    <p className='menu_dropdown_desc'>Ecommerce success stories from merchant of all sizes</p>
+                                                </div>
+                                            </div>
+                                        </NavLink>
+                                    </li>
+                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>
+                                        <div className='menu_dropdown_item'>
+                                            <div>
+                                                <p className='menu_dropdown_title'>MarTech Blog</p>
+                                                <p className='menu_dropdown_desc'>On ecommerce personalization and the growth mindset</p>
+                                            </div>
+                                        </div>
+                                    </NavLink>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -131,9 +160,9 @@ const Header = () => {
 
                             <li onClick={toggleSubmenu2} className="menu-item sub__menus__arrows" > <Link to="#">About Us<FiChevronDown /> </Link>
                                 <ul className={boxClassSubMenu2.join(' ')} >
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>Press</NavLink> </li>
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>About</NavLink> </li>
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>Partners</NavLink> </li>
+                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}><p className='menu_dropdown_title'>Press</p></NavLink> </li>
+                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}><p className='menu_dropdown_title'>About</p></NavLink> </li>
+                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}><p className='menu_dropdown_title'>Partners</p></NavLink> </li>
                                 </ul>
                             </li>
                         </ul>
