@@ -129,7 +129,7 @@ a:hover {
   padding: 6rem 5rem;
 }
 
-.btn-pink {
+/* .btn-pink {
   background-color: var(--color-primary);
   width: 10rem;
   color: #0A0101;
@@ -146,7 +146,39 @@ a:hover {
 
 .btn-pink:hover {
   transform: translate(-1px, -1px);
+} */
+
+
+.btn-pink {
+  --bg: #EBB0CF;
+  width: 10rem;
+  border: 1px solid #D45398;
+  --hover-bg: #EBB0CF;
+  --hover-text: #000;
+  color: #0A0101;
+  border-radius: 12px;
+  padding: 15px 24px;
+  font-weight: 600;
+  box-shadow: 2px 2px 0px #d45398;
+  background: var(--bg);
+  text-align: center;
+  font-size: .9rem;
+  transition: 0.2s;
 }
+
+.btn-pink:hover {
+  color: var(--hover-text);
+  transform: translate(-0.25rem, -0.25rem);
+  background: var(--hover-bg);
+  box-shadow: 0.25rem 0.25rem #d45398;
+}
+
+.btn-pink:active {
+  transform: translate(0);
+  box-shadow: none;
+}
+
+
 
 .btn-white {
   background-color: var(--color-primary);

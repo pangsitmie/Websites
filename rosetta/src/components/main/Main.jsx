@@ -10,6 +10,25 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 
 import './main.css'
 import Selector from '../selector/Selector'
+import Carousel from '../carousel/Carousel'
+
+
+// IMAGES
+import caro_1 from '../../assets/caro_1.avif';
+import caro_2 from '../../assets/caro_2.avif';
+import caro_3 from '../../assets/caro_3.avif';
+import caro_4 from '../../assets/caro_4.avif';
+import caro_5 from '../../assets/caro_5.avif';
+import caro_6 from '../../assets/caro_6.avif';
+
+const images = [
+    caro_1,
+    caro_2,
+    caro_3,
+    caro_4,
+    caro_5,
+    caro_6
+];
 
 const Main = () => {
     return (
@@ -35,8 +54,7 @@ const Main = () => {
                 </div>
                 <div className='clients'>
                     <div className='clients_carousel'>
-                        carousel here
-                        {/* FIXME: create clients carousel */}
+                        <Carousel images={images} />
                     </div>
                     <p className='caption'>USED WORLDWIDE BY OVER 2000 SMB WEBSITES AND A HANDFUL OF HEAVY HITTERS</p>
                 </div>
@@ -199,8 +217,6 @@ const Main = () => {
             <section id='selector_section'>
                 <div className='selector_container container'>
                     <h4>Check out the ecommerce success stories brands that have grown business with Rosetta AI by delivering enjoyable personalized online experiences that shoppers love! </h4>
-
-                    {/* FIXME: create selector */}
                     <Selector />
                 </div>
             </section>
