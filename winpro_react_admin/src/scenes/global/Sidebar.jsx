@@ -201,13 +201,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Item
+            {/* <Item
               title="優惠管理"
               to="/promotion"
               icon={<CardGiftcardIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"

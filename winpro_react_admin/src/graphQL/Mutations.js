@@ -68,7 +68,7 @@ mutation GenAdvertisementImageUploadURI($mimetype: String!, $fileSize: Int!) {
 }
 `
 //version
-export const UpdateCurrentVersion = gql`
+export const UpdateGamePayVersion = gql`
 mutation UpdateCurrentAppVersion($clientName: EAppClient!, $android: String, $ios: String) {
   updateCurrentAppVersion(clientName: $clientName, android: $android, ios: $ios) {
     server

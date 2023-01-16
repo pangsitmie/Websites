@@ -16,6 +16,8 @@ import { default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Loader from "../../components/loader/Loader";
+import Error from "../../components/error/Error";
 
 
 const checkoutSchema = yup.object().shape({
@@ -301,6 +303,11 @@ export default function StoreListModal({ props }) {
     } else {
         document.body.classList.remove('active-modal')
     }
+
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
+
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}

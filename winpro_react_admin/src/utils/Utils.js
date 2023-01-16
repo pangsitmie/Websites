@@ -56,5 +56,5 @@ export function getImgURL(filename, type) {
                 return parseImgURL(default_ads_image_900x360_filename);
         }
     else
-        return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+        return parseImgURL(filename);
 }

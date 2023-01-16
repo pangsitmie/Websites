@@ -200,7 +200,6 @@ query ManagerGetStores($limit: Int, $offset: Int) {
       city
       district
       address
-      description
     }
   }
 }

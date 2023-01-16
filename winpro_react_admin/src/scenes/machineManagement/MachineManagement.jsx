@@ -65,8 +65,8 @@ const MachineManagement = () => {
                         id: state.data.id
                     }
                 ],
-                // limit: limit,
-                // offset: offset
+                limit: limit,
+                offset: offset
             }
         }
     );

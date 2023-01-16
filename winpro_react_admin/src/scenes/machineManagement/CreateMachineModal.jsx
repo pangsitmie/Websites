@@ -31,9 +31,6 @@ export default function CreateMachineModal({ props }) {
     const handleCountersToggleChange = (event) => {
         setCountersToggle(event.target.checked);
     };
-    useEffect(() => {
-        console.log(countersToggle);
-    }, [countersToggle]);
 
 
     var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
@@ -60,9 +57,6 @@ export default function CreateMachineModal({ props }) {
         if (data) {
             console.log(data.getStore);
             window.location.reload();
-        }
-        else {
-            console.log("NO DATA")
         }
     }, [data]);
 

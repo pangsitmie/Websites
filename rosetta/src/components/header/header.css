@@ -131,7 +131,7 @@ li {
     overflow: hidden;
     border-color: var(--color-white);
     transition: height var(--speed) ease;
-    width: 200px;
+    width: 350px;
     left: -17px;
     padding: 1px 0 0 0;
     z-index: 1000;
@@ -293,7 +293,18 @@ li {
     text-align: center;
     font-size: 15px;
 } */
+.menu_dropdown_title {
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+}
 
+.menu_dropdown_desc {
+    font-size: .75rem;
+    color: #949494;
+    margin: 0;
+    padding: 0;
+}
 
 .btn_header_pink {
     --bg: #EBB0CF;

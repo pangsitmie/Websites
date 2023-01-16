@@ -95,7 +95,22 @@ const Header = () => {
                             {/* 商務合作 MENU ITEM */}
                             <li onClick={toggleSubmenu1} className="menu-item sub__menus__arrows" > <Link to="#">Products<FiChevronDown /> </Link>
                                 <ul className={boxClassSubMenu1.join(' ')} >
-                                    <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>Personalize Product Recommenders</NavLink> </li>
+                                    <li>
+                                        <NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>
+                                            <div>
+                                                <div>
+                                                    <img>
+                                                    </img>
+                                                </div>
+                                                <div>
+                                                    <p className='menu_dropdown_title'>Personalize Product Recommenders</p>
+                                                    <p className='menu_dropdown_desc'>Your customer data, your conversion optimization</p>
+                                                </div>
+
+                                            </div>
+
+                                        </NavLink>
+                                    </li>
                                     <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>AI Exit-intent Promotions</NavLink> </li>
                                 </ul>
                             </li>
