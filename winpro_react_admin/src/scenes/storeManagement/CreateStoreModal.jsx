@@ -432,13 +432,8 @@ export default function CreateStoreModal() {
                                                     required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
-                                                    sx={{ marginBottom: "0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-                                            </Box>
-
-
-                                            <Box color={"white"}>
-                                                lat: {coordinates.lat}, lng: {coordinates.lng}
                                             </Box>
 
                                             <Box display={"flex"}>

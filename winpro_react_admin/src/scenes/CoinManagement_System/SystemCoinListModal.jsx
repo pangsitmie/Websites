@@ -114,9 +114,7 @@ export default function SystemCoinListModal({ props }) {
 
 
 
-  const handleFormSubmit = (values) => {
-
-  };
+  const handleFormSubmit = (values) => { };
 
 
 
@@ -367,11 +365,7 @@ export default function SystemCoinListModal({ props }) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          {deleteTitle}
-                        </Typography>
-                      </Button>
+                      <button onClick={handleDelete} className="btn_delete noselect"><span className="text">移除</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                     </Box>
                   </form>
                 )}

@@ -64,9 +64,6 @@ export default function StoreListModal({ props }) {
     const handleAreaChange = (event) => {
         setSelectedArea(event.target.value);
     };
-    // useEffect(() => {
-    //     console.log("city:" + cityFilter + ", selected area:" + selectedArea);
-    // }, [cityFilter, areaFilter, selectedArea]);
 
 
     const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
@@ -135,7 +132,6 @@ export default function StoreListModal({ props }) {
         if (data3) {
             // SET THE initial value using data3
             const nonNullData = replaceNullWithEmptyString(data3.getStore[0]);
-
             setInitialValues({
                 id: props.id,
                 status: nonNullData.status.name,
@@ -238,8 +234,6 @@ export default function StoreListModal({ props }) {
                 }
             })
             console.log("unbaned");
-        } else {
-            console.log("not deleted");
         }
     }
 
@@ -296,7 +290,6 @@ export default function StoreListModal({ props }) {
         if (initialValues.status !== "banned") {
             variables.statusId = status;
         }
-        console.log(variables);
         ApolloUpdateStore({ variables });
     };
 
@@ -398,6 +391,7 @@ export default function StoreListModal({ props }) {
                                                     helperText={touched.intro && errors.intro}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
+                                                { }
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
                                                     <Select
@@ -461,7 +455,7 @@ export default function StoreListModal({ props }) {
                                                             label="搜索店面地點 ..."
                                                             variant="filled"
                                                             type="text"
-                                                            sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                            sx={{ mb: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
                                                                 placeholder: '搜索店面地點 ...',
                                                                 className: 'location-search-input',
@@ -576,9 +570,6 @@ export default function StoreListModal({ props }) {
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
                                                     sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-                                            </Box>
-                                            <Box color={"white"}>
-                                                lat {coordinates.lat} - lng {coordinates.lng}
                                             </Box>
                                             <Box display={"flex"} justifyContent={"space-between"} >
 

@@ -13,6 +13,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateBrandCoinModal from './CreateBrandCoinModal';
 import BrandCoinListModal from './BrandCoinListModal';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 const BrandCoinManagement = () => {
@@ -81,6 +83,9 @@ const BrandCoinManagement = () => {
             console.log(loading);
         }
     }, [data]);
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     return (
         <Box p={2}>

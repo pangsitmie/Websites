@@ -16,6 +16,8 @@ import { replaceNullWithEmptyString } from '../../utils/Utils';
 import { format } from 'date-fns';
 import AdsListModal from './AdsListModal';
 import CreateAdsModal from './CreateAdsModal';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 const AdsManagement = () => {
     //========================== THEME ==========================
@@ -78,6 +80,9 @@ const AdsManagement = () => {
                 value.principal.name.match(new RegExp(searchTerm, 'g'))
         })
     }
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     // ========================== RETURN ==========================
     return (

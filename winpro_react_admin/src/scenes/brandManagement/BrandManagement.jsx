@@ -16,6 +16,8 @@ import CreateBrandModal from './CreateBrandModal';
 import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 const BrandManagement = () => {
@@ -95,8 +97,8 @@ const BrandManagement = () => {
 
 
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :</p>;
+    if (loading) return <Loader />;
+    if (error) return <Error />;
     // ========================== RETURN ==========================
     return (
         <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
@@ -294,7 +296,7 @@ const BrandManagement = () => {
                                         data: brand,
                                     }}
                                 >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid #e1e2fe", borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
                                         告示牌管理
                                     </Button>
                                 </Link>

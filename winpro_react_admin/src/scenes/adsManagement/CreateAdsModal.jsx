@@ -108,6 +108,10 @@ export default function CreateAdsModal() {
         }
 
         // console.log(variables);
+        if (endAtUnix < startAtUnix) {
+            alert("End date must be greater than start date");
+            return;
+        }
         ApolloCreateAds({ variables });
 
 

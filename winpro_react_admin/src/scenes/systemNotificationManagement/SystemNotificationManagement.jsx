@@ -13,6 +13,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateSystemNotificationModal from './CreateSystemNotificationModal';
 import SystemNotificationListModal from './SystemNotificationListModal';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 const SystemNotificationManagement = () => {
@@ -75,6 +77,9 @@ const SystemNotificationManagement = () => {
                 value.principal.name.match(new RegExp(searchTerm, 'g'))
         })
     }
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     // ========================== RETURN ==========================
     return (

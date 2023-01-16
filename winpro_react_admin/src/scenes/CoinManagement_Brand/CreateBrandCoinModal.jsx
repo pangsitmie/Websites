@@ -144,10 +144,13 @@ export default function CreateBrandCoinModal() {
     const startAtDateObj = new Date(startAtDate);
     const endAtDateObj = new Date(endAtDate);
 
-    const triggerAtUnix = triggerAtDateObj.getTime() / 1000;
-    const expireAtUnix = expireAtDateObj.getTime() / 1000;
-    const startAtUnix = startAtDateObj.getTime() / 1000;
-    const endAtUnix = endAtDateObj.getTime() / 1000;
+    let triggerAtUnix = triggerAtDateObj.getTime() / 1000;
+    let expireAtUnix = expireAtDateObj.getTime() / 1000;
+    let startAtUnix = startAtDateObj.getTime() / 1000;
+    let endAtUnix = endAtDateObj.getTime() / 1000;
+
+    let nowUnix = Math.floor(Date.now() / 1000);
+
 
     const variables = {
       receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
@@ -155,10 +158,10 @@ export default function CreateBrandCoinModal() {
       belongToId: brandId,
       amount: parseInt(values.currencyAmount),
       currencyId: brandCoinId,
-      sourceType: "notification",
-      triggerAt: triggerAtUnix,
-      startAt: startAtUnix,
-      endAt: endAtUnix,
+      sourceType: "direct",
+      // triggerAt: triggerAtUnix,
+      // startAt: startAtUnix,
+      // endAt: endAtUnix,
       description: values.rewardDescription,
       limit: parseInt(values.rewardLimit),
       comment: values.comment,
@@ -166,11 +169,40 @@ export default function CreateBrandCoinModal() {
         type: "freeCoin",
         title: values.title,
         content: values.content,
-        expireAt: expireAtUnix
+        // expireAt: expireAtUnix
       }
     }
 
+    //check if startAtUnix is filled
+    if (isNaN(triggerAtUnix)) {
+      triggerAtUnix = nowUnix;
+    }
+    if (isNaN(startAtUnix)) {
+      startAtUnix = nowUnix;
+    }
+
+    //insert startAtUnix to variables
+    variables.triggerAt = triggerAtUnix;
+    variables.startAt = startAtUnix;
+
+    //insert endAtUnix to variables if it is selected
+    if (!isNaN(endAtUnix)) {
+      variables.endAt = endAtUnix;
+    }
+    if (!isNaN(expireAtUnix)) {
+      variables.notification.expireAt = expireAtUnix;
+    }
+
+    if (endAtUnix < startAtUnix) {
+      alert("End date must be greater than start date");
+      return;
+    }
+    if (expireAtUnix < triggerAtUnix) {
+      alert("expire date must be greater than trigger date");
+      return;
+    }
     console.log(variables);
+
     ApolloCreateBrandFreeCoinNotification({ variables });
 
   };
@@ -408,7 +440,7 @@ export default function CreateBrandCoinModal() {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button class="my-button" type="submit">{confirmTitle}</Button>
+                      <Button className="my-button" type="submit">{confirmTitle}</Button>
                     </Box>
                   </form>
                 )}

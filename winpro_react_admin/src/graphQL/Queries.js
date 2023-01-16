@@ -182,8 +182,8 @@ query GetBrand($args: [BrandArgs!]!, $mimetype: String!, $fileSize: Int!) {
 `
 //========================= STORES =========================
 export const GetAllStores = gql`
-query ManagerGetStores {
-  managerGetStores {
+query ManagerGetStores($limit: Int, $offset: Int) {
+  managerGetStores(limit: $limit, offset: $offset) {
     id
     name
     brand {
@@ -232,19 +232,7 @@ query GetStore($args: [StoreArgs!]!) {
       lineUrl
       email
     }
-    managerGetMachines {
-      id
-      uuid
-      qrCode
-      code
-      name
-      status {
-        id
-        description
-        name
-      }
-      connStatus
-    }
+ 
   }
 }
 `

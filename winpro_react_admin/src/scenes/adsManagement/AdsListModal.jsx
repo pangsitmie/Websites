@@ -75,13 +75,21 @@ export default function AdsListModal({ props }) {
             });
 
             const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
-            const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
             setStartAtDate(startAtDateTimeLocal);
-            setEndAtDate(endAtDateTimeLocal);
+
+            if (nonNullData.endAt !== "") {
+                console.log(nonNullData.endAt);
+                const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
+                setEndAtDate(endAtDateTimeLocal);
+                // console.log(endAtDate);
+            }
+
+            console.log(nonNullData.url + ", " + endAtDate);
 
             if (nonNullData.image !== null || (nonNullData.image !== "null" || nonNullData.image !== "")) {
                 setImageFileName(nonNullData.image);
             }
+
             if (nonNullData.status.name !== "banned") {
                 setStatus(nonNullData.status.name)
             }
@@ -151,7 +159,6 @@ export default function AdsListModal({ props }) {
     };
 
     const handleFormSubmit = (values) => {
-
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
@@ -184,7 +191,13 @@ export default function AdsListModal({ props }) {
         if (initialValues.status !== "banned") {
             variables.statusId = status;
         }
-        console.log(variables)
+        // console.log(variables)
+        if (endAtUnix < startAtUnix && !isNaN(endAtUnix)) {
+            alert("結束日期必須晚於開始日期");
+            return;
+        }
+        console.log(endAtUnix + " " + startAtUnix)
+        console.log(variables);
         ApolloUpdateAds({ variables })
 
     };
@@ -307,7 +320,7 @@ export default function AdsListModal({ props }) {
                                                 id="datetime-local"
                                                 label="結束時間"
                                                 type="datetime-local"
-                                                // defaultValue="2017-05-24T10:30"
+                                                // defaultValue=""
                                                 value={endAtDate}
                                                 onChange={handleEndAtDateChange}
                                                 sx={{ marginBottom: "1rem" }}

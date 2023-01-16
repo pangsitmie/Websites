@@ -14,6 +14,8 @@ import { citiesData } from "../../data/mockData";
 import { GetBillboardList } from '../../graphQL/Queries';
 import CreateBillboardModal from './CreateBillboardModal';
 import BillboardListModal from './BillboardListModal';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 const BillboardManagement = () => {
     const location = useLocation();
@@ -78,6 +80,9 @@ const BillboardManagement = () => {
     const submitSearch = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     return (
         <Box p={2}>

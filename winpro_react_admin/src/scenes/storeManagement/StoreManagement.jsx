@@ -13,6 +13,10 @@ import { citiesData } from "../../data/mockData";
 import StoreListModal from './StoreListModal';
 import CreateStoreModal from './CreateStoreModal'
 import { Link } from 'react-router-dom';
+import Pagination from '../../components/Pagination';
+import Refresh from '../../components/Refresh';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 const StoreManagement = () => {
@@ -31,6 +35,14 @@ const StoreManagement = () => {
     //REF
     const brandRef = useRef('');
     const searchRef = useRef('');
+
+    // PAGINATION
+    const [limit, setLimit] = useState(10);
+    const [offset, setOffset] = useState(0);
+    const handlePageChange = ({ limit, offset }) => {
+        setLimit(limit);
+        setOffset(offset);
+    }
 
     //FUNCTIONS
     const handleSearchChange = (e) => {
@@ -76,7 +88,9 @@ const StoreManagement = () => {
     }
 
     //GQL
-    const { loading, error, data } = useQuery(GetAllStores);
+    const { loading, error, data } = useQuery(GetAllStores, {
+        variables: { limit, offset }
+    });
     const [initStores, SetInitStores] = useState([]);
     const [stores, setStores] = useState([]);
     useEffect(() => {
@@ -85,6 +99,9 @@ const StoreManagement = () => {
             SetInitStores(data.managerGetStores);
         }
     }, [data]);
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     return (
         <Box p={2}>
@@ -186,17 +203,30 @@ const StoreManagement = () => {
                 borderRadius="10px"
                 height={"40vh"}
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        店面清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -288,7 +318,7 @@ const StoreManagement = () => {
                                         data: store,
                                     }}
                                 >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid #e1e2fe", borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
                                         機台管理
                                     </Button>
                                 </Link>

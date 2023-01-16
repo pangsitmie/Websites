@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { CreateSystemNotification } from "../../graphQL/Mutations";
-import { Navigate } from "react-router-dom";
 
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
   content: yup.string().required("required"),
-  comments: yup.string().required("required"),
+  comments: yup.string().required("required"), //this one is required by the api
 });
 
 
@@ -57,21 +55,42 @@ export default function CreateSystemNotificationModal() {
     const triggerAtDateObj = new Date(triggerAtDate);
     const expireAtDateObj = new Date(expireAtDate);
 
-    const triggerAtUnix = triggerAtDateObj.getTime() / 1000;
-    const expireAtUnix = expireAtDateObj.getTime() / 1000;
 
-    ApolloCreateNotification({
-      variables: {
-        comment: values.comments,
-        triggerAt: triggerAtUnix,
-        notification: {
-          type: "system",
-          title: values.title,
-          content: values.content,
-          expireAt: expireAtUnix,
-        }
+    let triggerAtUnix = triggerAtDateObj.getTime() / 1000;
+    let expireAtUnix = expireAtDateObj.getTime() / 1000;
+    let nowUnix = Math.floor(Date.now() / 1000);
+
+
+    const variables = {
+      comment: values.comments,
+      // triggerAt: triggerAtUnix,
+      notification: {
+        type: "system",
+        title: values.title,
+        content: values.content,
+        // expireAt: expireAtUnix,
       }
-    });
+    }
+
+    //check if startAtUnix is filled
+    if (isNaN(triggerAtUnix)) {
+      triggerAtUnix = nowUnix;
+    }
+    //insert triggerAtUnix to variables
+    variables.triggerAt = triggerAtUnix;
+    //insert endAtUnix to variables if it is selected
+    if (!isNaN(expireAtUnix)) {
+      variables.notification.expireAt = expireAtUnix;
+    }
+    // console.log(variables);
+    if (expireAtUnix < triggerAtUnix) {
+      alert("End date must be greater than start date");
+      return;
+    }
+
+    console.log(variables);
+    ApolloCreateNotification({ variables });
+
   };
 
   //========================== GRAPHQL ==========================

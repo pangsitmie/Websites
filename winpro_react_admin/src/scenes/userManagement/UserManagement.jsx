@@ -13,6 +13,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import UserListModal from './UserListModal';
 import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 const UserManagement = () => {
@@ -74,6 +76,9 @@ const UserManagement = () => {
                 value.phone.number.match(new RegExp(searchTerm, 'g'))
         })
     }
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     return (
         <Box p={2}>

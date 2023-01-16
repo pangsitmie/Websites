@@ -92,6 +92,10 @@ export default function CreateBillboardModal({ props }) {
             variables.description = values.description;
         }
         // console.log(variables);
+        if (endAtUnix < startAtUnix) {
+            alert("End date must be greater than start date");
+            return;
+        }
         ApolloCreateBillboard({ variables });
     };
 

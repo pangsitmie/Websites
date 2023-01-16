@@ -122,9 +122,12 @@ export default function BillboardListModal({ props }) {
             });
 
             const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
-            const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
             setStartAtDate(startAtDateTimeLocal);
-            setEndAtDate(endAtDateTimeLocal);
+
+            if (nonNullData.endAt !== "") {
+                const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
+                setEndAtDate(endAtDateTimeLocal);
+            }
 
             if (nonNullData.image !== null || (nonNullData.image !== "null") || (nonNullData.image !== '')) {
                 setImageFileName(nonNullData.image);
@@ -206,6 +209,10 @@ export default function BillboardListModal({ props }) {
             variables.statusId = status;
         }
         console.log(variables);
+        if (endAtUnix < startAtUnix && !isNaN(endAtUnix)) {
+            alert("結束日期必須晚於開始日期");
+            return;
+        }
         ApolloUpdateBillboard({ variables });
     };
 

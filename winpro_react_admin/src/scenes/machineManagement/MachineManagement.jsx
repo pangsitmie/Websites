@@ -17,6 +17,8 @@ import Refresh from '../../components/Refresh';
 // QRCODE
 import QRCode from 'qrcode'
 import jsPDF from 'jspdf';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 
@@ -140,8 +142,8 @@ const MachineManagement = () => {
         doc.save(state.data.name + '機台 QR-CODES.pdf');
     }
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error</p>;
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     return (
         <Box p={"0 1rem 1rem 1rem"}>

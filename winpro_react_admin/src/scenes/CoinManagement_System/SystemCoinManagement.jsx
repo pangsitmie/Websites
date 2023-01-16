@@ -13,6 +13,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateSystemCoinModal from './CreateSystemCoinModal';
 import SystemCoinListModal from './SystemCoinListModal';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 
 const SystemCoinManagement = () => {
@@ -80,6 +82,9 @@ const SystemCoinManagement = () => {
             console.log(loading);
         }
     }, [data]);
+
+    if (loading) return <Loader />;
+    if (error) return <Error />;
 
     return (
         <Box p={2}>
