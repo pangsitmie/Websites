@@ -39,9 +39,11 @@ const MachineManagement = () => {
     // PAGINATION
     const [limit, setLimit] = useState(10);
     const [offset, setOffset] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const handlePageChange = ({ limit, offset }) => {
         setLimit(limit);
         setOffset(offset);
+        setCurrentPage(offset / limit + 1);
     }
 
     const [searchFilter, setSearchFilter] = useState('');
@@ -110,6 +112,19 @@ const MachineManagement = () => {
         }
     }, [machineDatas]);
 
+
+    useEffect(() => {
+        setImgUrls({});// clear the img url array so it can download per page
+        const startIndex = offset;
+        const endIndex = offset + limit;
+        const machinesInCurrentPage = machineDatas.slice(startIndex, endIndex);
+        for (const machine of machinesInCurrentPage) {
+            generateQrCode(machine.name, machine.qrCode);
+        }
+        // ...
+    }, [offset, limit, machineDatas]);
+
+
     const generateQrCode = async (machineName, qrCodePaypload) => {
         try {
             const response = await QRCode.toDataURL(qrCodePaypload);
@@ -135,28 +150,36 @@ const MachineManagement = () => {
         return doc;
     }
 
+
     function downloadPdf() {
         const keys = Object.keys(imgUrls);
         const images = Object.values(imgUrls);
+        // const keys = Object.keys(imgUrls).slice(startIndex, endIndex);
+        // const images = Object.values(imgUrls).slice(startIndex, endIndex);
+
         const doc = createPdfWithImages(images, keys);
-        doc.save(state.data.name + '機台 QR-CODES.pdf');
+        doc.save(`${currentPage}_${state.data.name}_機台_QR.pdf`);
     }
 
     if (loading) return <Loader />;
     if (error) return <Error />;
 
     return (
-        <Box p={"0 1rem 1rem 1rem"}>
-            <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
-            <Typography variant="h4" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
+        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+            <Box height={"15%"}>
+                <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
+                <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
+            </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={5}>
+            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={2}
+                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
+                    borderRadius="10px"
+                    height={"52px"}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={searchRef} />
                 </Box>
 
@@ -216,10 +239,10 @@ const MachineManagement = () => {
 
 
             {/* TABLE DIV */}
-            <Box className="recent_transaction_container"
+            <Box
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"40vh"}
+                height={"45%"}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
@@ -253,7 +276,6 @@ const MachineManagement = () => {
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
                     p="10px"
-                    maxHeight={"100px"}
                 >
 
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -286,7 +308,7 @@ const MachineManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.uuid}</Box>

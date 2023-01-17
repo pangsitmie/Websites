@@ -101,11 +101,13 @@ const BrandManagement = () => {
     if (error) return <Error />;
     // ========================== RETURN ==========================
     return (
+        // here
         <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>品牌管理</h1>
             </Box>
 
+            {/* here */}
             {/* SEARCH DIV */}
             <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
@@ -180,12 +182,12 @@ const BrandManagement = () => {
                 </Box>
             </Box>
 
-
+            {/* here */}
             {/* TABLE DIV */}
             <Box
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"52%"}
+                height={"50%"}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
@@ -237,6 +239,7 @@ const BrandManagement = () => {
                     </Box>
                 </Box>
 
+                {/* here */}
                 <Box
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
@@ -250,7 +253,7 @@ const BrandManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>

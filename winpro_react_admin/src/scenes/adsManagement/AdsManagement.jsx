@@ -18,6 +18,8 @@ import AdsListModal from './AdsListModal';
 import CreateAdsModal from './CreateAdsModal';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
+import Pagination from '../../components/Pagination';
+import Refresh from '../../components/Refresh';
 
 const AdsManagement = () => {
     //========================== THEME ==========================
@@ -41,6 +43,16 @@ const AdsManagement = () => {
     };
 
     // ========================== REF ==========================
+
+    // PAGINATION
+    const [limit, setLimit] = useState(5);
+    const [offset, setOffset] = useState(0);
+    const handlePageChange = ({ limit, offset }) => {
+        setLimit(limit);
+        setOffset(offset);
+    }
+
+
     const searchValueRef = useRef('');
     const filterRef = useRef('品牌名');
 
@@ -86,16 +98,19 @@ const AdsManagement = () => {
 
     // ========================== RETURN ==========================
     return (
-        <Box p={2}>
-            <h1 className='userManagement_title'>廣告管理</h1>
+        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+            <Box height={"10%"}>
+                <h1 className='userManagement_title'>廣告管理</h1>
+            </Box>
             {/* SEARCH DIV */}
-            <Box display="flex" paddingBottom={5}>
+            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
                     mr={"1rem"}
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
+                    borderRadius="10px"
+                    height={"52px"}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
@@ -156,6 +171,7 @@ const AdsManagement = () => {
                     borderRadius="10px"
                     marginLeft={"auto"}
                     padding={"0"}
+                    height={"52px"}
                 >
                     <CreateAdsModal />
                 </Box>
@@ -165,22 +181,34 @@ const AdsManagement = () => {
 
             {/* TABLE DIV */}
             <Box
-                className="recent_transaction_container"
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"40vh"}
+                height={"50%"}
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        品牌清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -189,11 +217,7 @@ const AdsManagement = () => {
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
                     p="10px"
-                    maxHeight={"100px"}
-
                 >
-
-
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">廣告類型</Typography>
                     </Box>
@@ -223,7 +247,7 @@ const AdsManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type.name === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}</Box>

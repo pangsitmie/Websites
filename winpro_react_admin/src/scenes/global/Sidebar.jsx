@@ -247,8 +247,9 @@ const Sidebar = () => {
             </Typography>
           </Box>
         </Menu>
+        <a href="https://roundbytes.com/" rel="dofollow"></a>
       </ProSidebar>
-      <a href="https://roundbytes.com/" rel="dofollow">.</a>
+
 
     </Box>
   );

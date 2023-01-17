@@ -6,7 +6,6 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { GetAds, RemoveAds, UnbanAds, UpdateAds } from "../../graphQL/Queries";
-import { format } from 'date-fns';
 import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import CoverUpload from "../../components/Upload/CoverUpload";
@@ -286,9 +285,6 @@ export default function AdsListModal({ props }) {
                                                     </Select>
                                                 </FormControl>
                                             </Box>
-
-
-
                                             <TextField
                                                 fullWidth
                                                 variant="filled"

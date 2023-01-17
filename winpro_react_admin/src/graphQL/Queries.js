@@ -621,3 +621,18 @@ query GetCurrentVersion($clientName: EAppClient!) {
   }
 }
 `
+
+// ========================= DASHBOARD =========================
+export const GetDashboardInit = gql`
+query GetDashboardInit {
+  getAllMember {
+    id
+  }
+  managerGetBrands {
+    id
+  }
+  managerGetStores {
+    id
+  }
+}
+`

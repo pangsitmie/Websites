@@ -104,16 +104,19 @@ const StoreManagement = () => {
     if (error) return <Error />;
 
     return (
-        <Box p={2}>
-            <h1 className='userManagement_title'>店面管理</h1>
+        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+            <Box height={"10%"}>
+                <h1 className='userManagement_title'>店面管理</h1>
+            </Box>
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={5}>
+            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={2}
+                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
+                    borderRadius="10px"
+                    height={"52px"}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名" inputRef={brandRef} />
                 </Box>
                 <Box
@@ -121,7 +124,8 @@ const StoreManagement = () => {
                     mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    alignItems={"center"}>
+                    alignItems={"center"}
+                    height={"52px"}>
                     <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="店面名 或 負責人" inputRef={searchRef} />
                     <FormControl sx={{ minWidth: 150, padding: "5px" }} >
                         <InputLabel id="demo-simple-select-label">查詢過濾</InputLabel>
@@ -190,6 +194,7 @@ const StoreManagement = () => {
                     borderRadius="10px"
                     marginLeft={"auto"}
                     padding={"0"}
+                    height={"52px"}
                 >
                     <CreateStoreModal />
                 </Box>
@@ -198,10 +203,9 @@ const StoreManagement = () => {
 
             {/* TABLE DIV */}
             <Box
-                className="recent_transaction_container"
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"40vh"}
+                height={"50%"}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
@@ -257,7 +261,6 @@ const StoreManagement = () => {
                     </Box>
                 </Box>
                 <Box
-
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"100%"}
@@ -269,7 +272,7 @@ const StoreManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>

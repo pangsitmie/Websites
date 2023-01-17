@@ -122,7 +122,6 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
-
     <BrowserRouter>
       <React.StrictMode>
         <Routes>
@@ -131,7 +130,6 @@ root.render(
         </Routes>
       </React.StrictMode>
     </BrowserRouter>
-
   </ApolloProvider>
 
 );

@@ -16,6 +16,8 @@ import CreateBillboardModal from './CreateBillboardModal';
 import BillboardListModal from './BillboardListModal';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
+import Refresh from '../../components/Refresh';
+import Pagination from '../../components/Pagination';
 
 const BillboardManagement = () => {
     const location = useLocation();
@@ -29,7 +31,17 @@ const BillboardManagement = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    // STATES
+    // ======================== STATES ========================
+
+    // PAGINATION
+    const [limit, setLimit] = useState(5);
+    const [offset, setOffset] = useState(0);
+    const handlePageChange = ({ limit, offset }) => {
+        setLimit(limit);
+        setOffset(offset);
+    }
+
+
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
     const [billboardData, setBillboardData] = useState([]);
@@ -85,16 +97,20 @@ const BillboardManagement = () => {
     if (error) return <Error />;
 
     return (
-        <Box p={2}>
-            <h1 className='userManagement_title'>{state.data.name} - 告示牌管理</h1>
+        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+            <Box height={"10%"}>
+                <h1 className='userManagement_title'>{state.data.name} - 告示牌管理</h1>
+            </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={5}>
+            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={2}
+                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
+                    borderRadius="10px"
+                    height={"52px"}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={brandRef} />
                 </Box>
 
@@ -126,6 +142,7 @@ const BillboardManagement = () => {
                     borderRadius="10px"
                     marginLeft={"auto"}
                     padding={"0"}
+                    height={"52px"}
                 >
                     <CreateBillboardModal props={state.data} />
                 </Box>
@@ -133,22 +150,35 @@ const BillboardManagement = () => {
 
 
             {/* TABLE DIV */}
-            <Box className="recent_transaction_container"
+            <Box
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"40vh"}
+                height={"50%"}
             >
+                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
+                    justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                        機台清單
-                    </Typography>
+                    <Box width={"90%"}>
+                        {/* pagination */}
+                        <Pagination
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange}
+                        />
+                    </Box>
+
+                    <Box width={"10%"}>
+                        {/* refresh button */}
+                        <Refresh
+                            limit={limit}
+                            offset={offset}
+                            onPageChange={handlePageChange} />
+                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -159,7 +189,6 @@ const BillboardManagement = () => {
                     p="10px"
                     maxHeight={"100px"}
                 >
-
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
                     </Box>
@@ -189,7 +218,7 @@ const BillboardManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`4px solid ${colors.primary[500]}`}
+                            borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.title}</Box>

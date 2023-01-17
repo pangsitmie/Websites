@@ -92,9 +92,9 @@ const Login = () => {
 
     return (
         <Box className='login_page' backgroundColor={colors.primary[400]} >
-            <div class="container">
-                <div class="box">
-                    <span class="title">GAME PAY <br />LOGIN</span>
+            <div className="container">
+                <div className="box">
+                    <span className="title">GAME PAY <br />LOGIN</span>
                     <div>
                         <Formik
                             onSubmit={handleFormSubmit}
@@ -154,12 +154,10 @@ const Login = () => {
                                         </FormControl>
                                     </Box>
                                     <Box display="flex" justifyContent="center" paddingTop={"2rem"}>
-                                        {/* <button className="my-button" type="submit" >Login</button> */}
                                         <button className='btn_right_arrow' type="submit">
                                             Login
-                                            <div class="arrow-wrapper">
-                                                <div class="arrow"></div>
-
+                                            <div className="arrow-wrapper">
+                                                <div className="arrow"></div>
                                             </div>
                                         </button>
                                     </Box>

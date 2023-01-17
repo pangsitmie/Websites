@@ -81,16 +81,20 @@ const UserManagement = () => {
     if (error) return <Error />;
 
     return (
-        <Box p={2}>
-            <h1 className='userManagement_title'>使用者管理</h1>
+        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+            <Box height={"10%"}>
+                <h1 className='userManagement_title'>使用者管理</h1>
+            </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={5}>
+            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={2}
+                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px">
+                    borderRadius="10px"
+                    height={"52px"}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="暱稱 或 手機" inputRef={searchValueRef} />
                 </Box>
                 {/* phone search */}
@@ -134,9 +138,10 @@ const UserManagement = () => {
 
 
             {/* TABLE DIV */}
-            <Box className="recent_transaction_container"
+            <Box
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
+                height={"50%"}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
@@ -168,8 +173,8 @@ const UserManagement = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
-                    p="15px 25px 15px 15px"
+                    background={colors.grey[300]}
+                    p="10px"
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">暱稱</Typography>
@@ -185,50 +190,55 @@ const UserManagement = () => {
                     </Box>
                 </Box>
 
-                {members.map((member, i) => (
-                    <Box
-                        key={`${member.id}-${i}`}
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid ${colors.primary[500]}`}
-                        p="10px"
-                    >
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile.nickname}</Box>
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone.number}</Box>
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                            {(() => {
-                                if (member.status.name === "disable") {
-                                    return (
-                                        <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                            停用
-                                        </Typography>)
-                                }
-                                else if (member.status.name === "banned") {
-                                    return (
-                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                            封鎖
-                                        </Typography>)
-                                }
-                                else if (member.status.name === "removed") {
-                                    return (
-                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                            移除
-                                        </Typography>)
-                                }
-                                else {
-                                    return (
-                                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                            正常
-                                        </Typography>)
-                                }
-                            })()}
+                <Box
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"100%"}
+                    overflow={"auto"}
+                >
+                    {members.map((member, i) => (
+                        <Box
+                            key={`${member.id}-${i}`}
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            borderBottom={`3px solid ${colors.primary[500]}`}
+                            p="10px"
+                        >
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile.nickname}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone.number}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {(() => {
+                                    if (member.status.name === "disable") {
+                                        return (
+                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                停用
+                                            </Typography>)
+                                    }
+                                    else if (member.status.name === "banned") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                封鎖
+                                            </Typography>)
+                                    }
+                                    else if (member.status.name === "removed") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                移除
+                                            </Typography>)
+                                    }
+                                    else {
+                                        return (
+                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                正常
+                                            </Typography>)
+                                    }
+                                })()}
+                            </Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><UserListModal props={member} /></Box>
                         </Box>
-                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><UserListModal props={member} /></Box>
-
-
-                    </Box>
-                ))}
+                    ))}
+                </Box>
             </Box>
         </Box >
     )

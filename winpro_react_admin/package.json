@@ -10,6 +10,7 @@
     "@mui/icons-material": "^5.10.15",
     "@mui/material": "^5.10.15",
     "@mui/x-data-grid": "^5.17.13",
+    "@nivo/line": "^0.80.0",
     "@react-google-maps/api": "^2.17.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

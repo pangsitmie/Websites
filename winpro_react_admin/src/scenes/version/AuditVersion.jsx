@@ -60,19 +60,22 @@ const AuditVersion = () => {
             variables.ios = values.ios;
         }
 
-        console.log(variables);
+        if (values.android === "" && values.ios === "")
+            return alert("請輸入版本號");
         ApolloUpdateVersion({ variables });
     }
 
 
     return (
-        <Box p={2}>
-            <div class="container">
-                <div class="box">
-                    <Typography variant="h3" sx={{ m: "2rem 0 1rem", fontSize: "1.5rem", fontWeight: "600", color: colors.grey[200], textAlign: "center" }}>
+        <Box pl={2}>
+            <div className="container">
+                <div className="box">
+                    <Typography variant="h3" sx={{ mt: "5px", fontSize: "1.5rem", fontWeight: "500", color: colors.grey[200] }}>
                         Audit System Version
                     </Typography>
-                    {/* <span class="title">Audit System Version</span> */}
+                    <Typography variant="h3" sx={{ fontSize: ".9rem", fontWeight: "500", color: colors.grey[200] }}>
+                        伺服器版本: {initialValues.server}
+                    </Typography>
                     <div>
                         <Formik
                             onSubmit={handleFormSubmit}
@@ -89,7 +92,7 @@ const AuditVersion = () => {
                             }) => (
                                 <form onSubmit={handleSubmit}>
                                     <Box>
-                                        <Typography variant="h3" sx={{ m: "2rem 0 1rem", fontSize: "1.2rem", fontWeight: "600", color: colors.grey[200], textAlign: "center" }}>
+                                        <Typography variant="h3" sx={{ m: "2rem 0 1rem", fontSize: "1rem", fontWeight: "500", color: colors.grey[200], textAlign: "left" }}>
                                             ANDROID - {initialValues.ios}
                                         </Typography>
                                         <TextField
@@ -105,7 +108,7 @@ const AuditVersion = () => {
                                             helperText={touched.android && errors.android}
                                             sx={{ marginBottom: "1rem", mr: "1rem", borderRadius: "5px" }}
                                         />
-                                        <Typography variant="h3" sx={{ m: "2rem 0 1rem", fontSize: "1.2rem", fontWeight: "600", color: colors.grey[200], textAlign: "center" }}>
+                                        <Typography variant="h3" sx={{ m: "2rem 0 1rem", fontSize: "1rem", fontWeight: "500", color: colors.grey[200], textAlign: "left" }}>
                                             IOS - {initialValues.ios}
                                         </Typography>
                                         <TextField
@@ -123,11 +126,10 @@ const AuditVersion = () => {
                                         />
                                     </Box>
                                     <Box display="flex" justifyContent="center" paddingTop={"2rem"}>
-                                        {/* <button className="my-button" type="submit" >Login</button> */}
                                         <button className='btn_right_arrow' type="submit">
                                             Update
-                                            <div class="arrow-wrapper">
-                                                <div class="arrow"></div>
+                                            <div className="arrow-wrapper">
+                                                <div className="arrow"></div>
                                             </div>
                                         </button>
                                     </Box>
@@ -140,7 +142,7 @@ const AuditVersion = () => {
                     </div>
                 </div>
             </div>
-        </Box>
+        </Box >
     )
 }
 

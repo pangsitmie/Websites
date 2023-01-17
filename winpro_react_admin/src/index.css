@@ -1,4 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'helvetica neue';
+  src: url('./fonts/HelveticaNeue.ttf') format('truetype');
+}
+
 
 h1 {
   margin: 0;
@@ -9,7 +16,7 @@ body,
 .app,
 #root {
   height: 100%;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Lexend', "Source Sans Pro", sans-serif;
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -20,7 +27,6 @@ body,
   /* height: 100%; */
   height: auto;
   width: 100%;
-
 }
 
 .places-container {
