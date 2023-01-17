@@ -16,7 +16,7 @@ const VersionManagement = () => {
         <Box>
             <Box>
                 <h1 className='userManagement_title'>版本管控</h1>
-                <Typography variant="h3" sx={{ mb: "10px", fontSize: "1.2rem", fontWeight: "500", color: colors.grey[200] }}>
+                <Typography variant="h3" sx={{ mb: "10px", fontSize: "1rem", fontWeight: "500", color: colors.grey[200] }}>
                     伺服器版本:
                 </Typography>
             </Box>

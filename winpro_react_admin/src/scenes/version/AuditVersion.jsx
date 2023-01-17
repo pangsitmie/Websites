@@ -69,7 +69,10 @@ const AuditVersion = () => {
         <Box p={2}>
             <div class="container">
                 <div class="box">
-                    <span class="title">Audit System Version</span>
+                    <Typography variant="h3" sx={{ m: "2rem 0 1rem", fontSize: "1.5rem", fontWeight: "600", color: colors.grey[200], textAlign: "center" }}>
+                        Audit System Version
+                    </Typography>
+                    {/* <span class="title">Audit System Version</span> */}
                     <div>
                         <Formik
                             onSubmit={handleFormSubmit}

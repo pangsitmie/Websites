@@ -63,12 +63,12 @@ const Header = () => {
         boxClassSubMenu3.push('');
     }
 
-    let boxClassSubMenu4 = ["sub__menus"];
-    if (isMenuSubMenu4) {
-        boxClassSubMenu4.push('sub__menus__Active');
-    } else {
-        boxClassSubMenu4.push('');
-    }
+    // let boxClassSubMenu4 = ["sub__menus"];
+    // if (isMenuSubMenu4) {
+    //     boxClassSubMenu4.push('sub__menus__Active');
+    // } else {
+    //     boxClassSubMenu4.push('');
+    // }
 
     return (
         <header className="header_container">
@@ -94,6 +94,8 @@ const Header = () => {
                             {/* <li className="menu-item" >
                                     <NavLink exact activeClassName='is-active' onClick={toggleClass} to={`/`}> Home </NavLink>
                                 </li> */}
+
+
 
                             {/* 商務合作 MENU ITEM */}
                             <li onClick={toggleSubmenu1} className="menu-item sub__menus__arrows" > <Link to="#">Products<FiChevronDown /> </Link>
@@ -158,8 +160,8 @@ const Header = () => {
                             <li className="menu-item" ><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}>Pricing</NavLink> </li>
 
 
-                            <li onClick={toggleSubmenu2} className="menu-item sub__menus__arrows" > <Link to="#">About Us<FiChevronDown /> </Link>
-                                <ul className={boxClassSubMenu2.join(' ')} >
+                            <li onClick={toggleSubmenu3} className="menu-item sub__menus__arrows" > <Link to="#">About Us<FiChevronDown /> </Link>
+                                <ul className={boxClassSubMenu3.join(' ')} >
                                     <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}><p className='menu_dropdown_title'>Press</p></NavLink> </li>
                                     <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}><p className='menu_dropdown_title'>About</p></NavLink> </li>
                                     <li><NavLink onClick={toggleClass} activeClassName='is-active' to={`/`}><p className='menu_dropdown_title'>Partners</p></NavLink> </li>
