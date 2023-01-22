@@ -1,0 +1,20 @@
+.hero_section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("src/assets/mesh_gradient_bg.png");
+    background-repeat: no-repeat;
+}
+
+/* ================= MAIN INTRO  ================= */
+.main_intro_section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.main_intro_content {
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
