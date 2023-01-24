@@ -10,9 +10,9 @@ import FULL_CAROUSEL_IMG2 from 'src/assets/full_carousel_img2.jpg'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import "./carousel.css";
+import "./fullCarousel.css";
 
-const Carousel = () => {
+const FullCarousel = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -44,7 +44,7 @@ const Carousel = () => {
                         </Box>
 
                         {/* IMG */}
-                        <Box className={"store_carousel_item_img"} >
+                        <Box className={"full_carousel_item_img"} >
                             <img src={FULL_CAROUSEL_IMG1} alt="" />
                         </Box>
                     </Box>
@@ -67,20 +67,20 @@ const Carousel = () => {
                         </Box>
 
                         {/* IMG */}
-                        <Box className={"store_carousel_item_img"} >
+                        <Box className={"full_carousel_item_img"} >
                             <img src={FULL_CAROUSEL_IMG2} alt="" />
                         </Box>
                     </Box>
                 </div>
                 <div>
-                    <Box className={"full_carousel_item"} backgroundColor={"#040305"}>
+                    <Box className={"full_carousel_item"} backgroundColor={"#FCEFE0"}>
                         {/* CONTENT */}
                         <Box className={"full_carousel_item_content"} >
                             <div >
-                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "bold", color: "#fefefe", mb: ".5rem" }}>
-                                    Win Pro Cloud
+                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "bold", color: "#1F1C1A", mb: ".5rem" }}>
+                                    Win Pro
                                 </Typography>
-                                <Typography variant="h1" sx={{ fontSize: "16px", fontWeight: "400", color: "#fefefe", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
+                                <Typography variant="h1" sx={{ fontSize: "16px", fontWeight: "400", color: "#1F1C1A", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
                                     You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the <br /> unimaginable
                                 </Typography>
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: "#286FDA", pt: "1rem" }}>
@@ -90,7 +90,7 @@ const Carousel = () => {
                         </Box>
 
                         {/* IMG */}
-                        <Box className={"store_carousel_item_img"} >
+                        <Box className={"full_carousel_item_img"} >
                             <img src={FULL_CAROUSEL_IMG1} alt="" />
                         </Box>
                     </Box>
@@ -100,5 +100,5 @@ const Carousel = () => {
     )
 }
 
-export default Carousel
+export default FullCarousel
 

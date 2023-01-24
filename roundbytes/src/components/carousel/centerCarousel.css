@@ -1,0 +1,33 @@
+/* STORE CAROUSEL */
+.center_carousel_item {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+
+.center_carousel_img {
+    width: 100%;
+    transition: .2s;
+}
+
+.center_carousel_img:hover {
+    box-shadow: 0px 0px 10px 3px rgba(135, 135, 135, 0.5);
+    transform: scale(1.02);
+}
+
+
+
+
+
+
+.slick-dots li button:before {
+    color: gray !important;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #6f85e9 !important;
+}

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Box, Typography, useTheme } from '@mui/material'
 import { ColorModeContext, tokens } from "../../theme";
-import Carousel from 'src/components/carousel/Carousel';
+import FullCarousel from 'src/components/carousel/FullCarousel';
 
 import './main.css'
+import CenterCarousel from 'src/components/carousel/CenterCarousel';
 
 const Main = () => {
   const theme = useTheme();
@@ -34,7 +35,28 @@ const Main = () => {
       </section>
 
       <section>
-        <Carousel />
+        <FullCarousel />
+      </section>
+
+
+      <section className='main_intro_section'>
+        <div className='main_intro_content'>
+          <div>
+            <Typography variant='h3' sx={{ textAlign: 'center', fontWeight: '300', color: colors.grey[100], pt: "5px" }}>
+              WHY US
+            </Typography>
+          </div>
+          <div>
+            <Typography variant='h2' sx={{ textAlign: 'left', fontWeight: '500', color: colors.grey[100] }}>
+              As a full-service design company, we have a passion for creating the fantastic. Our goal is to create engaging brands that connect with consumers at every stage.
+            </Typography>
+          </div>
+        </div>
+      </section>
+
+
+      <section>
+        <CenterCarousel />
       </section>
 
 

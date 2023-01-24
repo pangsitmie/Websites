@@ -13,13 +13,13 @@
 }
 
 
-.store_carousel_item_img {
+.full_carousel_item_img {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.store_carousel_item_img img {
+.full_carousel_item_img img {
     width: 100%;
 }
 

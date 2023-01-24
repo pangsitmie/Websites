@@ -71,3 +71,27 @@ section {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 #181818;
 }
+
+
+.a_arrow {
+  display: flex;
+  align-items: center;
+}
+
+.a_arrow:hover .a_arrow_icon {
+  transform: translate(5px, 0);
+  transition: var(--transition);
+}
+
+.a_arrow a {
+  color: #5298D5;
+  text-align: left;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: var(--transition);
+}
+
+.a_arrow_icon {
+  color: #5298D5;
+  margin-left: 8px;
+}
