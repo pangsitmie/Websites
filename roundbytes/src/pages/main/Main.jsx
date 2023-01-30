@@ -35,8 +35,18 @@ const Main = () => {
       </section>
 
       <section>
-        <FullCarousel />
+        <Box padding={"2rem"}>
+          <FullCarousel />
+        </Box>
       </section>
+      <section>
+        <Box pt={"5rem"}>
+          <CenterCarousel />
+
+        </Box>
+      </section>
+
+
 
 
       <section className='main_intro_section'>
@@ -55,9 +65,7 @@ const Main = () => {
       </section>
 
 
-      <section>
-        <CenterCarousel />
-      </section>
+
 
 
 

@@ -4,7 +4,7 @@ import MAP1 from 'src/assets/map1.png'
 import React, { Component } from "react";
 import Slider from "react-slick";
 import FULL_CAROUSEL_IMG1 from 'src/assets/full_carousel_img1.png'
-import FULL_CAROUSEL_IMG2 from 'src/assets/full_carousel_img2.jpg'
+import FULL_CAROUSEL_IMG2 from 'src/assets/full_carousel_img2.png'
 
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -19,10 +19,10 @@ const FullCarousel = () => {
     const settings = {
         className: "center",
         arrows: false,
-        dots: true,
+        dots: false,
         centerMode: true,
         infinite: true,
-        centerPadding: "50px", //ini harus sama dengan padding di css .slick-list
+        centerPadding: "0px", //ini harus sama dengan padding di css .slick-list
         slidesToShow: 1,
         speed: 500,
     };
@@ -34,11 +34,11 @@ const FullCarousel = () => {
                         {/* CONTENT */}
                         <Box className={"full_carousel_item_content"} >
                             <div >
-                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "bold", color: "#fefefe", mb: ".5rem", mt: "5rem" }}>
+                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "600", color: "#fefefe", mb: "1rem" }}>
                                     Round Bytes
                                 </Typography>
-                                <Typography variant="h1" sx={{ fontSize: "16px", fontWeight: "500", color: "#fefefe", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
-                                    You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the <br /> unimaginable
+                                <Typography variant="h1" sx={{ fontSize: "20px", fontWeight: "400", color: "#fefefe", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
+                                    You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the unimaginable
                                 </Typography>
                             </div>
                         </Box>
@@ -50,15 +50,15 @@ const FullCarousel = () => {
                     </Box>
                 </div>
                 <div>
-                    <Box className={"full_carousel_item"} backgroundColor={"#FCF7FE"}>
+                    <Box className={"full_carousel_item"} backgroundColor={"#f7e7db"}>
                         {/* CONTENT */}
                         <Box className={"full_carousel_item_content"} >
                             <div >
-                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "bold", color: "#1F1C1A", mb: "1rem" }}>
+                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "600", color: "#1F1C1A", mb: "1rem" }}>
                                     Tucope
                                 </Typography>
-                                <Typography variant="h1" sx={{ fontSize: "16px", fontWeight: "500", color: "#1F1C1A", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
-                                    You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the <br /> unimaginable
+                                <Typography variant="h1" sx={{ fontSize: "20px", fontWeight: "400", color: "#2b2826", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
+                                    You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the unimaginable
                                 </Typography>
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: "#286FDA", pt: "1rem" }}>
                                     View Project
@@ -73,14 +73,14 @@ const FullCarousel = () => {
                     </Box>
                 </div>
                 <div>
-                    <Box className={"full_carousel_item"} backgroundColor={"#FCEFE0"}>
+                    <Box className={"full_carousel_item"} backgroundColor={"#040305"}>
                         {/* CONTENT */}
                         <Box className={"full_carousel_item_content"} >
                             <div >
-                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "bold", color: "#1F1C1A", mb: ".5rem" }}>
+                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "600", color: "#1F1C1A", mb: "1rem" }}>
                                     Win Pro
                                 </Typography>
-                                <Typography variant="h1" sx={{ fontSize: "16px", fontWeight: "400", color: "#1F1C1A", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
+                                <Typography variant="h1" sx={{ fontSize: "18px", fontWeight: "400", color: "#2b2826", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
                                     You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the <br /> unimaginable
                                 </Typography>
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: "#286FDA", pt: "1rem" }}>

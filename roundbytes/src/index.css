@@ -7,6 +7,8 @@ body {
   font-family: 'Kumbh Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --transition: all 0.3s ease-in-out;
 }
 
 a,
@@ -76,15 +78,17 @@ section {
 .a_arrow {
   display: flex;
   align-items: center;
+  transition: var(--transition);
+  cursor: pointer;
 }
 
 .a_arrow:hover .a_arrow_icon {
-  transform: translate(5px, 0);
+  transform: translate(3px, 0);
   transition: var(--transition);
 }
 
 .a_arrow a {
-  color: #5298D5;
+  color: #6b86fd;
   text-align: left;
   font-weight: 500;
   font-size: 1.1rem;
@@ -92,6 +96,7 @@ section {
 }
 
 .a_arrow_icon {
-  color: #5298D5;
-  margin-left: 8px;
+  color: #6b86fd;
+  padding-top: 1px;
+  transition: var(--transition);
 }
