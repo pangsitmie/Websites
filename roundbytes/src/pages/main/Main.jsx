@@ -42,7 +42,6 @@ const Main = () => {
       <section>
         <Box pt={"5rem"}>
           <CenterCarousel />
-
         </Box>
       </section>
 

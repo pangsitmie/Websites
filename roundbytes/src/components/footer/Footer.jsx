@@ -11,6 +11,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Link, useNavigate } from 'react-router-dom';
 
+import LOGO_BLACK from "../../assets/logo_black.png";
+import LOGO_WHITE from "../../assets/logo_white.png";
+
+
+import "./footer.css";
 const Footer = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -24,9 +29,16 @@ const Footer = () => {
     }
 
     return (
-        <Box display="flex" justifyContent="space-between" p={4}>
-            <div>
-            </div>
+        <Box display="flex" justifyContent="space-between" p={3}>
+            <Box className={"footer_img"}>
+                <a href="/">
+                    {theme.palette.mode === "dark" ? (
+                        <img src={LOGO_WHITE} alt="logo" />
+                    ) : (
+                        <img src={LOGO_BLACK} alt="logo" />
+                    )}
+                </a>
+            </Box>
 
             <Box display="flex" alignItems={"center"}>
                 <Box margin={"0 2rem"} className="header_item">
@@ -54,7 +66,7 @@ const Footer = () => {
             </Box>
 
             {/* ICONS */}
-            <Box display="flex">
+            <Box display="flex" alignItems={"center"}>
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? (
                         <LightModeOutlinedIcon />
