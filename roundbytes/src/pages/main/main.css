@@ -18,3 +18,32 @@
     display: grid;
     grid-template-columns: 20% 75%;
 }
+
+.main_page_item_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.main_page_item {
+    height: 150px;
+    width: 200px;
+    border-radius: 25px;
+    background-color: #F6F5F4;
+    gap: .5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.main_page_item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    /* Adjust box-shadow */
+}
+
+.active {
+    background-color: #fff;
+    border: 2px solid #F6F5F4;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+
+}

@@ -87,7 +87,7 @@ const CenterCarousel = () => {
                         <img src={CLAWMACHINE_CAROUSEL} className="center_carousel_img" />
                         <div>
                             <Typography variant='h3' sx={{ textAlign: 'left', fontSize: "22px", fontWeight: '600', color: colors.grey[100], m: "1rem 0 .5rem" }}>
-                                Claw Machine Recommender
+                                Claw Machine Alliance
                             </Typography>
                             <div className='a_arrow'>
                                 <Typography variant='h5' sx={{ textAlign: 'left', fontSize: "14px", fontWeight: '400', color: "#011cff" }}>

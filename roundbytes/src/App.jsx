@@ -8,6 +8,7 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import NotFound from "./components/404/NotFound";
 import Privacy from "./pages/privacy/Privacy";
+import Contact from "./pages/contact/Contact";
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -15,11 +16,14 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <Header />
+
         <Routes>
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
 
           <Route exact path="/" element={<Main />} />
+          <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/privacy" element={<Privacy />} />
         </Routes>
         <Footer />

@@ -30,39 +30,38 @@ const Footer = () => {
 
     return (
         <Box display="flex" justifyContent="space-between" p={3}>
-            <Box className={"footer_img"}>
+            <div>
                 <a href="/">
-                    {theme.palette.mode === "dark" ? (
-                        <img src={LOGO_WHITE} alt="logo" />
-                    ) : (
-                        <img src={LOGO_BLACK} alt="logo" />
-                    )}
+                    <img src={LOGO_BLACK} width="40px" height={"40px"} alt="" className="header_logo" />
                 </a>
-            </Box>
+            </div>
 
-            <Box display="flex" alignItems={"center"}>
-                <Box margin={"0 2rem"} className="header_item">
-                    <a href="">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
-                            Products
-                        </Typography>
-                    </a>
-                </Box>
-                <Box margin={"0 2rem"} className="header_item">
-                    <a href="">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
-                            Stores
-                        </Typography>
-                    </a>
-                </Box>
-                <Box margin={"0 2rem"} className="header_item">
-                    <a href="">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
-                            About
-                        </Typography>
-                    </a>
-                </Box>
 
+
+            {/* ICONS */}
+            <Box display="flex" alignItems={"center"} gap={"1.5rem"}>
+                <button className="btn_underline_hover">
+                    <Typography variant="h5" sx={{ color: colors.grey[100] }}>
+                        WORK
+                    </Typography>
+                </button>
+                <button className="btn_underline_hover">
+                    <Typography variant="h5" sx={{ color: colors.grey[100] }}>
+                        ABOUT
+                    </Typography>
+                </button>
+                <button className="btn_underline_hover">
+                    <Typography variant="h5" sx={{ color: colors.grey[100] }}>
+                        PARNERSHIPS
+                    </Typography>
+                </button>
+                <a href="/contact">
+                    <button className="btn_underline_hover">
+                        <Typography variant="h5" sx={{ color: colors.grey[100] }}>
+                            CONTACT
+                        </Typography>
+                    </button>
+                </a>
             </Box>
 
             {/* ICONS */}

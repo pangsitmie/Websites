@@ -173,23 +173,31 @@ export const themeSettings = (mode) => {
       fontSize: 12,
       h1: {
         fontFamily: ["Kumbh Sans", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 52,
+        fontSize: 96,
+        lineHeight: 1.2,
+        fontWeight: 800,
       },
       h2: {
         fontFamily: ["Kumbh Sans", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 40,
+        fontSize: 60,
+        fontWeight: 800,
       },
       h3: {
         fontFamily: ["Kumbh Sans", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 24,
+        fontSize: 32,
+        fontWeight: 800,
       },
       h4: {
         fontFamily: ["Kumbh Sans", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 20,
+        fontSize: 22,
+        fontWeight: "bold",
+        lineHeight: 1.5,
       },
       h5: {
         fontFamily: ["Kumbh Sans", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 16,
+        fontSize: 15,
+        fontWeight: "bold",
+        lineHeight: 1.5,
       },
       h6: {
         fontFamily: ["Kumbh Sans", "Source Sans Pro", "sans-serif"].join(","),

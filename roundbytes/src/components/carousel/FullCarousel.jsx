@@ -77,10 +77,10 @@ const FullCarousel = () => {
                         {/* CONTENT */}
                         <Box className={"full_carousel_item_content"} >
                             <div >
-                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "600", color: "#1F1C1A", mb: "1rem" }}>
-                                    Win Pro
+                                <Typography variant="h1" sx={{ fontSize: "80px", fontWeight: "600", color: "#FFF", mb: "1rem" }}>
+                                    Moonz
                                 </Typography>
-                                <Typography variant="h1" sx={{ fontSize: "18px", fontWeight: "400", color: "#2b2826", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
+                                <Typography variant="h1" sx={{ fontSize: "18px", fontWeight: "400", color: "#FFF", lineHeight: "1.5", mb: "1rem", pr: "2rem" }}>
                                     You bring the steak, we'll add the sizzle. We are a full-service design firm with a craving for creating the <br /> unimaginable
                                 </Typography>
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: "#286FDA", pt: "1rem" }}>
