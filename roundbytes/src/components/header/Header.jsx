@@ -33,7 +33,8 @@ const Header = () => {
             right={0}
             display="flex"
             justifyContent="space-between"
-            p={"2rem 4rem"}>
+            p={"2rem 4rem"}
+            zIndex={"1000"}>
             <div>
                 <a href="/">
                     <img src={LOGO_BLACK} width="40px" height={"40px"} alt="" className="header_logo" />
@@ -44,11 +45,13 @@ const Header = () => {
 
             {/* ICONS */}
             <Box display="flex" alignItems={"center"} gap={"1.5rem"}>
+            <a href="/work">
                 <button className="btn_underline_hover">
                     <Typography variant="h5" sx={{ color: colors.grey[100] }}>
                         WORK
                     </Typography>
                 </button>
+                </a>
                 <button className="btn_underline_hover">
                     <Typography variant="h5" sx={{ color: colors.grey[100] }}>
                         ABOUT

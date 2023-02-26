@@ -7,6 +7,7 @@
     height: 100%;
     background-size: cover;
     transition: var(--transition);
+    border-radius: 25px;
 }
 
 .full_carousel_item:hover {
@@ -22,6 +23,7 @@
 
 .full_carousel_item_img img {
     width: 100%;
+    border-radius: 25px;
 }
 
 .full_carousel_item_content {
