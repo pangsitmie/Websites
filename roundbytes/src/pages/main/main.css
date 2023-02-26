@@ -27,12 +27,13 @@
 }
 
 .main_page_item {
+    cursor: pointer;
     height: 150px;
     width: 200px;
     border-radius: 25px;
     background-color: #F6F5F4;
     gap: .5rem;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .main_page_item:hover {

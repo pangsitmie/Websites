@@ -31,17 +31,7 @@
     }
   }
   
-  .mesh-gradient span {
-    background: -webkit-linear-gradient(
-      to right,
-      #00dbde,
-      #fc00ff,
-      #00dbde,
-      #fc00ff,
-      #00dbde
-    );
-  }
-  
+
   .cursor {
     position: absolute;
     display: flex;
