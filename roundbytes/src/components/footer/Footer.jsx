@@ -29,7 +29,7 @@ const Footer = () => {
     }
 
     return (
-        <Box display="flex" justifyContent="space-between" p={3}>
+        <Box display="flex" justifyContent="space-between" p={"2rem"}>
             <div>
                 <a href="/">
                     <img src={LOGO_BLACK} width="40px" height={"40px"} alt="" className="header_logo" />
@@ -40,11 +40,13 @@ const Footer = () => {
 
             {/* ICONS */}
             <Box display="flex" alignItems={"center"} gap={"1.5rem"}>
+            <a href="/work">
                 <button className="btn_underline_hover">
                     <Typography variant="h5" sx={{ color: colors.grey[100] }}>
                         WORK
                     </Typography>
                 </button>
+                </a>
                 <button className="btn_underline_hover">
                     <Typography variant="h5" sx={{ color: colors.grey[100] }}>
                         ABOUT

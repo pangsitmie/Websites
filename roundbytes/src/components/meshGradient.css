@@ -1,0 +1,68 @@
+.mesh-gradient {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background: linear-gradient(
+      to right,
+      #4dffb2,
+      #a3e1ff 20%,
+      #DDF3FF 40%,
+      #0FF5DA 60%,
+      #a3e1ff 80%,
+      #648ff5
+    );
+    background-size: 800% 800%;
+    animation: mesh-gradient-animation 10s ease infinite;
+    cursor: none;
+  }
+  
+  @keyframes mesh-gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+
+  .cursor {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    padding: 1rem;
+    border-radius: 50%;
+    color: black;
+    border: 1px solid #111;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: none;
+    pointer-events: none;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+    /* transition: all 0.2s ease; */
+    transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    opacity: 0;
+  }
+  
+  .cursor span {
+    margin-left: -5px;
+    color: #111;
+    font-size: 12px;
+  }
+  
+  .mesh-gradient:hover .cursor {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  

@@ -10,12 +10,13 @@ import DESIGN_ICON from 'src/assets/design_icon.png';
 import PRODUCT_ICON from 'src/assets/product_icon.png';
 import BRANDING_ICON from 'src/assets/branding_icon.png';
 import SOLUTION_ICON from 'src/assets/solution_icon.png';
+import MeshGradient from 'src/components/MeshGradient';
 
 const Main = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeItem, setActiveItem] = useState(1);
 
   const handleItemClick = (index) => {
     setActiveItem(index);
@@ -30,14 +31,10 @@ const Main = () => {
   ];
 
   return (
-    <div>
+    <div >
 
       {/* HERO SECTION */}
-      <section className='hero_section'>
-        <Typography variant='h2' sx={{ textAlign: 'center', fontSize: '140px', fontWeight: '500', color: colors.grey[100] }}>
-          Be Different.
-        </Typography>
-      </section>
+      <MeshGradient/>     
 
       <section className='main_intro_section'>
         <div className='main_intro_content'>
@@ -112,7 +109,7 @@ const Main = () => {
           </div>
           <div>
             <Typography variant='h2' sx={{ textAlign: 'left', fontWeight: '500', color: colors.grey[100] }}>
-              Our goal is to strive for perfection and create engaging brands that connect with consumers at every stage.
+              We strive for perfection and create engaging brands that connect with consumers at every stage.
             </Typography>
           </div>
         </div>

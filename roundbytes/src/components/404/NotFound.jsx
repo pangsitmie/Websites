@@ -23,7 +23,7 @@ const NotFound = () => {
                     <Typography variant="h2" component="h2" sx={{ color: colors.primary[100], fontSize: 22, fontWeight: 300, textAlign: 'center' }}>
                         LOOKS LIKE YOU ARE<br />LOST IN SPACE
                     </Typography>
-                    <a href="https://roundbytes.com" class="btn-go-home" >
+                    <a href="/" class="btn-go-home" >
                         <Typography variant="h4" sx={{ color: colors.primary[100], fontSize: 10, fontWeight: 600, textAlign: 'center' }}>
                             GO BACK HOME
                         </Typography>
