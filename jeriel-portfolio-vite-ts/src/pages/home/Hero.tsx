@@ -11,6 +11,10 @@ import PortfolioCard from "../../components/PortfolioCard";
 import IMG1 from "@/assets/gamepay.png";
 import IMG2 from "@/assets/yuncheng.png";
 import IMG3 from "@/assets/alliance.png";
+import { Flex } from "@/components/styles/Flex.styled";
+import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
+import CV from "../../assets/jeriel_resume.pdf";
+
 type Props = {};
 
 const Hero = (props: Props) => {
@@ -39,21 +43,24 @@ const Hero = (props: Props) => {
           Web developer & designer
         </h2>
         <HeroSocials />
-        <div className="mt-10 flex justify-center gap-10">
-          <ButtonStorke text="Resume" link="/cv.pdf" />
+        <div className="mt-10 flex justify-center gap-5">
+          <ButtonStorke text="Resume" link={CV} />
           <ButtonFill text="Contact" link="#contact" />
         </div>
-        <a
-          href="#contact"
-          className="font-weight-300 align-center absolute bottom-10 right-0 flex rotate-90 items-center justify-between gap-2 text-primary-100"
-        >
-          Scroll Down
-          <BsArrowRight />
-        </a>
+        <StyledMediaContainerGone>
+          <a
+            href="#contact"
+            className="font-weight-300 align-center absolute bottom-10 right-0 flex rotate-90 items-center justify-between gap-2 text-primary-100"
+          >
+            Scroll Down
+            <BsArrowRight />
+          </a>
+        </StyledMediaContainerGone>
       </motion.div>
 
       {/* portfolio 3 grid cards */}
-      <div className="mt-20 grid grid-cols-3 gap-5">
+      {/* <div className="mt-20 grid grid-cols-3 gap-5"> */}
+      <Flex className="mt-20 gap-5 p-4">
         <PortfolioCard title={"Gamepay"} image={IMG1} redirect={"/gamepay"} />
         <PortfolioCard title={"雲程在線"} image={IMG2} redirect={"/yuncheng"} />
         <PortfolioCard
@@ -61,7 +68,8 @@ const Hero = (props: Props) => {
           image={IMG3}
           redirect={"/alliance"}
         />
-      </div>
+      </Flex>
+      {/* </div> */}
     </div>
   );
 };

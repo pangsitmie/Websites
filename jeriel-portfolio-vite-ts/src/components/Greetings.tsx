@@ -35,7 +35,7 @@ const Greetings = (props: Props) => {
           autoPlay
           loop
           muted
-          className="h-full w-full object-cover"
+          className="h-auto w-full object-cover"
         />
       </ScrollPage>
     </ScrollContainer>

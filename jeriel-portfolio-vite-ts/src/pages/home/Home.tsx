@@ -10,7 +10,7 @@ const Home = (props: Props) => {
     <>
       <Greetings />
       <Hero />
-      <ContactForm />
+      {/* <ContactForm /> */}
     </>
   );
 };

@@ -28,21 +28,20 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <div className="app"> */}
-      <Navbar
-        isTopOfPage={isTopOfPage}
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-      />
+      <div className="app">
+        <Navbar
+          isTopOfPage={isTopOfPage}
+          selectedPage={selectedPage}
+          setSelectedPage={setSelectedPage}
+        />
 
-      <Router basename="/">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/gamepay" element={<Gamepay />} />
-        </Routes>
-        {/* <Footer /> */}
-      </Router>
-      {/* </div> */}
+        <Router basename="/">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/gamepay" element={<Gamepay />} />
+          </Routes>
+        </Router>
+      </div>
     </ThemeProvider>
   );
 }

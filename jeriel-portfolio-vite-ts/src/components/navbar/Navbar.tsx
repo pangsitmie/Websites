@@ -6,6 +6,8 @@ import Link from "./Link";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ActionButton from "@/shared/ActionButton";
+import ButtonStorke from "../ButtonStroke";
+import CV from "../../assets/jeriel_resume.pdf";
 
 type Props = {
   isTopOfPage: boolean;
@@ -52,9 +54,11 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                     selectedPage={selectedPage}
                     setSelectedPage={setSelectedPage}
                   />
-                  <ActionButton setSelectedPage={setSelectedPage}>
+                  <ButtonStorke text="Resume" link={CV} />
+
+                  {/* <ActionButton setSelectedPage={setSelectedPage}>
                     Resume
-                  </ActionButton>
+                  </ActionButton> */}
                 </div>
               </div>
             ) : (

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Flex = styled.div`
     display: flex;
-    justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+    justify-content:  flex-start;
 
     & > div,
     & > ul{
