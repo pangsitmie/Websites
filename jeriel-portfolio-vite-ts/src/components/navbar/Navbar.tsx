@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import Logo from "@/assets/logo.png";
+import LOGO_BLACK from "@/assets/logo_black.png";
+import LOGO_WHITE from "@/assets/logo_white.png";
 import Link from "./Link";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -15,8 +16,14 @@ type Props = {
 const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const flexBetween = "flex items-center justify-between";
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
+  // const [isLightBackground, setIsLightBackground] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   console.log("isBodyLight", isLightBackground);
+  // }, [isLightBackground]);
+
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
-  const navbarBackground = isTopOfPage ? "" : " drop-shadow";
+  const navbarBackground = isTopOfPage ? "bg-black" : "bg-black drop-shadow";
 
   return (
     <nav>
@@ -26,7 +33,9 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
         <div className={`${flexBetween} mx-auto w-5/6`}>
           <div className={`${flexBetween} w-full gap-16`}>
             {/* LEFT SIDE */}
-            <img alt="logo" width={"40px"} src={Logo} />
+            <a href="/">
+              <img alt="logo" width={"40px"} src={LOGO_WHITE} />
+            </a>
 
             {/* RIGHT SIDE */}
             {isAboveMediumScreens ? (
@@ -44,7 +53,7 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                     setSelectedPage={setSelectedPage}
                   />
                   <ActionButton setSelectedPage={setSelectedPage}>
-                    Say Hello
+                    Resume
                   </ActionButton>
                 </div>
               </div>
@@ -62,33 +71,28 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
 
       {/* MOBILE MENU MODAL */}
       {!isAboveMediumScreens && isMenuToggled && (
-        <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl">
+        <div className="fixed right-0 bottom-0 z-40 h-full w-[280px] bg-secondary-100 drop-shadow-xl">
           {/* CLOSE ICON */}
-          <div className="flex justify-end p-12">
+          <div className="flex justify-end p-9">
             <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
               <XMarkIcon className="h-6 w-6 text-gray-400" />
             </button>
           </div>
 
           {/* MENU ITEMS */}
-          <div className="ml-[33%] flex flex-col gap-10 text-2xl">
+          <div className="ml-[18%] flex flex-col gap-10 text-2xl">
             <Link
-              page="Home"
+              page="Work"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
             <Link
-              page="Benefits"
+              page="About"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />
             <Link
-              page="Our Classes"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <Link
-              page="Contact Us"
+              page="Resume"
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
             />

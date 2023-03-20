@@ -12,8 +12,11 @@ module.exports = {
         "background": "#111",
         "primary-100": "#61F8D4",
         "primary-300": "#EEEEEE",
-        "secondary-100": "#222831",
+        "secondary-100": "#1B1B1B",
         "secondary-300": "#FFC132",
+      },
+      borderRadius: {
+        'circle': '50%',
       },
       // backgroundImage: (theme) => ({
       //   "gradient-yellowred":

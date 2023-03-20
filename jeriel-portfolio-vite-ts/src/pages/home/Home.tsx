@@ -1,6 +1,7 @@
 import Greetings from "@/components/Greetings";
-import Hero from "@/components/Hero";
+import Hero from "@/pages/home/Hero";
 import React from "react";
+import ContactForm from "./ContactForm";
 
 type Props = {};
 
@@ -9,6 +10,7 @@ const Home = (props: Props) => {
     <>
       <Greetings />
       <Hero />
+      <ContactForm />
     </>
   );
 };

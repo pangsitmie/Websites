@@ -1,8 +1,12 @@
 import Navbar from "./components/navbar/Navbar";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./Theme";
+
 import { useEffect, useState } from "react";
 import { SelectedPage } from "./shared/types";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Gamepay from "./pages/gamepay/Gamepay";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -23,7 +27,8 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <ThemeProvider theme={theme}>
+      {/* <div className="app"> */}
       <Navbar
         isTopOfPage={isTopOfPage}
         selectedPage={selectedPage}
@@ -33,10 +38,12 @@ function App() {
       <Router basename="/">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/gamepay" element={<Gamepay />} />
         </Routes>
         {/* <Footer /> */}
       </Router>
-    </div>
+      {/* </div> */}
+    </ThemeProvider>
   );
 }
 

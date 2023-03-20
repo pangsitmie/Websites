@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.10.0",
     "@heroicons/react": "^2.0.16",
     "@types/react-anchor-link-smooth-scroll": "^1.0.2",
     "@types/react-router-dom": "^5.3.3",

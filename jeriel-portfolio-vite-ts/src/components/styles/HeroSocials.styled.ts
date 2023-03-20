@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const StyledHeroSocials = styled.button`
     display: flex;
     flex-direction: column;
@@ -19,5 +20,9 @@ export const StyledHeroSocials = styled.button`
     }
     & a:hover {
         color: #FFF;
+    }
+
+    @media(max-width: ${({ theme }) => theme.mobile}) {
+        display: none;
     }
 `

@@ -1,4 +1,4 @@
-import { StyledHeroSocials } from "./styles/HeroSocials.styled";
+import { StyledHeroSocials } from "../components/styles/HeroSocials.styled";
 import { BsLinkedin } from "react-icons/bs";
 import { BsGithub } from "react-icons/bs";
 import { BsDribbble } from "react-icons/bs";
