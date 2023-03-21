@@ -7,6 +7,10 @@ import { SelectedPage } from "./shared/types";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Gamepay from "./pages/gamepay/Gamepay";
+import Alliance from "./pages/alliance/Alliance";
+import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
+import About from "./pages/about/About";
+import Footer from "./components/Footer";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -29,17 +33,29 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="app">
-        <Navbar
-          isTopOfPage={isTopOfPage}
-          selectedPage={selectedPage}
-          setSelectedPage={setSelectedPage}
-        />
-
         <Router basename="/">
+          <Navbar
+            isTopOfPage={isTopOfPage}
+            selectedPage={selectedPage}
+            setSelectedPage={setSelectedPage}
+          />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/gamepay" element={<Gamepay />} />
+            <Route path="*" element={<Home />} />
+
+            {/* PAGES */}
+            {/* <Route path="/work" element={<Work />} /> */}
+            <Route path="/about" element={<About />} />
+
+            {/* WORKS */}
+            <Route path="/work/gamepay" element={<Gamepay />} />
+            <Route path="/work/alliance" element={<Alliance />} />
+            <Route
+              path="/work/cloudprogramming"
+              element={<CloudProgramming />}
+            />
           </Routes>
+          <Footer />
         </Router>
       </div>
     </ThemeProvider>

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import ButtonFill from "../../components/ButtonFill";
+import { Flex } from "@/components/styles/Flex.styled";
 
 type Props = {};
 
@@ -36,16 +37,16 @@ const ContactForm = (props: Props) => {
   };
 
   return (
-    <div id="contact" className="w-full py-10 px-[15%]">
+    <div id="contact" className="p-4 md:container md:mx-auto">
       <h5 className="mb-4 text-center text-2xl text-primary-100">
         Get In Touch
       </h5>
       <h2 className="text-center text-6xl">Contact Me</h2>
 
-      <div className="mt-20 flex w-full items-center justify-center gap-12">
+      <Flex className="mt-20 gap-12">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col items-center justify-center rounded-[24px] bg-secondary-100 px-20 py-8">
-            <MdOutlineEmail className="text- mb-4 text-center text-[30px]" />
+          <div className="flex flex-col items-center justify-center rounded-2xl bg-secondary-100 px-16 py-8">
+            <MdOutlineEmail className="text- mb-4 text-center text-[24px]" />
             <h4 className="text-center text-xl">Email</h4>
             <h5 className="text-center">admin@roundbytes.com</h5>
             <a
@@ -58,8 +59,8 @@ const ContactForm = (props: Props) => {
             </a>
           </div>
 
-          <div className="flex flex-col items-center justify-center rounded-[24px] bg-secondary-100 px-20 py-8">
-            <BsLinkedin className="text- mb-4 text-center text-[30px]" />
+          <div className="flex flex-col items-center justify-center rounded-2xl bg-secondary-100 px-16 py-8">
+            <BsLinkedin className="text- mb-4 text-center text-[24px]" />
             <h4 className="text-center text-xl">LinkedIn</h4>
             <h5 className="text-center">Jeriel Isaiah Layantara</h5>
             <a
@@ -82,26 +83,26 @@ const ContactForm = (props: Props) => {
           <input
             type="text"
             name="name"
-            placeholder="Your Full Name"
+            placeholder="Name"
             required
-            className="w-[100%] rounded-xl border-2 border-primary-100 bg-transparent py-4 px-4 text-white"
+            className="w-[100%] rounded-xl bg-secondary-100 py-4 px-5 text-white"
           />
           <input
             type="email"
             name="email"
-            placeholder="Your Email"
+            placeholder="Email"
             required
-            className="w-[100%] rounded-xl border-2 border-primary-100 bg-transparent py-4 px-4 text-white"
+            className="w-[100%] rounded-xl bg-secondary-100 py-4 px-5 text-white"
           />
           <textarea
             name="message"
             rows={7}
-            placeholder="Your Message required"
-            className="w-[100%] rounded-xl border-2 border-primary-100 bg-transparent py-4 px-4 text-white"
+            placeholder="Your Message"
+            className="w-[100%] rounded-xl bg-secondary-100 py-4 px-5 text-white"
           />
           <ButtonFill text="Send Message" type="submit" />
         </form>
-      </div>
+      </Flex>
     </div>
   );
 };

@@ -27,7 +27,7 @@ const Hero = (props: Props) => {
 
   return (
     <div
-      className={`flex-item-center flex flex-col pt-80 pb-80 md:container md:mx-auto `}
+      className={`flex-item-center flex flex-col pt-[20%] pb-80 md:container md:mx-auto `}
     >
       <motion.div
         className="show"
@@ -38,8 +38,10 @@ const Hero = (props: Props) => {
         transition={{ duration: 0.5 }}
       >
         {" "}
-        <h1 className="mb-7 text-center text-8xl font-bold">Jeriel Isaiah</h1>
-        <h2 className="text-center text-2xl text-primary-100">
+        <h1 className="mb-7 text-center text-8xl font-semibold">
+          Jeriel Isaiah
+        </h1>
+        <h2 className="text-center text-xl text-primary-100">
           Web developer & designer
         </h2>
         <HeroSocials />
@@ -59,14 +61,21 @@ const Hero = (props: Props) => {
       </motion.div>
 
       {/* portfolio 3 grid cards */}
-      {/* <div className="mt-20 grid grid-cols-3 gap-5"> */}
       <Flex className="mt-20 gap-5 p-4">
-        <PortfolioCard title={"Gamepay"} image={IMG1} redirect={"/gamepay"} />
-        <PortfolioCard title={"雲程在線"} image={IMG2} redirect={"/yuncheng"} />
+        <PortfolioCard
+          title={"Gamepay"}
+          image={IMG1}
+          redirect={"/work/gamepay"}
+        />
         <PortfolioCard
           title={"Claw Machine Alliance"}
           image={IMG3}
-          redirect={"/alliance"}
+          redirect={"/work/alliance"}
+        />
+        <PortfolioCard
+          title={"雲程在線"}
+          image={IMG2}
+          redirect={"/work/yuncheng"}
         />
       </Flex>
       {/* </div> */}

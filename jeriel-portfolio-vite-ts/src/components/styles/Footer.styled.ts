@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const StyledFooter = styled.footer`
-    background-color: ${({ theme }) => theme.colors.footer};
-    color: #fff;
-    padding: 100px 0 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 100px;
+    padding: 60px 10% 60px;
 
     ul{
         list-style-type: none;

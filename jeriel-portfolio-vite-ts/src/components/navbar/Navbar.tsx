@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import LOGO_BLACK from "@/assets/logo_black.png";
 import LOGO_WHITE from "@/assets/logo_white.png";
-import Link from "./Link";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import ActionButton from "@/shared/ActionButton";
 import ButtonStorke from "../ButtonStroke";
 import CV from "../../assets/jeriel_resume.pdf";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   isTopOfPage: boolean;
@@ -18,17 +16,19 @@ type Props = {
 const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const flexBetween = "flex items-center justify-between";
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
-  // const [isLightBackground, setIsLightBackground] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   console.log("isBodyLight", isLightBackground);
-  // }, [isLightBackground]);
 
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
   const navbarBackground = isTopOfPage ? "bg-black" : "bg-black drop-shadow";
 
+  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(location.pathname);
+
   return (
-    <nav>
+    <nav
+      className={`${
+        currentPage.includes("/work") && isTopOfPage ? "hidden" : "flex"
+      }`}
+    >
       <div
         className={`${navbarBackground} ${flexBetween} fixed top-0 z-30 w-full py-6`}
       >
@@ -44,21 +44,9 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 text-sm`}></div>
                 <div className={`${flexBetween} gap-8`}>
-                  <Link
-                    page="Works"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="About"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
+                  <a href="/work">Work</a>
+                  <a href="/about">About</a>
                   <ButtonStorke text="Resume" link={CV} />
-
-                  {/* <ActionButton setSelectedPage={setSelectedPage}>
-                    Resume
-                  </ActionButton> */}
                 </div>
               </div>
             ) : (
@@ -85,21 +73,11 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
 
           {/* MENU ITEMS */}
           <div className="ml-[18%] flex flex-col gap-10 text-2xl">
-            <Link
-              page="Work"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <Link
-              page="About"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <Link
-              page="Resume"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
+            <a href="/work">Work</a>
+            <a href="/about">About</a>
+            <a href={CV} className={"text-primary-100"}>
+              Resume
+            </a>
           </div>
         </div>
       )}

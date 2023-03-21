@@ -11,7 +11,6 @@ export const Flex = styled.div`
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
         flex-direction: column;
-        text-align: center;
     }
     
 `

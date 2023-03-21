@@ -1,4 +1,4 @@
-import Greetings from "@/components/Greetings";
+import Greetings from "@/pages/home/Greetings";
 import Hero from "@/pages/home/Hero";
 import React from "react";
 import ContactForm from "./ContactForm";
@@ -10,7 +10,7 @@ const Home = (props: Props) => {
     <>
       <Greetings />
       <Hero />
-      {/* <ContactForm /> */}
+      <ContactForm />
     </>
   );
 };
