@@ -11,6 +11,7 @@ import WorkHero from "@/components/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
+import { H3 } from "@/components/styles/H3.styled";
 
 type Props = {};
 
@@ -34,7 +35,7 @@ const Gamepay = (props: Props) => {
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
         <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
         {/* this is the content container */}
-        <div>
+        <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
           <motion.div
             className="show"
             ref={ref}
@@ -43,7 +44,7 @@ const Gamepay = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-4 py-12">
+            <Flex className="gap-8 py-12">
               <h4 className="mt-4">INTRO</h4>
               <H2>
                 Game Pay is a
@@ -94,7 +95,7 @@ const Gamepay = (props: Props) => {
         <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
       </div>
       {/* curve end */}
-      <div className=" bg-white p-24">
+      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
         <Flex className="flex gap-4 pt-12">
           <h4 className="mt-4 text-black">PROCESS</h4>
 
@@ -114,11 +115,11 @@ const Gamepay = (props: Props) => {
           </H2>
         </Flex>
         <div>
-          <h4 className="mt-28 text-center text-4xl font-bold text-indigo-300">
+          <H3 className="mt-28 text-center font-bold text-indigo-300">
             PROJECT IS STILL IN PROGRESS
-          </h4>
-          <h4 className="mt-4 text-center text-xl text-black">
-            CONTACT ME FOR MORE DETAILS
+          </H3>
+          <h4 className="mt-4 text-center text-black">
+            Contact me for more details
           </h4>
         </div>
       </div>

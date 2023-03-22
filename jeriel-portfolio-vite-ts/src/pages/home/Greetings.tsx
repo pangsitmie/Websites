@@ -13,6 +13,7 @@ import {
   ZoomIn,
 } from "react-scroll-motion";
 import WELCOME_VID from "@/assets/welcome_vid.mp4";
+import { H1 } from "@/components/styles/H1.styled";
 
 type Props = {};
 
@@ -24,7 +25,7 @@ const Greetings = (props: Props) => {
     <ScrollContainer>
       <ScrollPage>
         <Animator animation={batch(Sticky(), Fade(), MoveOut(0, -200))}>
-          <h2 className="text-8xl">Hello World...</h2>
+          <H1>Hello World...</H1>
         </Animator>
       </ScrollPage>
 
@@ -35,7 +36,8 @@ const Greetings = (props: Props) => {
           autoPlay
           loop
           muted
-          className="h-auto w-full object-cover"
+          playsInline // add the playsinline attribute
+          className="h-auto w-[100%] object-cover"
         />
       </ScrollPage>
     </ScrollContainer>

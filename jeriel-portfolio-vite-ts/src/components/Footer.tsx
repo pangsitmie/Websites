@@ -7,7 +7,7 @@ const data = [
   { text: "Game Pay", link: "/work/gamepay" },
   { text: "Claw Machine Alliance", link: "/work/alliance" },
   {
-    text: "cloudprogrammingonline.com",
+    text: "Cloud Programming Online",
     link: "/work/cloudProgramming",
   },
   {
@@ -33,7 +33,7 @@ const Footer = (props: Props) => {
         ))}
       </StyledFooter>
       <div className="mb-4 flex items-center justify-center text-[#404040]">
-        <p> &copy; Jeriel Isaiah</p>
+        <p className="mb-2 text-sm"> &copy; Jeriel Isaiah</p>
       </div>
     </>
   );
