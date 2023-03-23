@@ -34,17 +34,23 @@ export const StyledPortfolioCard = styled.div`
     }
 
     & h3 {
-        text-align: center;
+        padding: 1.5rem;
+        /* existing styles */
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: #fff;
         font-size: 1.5rem;
+        text-align: center;
         visibility: hidden;
         opacity: 0;
         transition: visibility 0s, opacity 0.5s ease-in-out;
-    }
+      }
 
     & .portfolio__item-image {
         position: relative;
@@ -71,5 +77,13 @@ export const StyledPortfolioCard = styled.div`
 
     .portfolio__item-image img {
         border-radius: 25px;
+    }
+
+    @media(max-width: ${({ theme }) => theme.mobile}) {
+        text-align: center;
+
+       h3{
+              font-size: 1rem;
+       }
     }
 `

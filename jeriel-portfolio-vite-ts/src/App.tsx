@@ -11,6 +11,7 @@ import Alliance from "./pages/alliance/Alliance";
 import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
 import About from "./pages/about/About";
 import Footer from "./components/Footer";
+import Work from "./pages/work/Work";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -42,6 +43,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Home />} />
+            <Route path="/work" element={<Work />} />
 
             {/* PAGES */}
             {/* <Route path="/work" element={<Work />} /> */}

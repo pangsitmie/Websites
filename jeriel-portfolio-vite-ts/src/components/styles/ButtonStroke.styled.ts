@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButtonStroke = styled.button`
     border-radius: 50px;
-    border: 4px solid rgb(199 210 254);
+    border: 4px solid #ffffff;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;

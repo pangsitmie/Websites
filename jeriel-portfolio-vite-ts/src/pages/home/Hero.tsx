@@ -75,7 +75,7 @@ const Hero = (props: Props) => {
         <PortfolioCard
           title={"雲程在線"}
           image={IMG2}
-          redirect={"/work/yuncheng"}
+          redirect={"/work/cloudProgramming"}
         />
       </Flex>
       {/* </div> */}

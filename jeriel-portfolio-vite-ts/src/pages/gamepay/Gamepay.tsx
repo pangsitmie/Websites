@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 
 import GAMEPAY1 from "@/assets/gamepay1.png";
 import GAMEPAY2 from "@/assets/gamepay2.png";
+import GAMEPAY3 from "@/assets/gamepay3.jpg";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
 import WorkHero from "@/components/WorkHero";
@@ -67,8 +68,28 @@ const Gamepay = (props: Props) => {
             {/* col1 */}
             <div>
               <div className="mb-4">
-                <PortfolioCard image={GAMEPAY1} title={"asdf"} redirect={"/"} />
+                <PortfolioCard
+                  image={GAMEPAY1}
+                  title={
+                    "In this project, I developed this admin webapp system for our company, brands, and stores to manage their datas"
+                  }
+                />
               </div>
+              <PortfolioCard
+                image={GAMEPAY3}
+                title={
+                  "I also created a user-friendly interface for a statistic and graph feature, which enables users to easily analyze and comprehend their store and machine performance, revenue, and expenses."
+                }
+              />
+            </div>
+            {/* col2 */}
+            <div className="flex flex-col gap-4">
+              <PortfolioCard
+                image={GAMEPAY2}
+                title={
+                  "By using React's Redux and Apollo GQL for state management, I successfully separated features for different entities."
+                }
+              />
               <Flex className="gap-4">
                 <ProblemSolutionCard
                   title={"Problem"}
@@ -85,10 +106,6 @@ const Gamepay = (props: Props) => {
                   color={"#0063e3"}
                 />
               </Flex>
-            </div>
-            {/* col2 */}
-            <div>
-              <PortfolioCard image={GAMEPAY2} title={"asdf"} redirect={"/"} />
             </div>
           </Flex>
         </div>
@@ -115,10 +132,10 @@ const Gamepay = (props: Props) => {
           </H2>
         </Flex>
         <div>
-          <H3 className="mt-28 text-center font-bold text-indigo-300">
+          <H3 className="mt-28 text-center font-bold text-gray-300">
             PROJECT IS STILL IN PROGRESS
           </H3>
-          <h4 className="mt-4 text-center text-black">
+          <h4 className="mt-4 text-center text-gray-300">
             Contact me for more details
           </h4>
         </div>

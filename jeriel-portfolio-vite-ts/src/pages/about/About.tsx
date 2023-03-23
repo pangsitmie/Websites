@@ -31,10 +31,11 @@ const About = (props: Props) => {
   ];
 
   const FrontEndExperienceData = [
-    "Redesign and implement cloudprogrammingonline.com using figma for UI/UX, and react to create the actual website",
-    "Designed, Create, and Manage Pahamfilm.com",
-    "Designed, Create, and Manage twindofurniture.com",
-    "Designed, Create, and Manage rafahl.com",
+    "Developed a comprehensive admin webapp to facilitate data & performance management for claw machine brands.",
+    "Implemented GraphQL as the primary API provider, optimizing its usage to achieve a substantial 50% improvement in loading time",
+    "Employed advanced React state management techniques, including Redux, to effectively segregate features and functionalities across multiple entities within the web application.",
+    "Leveraged the React Material-UI (MUI) component library to ensure consistency and ease-of-use across the entire application, delivering a streamlined user experience.",
+    "Utilized Vite, Tailwind CSS and Styled Components to build highly scalable and reusable components, resulting in an efficient and easily maintainable codebase.",
   ];
 
   const AndroidDeveloperExperienceData = [
@@ -44,9 +45,11 @@ const About = (props: Props) => {
     "Published Tucope App to Google Play Store",
   ];
 
-  const UnityDeveloperExperienceData = [
-    "Create a highly scalable marketing app to promote entertainment retail stores.",
-    "Utilize REST API, GraphQL for connecting front-end and back-end.",
+  const WordpressDeveloperExperienceData = [
+    "Pahamfilm.com",
+    "Twindofurniture.com",
+    "Rafahl.com",
+    "Others",
   ];
 
   return (
@@ -114,14 +117,14 @@ const About = (props: Props) => {
 
       {/* WORK EXPERIENCE */}
       <Flex className="mt-10 gap-8">
-        <ExperienceCard title="Web Developer" data={FrontEndExperienceData} />
+        <ExperienceCard title="陸豪科技" data={FrontEndExperienceData} />
         <ExperienceCard
           title="Android Developer"
           data={AndroidDeveloperExperienceData}
         />
         <ExperienceCard
-          title="Unity Engineer"
-          data={UnityDeveloperExperienceData}
+          title="WordPress Engineer"
+          data={WordpressDeveloperExperienceData}
         />
       </Flex>
     </div>

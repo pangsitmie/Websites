@@ -1,10 +1,10 @@
 import PortfolioCard from "@/components/PortfolioCard";
-import React from "react";
 import { BiLinkExternal } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
 
 import ALLIANCE1 from "@/assets/alliance1.png";
-import GAMEPAY2 from "@/assets/gamepay2.png";
+import ALLIANCE2 from "@/assets/alliance2.png";
+import ALLIANCE3 from "@/assets/alliance3.jpg";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
 import WorkHero from "@/components/WorkHero";
@@ -25,7 +25,7 @@ const Alliance = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="Discover the most thrilling claw machine spots, while exploring must-see travel destination nearby."
+        title="Discover claw machine spots, while exploring must-see travel destination nearby."
         subtitle1="CLAW MACHINE ALLIANCE"
         subtitle2="WEBSITE"
       />
@@ -46,18 +46,14 @@ const Alliance = (props: Props) => {
             <Flex className="gap-8 py-12">
               <h4 className="mt-4">INTRO</h4>
               <H2>
-                Claw Machine Alliance is a
-                <span>
-                  {" "}
-                  mobile payment solution for playing claw machines.{" "}
-                </span>
-                While business owners can also manage and analyse their business
-                more efficiently through our <span>SaaS web app.</span>
-                <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                Expanding audience by creating a website that enables users to
+                search for nearby or desired claw machine stores through our
+                interactive map feature.
+                {/* <a href="https://market-test-backstage.cloudprogrammingonline.com/">
                   <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
                     Visit website <BiLinkExternal />
                   </h4>
-                </a>
+                </a> */}
               </H2>
             </Flex>
           </motion.div>
@@ -69,31 +65,44 @@ const Alliance = (props: Props) => {
                 <PortfolioCard
                   image={ALLIANCE1}
                   title={
-                    "Designed the whole website from scratch using Figma, and implemented it with React.js."
+                    "As users browse through our recommended claw machine options, we will also suggest brand partner stores and local tourist attractions"
                   }
                   redirect={"/"}
                 />
               </div>
+              <PortfolioCard
+                image={ALLIANCE3}
+                title={
+                  "This will allow them to not only enjoy playing but also make the most of their time in the area."
+                }
+                redirect={"/"}
+              />
+            </div>
+            {/* col2 */}
+            <div className="flex flex-col gap-4">
+              <PortfolioCard
+                image={ALLIANCE2}
+                title={
+                  "In this website's map system to locate claw machine stores based on city, distance, and many other ways"
+                }
+                redirect={"/"}
+              />
               <Flex className="gap-4">
                 <ProblemSolutionCard
                   title={"Problem"}
                   content={
-                    "Locating nearby claw machine stores and enhancing customer engagement with claw machine gaming"
+                    "Difficulty in locating nearby claw machine stores and increase brand awareness"
                   }
                   color={"#F9A826"}
                 />
                 <ProblemSolutionCard
                   title={"Solution"}
                   content={
-                    "Utilizing IoT to monitor real-time machine data, and create a mobile payment solution"
+                    "Create an interactive website with a map feature that enables users to easily locate nearby claw machine stores and suggests brand partner stores and local tourist attractions"
                   }
                   color={"#0063e3"}
                 />
               </Flex>
-            </div>
-            {/* col2 */}
-            <div>
-              <PortfolioCard image={GAMEPAY2} title={"asdf"} redirect={"/"} />
             </div>
           </Flex>
         </div>
@@ -105,25 +114,33 @@ const Alliance = (props: Props) => {
           <h4 className="mt-4 text-black">PROCESS</h4>
 
           <H2 className="text-black">
-            I start the developemtn by using
-            <span className="font-bold text-indigo-300"> Figma</span> for
-            design, <span className="font-bold text-indigo-300"> React.js</span>{" "}
-            for front-end development, and Apollo
-            <span className="font-bold text-indigo-300"> GraphQL</span> for
-            seamless client-server communication.
+            By collaborating with various claw machine brands and stores, I was
+            able to develop a dynamic and user-friendly website that aims to
+            raise awareness about the exciting world of claw machine gaming.
             <br />
             <br />
-            While also utilizing
-            <span className="font-bold text-indigo-300"> React MUI</span> for
-            efficient layouting and styling, resulting in a professional and
-            visually appealing user interface.
+            The platform features a range of interactive and engaging
+            functionalities.
+            <br />
+            <br />
+            Including an intuitive map feature that enables users to easily
+            locate nearby claw machine stores and identify popular brand partner
+            locations.
+            <br />
+            <br />
+            In addition, as part of our ongoing efforts to promote claw machine
+            awareness and tourism of our beautiful city, we have also presented
+            this innovative project to the local government in Taichung, with
+            the hope of securing valuable travel data and insights that will
+            enable us to further refine our website for the benefit of all our
+            users.
           </H2>
         </Flex>
         <div>
-          <H3 className="mt-28 text-center font-bold text-indigo-300">
+          <H3 className="mt-28 text-center font-bold text-gray-300">
             PROJECT IS STILL IN PROGRESS
           </H3>
-          <h4 className="mt-4 text-center text-black">
+          <h4 className="mt-4 text-center text-gray-300">
             Contact me for more details
           </h4>
         </div>

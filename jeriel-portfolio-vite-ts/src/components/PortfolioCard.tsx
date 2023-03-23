@@ -4,7 +4,7 @@ import { StyledPortfolioCard } from "./styles/PortfolioCard.styled";
 type Props = {
   title: string;
   image: string;
-  redirect: string;
+  redirect?: string;
 };
 
 const PortfolioCard = ({ title, image, redirect }: Props) => {

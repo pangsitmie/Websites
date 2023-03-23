@@ -8,7 +8,7 @@ export const StyledAboutCard = styled.div`
     gap: 8px;
     background-color: #1B1B1B;
     border: 1px solid transparent;
-    border-radius: 1rem;
+    border-radius: 12px;
     padding: 2rem;
     text-align: center;
 

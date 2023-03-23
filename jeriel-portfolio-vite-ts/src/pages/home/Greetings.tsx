@@ -13,6 +13,7 @@ import {
   ZoomIn,
 } from "react-scroll-motion";
 import WELCOME_VID from "@/assets/welcome_vid.mp4";
+import WELCOME_VID_MOBILE from "@/assets/welcome_vid_mobile.mp4";
 import { H1 } from "@/components/styles/H1.styled";
 
 type Props = {};
@@ -21,6 +22,8 @@ const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
 const FadeUp = batch(Fade(), Sticky(), Move());
 
 const Greetings = (props: Props) => {
+  const isMobile = window.innerWidth < 768;
+
   return (
     <ScrollContainer>
       <ScrollPage>
@@ -31,14 +34,24 @@ const Greetings = (props: Props) => {
 
       <ScrollPage>
         {/* i want to put a mp4 video where which take the will width */}
-        <video
-          src={WELCOME_VID}
-          autoPlay
-          loop
-          muted
-          playsInline // add the playsinline attribute
-          className="h-auto w-[100%] object-cover"
-        />
+        {isMobile ? (
+          <video
+            src={WELCOME_VID_MOBILE}
+            autoPlay
+            loop
+            muted
+            playsInline // add the playsinline attribute
+            className="h-auto w-full object-cover"
+          />
+        ) : (
+          <video
+            src={WELCOME_VID}
+            autoPlay
+            loop
+            muted
+            className="h-auto w-full object-cover"
+          />
+        )}
       </ScrollPage>
     </ScrollContainer>
   );
