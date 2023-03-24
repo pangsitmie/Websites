@@ -1,11 +1,11 @@
 import React from "react";
-import ButtonFill from "../../components/ButtonFill";
-import ButtonStorke from "../../components/ButtonStroke";
+import ButtonFill from "../../components/button/ButtonFill";
+import ButtonStorke from "../../components/button/ButtonStroke";
 import { useInView } from "react-intersection-observer";
 import { batch, FadeIn, StickyIn, ZoomIn } from "react-scroll-motion";
 const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
 import { motion } from "framer-motion";
-import HeroSocials from "../../assets/HeroSocials";
+import HeroSocials from "./HeroSocials";
 import { BsArrowDown, BsArrowRight } from "react-icons/bs";
 import PortfolioCard from "../../components/PortfolioCard";
 import IMG1 from "@/assets/gamepay.png";

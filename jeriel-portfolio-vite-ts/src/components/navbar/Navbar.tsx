@@ -3,7 +3,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import LOGO_WHITE from "@/assets/logo_white.png";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import ButtonStorke from "../ButtonStroke";
+import ButtonStorke from "../button/ButtonStroke";
 import CV from "../../assets/jeriel_resume.pdf";
 import { useLocation } from "react-router-dom";
 

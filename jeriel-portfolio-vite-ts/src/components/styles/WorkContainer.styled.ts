@@ -11,4 +11,5 @@ export const StyledWorkContainer = styled.div<{ backgroundImage: string }>`
   background-image: url(${props => props.backgroundImage});
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center; /* Optional property to center the image */
 `

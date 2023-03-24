@@ -8,7 +8,7 @@ import GAMEPAY2 from "@/assets/gamepay2.png";
 import GAMEPAY3 from "@/assets/gamepay3.jpg";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
-import WorkHero from "@/components/WorkHero";
+import WorkHero from "@/pages/about/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";

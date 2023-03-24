@@ -1,5 +1,5 @@
-import { H1 } from "./styles/H1.styled";
-import { StyledWorkHero } from "./styles/WorkHero.styled";
+import { H1 } from "../../components/styles/H1.styled";
+import { StyledWorkHero } from "../../components/styles/WorkHero.styled";
 
 type Props = {
   title: string;

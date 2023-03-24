@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { StyledButtonFill } from "./styles/ButtonFill.styled";
+import { StyledButtonFill } from "../styles/ButtonFill.styled";
 
 interface Props {
   text: string;
@@ -15,8 +15,10 @@ export default function ButtonFill({
   type = "button",
 }: Props) {
   return (
-    <StyledButtonFill className={`btn ${className}`} type={type}>
-      <a href={link}>{text}</a>
-    </StyledButtonFill>
+    <a href={link}>
+      <StyledButtonFill className={`btn ${className}`} type={type}>
+        {text}
+      </StyledButtonFill>
+    </a>
   );
 }

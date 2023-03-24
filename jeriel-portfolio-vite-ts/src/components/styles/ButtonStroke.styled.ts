@@ -10,6 +10,7 @@ export const StyledButtonStroke = styled.button`
     background-color: transparent;
     color: ${({ color }) => color || "#333"};
     transition: all 0.3s ease-in-out;
+    color: #fff;
 
     & a{
         color: #fff;

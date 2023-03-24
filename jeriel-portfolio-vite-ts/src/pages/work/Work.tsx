@@ -4,10 +4,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { H1 } from "@/components/styles/H1.styled";
-import ButtonStorke from "@/components/ButtonStroke";
+import ButtonStorke from "@/components/button/ButtonStroke";
 import PATTERN1 from "@/assets/pattern1.png";
 import PATTERN2 from "@/assets/pattern2.svg";
 import PATTERN3 from "@/assets/pattern3.svg";
+import PATTERN4 from "@/assets/pattern4.gif";
 import { ScrollAlertContainer } from "@/components/styles/ScrollAlertContainer.styled";
 import { BsChevronRight } from "react-icons/bs";
 
@@ -66,24 +67,11 @@ const Work = (props: Props) => {
     <div className="">
       {showScrollRight && (
         <ScrollAlertContainer className="text-primary-300">
-          Scroll Right
-          <BsChevronRight className="text-[14px]" />
+          <BsChevronRight className="text-[25px]" />
         </ScrollAlertContainer>
       )}
 
       <Slider {...settings}>
-        <StyledWorkContainer backgroundImage={PATTERN1}>
-          <div className="backgrod flex h-full flex-col justify-center">
-            <H1 className="mb-6 font-medium	 leading-tight text-white">
-              Game Pay
-            </H1>
-            <ButtonStorke
-              text="View Project"
-              link="/work/gamepay"
-              className="h-[65px] w-[200px]"
-            />
-          </div>
-        </StyledWorkContainer>
         <StyledWorkContainer backgroundImage={PATTERN2}>
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium	 leading-tight text-white ">
@@ -104,6 +92,30 @@ const Work = (props: Props) => {
             <ButtonStorke
               text="View Project"
               link="/work/cloudProgramming"
+              className="h-[65px] w-[200px]"
+            />
+          </div>
+        </StyledWorkContainer>
+        <StyledWorkContainer backgroundImage={PATTERN4}>
+          <div className="backgrod flex h-full flex-col justify-center">
+            <H1 className="mb-10 font-medium	 leading-tight text-white ">
+              This Portfolio
+            </H1>
+            <ButtonStorke
+              text="View Project"
+              link="/work/alliance"
+              className="h-[65px] w-[200px]"
+            />
+          </div>
+        </StyledWorkContainer>
+        <StyledWorkContainer backgroundImage={PATTERN1}>
+          <div className="backgrod flex h-full flex-col justify-center">
+            <H1 className="mb-6 font-medium	 leading-tight text-white">
+              Game Pay
+            </H1>
+            <ButtonStorke
+              text="View Project"
+              link="/work/gamepay"
               className="h-[65px] w-[200px]"
             />
           </div>

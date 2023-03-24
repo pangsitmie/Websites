@@ -4,7 +4,7 @@ import { BsLinkedin } from "react-icons/bs";
 import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
-import ButtonFill from "../../components/ButtonFill";
+import ButtonFill from "../../components/button/ButtonFill";
 import { Flex } from "@/components/styles/Flex.styled";
 
 type Props = {};
@@ -48,9 +48,9 @@ const ContactForm = (props: Props) => {
           <div className="flex flex-col items-center justify-center rounded-2xl bg-secondary-100 px-16 py-8">
             <MdOutlineEmail className="text- mb-4 text-center text-[24px]" />
             <h4 className="text-center text-xl">Email</h4>
-            <h5 className="text-center">admin@roundbytes.com</h5>
+            <h5 className="text-center">jerielisaiah4@gmail.com</h5>
             <a
-              href="mailto:admin@roundbytes.com"
+              href="mailto:jerielisaiah4@gmail.com"
               target="_blank"
               rel="noreferrer"
               className="mt-4 text-center text-primary-100"

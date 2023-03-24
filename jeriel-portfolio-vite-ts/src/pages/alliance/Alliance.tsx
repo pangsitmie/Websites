@@ -7,7 +7,7 @@ import ALLIANCE2 from "@/assets/alliance2.png";
 import ALLIANCE3 from "@/assets/alliance3.jpg";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
-import WorkHero from "@/components/WorkHero";
+import WorkHero from "@/pages/about/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";

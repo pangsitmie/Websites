@@ -1,4 +1,4 @@
-import { StyledButtonStroke } from "./styles/ButtonStroke.styled";
+import { StyledButtonStroke } from "../styles/ButtonStroke.styled";
 import { motion } from "framer-motion";
 
 interface Props {
@@ -9,8 +9,10 @@ interface Props {
 
 export default function ButtonStorke({ text, link, className }: Props) {
   return (
-    <StyledButtonStroke className={`btn ${className}`}>
-      <a href={link}>{text}</a>
-    </StyledButtonStroke>
+    <a href={link}>
+      <StyledButtonStroke className={`btn ${className}`}>
+        {text}
+      </StyledButtonStroke>
+    </a>
   );
 }
