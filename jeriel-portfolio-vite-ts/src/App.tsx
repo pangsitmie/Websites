@@ -12,6 +12,7 @@ import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
 import About from "./pages/about/About";
 import Footer from "./components/Footer";
 import Work from "./pages/work/Work";
+import ThisPortfolio from "./pages/thisPortfolio/ThisPortfolio";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -46,12 +47,12 @@ function App() {
             <Route path="/work" element={<Work />} />
 
             {/* PAGES */}
-            {/* <Route path="/work" element={<Work />} /> */}
             <Route path="/about" element={<About />} />
 
             {/* WORKS */}
             <Route path="/work/gamepay" element={<Gamepay />} />
             <Route path="/work/alliance" element={<Alliance />} />
+            <Route path="/work/this" element={<ThisPortfolio />} />
             <Route
               path="/work/cloudprogramming"
               element={<CloudProgramming />}

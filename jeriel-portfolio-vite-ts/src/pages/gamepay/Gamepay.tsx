@@ -6,6 +6,8 @@ import { useInView } from "react-intersection-observer";
 import GAMEPAY1 from "@/assets/gamepay1.png";
 import GAMEPAY2 from "@/assets/gamepay2.png";
 import GAMEPAY3 from "@/assets/gamepay3.jpg";
+import GAMEPAY4 from "@/assets/gamepay4.png";
+import GAMEPAY5 from "@/assets/gamepay5.png";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
 import WorkHero from "@/pages/about/WorkHero";
@@ -18,6 +20,18 @@ type Props = {};
 
 const Gamepay = (props: Props) => {
   const { ref, inView } = useInView({ trackVisibility: true, delay: 100 });
+  const { ref: ref1, inView: inView1 } = useInView({
+    trackVisibility: true,
+    delay: 100,
+  });
+  const { ref: ref2, inView: inView2 } = useInView({
+    trackVisibility: true,
+    delay: 100,
+  });
+  const { ref: ref3, inView: inView3 } = useInView({
+    trackVisibility: true,
+    delay: 100,
+  });
   const variants = {
     hidden: { y: 50, opacity: 0 },
     visible: { y: 0, opacity: 1 },
@@ -26,8 +40,8 @@ const Gamepay = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="SaaS web app that helps claw machine stores manage their
-          business with IoT."
+        title="SaaS+IoT that helps claw machine stores manage their
+          business."
         subtitle1="GAME PAY"
         subtitle2="WEB APP"
       />
@@ -113,23 +127,75 @@ const Gamepay = (props: Props) => {
       </div>
       {/* curve end */}
       <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
-        <Flex className="flex gap-4 pt-12">
+        <Flex className="flex gap-4">
           <h4 className="mt-4 text-black">PROCESS</h4>
 
-          <H2 className="text-black">
-            I start the developemtn by using
-            <span className="font-bold text-indigo-300"> Figma</span> for
-            design, <span className="font-bold text-indigo-300"> React.js</span>{" "}
-            for front-end development, and Apollo
-            <span className="font-bold text-indigo-300"> GraphQL</span> for
-            seamless client-server communication.
-            <br />
-            <br />
-            While also utilizing
-            <span className="font-bold text-indigo-300"> React MUI</span> for
-            efficient layouting and styling, resulting in a professional and
-            visually appealing user interface.
-          </H2>
+          <div>
+            <motion.div
+              className="show"
+              ref={ref1}
+              initial="hidden"
+              animate={inView1 ? "visible" : "hidden"}
+              variants={variants}
+              transition={{ duration: 0.5 }}
+            >
+              <H2 className="mb-10 text-black">
+                I start the developemtn by using
+                <span className="font-bold text-indigo-300"> Figma</span> for
+                design,{" "}
+                <span className="font-bold text-indigo-300"> React.js</span> for
+                front-end development, and Apollo
+                <span className="font-bold text-indigo-300"> GraphQL</span> for
+                seamless client-server communication.
+              </H2>
+            </motion.div>
+
+            <motion.div
+              className="show"
+              ref={ref2}
+              initial="hidden"
+              animate={inView2 ? "visible" : "hidden"}
+              variants={variants}
+              transition={{ duration: 0.5 }}
+            >
+              <Flex className="items-center gap-10">
+                <PortfolioCard
+                  image={GAMEPAY4}
+                  title={"Statistics Page (Light Mode)"}
+                />
+                <div>
+                  <H3 className="text-black">
+                    While also utilizing
+                    <span className="font-bold text-indigo-300">
+                      {" "}
+                      React MUI
+                    </span>{" "}
+                    for efficient layouting and styling, resulting in a
+                    professional and visually appealing user interface.
+                  </H3>
+                </div>
+              </Flex>
+            </motion.div>
+
+            <motion.div
+              className="show"
+              ref={ref3}
+              initial="hidden"
+              animate={inView3 ? "visible" : "hidden"}
+              variants={variants}
+              transition={{ duration: 0.5 }}
+            >
+              <Flex className="mt-10 items-center gap-10">
+                <div>
+                  <H3 className="text-black">
+                    This web app is also optimized for mobile device and tablet,
+                    and is fully responsive.
+                  </H3>
+                </div>
+                <PortfolioCard image={GAMEPAY5} title={"Mobile Version"} />
+              </Flex>
+            </motion.div>
+          </div>
         </Flex>
         <div>
           <H3 className="mt-28 text-center font-bold text-gray-300">

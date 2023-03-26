@@ -32,17 +32,16 @@ const About = (props: Props) => {
 
   const FrontEndExperienceData = [
     "Developed a comprehensive admin webapp to facilitate data & performance management for claw machine brands.",
+    "Utilized Vite, Tailwind CSS and Styled Components to build highly scalable and reusable components, resulting in an efficient and easily maintainable codebase.",
     "Implemented GraphQL as the primary API provider, optimizing its usage to achieve a substantial 50% improvement in loading time",
     "Employed advanced React state management techniques, including Redux, to effectively segregate features and functionalities across multiple entities within the web application.",
     "Leveraged the React Material-UI (MUI) component library to ensure consistency and ease-of-use across the entire application, delivering a streamlined user experience.",
-    "Utilized Vite, Tailwind CSS and Styled Components to build highly scalable and reusable components, resulting in an efficient and easily maintainable codebase.",
   ];
 
   const AndroidDeveloperExperienceData = [
-    "Create a demo application for Yunlin University Startup competition",
-    "Design and implementing UI/UX for my own android app",
-    "Utilize Coinmarketcap.com API to analyze crypto transaction PnL",
-    "Published Tucope App to Google Play Store",
+    "Developed Tucope app for crypto portfolio management with CoinMarketCap API integration to calculate real time market value.",
+    "Created a data science and machine learning-based Android app for crypto price prediction and recommendation using MVVM, Live Data, Firebase and Binance API.",
+    "Developed a demo app for selling expiring foods to reduce waste, successfully funded by National Yunlin University, highlighting my skills in social impact app development.",
   ];
 
   const WordpressDeveloperExperienceData = [

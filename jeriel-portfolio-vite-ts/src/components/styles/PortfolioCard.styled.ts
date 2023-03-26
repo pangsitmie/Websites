@@ -1,8 +1,5 @@
 import styled from "styled-components";
 
-
-
-
 export const StyledPortfolioCard = styled.div`
     background-color: #111;
     border-radius: 25px;
@@ -75,8 +72,16 @@ export const StyledPortfolioCard = styled.div`
         opacity: 1;
     }
 
+    .portfolio__item-image {
+        width: 100%;
+        height: 100%;
+      }
+      
     .portfolio__item-image img {
         border-radius: 25px;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
 
     @media(max-width: ${({ theme }) => theme.mobile}) {

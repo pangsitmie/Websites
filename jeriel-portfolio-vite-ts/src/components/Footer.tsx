@@ -4,7 +4,7 @@ type Props = {};
 
 const data = [
   { text: "All", link: "/work" },
-  { text: "Portfolio", link: "/portfolio" },
+  { text: "Portfolio", link: "/work/this" },
   { text: "Game Pay", link: "/work/gamepay" },
   { text: "Claw Machine Alliance", link: "/work/alliance" },
   {
@@ -15,8 +15,8 @@ const data = [
     text: "Styled Componenets - Demo",
     link: "/https://github.com/pangsitmie/Websites/tree/main/styled-components-demo",
   },
-  { text: "Tucope", link: "/tucope" },
-  { text: "Moonz", link: "/moonz" },
+  { text: "Tucope", link: "/work/tucope" },
+  { text: "Moonz", link: "/work/moonz" },
 ];
 
 const Footer = (props: Props) => {

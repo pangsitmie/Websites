@@ -8,12 +8,13 @@ import { motion } from "framer-motion";
 import HeroSocials from "./HeroSocials";
 import { BsArrowDown, BsArrowRight } from "react-icons/bs";
 import PortfolioCard from "../../components/PortfolioCard";
-import IMG1 from "@/assets/gamepay.png";
-import IMG2 from "@/assets/yuncheng.png";
+import IMG1 from "@/assets/this.gif";
+import IMG2 from "@/assets/gamepay.png";
+// import IMG2 from "@/assets/yuncheng.png";
 import IMG3 from "@/assets/alliance.png";
 import { Flex } from "@/components/styles/Flex.styled";
 import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
-import CV from "../../assets/jeriel_resume.pdf";
+import CV from "../../assets/Resume_26_MAR_2023.pdf";
 
 type Props = {};
 
@@ -63,19 +64,19 @@ const Hero = (props: Props) => {
       {/* portfolio 3 grid cards */}
       <Flex className="mt-20 gap-5 p-4">
         <PortfolioCard
-          title={"Gamepay"}
+          title={"This Porfolio"}
           image={IMG1}
+          redirect={"/work/this"}
+        />
+        <PortfolioCard
+          title={"Game Pay"}
+          image={IMG2}
           redirect={"/work/gamepay"}
         />
         <PortfolioCard
           title={"Claw Machine Alliance"}
           image={IMG3}
           redirect={"/work/alliance"}
-        />
-        <PortfolioCard
-          title={"雲程在線"}
-          image={IMG2}
-          redirect={"/work/cloudProgramming"}
         />
       </Flex>
       {/* </div> */}

@@ -8,7 +8,7 @@ import ButtonStorke from "@/components/button/ButtonStroke";
 import PATTERN1 from "@/assets/pattern1.png";
 import PATTERN2 from "@/assets/pattern2.svg";
 import PATTERN3 from "@/assets/pattern3.svg";
-import PATTERN4 from "@/assets/pattern4.gif";
+// import PATTERN4 from "@/assets/pattern4.gif";
 import { ScrollAlertContainer } from "@/components/styles/ScrollAlertContainer.styled";
 import { BsChevronRight } from "react-icons/bs";
 
@@ -72,10 +72,22 @@ const Work = (props: Props) => {
       )}
 
       <Slider {...settings}>
+        <StyledWorkContainer backgroundImage={PATTERN1}>
+          <div className="backgrod flex h-full flex-col justify-center">
+            <H1 className="mb-6 font-medium	 leading-tight text-white">
+              Game Pay
+            </H1>
+            <ButtonStorke
+              text="View Project"
+              link="/work/gamepay"
+              className="h-[65px] w-[200px]"
+            />
+          </div>
+        </StyledWorkContainer>
         <StyledWorkContainer backgroundImage={PATTERN2}>
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium	 leading-tight text-white ">
-              Claw Machine Alliance
+              Claw Alliance
             </H1>
             <ButtonStorke
               text="View Project"
@@ -88,6 +100,8 @@ const Work = (props: Props) => {
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium	 leading-tight text-white">
               雲程在線
+              <br />
+              Website
             </H1>
             <ButtonStorke
               text="View Project"
@@ -96,26 +110,15 @@ const Work = (props: Props) => {
             />
           </div>
         </StyledWorkContainer>
-        <StyledWorkContainer backgroundImage={PATTERN4}>
+
+        <StyledWorkContainer backgroundImage={""}>
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium	 leading-tight text-white ">
               This Portfolio
             </H1>
             <ButtonStorke
               text="View Project"
-              link="/work/alliance"
-              className="h-[65px] w-[200px]"
-            />
-          </div>
-        </StyledWorkContainer>
-        <StyledWorkContainer backgroundImage={PATTERN1}>
-          <div className="backgrod flex h-full flex-col justify-center">
-            <H1 className="mb-6 font-medium	 leading-tight text-white">
-              Game Pay
-            </H1>
-            <ButtonStorke
-              text="View Project"
-              link="/work/gamepay"
+              link="/work/this"
               className="h-[65px] w-[200px]"
             />
           </div>
