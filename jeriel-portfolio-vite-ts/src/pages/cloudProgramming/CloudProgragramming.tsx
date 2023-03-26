@@ -60,7 +60,7 @@ const CloudProgramming = (props: Props) => {
                 As the lead designer and developer, I was tasked with the
                 complete overhaul of our company website, which was previously
                 outdated and lacked any visual appeal.
-                <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                <a href="https://cloudprogrammingonline.com/">
                   <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
                     Visit website <BiLinkExternal />
                   </h4>

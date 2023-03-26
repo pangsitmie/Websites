@@ -61,7 +61,7 @@ const ThisPortfolio = (props: Props) => {
                 faster and more reliable experience, styled with
                 <span> Tailwind CSS + Styled Componenets</span> for a clean,
                 reusable, and modern appearance.
-                <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                <a href="https://github.com/pangsitmie/Websites/tree/main/jeriel-portfolio-vite-ts">
                   <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
                     Github <BiLinkExternal />
                   </h4>
