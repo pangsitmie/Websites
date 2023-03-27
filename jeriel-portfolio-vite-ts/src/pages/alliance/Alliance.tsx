@@ -64,11 +64,11 @@ const Alliance = (props: Props) => {
                 Expanding audience by creating a website that enables users to
                 search for nearby or desired claw machine stores through our
                 interactive map feature.
-                {/* <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                <a href="https://alliance.cloudprogrammingonline.com/map">
                   <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
                     Visit website <BiLinkExternal />
                   </h4>
-                </a> */}
+                </a>
               </H2>
             </Flex>
           </motion.div>
@@ -155,6 +155,11 @@ const Alliance = (props: Props) => {
                     With our interactive functionalities such as an intuitive
                     map that locates nearby claw machine stores and popular
                     brand partner locations.
+                    <a href="https://alliance.cloudprogrammingonline.com/exhibition/2023">
+                      <h4 className="align-center mt-5 flex gap-2 text-xl text-secondary-300">
+                        View Page <BiLinkExternal />
+                      </h4>
+                    </a>
                   </H3>
                 </div>
                 <PortfolioCard
@@ -190,6 +195,9 @@ const Alliance = (props: Props) => {
             PROJECT IS STILL IN PROGRESS
           </H3>
           <h4 className="mt-4 text-center text-gray-300">
+            It is still not optimized for mobile devices, and this project is
+            currently on hold.
+            <br />
             Contact me for more details
           </h4>
         </div>

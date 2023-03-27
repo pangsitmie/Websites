@@ -8,10 +8,10 @@ import { motion } from "framer-motion";
 import HeroSocials from "./HeroSocials";
 import { BsArrowDown, BsArrowRight } from "react-icons/bs";
 import PortfolioCard from "../../components/PortfolioCard";
-import IMG1 from "@/assets/this.gif";
-import IMG2 from "@/assets/gamepay.png";
-// import IMG2 from "@/assets/yuncheng.png";
-import IMG3 from "@/assets/alliance.png";
+// import IMG1 from "@/assets/this.gif";
+import IMG1 from "@/assets/gamepay.png";
+import IMG2 from "@/assets/alliance.png";
+import IMG3 from "@/assets/yuncheng.png";
 import { Flex } from "@/components/styles/Flex.styled";
 import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
 import CV from "../../assets/Resume_26_MAR_2023.pdf";
@@ -52,10 +52,10 @@ const Hero = (props: Props) => {
         </div>
         <StyledMediaContainerGone>
           <a
-            href="#contact"
+            href="/work/behind-the-scene"
             className="font-weight-300 align-center absolute bottom-10 right-0 flex rotate-90 items-center justify-between gap-2 text-primary-100"
           >
-            Scroll Down
+            Behind The Scene
             <BsArrowRight />
           </a>
         </StyledMediaContainerGone>
@@ -64,19 +64,19 @@ const Hero = (props: Props) => {
       {/* portfolio 3 grid cards */}
       <Flex className="mt-20 gap-5 p-4">
         <PortfolioCard
-          title={"This Porfolio"}
-          image={IMG1}
-          redirect={"/work/this"}
-        />
-        <PortfolioCard
           title={"Game Pay"}
-          image={IMG2}
+          image={IMG1}
           redirect={"/work/gamepay"}
         />
         <PortfolioCard
           title={"Claw Machine Alliance"}
-          image={IMG3}
+          image={IMG2}
           redirect={"/work/alliance"}
+        />
+        <PortfolioCard
+          title={"雲程在線"}
+          image={IMG3}
+          redirect={"/work/cloudProgramming"}
         />
       </Flex>
       {/* </div> */}

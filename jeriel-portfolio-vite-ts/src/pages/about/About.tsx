@@ -17,15 +17,16 @@ const About = (props: Props) => {
     { name: "HTML & CSS", level: "Experienced" },
     { name: "React", level: "Experienced" },
     { name: "JavaScript", level: "Experienced" },
-    { name: "TypeScript", level: "Experienced" },
-    { name: "Tailwind", level: "Experienced" },
+    { name: "TypeScript", level: "Beginner" },
+    { name: "Tailwind", level: "Beginner" },
+    { name: "GraphQL", level: "Experienced" },
   ];
 
   const AndroidData = [
     { name: "Android Studio", level: "Experienced" },
     { name: "XML", level: "Experienced" },
     { name: "JAVA", level: "Experienced" },
-    { name: "MVVM", level: "Intermediate" },
+    { name: "MVVM", level: "Beginner" },
     { name: "Fibrebase", level: "Experienced" },
     { name: "Live Data", level: "Intermediate" },
   ];

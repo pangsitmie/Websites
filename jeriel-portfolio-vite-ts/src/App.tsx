@@ -12,7 +12,8 @@ import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
 import About from "./pages/about/About";
 import Footer from "./components/Footer";
 import Work from "./pages/work/Work";
-import ThisPortfolio from "./pages/thisPortfolio/ThisPortfolio";
+import BehindTheScene from "./pages/behindTheScene/BehindTheScene";
+import NotFound from "./pages/404/NotFound";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -52,7 +53,7 @@ function App() {
             {/* WORKS */}
             <Route path="/work/gamepay" element={<Gamepay />} />
             <Route path="/work/alliance" element={<Alliance />} />
-            <Route path="/work/this" element={<ThisPortfolio />} />
+            <Route path="/work/behind-the-scene" element={<BehindTheScene />} />
             <Route
               path="/work/cloudprogramming"
               element={<CloudProgramming />}

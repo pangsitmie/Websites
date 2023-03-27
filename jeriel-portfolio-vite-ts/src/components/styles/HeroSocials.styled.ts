@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledHeroSocials = styled.button`
+export const StyledHeroSocials = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +17,7 @@ export const StyledHeroSocials = styled.button`
         width: 1px;
         height: 2rem;
         background-color: #61F8D4;
+        cursor: normal;
     }
     & a:hover {
         color: #FFF;

@@ -4,7 +4,7 @@ type Props = {};
 
 const data = [
   { text: "All", link: "/work" },
-  { text: "Portfolio", link: "/work/this" },
+  { text: "Behind The Scene", link: "/work/behind-the-scene" },
   { text: "Game Pay", link: "/work/gamepay" },
   { text: "Claw Machine Alliance", link: "/work/alliance" },
   {

@@ -114,11 +114,11 @@ const Work = (props: Props) => {
         <StyledWorkContainer backgroundImage={""}>
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium	 leading-tight text-white ">
-              This Portfolio
+              How It's Made
             </H1>
             <ButtonStorke
               text="View Project"
-              link="/work/this"
+              link="/work/behind-the-scene"
               className="h-[65px] w-[200px]"
             />
           </div>
