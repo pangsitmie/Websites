@@ -15,6 +15,7 @@ import {
 import WELCOME_VID from "@/assets/welcome_vid.mp4";
 import WELCOME_VID_MOBILE from "@/assets/welcome_vid_mobile.mp4";
 import { H1 } from "@/components/styles/H1.styled";
+import StyledScrollDown from "@/components/styles/ScrollDown.styled";
 
 type Props = {};
 
@@ -27,8 +28,10 @@ const Greetings = (props: Props) => {
   return (
     <ScrollContainer>
       <ScrollPage>
-        <Animator animation={batch(Sticky(), Fade(), MoveOut(0, -200))}>
-          <H1>Hello World...</H1>
+        <Animator animation={batch(Sticky(), Fade(), MoveOut(0, -250))}>
+          <div className="justi flex items-center">
+            <H1>Hello World...</H1>
+          </div>
         </Animator>
       </ScrollPage>
 
@@ -53,6 +56,8 @@ const Greetings = (props: Props) => {
           />
         )}
       </ScrollPage>
+
+      <StyledScrollDown className="mb-4" />
     </ScrollContainer>
   );
 };
