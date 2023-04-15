@@ -3,14 +3,15 @@ import { motion } from "framer-motion";
 
 interface Props {
   text: string;
-  link: string;
+  link?: string;
+  onClick?: () => void;
   className?: string;
 }
 
-export default function ButtonStorke({ text, link, className }: Props) {
+export default function ButtonStorke({ text, link, className, onClick }: Props) {
   return (
     <a href={link}>
-      <StyledButtonStroke className={`btn ${className}`}>
+      <StyledButtonStroke onClick={onClick} className={`btn ${className}`}>
         {text}
       </StyledButtonStroke>
     </a>

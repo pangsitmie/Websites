@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import Work from "./pages/work/Work";
 import BehindTheScene from "./pages/behindTheScene/BehindTheScene";
 import NotFound from "./pages/404/NotFound";
+import XStateDemo from "./pages/xStateDemo/XStateDemo";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -58,6 +59,7 @@ function App() {
               path="/work/cloudprogramming"
               element={<CloudProgramming />}
             />
+            <Route path="/work/xstate" element={<XStateDemo />} />
           </Routes>
           <Footer />
         </Router>
