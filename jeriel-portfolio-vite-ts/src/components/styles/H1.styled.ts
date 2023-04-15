@@ -5,6 +5,6 @@ export const H1 = styled.h1`
 
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 20vw;
+        font-size: 10vw;
     }
 `

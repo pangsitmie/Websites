@@ -15,7 +15,7 @@ export const StyledWorkHero = styled.div`
         h1{
             margin-bottom: 3.5rem;
         }
-        padding: 2rem 1rem 0;
+        padding: 12rem 1rem 0;
     }
         
 `
