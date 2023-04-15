@@ -40,7 +40,7 @@ const Alliance = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="Discover claw machine spots and explore must-see travel destination nearby."
+        title="Discover claw machine spots and explore nearby travel destination."
         subtitle1="CLAW MACHINE ALLIANCE"
         subtitle2="WEBSITE"
       />

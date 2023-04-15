@@ -25,9 +25,8 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
 
   return (
     <nav
-      className={`${
-        currentPage.includes("/work") && isTopOfPage ? "hidden" : "flex"
-      }`}
+      className={`${currentPage.includes("/work") && isTopOfPage ? "bg-transparent" : "flex"
+        }`}
     >
       <div
         className={`${navbarBackground} ${flexBetween} fixed top-0 z-30 w-full py-6`}

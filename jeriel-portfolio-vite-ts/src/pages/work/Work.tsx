@@ -8,6 +8,7 @@ import ButtonStorke from "@/components/button/ButtonStroke";
 import PATTERN1 from "@/assets/pattern1.png";
 import PATTERN2 from "@/assets/pattern2.svg";
 import PATTERN3 from "@/assets/pattern3.svg";
+import PATTERN4 from "@/assets/pattern4.png";
 // import PATTERN4 from "@/assets/pattern4.gif";
 import { ScrollAlertContainer } from "@/components/styles/ScrollAlertContainer.styled";
 import { BsChevronRight } from "react-icons/bs";
@@ -84,9 +85,21 @@ const Work = (props: Props) => {
             />
           </div>
         </StyledWorkContainer>
+        <StyledWorkContainer backgroundImage={PATTERN4}>
+          <div className=" flex h-full flex-col justify-center">
+            <H1 className="mb-10 font-medium leading-tight text-white ">
+              How It's Made
+            </H1>
+            <ButtonStorke
+              text="View Project"
+              link="/work/behind-the-scene"
+              className="h-[65px] w-[200px]"
+            />
+          </div>
+        </StyledWorkContainer>
         <StyledWorkContainer backgroundImage={PATTERN2}>
           <div className="backgrod flex h-full flex-col justify-center">
-            <H1 className="mb-10 font-medium	 leading-tight text-white ">
+            <H1 className="mb-10 font-medium leading-tight text-white ">
               Claw Alliance
             </H1>
             <ButtonStorke
@@ -110,15 +123,14 @@ const Work = (props: Props) => {
             />
           </div>
         </StyledWorkContainer>
-
         <StyledWorkContainer backgroundImage={""}>
-          <div className="backgrod flex h-full flex-col justify-center">
+          <div className="flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium	 leading-tight text-white ">
-              How It's Made
+              XState Demo
             </H1>
             <ButtonStorke
               text="View Project"
-              link="/work/behind-the-scene"
+              link="/work/xstate"
               className="h-[65px] w-[200px]"
             />
           </div>

@@ -28,17 +28,16 @@ const XStateDemo = (props: Props) => {
   });
 
   return (
-    <div className="p-10">
-
+    <div className="h-full pt-24 px-10">
       <Flex>
         <H1>
-          XState Todo
+          XState Demo
         </H1>
       </Flex>
 
       <Flex className="py-4 justify-between flex-grow items-end"> {/* Add items-baseline class for alignment */}
         <div>
-          <a href="https://github.com/pangsitmie/Websites/tree/main/jeriel-portfolio-vite-ts">
+          <a href="https://github.com/pangsitmie/Websites/tree/main/jeriel-portfolio-vite-ts/src/pages/xStateDemo">
             <h4 className="align-center mb-4 flex gap-2 text-xl text-primary-100">
               Github <BiLinkExternal />
             </h4>

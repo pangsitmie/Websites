@@ -12,11 +12,12 @@ const data = [
     link: "/work/cloudProgramming",
   },
   {
-    text: "Styled Componenets - Demo",
-    link: "/https://github.com/pangsitmie/Websites/tree/main/styled-components-demo",
+    text: "Styled Componenets Demo",
+    link: "https://github.com/pangsitmie/Websites/tree/main/styled-components-demo",
   },
-  { text: "Tucope", link: "/work/tucope" },
-  { text: "Moonz", link: "/work/moonz" },
+  // { text: "Tucope", link: "/work/tucope" },
+  // { text: "Moonz", link: "/work/moonz" },
+  { text: "XState Demo", link: "/work/xstate" },
 ];
 
 const Footer = (props: Props) => {

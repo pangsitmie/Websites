@@ -8,9 +8,8 @@ export const StyledButtonStroke = styled.button`
     font-weight: 600;
     padding: .5rem 2.4rem;
     background-color: transparent;
-    color: ${({ color }) => color || "#333"};
+    color: ${({ color }) => color || "#FFF"};
     transition: all 0.3s ease-in-out;
-    color: #fff;
 
     & a{
         color: #fff;
