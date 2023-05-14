@@ -13,7 +13,6 @@ import About from "./pages/about/About";
 import Footer from "./components/Footer";
 import Work from "./pages/work/Work";
 import BehindTheScene from "./pages/behindTheScene/BehindTheScene";
-import NotFound from "./pages/404/NotFound";
 import XStateDemo from "./pages/xStateDemo/XStateDemo";
 import Contact from "./pages/contact/Contact";
 
@@ -21,26 +20,17 @@ function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
     SelectedPage.Home
   );
-  const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY === 0) {
-        setIsTopOfPage(true);
-        setSelectedPage(SelectedPage.Home);
-      }
-      if (window.scrollY !== 0) setIsTopOfPage(false);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
 
   return (
     <ThemeProvider theme={theme}>
       <div className="app">
         <Router basename="/">
+          <div>
+            { }
+          </div>
           <Navbar
-            isTopOfPage={isTopOfPage}
             selectedPage={selectedPage}
             setSelectedPage={setSelectedPage}
           />

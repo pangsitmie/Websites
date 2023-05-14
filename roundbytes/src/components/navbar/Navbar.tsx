@@ -10,24 +10,20 @@ import { Link } from 'react-scroll';
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  isTopOfPage: boolean;
   selectedPage: SelectedPage;
   setSelectedPage: (value: SelectedPage) => void;
 };
 
-const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
+const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
   const flexBetween = "flex items-center justify-between";
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
-
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
-  const navbarBackground = "transparent";
 
-  const navigate = useNavigate();
 
   return (
-    <nav>
+    <nav >
       <div
-        className={`${navbarBackground} ${flexBetween} absolute top-0 z-30 w-full py-6`}
+        className={`${flexBetween} top-0 z-30 w-full py-6`}
       >
         <div className={`${flexBetween} mx-auto w-5/6`}>
           <div className={`${flexBetween} w-full gap-16`}>
@@ -41,17 +37,26 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 `}></div>
                 <div className={`${flexBetween} gap-12 font-semibold`}>
+
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-xl">Works</a>
+                    <a href="/work" className="text-[18px]">
+                      Projects
+                    </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/about" className="text-xl">About</a>
+                    <a href="/work" className="text-[18px]">
+                      About
+                    </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/about" className="text-xl">Partnerships</a>
+                    <a href="/work" className="text-[18px]">
+                      Partnerships
+                    </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/contact" className="text-xl">Contact us</a>
+                    <a href="/work" className="text-[18px]">
+                      Contact us
+                    </a>
                   </StyledButtonUnderline>
                   {/* <ButtonStorke text="Contact us" className="text-xl" link={"/contact"} /> */}
                 </div>

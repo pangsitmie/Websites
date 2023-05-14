@@ -4,15 +4,15 @@ export const myMachine = createMachine({
     initial: "notHovered",
     states: {
         notHovered: {
-            on:{
-                MOUSEOVER:{
+            on: {
+                MOUSEOVER: {
                     target: "hovered",
                 }
             }
         },
         hovered: {
-            on:{
-                MOUSEOUT:{
+            on: {
+                MOUSEOUT: {
                     target: "notHovered",
                 }
             }
