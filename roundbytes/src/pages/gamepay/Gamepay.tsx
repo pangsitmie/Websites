@@ -47,7 +47,7 @@ const Gamepay = (props: Props) => {
 
       {/* CURVE DIV */}
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
-        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-black"></div>
         {/* this is the content container */}
         <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
           <motion.div

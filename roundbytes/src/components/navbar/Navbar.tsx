@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import LOGO_BLACK from "@/assets/logo_black.png";
+import LOGO_BLACK from "../../assets/logo_black.png";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ButtonStorke from "../button/ButtonStroke";
-import CV from "../../assets/Resume_26_MAR_2023.pdf";
 import { StyledButtonUnderline } from "../styles/button/ButtonUnderline.styled";
 import { Link } from 'react-scroll';
 import { useNavigate } from "react-router-dom";
@@ -36,26 +35,25 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 `}></div>
-                <div className={`${flexBetween} gap-12 font-semibold`}>
-
+                <div className={`${flexBetween} gap-16 font-semibold`}>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[18px]">
+                    <a href="/work" className="text-[16px]">
                       Projects
                     </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[18px]">
-                      About
+                    <a href="/work" className="text-[16px]">
+                      About Us
                     </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[18px]">
+                    <a href="/work" className="text-[16px]">
                       Partnerships
                     </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[18px]">
-                      Contact us
+                    <a href="/work" className="text-[16px]">
+                      Contact Us
                     </a>
                   </StyledButtonUnderline>
                   {/* <ButtonStorke text="Contact us" className="text-xl" link={"/contact"} /> */}

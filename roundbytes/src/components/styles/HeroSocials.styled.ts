@@ -8,7 +8,7 @@ export const StyledHeroSocials = styled.div`
     gap: 2rem;
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: 5.5rem;
     font-size: 1.5rem;
     color: #111111;
 

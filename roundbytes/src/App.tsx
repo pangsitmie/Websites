@@ -27,9 +27,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="app">
         <Router basename="/">
-          <div>
-            { }
-          </div>
           <Navbar
             selectedPage={selectedPage}
             setSelectedPage={setSelectedPage}
