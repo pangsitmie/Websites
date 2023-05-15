@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/static/css/main.65a8def1.css",
+    "main.js": "/static/js/main.fce5774a.js",
+    "static/media/mesh_gradient_bg.png": "/static/media/mesh_gradient_bg.6a6156887b4a41dba4b8.png",
+    "static/media/rafahl_carousel.png": "/static/media/rafahl_carousel.2c85da05ea09bb27d3ec.png",
+    "static/media/moonz_carousel.png": "/static/media/moonz_carousel.991e5f5a176637f699bf.png",
+    "static/media/clawmachine_carousel.png": "/static/media/clawmachine_carousel.a4f4370b031e65a54202.png",
+    "static/media/full_carousel_img1.png": "/static/media/full_carousel_img1.e30b661dd3cee1dd3e17.png",
+    "static/media/twindo_carousel.png": "/static/media/twindo_carousel.3f3ccfd3704803d326fa.png",
+    "static/media/map1.png": "/static/media/map1.707e6b4977ff45527efb.png",
+    "static/media/gamepay_carousel.png": "/static/media/gamepay_carousel.2b649e5f290a5b17b0b5.png",
+    "static/media/logo_black.png": "/static/media/logo_black.3defc71a671b1c5b15bb.png",
+    "static/media/logo_white.png": "/static/media/logo_white.3c8f34a8537bcdfbe677.png",
+    "static/media/pahamfilm_carousel.png": "/static/media/pahamfilm_carousel.3144e3a515e88f2c3e12.png",
+    "static/media/full_carousel_img2.png": "/static/media/full_carousel_img2.d66175139b4711084c4f.png",
+    "static/media/roundbytes_astronaut.svg": "/static/media/roundbytes_astronaut.e2b60a65821122a3377a8f0f01d68285.svg",
+    "static/media/overlay_stars.png": "/static/media/overlay_stars.72a76fb7ab3e6a8e9c0a.png",
+    "static/media/roundbytes_moon.svg": "/static/media/roundbytes_moon.03785b8c1691696c00b6a0161d2cd1e4.svg",
+    "static/media/roundbytes_earth.svg": "/static/media/roundbytes_earth.e50b9aa6eda6a2393296bcb84d93005d.svg",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html",
+    "main.65a8def1.css.map": "/static/css/main.65a8def1.css.map",
+    "main.fce5774a.js.map": "/static/js/main.fce5774a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.65a8def1.css",
+    "static/js/main.fce5774a.js"
+  ]
+}
