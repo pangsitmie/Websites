@@ -16,6 +16,7 @@ import CV from "../../assets/Resume_26_MAR_2023.pdf";
 import { H1, H2, H3 } from "@/components/styles/typography/typography.styled";
 import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
+import TrailText from "@/components/TrailText";
 const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
 
 type Props = {};
@@ -32,7 +33,7 @@ const Hero = (props: Props) => {
     <>
 
       <div
-        className={`flex-item-center flex flex-col pt-[20%] pb-80 px-24 md:mx-auto `}
+        className={`flex-item-center flex flex-col pt-[10%] pb-80 px-24 md:mx-auto `}
       >
         <motion.div
           className="show"
@@ -43,12 +44,20 @@ const Hero = (props: Props) => {
           transition={{ duration: 0.5 }}
         >
           {" "}
-          <H1 className="mb-2 text-center font-medium px-24">
+          {/* <TrailText text={"Round Bytes"} /> */}
+          <TrailText open={true} className="">
+            <span>We Make</span>
+            <span>Anything</span>
+            <span>Look Good</span>
+          </TrailText>
+          {/* <H1 className="mb-2 text-center font-medium px-24">
             Round Bytes is a digital agency that helps your brand create lasting relationships between brands & customers.
-          </H1>
-          <H3 className="text-center text-gray-400 px-12">
-            WEB DEVELOPMENT / BRANDING / UX / UI
-          </H3>
+          </H1> */}
+          <TrailText open={true} className="text-gray-400 text-">
+            <H3>
+              WEB DEVELOPMENT / BRANDING / UX / UI
+            </H3>
+          </TrailText>
           <HeroSocials />
           <StyledMediaContainerGone>
             <a
@@ -64,15 +73,7 @@ const Hero = (props: Props) => {
 
 
       </div>
-      {/* CURVE DIV */}
-      <div className="relative h-full w-full overflow-hidden  py-28 bg-black">
-        <SyteledCurveTop />
-        <div >
-          asdf
-        </div>
-        <SyteledCurveBottom />
 
-      </div >
     </>
   );
 };

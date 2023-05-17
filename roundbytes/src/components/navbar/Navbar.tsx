@@ -42,17 +42,17 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
                     </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[16px]">
+                    <a href="/about" className="text-[16px]">
                       About Us
                     </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[16px]">
+                    <a href="/parnership" className="text-[16px]">
                       Partnerships
                     </a>
                   </StyledButtonUnderline>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[16px]">
+                    <a href="/contact" className="text-[16px]">
                       Contact Us
                     </a>
                   </StyledButtonUnderline>
