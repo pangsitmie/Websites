@@ -11,7 +11,7 @@ import Alliance from "./pages/alliance/Alliance";
 import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
 import About from "./pages/about/About";
 import Footer from "./components/Footer";
-import Work from "./pages/work/Work";
+import Projects from "./pages/projects/Projects";
 import BehindTheScene from "./pages/behindTheScene/BehindTheScene";
 import XStateDemo from "./pages/xStateDemo/XStateDemo";
 import Contact from "./pages/contact/Contact";
@@ -34,21 +34,21 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Home />} />
-            <Route path="/work" element={<Work />} />
+            <Route path="/projects" element={<Projects />} />
 
             {/* PAGES */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
 
             {/* WORKS */}
-            <Route path="/work/gamepay" element={<Gamepay />} />
-            <Route path="/work/alliance" element={<Alliance />} />
-            <Route path="/work/behind-the-scene" element={<BehindTheScene />} />
+            <Route path="/projects/gamepay" element={<Gamepay />} />
+            <Route path="/projects/alliance" element={<Alliance />} />
+            <Route path="/projects/behind-the-scene" element={<BehindTheScene />} />
             <Route
-              path="/work/cloudprogramming"
+              path="/projects/cloudprogramming"
               element={<CloudProgramming />}
             />
-            <Route path="/work/xstate" element={<XStateDemo />} />
+            <Route path="/projects/xstate" element={<XStateDemo />} />
           </Routes>
           <Footer />
         </Router>

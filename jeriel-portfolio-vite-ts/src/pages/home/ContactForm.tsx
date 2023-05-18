@@ -6,6 +6,7 @@ import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import ButtonFill from "../../components/button/ButtonFill";
 import { Flex } from "@/components/styles/Flex.styled";
+import { H1 } from "@/components/styles/H1.styled";
 
 type Props = {};
 
@@ -38,10 +39,10 @@ const ContactForm = (props: Props) => {
 
   return (
     <div id="contact" className="p-4 md:container md:mx-auto">
-      <h5 className="mb-4 text-center text-2xl text-primary-100">
+      <h5 className="text-center text-2xl text-primary-100">
         Get In Touch
       </h5>
-      <h2 className="text-center text-6xl">Contact Me</h2>
+      <H1 className="text-center">Contact Me</H1>
 
       <Flex className="mt-20 gap-12">
         <div className="flex flex-col gap-4">

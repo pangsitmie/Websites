@@ -15,6 +15,7 @@ import IMG3 from "@/assets/yuncheng.png";
 import { Flex } from "@/components/styles/Flex.styled";
 import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
 import CV from "../../assets/Resume_26_MAR_2023.pdf";
+import { H1 } from "@/components/styles/H1.styled";
 
 type Props = {};
 
@@ -39,9 +40,9 @@ const Hero = (props: Props) => {
         transition={{ duration: 0.5 }}
       >
         {" "}
-        <h1 className="mb-7 text-center text-8xl font-semibold">
+        <H1 className="mb-2 text-center  font-semibold">
           Jeriel Isaiah
-        </h1>
+        </H1>
         <h2 className="text-center text-xl text-primary-100">
           Web developer & designer
         </h2>

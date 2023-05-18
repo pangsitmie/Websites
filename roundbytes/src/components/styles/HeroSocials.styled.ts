@@ -15,7 +15,7 @@ export const StyledHeroSocials = styled.div`
         cursor: normal;
     }
     & a:hover {
-        color: #FFF;
+        color: #3C9EFF;
     }
 
     @media(max-width: ${({ theme }) => theme.mobile}) {

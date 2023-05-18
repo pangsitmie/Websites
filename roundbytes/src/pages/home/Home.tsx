@@ -14,7 +14,8 @@ const Home = (props: Props) => {
       <MeshGradient />
 
       {/* CURVE DIV */}
-      <div className="relative h-full w-full overflow-hidden  py-28 bg-black">
+      {/* the content background is inside this div`` */}
+      <div className="relative h-full w-full overflow-hidden  py-28 bg-primary-100">
         <SyteledCurveTop />
         <div >
           asdf

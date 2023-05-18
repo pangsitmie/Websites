@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledPortfolioCard } from "./styles/PortfolioCard.styled";
+import { StyledPortfolioCard } from "./styles/card/PortfolioCard.styled";
 
 type Props = {
   title: string;

@@ -62,7 +62,7 @@ const Hero = (props: Props) => {
           <StyledMediaContainerGone>
             <a
               href="/work/behind-the-scene"
-              className="font-weight-300 align-center absolute bottom-40 right-0 flex rotate-90 items-center justify-between gap-2 text-black"
+              className="font-weight-300 align-center absolute top-[25%] right-0 flex rotate-90 items-center justify-between gap-2 text-black"
             >
               Behind The Scene
               <BsArrowRight />

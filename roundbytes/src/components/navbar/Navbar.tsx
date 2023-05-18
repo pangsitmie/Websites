@@ -37,7 +37,7 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
                 <div className={`${flexBetween} gap-8 `}></div>
                 <div className={`${flexBetween} gap-16 font-semibold`}>
                   <StyledButtonUnderline>
-                    <a href="/work" className="text-[16px]">
+                    <a href="/projects" className="text-[16px]">
                       Projects
                     </a>
                   </StyledButtonUnderline>

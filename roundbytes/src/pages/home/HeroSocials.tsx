@@ -12,13 +12,13 @@ const HeroSocials = (props: Props) => {
         target="_blank"
         rel="noreferrer"
       >
-        <BsLinkedin className={"text-gray-400"} />
+        <BsLinkedin className={"text-gray-400  hover:text-primary-100"} />
       </a>
       <a href="https://github.com/pangsitmie" target="_blank" rel="noreferrer">
-        <BsGithub className={"text-gray-400"} />
+        <BsGithub className={"text-gray-400 hover:text-primary-100"} />
       </a>
       <a href="/#" target="_blank" rel="noreferrer">
-        <BsDribbble className={"text-gray-400"} />
+        <BsDribbble className={"text-gray-400  hover:text-primary-100"} />
       </a>
     </StyledHeroSocials>
   );
