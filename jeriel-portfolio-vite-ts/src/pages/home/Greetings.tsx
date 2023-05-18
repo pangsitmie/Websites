@@ -29,8 +29,8 @@ const Greetings = (props: Props) => {
     <ScrollContainer>
       <ScrollPage>
         <Animator animation={batch(Sticky(), Fade(), MoveOut(0, -250))}>
-          <div className="justi flex items-center">
-            <H1>Hello World...</H1>
+          <div className="justi flex items-center text-center">
+            <H1>Hello World</H1>
           </div>
         </Animator>
       </ScrollPage>
