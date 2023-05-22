@@ -11,6 +11,8 @@ type Props = {
 const ProjectCard = ({ title, subtitle, img, hoverText }: Props) => {
     const cardStyle = {
         backgroundImage: `url(${img})`,
+        backgroundSize: 'cover',
+
     };
 
     const titleLines = title.split('\n');

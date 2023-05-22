@@ -20,9 +20,9 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
 
 
   return (
-    <nav >
+    <nav>
       <div
-        className={`${flexBetween} top-0 z-30 w-full py-6`}
+        className={`${flexBetween} relative z-30 py-6`}
       >
         <div className={`${flexBetween} mx-auto w-5/6`}>
           <div className={`${flexBetween} w-full gap-16`}>

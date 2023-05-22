@@ -11,18 +11,18 @@ type Props = {}
 
 const Projects = (props: Props) => {
     return (
-        <div className='h-[90vh] flex items-center relative'>
+        <div className='flex items-center overflow-y-hidden pt-10'>
             {/* <video src={BEARPAY_WALLPAPER} controls /> */}
             <video
                 src={BEARPAY_WALLPAPER}
                 autoPlay
                 loop
                 muted
-                className="absolute top-0 "
+                className="absolute top-0 left-0 min-w-full min-h-full object-cover"
             />
-            {/* <div className='h-[90vh] flex items-center backgroundimage' style={{ backgroundImage: `url(${BEARPAY_WALLPAPER})` }}> */}
+
             {/* this is the text on left */}
-            <div className='w-[50%] px-16 z-10 pr-24 pt-10'>
+            <div className='w-[50%] px-16 z-10 pr-24'>
                 <TrailText open={true}>
                     <span className='text-white z-10'>BEAR</span>
                     <span className='text-white'>PAY</span>
@@ -36,8 +36,8 @@ const Projects = (props: Props) => {
             </div>
 
             {/* this is the carosel on bottom right */}
-            <div className='w-[50%] h-[100%] '>
-                <div className='h-[25%]'></div>
+            <div className='w-[50%] mx-10 mt-[10%]'>
+                {/* <div className='h-[25%]'></div> */}
                 <ProjectCarosel />
             </div>
         </div>

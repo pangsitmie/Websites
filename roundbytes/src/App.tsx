@@ -25,7 +25,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="app">
+      <div>
         <Router basename="/">
           <Navbar
             selectedPage={selectedPage}
@@ -50,7 +50,7 @@ function App() {
             />
             <Route path="/projects/xstate" element={<XStateDemo />} />
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </Router>
       </div>
     </ThemeProvider>
