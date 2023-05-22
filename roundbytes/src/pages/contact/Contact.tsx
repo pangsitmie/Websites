@@ -50,8 +50,8 @@ const Contact = (props: Props) => {
   ];
 
   return (
-    <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
-      <div className="flex h-[90vh] w-full items-center justify-center pt-8">
+    <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 px-[10%]">
+      <div className="flex h-[90vh] w-full items-center justify-center">
         <div>
           <H1 className="text-center font-semibold leading-tight">Tell us about.</H1>
           <H2 className="text-right">Your great</H2>
@@ -63,11 +63,10 @@ const Contact = (props: Props) => {
 
       {/* EXPERTISE */}
 
-      <div className="flex w-full items-center  pt-[20%]">
+      <div className="flex w-full items-center text-center">
         <div>
-          <H1 className="font-semibold leading-tight">Contact Us.</H1>
+          <H1 className="font-semibold leading-tight ">Contact Us.</H1>
           <H3 className="text- pl-1 pt-3 text-left">For further informations</H3>
-
         </div>
       </div>
       <ContactForm />

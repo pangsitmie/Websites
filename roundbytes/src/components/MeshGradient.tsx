@@ -30,8 +30,7 @@ const MeshGradient = (props: Props) => {
 
     return (
         <>
-
-            <StyledMeshGradientContainer
+            {/* <StyledMeshGradientContainer
                 onMouseMove={handleMouseMove}
                 onClick={() => { navitage("/work") }}
             >
@@ -54,7 +53,7 @@ const MeshGradient = (props: Props) => {
                 </div>
 
 
-            </StyledMeshGradientContainer >
+            </StyledMeshGradientContainer > */}
         </>
 
 

@@ -7,7 +7,7 @@ export const StyledWorkHero = styled.div`
     align-items: center;
     justify-content: center;
     background: #FFFFFF;
-    padding: 10rem 5rem 0;
+    padding: 5rem 5rem 0;
     color: #111;
 
    

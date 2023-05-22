@@ -6,8 +6,6 @@ export const StyledButtonFill = styled.button`
     font-size: 1rem;
     font-weight: 600;
     padding: .8rem 2.5rem;
-    background-color: #111;
-    color: #FFF;
     transition: all 0.3s ease-in-out;
 
     & a{

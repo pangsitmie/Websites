@@ -1,6 +1,3 @@
-import React from "react";
-import ButtonFill from "../../components/button/ButtonFill";
-import ButtonStorke from "../../components/button/ButtonStroke";
 import { useInView } from "react-intersection-observer";
 import { batch, FadeIn, StickyIn, ZoomIn } from "react-scroll-motion";
 import { motion } from "framer-motion";
@@ -18,6 +15,9 @@ import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 import TrailText from "@/components/TrailText";
 const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
+
+import { Canvas } from "@react-three/fiber";
+import Blob from "@/components/blob/Blob";
 
 type Props = {};
 
@@ -44,25 +44,44 @@ const Hero = (props: Props) => {
           transition={{ duration: 0.5 }}
         >
           {" "}
-          {/* <TrailText text={"Round Bytes"} /> */}
-          <TrailText open={true} className="">
-            <span>We Make</span>
-            <span>Anything</span>
-            <span>Look Good</span>
-          </TrailText>
-          {/* <H1 className="mb-2 text-center font-medium px-24">
-            Round Bytes is a digital agency that helps your brand create lasting relationships between brands & customers.
-          </H1> */}
-          <TrailText open={true} className="text-gray-400 text-">
-            <H3>
-              WEB DEVELOPMENT / BRANDING / UX / UI
-            </H3>
-          </TrailText>
-          <HeroSocials />
+          <div className="flex">
+
+            <div className=" w-[50%]">
+              <TrailText open={true} className="">
+                <span className="text-black">We Make</span>
+                <span className="text-black">Anything</span>
+                <span className="text-black">Look Good</span>
+              </TrailText>
+
+              <TrailText open={true} className="text-primary-100 mt-4">
+                <H3>
+                  WEB DEVELOPMENT / BRANDING / UI / UX
+                </H3>
+              </TrailText>
+
+              <div className={"pl-1"}>
+                <HeroSocials />
+              </div>
+            </div>
+
+
+
+
+
+
+            {/* blob */}
+            <div className=" w-[40%]">
+              <Canvas camera={{ position: [0.0, 0.0, 8.0] }}>
+                <Blob />
+              </Canvas>
+            </div>
+          </div>
+
+
           <StyledMediaContainerGone>
             <a
-              href="/work/behind-the-scene"
-              className="font-weight-300 align-center absolute top-[25%] right-0 flex rotate-90 items-center justify-between gap-2 text-black"
+              href="/projects/behind-the-scene"
+              className="font-weight-300 align-center absolute top-[50%] right-0 flex rotate-90 items-center justify-between gap-2 text-black"
             >
               Behind The Scene
               <BsArrowRight />

@@ -14,6 +14,8 @@ import { Flex } from "@/components/styles/Flex.styled";
 import { motion } from "framer-motion";
 
 import { H2, H3 } from "@/components/styles/typography/typography.styled";
+import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
+import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 
 type Props = {};
 
@@ -42,8 +44,9 @@ const CloudProgramming = (props: Props) => {
       />
 
       {/* CURVE DIV */}
-      <div className="relative h-full w-full overflow-hidden px-4 py-28">
-        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+      <div className="relative h-full w-full overflow-hidden  py-28 bg-black text-white">
+        <SyteledCurveTop />
+
         {/* this is the content container */}
         <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
           <motion.div
@@ -114,7 +117,8 @@ const CloudProgramming = (props: Props) => {
             </div>
           </Flex>
         </div>
-        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+
+        <SyteledCurveBottom />
       </div>
       {/* curve end */}
 

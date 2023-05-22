@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { SelectedPage } from "./shared/types";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Gamepay from "./pages/gamepay/Gamepay";
+import Bearpay from "./pages/bearpay/Bearpay";
 import Alliance from "./pages/alliance/Alliance";
 import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
 import About from "./pages/about/About";
@@ -41,7 +41,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
 
             {/* WORKS */}
-            <Route path="/projects/gamepay" element={<Gamepay />} />
+            <Route path="/projects/bearpay" element={<Bearpay />} />
             <Route path="/projects/alliance" element={<Alliance />} />
             <Route path="/projects/behind-the-scene" element={<BehindTheScene />} />
             <Route
