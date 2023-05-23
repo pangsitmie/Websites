@@ -35,9 +35,9 @@ module.exports = {
       },
     },
     screens: {
-      xs: "480px",
-      sm: "768px",
-      md: "1060px",
+      'sm': '300px',
+      'md': '960px',
+      'lg': '1000px',
     },
   },
   plugins: [],

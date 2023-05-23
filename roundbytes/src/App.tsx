@@ -40,15 +40,40 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
 
-            {/* WORKS */}
-            <Route path="/projects/bearpay" element={<Bearpay />} />
-            <Route path="/projects/alliance" element={<Alliance />} />
-            <Route path="/projects/behind-the-scene" element={<BehindTheScene />} />
+            {/* PROJECTS */}
+            <Route
+              path="/projects/bearpay"
+              element={<Bearpay />}
+            />
+            <Route
+              path="/projects/alliance"
+              element={<Alliance />}
+            />
             <Route
               path="/projects/cloudprogramming"
               element={<CloudProgramming />}
             />
-            <Route path="/projects/xstate" element={<XStateDemo />} />
+            <Route
+              path="/projects/behind-the-scene"
+              element={<BehindTheScene />}
+            />
+            <Route
+              path="/projects/xstate"
+              element={<XStateDemo />}
+            />
+            <Route
+              path="/projects/pahamfilm"
+              element={<Projects />}
+            />
+            <Route
+              path="/projects/twindo"
+              element={<Projects />}
+            />
+            <Route
+              path="/projects/rafa"
+              element={<Projects />}
+            />
+
           </Routes>
           {/* <Footer /> */}
         </Router>

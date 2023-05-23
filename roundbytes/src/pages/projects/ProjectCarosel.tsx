@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
 import ProjectCard from './ProjectCard'
-// import IMG1 from '@/assets/test.png'
 
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import PAHAMFILM_CARD from '@/assets/pahamfilm_card.jpg'
-import ALLIANCE_CARD from '@/assets/alliance_card.jpg'
-import RAFA_CARD from '@/assets/rafa_card.jpg'
-import TWINDO_CARD from '@/assets/twindo_card.jpg'
-import YUNCHENG_CARD from '@/assets/yuncheng_card.jpg'
-import { ALL } from 'dns';
-type Props = {}
+import { ProjectData } from '@/types/ProjectData.type';
 
-const ProjectCarosel = (props: Props) => {
+type Props = {
+    data: ProjectData[];
+    onItemSelected: (id: number) => void;
+}
+
+const ProjectCarosel = ({ data, onItemSelected }: Props) => {
     var settings = {
         dots: true,
         infinite: true,
@@ -50,30 +47,21 @@ const ProjectCarosel = (props: Props) => {
         ]
     };
 
+
     return (
         <>
             <Slider {...settings} >
-
-                <ProjectCard
-                    title={`PAHAM\nFILM`}
-                    img={PAHAMFILM_CARD}
-                    subtitle={"Website"}
-                    hoverText={"This project bla"}
-                />
-                <ProjectCard title={'TWINDDO\nFURNITURE'}
-                    img={TWINDO_CARD}
-                    subtitle={"Website"}
-                    hoverText={"This project bla"}
-                />
-                <ProjectCard title={'CLAW MACHINE ALLIANCE'} img={ALLIANCE_CARD} subtitle={"Website"} hoverText={"This project bla"} />
-                <ProjectCard title={'RAFA\nARCHITECTURE'} img={RAFA_CARD} subtitle={"Website"} hoverText={"This project bla"} />
-                <ProjectCard title={'雲程在線\nCLOUD'} img={YUNCHENG_CARD} subtitle={"Website"} hoverText={"This project bla"} />
-                <ProjectCard title={'BEHIND THE\nSCENE'} img={YUNCHENG_CARD} subtitle={"Website"} hoverText={"This project bla"} />
-                <ProjectCard title={'GAME\nPAY'}
-                    img={TWINDO_CARD}
-                    subtitle={"Web App"}
-                    hoverText={"This project bla"}
-                />
+                {data.map((item) => {
+                    return (
+                        <ProjectCard
+                            onClick={() => onItemSelected(item.id)}
+                            key={item.id}
+                            title={item.title}
+                            subtitle={item.subtitle}
+                            cardImage={item.cardImage}
+                        />
+                    )
+                })}
             </Slider>
         </ >
     )

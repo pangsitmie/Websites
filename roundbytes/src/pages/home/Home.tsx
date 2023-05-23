@@ -15,9 +15,9 @@ const Home = (props: Props) => {
 
       {/* CURVE DIV */}
       {/* the content background is inside this div`` */}
-      <div className="relative h-full w-full overflow-hidden  py-28 bg-primary-100">
+      <div className="relative h-full w-full overflow-hidden  py-28 bg-black">
         <SyteledCurveTop />
-        <div >
+        <div className="h-[100vh]">
           asdf
         </div>
         <SyteledCurveBottom />
