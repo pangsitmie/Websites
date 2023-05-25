@@ -60,7 +60,7 @@ const CloudProgramming = (props: Props) => {
             <Flex className="gap-8 py-12">
               <h4 className="mt-4">INTRO</h4>
               <H2>
-                As the lead designer and developer, I was tasked with the
+                we were trusted to do a
                 complete overhaul of our company website, which was previously
                 outdated and lacked any visual appeal.
                 <a href="https://cloudprogrammingonline.com/">
@@ -86,7 +86,7 @@ const CloudProgramming = (props: Props) => {
               <PortfolioCard
                 image={CLOUDPROGRAMMING2}
                 title={
-                  "I also ensure that every element of the website's design met our brand standards and was optimized for user experience."
+                  "We also ensure that every element of the website's design met our brand standards and was optimized for user experience."
                 }
               />
             </div>
@@ -95,7 +95,7 @@ const CloudProgramming = (props: Props) => {
               <PortfolioCard
                 image={CLOUDPROGRAMMING3}
                 title={
-                  "After finalizing the design, I moved on to the implementation phase using React JS. With React, I was able to create a responsive and dynamic website that loads quickly and provides a seamless user experience."
+                  "After finalizing the design, We moved on to the implementation phase using React JS. With React, We were able to create a responsive and dynamic website that loads quickly and provides a seamless user experience."
                 }
               />
               <Flex className="gap-4">
@@ -136,7 +136,7 @@ const CloudProgramming = (props: Props) => {
               transition={{ duration: 0.5 }}
             >
               <H2 className="mb-10 text-black">
-                Throughout the redesign process, I paid close attention to every
+                Throughout the redesign process, We paid close attention to every
                 detail, from the website's color scheme and typography to the
                 placement of call-to-action buttons and the overall layout.
               </H2>

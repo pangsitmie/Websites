@@ -4,13 +4,13 @@ import { H2, H3, H4, P } from '@/components/styles/typography/typography.styled'
 type Props = {
     title: string;
     subtitle: string;
-    img: string;
-    hoverText: string;
+    cardImage: string;
+    onClick: () => void;
 };
 
-const ProjectCard = ({ title, subtitle, img, hoverText }: Props) => {
+const ProjectCard = ({ title, subtitle, cardImage, onClick }: Props) => {
     const cardStyle = {
-        backgroundImage: `url(${img})`,
+        backgroundImage: `url(${cardImage})`,
         backgroundSize: 'cover',
 
     };
@@ -19,7 +19,10 @@ const ProjectCard = ({ title, subtitle, img, hoverText }: Props) => {
 
 
     return (
-        <StyledProjectCard className="backgroundimage flex flex-col p-5 justify-between" style={cardStyle}>
+        <StyledProjectCard
+            className="backgroundimage flex flex-col p-5 justify-between"
+            style={cardStyle}
+            onClick={onClick}>
             <div>
             </div>
             <div>
@@ -32,7 +35,7 @@ const ProjectCard = ({ title, subtitle, img, hoverText }: Props) => {
                 ))}
             </div>
             <H4>
-                {hoverText}
+                {"hoverText"}
             </H4>
         </StyledProjectCard>
     );

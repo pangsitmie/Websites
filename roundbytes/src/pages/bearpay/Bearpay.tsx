@@ -87,14 +87,14 @@ const Bearpay = (props: Props) => {
                 <PortfolioCard
                   image={GAMEPAY1}
                   title={
-                    "In this project, I developed this admin webapp system for our company, brands, and stores to manage their datas"
+                    "In this project, We developed this admin webapp system for our company, brands, and stores to manage their datas"
                   }
                 />
               </div>
               <PortfolioCard
                 image={GAMEPAY3}
                 title={
-                  "I also created a user-friendly interface for a statistic and graph feature, which enables users to easily analyze and comprehend their store and machine performance, revenue, and expenses."
+                  "We also created a user-friendly interface for a statistic and graph feature, which enables users to easily analyze and comprehend their store and machine performance, revenue, and expenses."
                 }
               />
             </div>
@@ -103,7 +103,7 @@ const Bearpay = (props: Props) => {
               <PortfolioCard
                 image={GAMEPAY2}
                 title={
-                  "By using React's Redux and Apollo GQL for state management, I successfully separated features for different entities."
+                  "By using React's Redux and Apollo GQL for state management, we separated features for different entities."
                 }
               />
               <Flex className="gap-4">
@@ -143,7 +143,7 @@ const Bearpay = (props: Props) => {
               transition={{ duration: 0.5 }}
             >
               <H2 className="mb-10 text-black">
-                I start the developemtn by using
+                We start the developemtn by using
                 <span className="font-bold text-indigo-300"> Figma</span> for
                 design,{" "}
                 <span className="font-bold text-indigo-300"> React.js</span> for

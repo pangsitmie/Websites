@@ -78,7 +78,7 @@ const BehindTheScene = (props: Props) => {
                 <PortfolioCard
                   image={THIS1}
                   title={
-                    "I chose to use TypeScript and Vite to practice building more reliable and scalable project. While Vite provides a faster and more efficient development experience, quicker builds and easier debugging."
+                    "We chose to use TypeScript and Vite to practice building more reliable and scalable project. While Vite provides a faster and more efficient development experience, quicker builds and easier debugging."
                   }
                 />
               </div>
@@ -108,7 +108,7 @@ const BehindTheScene = (props: Props) => {
                 <ProblemSolutionCard
                   title={"Disadvantage"}
                   content={
-                    "To mitigate Tailwind CSS's potential limitation of design flexibility, I combined it with Styled Components to create more dynamic and highly reusable components."
+                    "To mitigate Tailwind CSS's potential limitation of design flexibility, We combined it with Styled Components to create more dynamic and highly reusable components."
                   }
                   color={"#0063e3"}
                 />
@@ -132,7 +132,7 @@ const BehindTheScene = (props: Props) => {
               transition={{ duration: 0.5 }}
             >
               <H2 className="mb-10 text-center text-black">
-                By combining these technologies, I was able to create reusable
+                By combining these technologies, We was able to create reusable
                 and dynamic components while maintaining a consistent design
                 throughout the site.
               </H2>

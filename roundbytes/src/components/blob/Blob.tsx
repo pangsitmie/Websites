@@ -1,8 +1,8 @@
-import { useMemo, useRef } from "react";
+import { Ref, useMemo, useRef } from "react";
 import FragmentShader from "./FragmentShader";
 import VertexShader from "./VertexShader";
 import { useFrame, } from "@react-three/fiber";
-import { MathUtils, Mesh, ShaderMaterial } from "three";
+import { BufferGeometry, Material, MathUtils, Mesh, ShaderMaterial } from "three";
 
 
 const Blob = () => {
@@ -21,15 +21,6 @@ const Blob = () => {
         if (mesh.current) {
             const material = mesh.current.material as ShaderMaterial;
 
-            // mesh.current.material.uniforms.u_time.value =
-            //     0.4 * clock.getElapsedTime();
-
-            // mesh.current.material.uniforms.u_intensity.value = MathUtils.lerp(
-            //     mesh.current.material.uniforms.u_intensity.value,
-            //     hover.current ? 1 : 0.15,
-            //     0.02
-            // );
-
             material.uniforms.u_time.value = 0.4 * clock.getElapsedTime();
             material.uniforms.u_intensity.value = MathUtils.lerp(
                 material.uniforms.u_intensity.value,
@@ -41,7 +32,7 @@ const Blob = () => {
 
     return (
         <mesh
-            ref={mesh}
+            ref={mesh as Ref<Mesh<BufferGeometry, Material>>}
             scale={2}
             position={[0, 0, 0]}
             onPointerOver={() => (hover.current = true)}
