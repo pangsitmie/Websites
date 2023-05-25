@@ -52,7 +52,7 @@ const Pages = () => {
         dispatch(updatePageName({ id: pageId, name: e.target.value }));
     };
 
-    const handlePageNameBlur = (pageId: string) => {
+    const handlePageNameBlur = () => {
         setEditingPageId(null); // Clear the editing state when blurring the input field
     };
 
@@ -80,9 +80,8 @@ const Pages = () => {
                             type="text"
                             value={page.name}
                             autoFocus
-                            onChange={e => handlePageNameChange(e, page.id)}
-                            onBlur={() => handlePageNameBlur(page.id)}
-                            className="bg-black"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePageNameChange(e, page.id)}
+                            onBlur={handlePageNameBlur}
                         />
                     ) : (
                         <>

@@ -14,8 +14,7 @@ export const StyledAddButton = styled.button`
 
 
     &:hover {
-        border: 1px solid #4597F8;
-        background-color: #4597F8;
+        background-color: #5b53ff;
     }
 
 `

@@ -15,11 +15,11 @@ export const StyledElement = styled.button<StyledElementProps>`
 
 
     &:hover {
-        border: 1px solid #4597F8;
+        border: 1px solid #5b53ff;
     }
     
     ${(props) => props.active && `
-        outline: 1px solid #4597F8;
+        outline: 1px solid #5b53ff;
     `}
 
 `

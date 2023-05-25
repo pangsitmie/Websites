@@ -7,7 +7,7 @@ import { RootState } from "./redux/store";
 
 const LeftPanelWrapper = styled.div`
 
-  padding: 8px;
+  padding: 12px;
 `;
 
 const LeftPanel = () => {
@@ -21,10 +21,10 @@ const LeftPanel = () => {
     return (
         <LeftPanelWrapper>
             <div className="mb-4">
-                <H4 className="my-4 text-indigo-400">Phase Editor - Jeriel Isaiah</H4>
+                <H4 className="my-4 text-[#5b53ff]">PHASE EDITOR</H4>
                 <hr />
-
             </div>
+
             <Pages />
             <Elements />
 
@@ -39,7 +39,9 @@ const LeftPanel = () => {
                 <br />
 
                 <H4>
-                    Selected Element:{selectedElement?.name || "No element selected"}
+                    Element:{selectedElement?.name || "No element selected"}
+                    <br />
+                    ID:{selectedElement?.id || "No element selected"}
                     <br />
                     X: {selectedElement?.x}
                     <br />

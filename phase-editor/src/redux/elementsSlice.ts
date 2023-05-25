@@ -28,27 +28,19 @@ const elementsSlice = createSlice({
                 state.list[index] = action.payload;
             }
         },
-        updateElementX: (state, action: PayloadAction<{ id: string, x: number }>) => {
-            const element = state.list.find(element => element.id === action.payload.id);
-            if (element) {
-                element.x = action.payload.x;
-            }
-        },
-        updateElementY: (state, action: PayloadAction<{ id: string, y: number }>) => {
-            const element = state.list.find(element => element.id === action.payload.id);
-            if (element) {
-                element.y = action.payload.y;
-            }
-        },
-        updateElementColor: (state, action: PayloadAction<{ id: string, color: string }>) => {
-            const element = state.list.find(element => element.id === action.payload.id);
-            if (element) {
-                element.color = action.payload.color;
-            }
-        },
+        // updateElementX: (state, action: PayloadAction<{ id: string, x: number }>) => {
+        //     const page = state.list.find(page => page.elements.some(element => element.id === action.payload.id));
+        //     if (page) {
+        //         const element = page.elements.find(element => element.id === action.payload.id);
+        //         if (element) {
+        //             element.x = action.payload.x;
+        //         }
+        //     }
+        // },
+
         // additional reducers...
     },
 });
 
-export const { setElements, selectElement, updateElement, updateElementX, updateElementY, updateElementColor } = elementsSlice.actions;
+export const { setElements, selectElement, updateElement } = elementsSlice.actions;
 export default elementsSlice.reducer;

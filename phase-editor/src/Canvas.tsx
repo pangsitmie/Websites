@@ -8,7 +8,7 @@ import { Block } from "./components/styles/Block.styled";
 
 const CanvasWrapper = styled.div`
   position: relative;
-  background: white;
+  background: #1E1E1E;
   overflow: hidden;
 `;
 
