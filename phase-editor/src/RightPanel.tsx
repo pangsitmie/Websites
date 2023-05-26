@@ -30,7 +30,6 @@ const RightPanel = () => {
     const selectedPage = useSelector((state: RootState) => state.pages.list.find(page => page.id === selectedPageId));
     const selectedElement = selectedPage?.elements.find(element => element.id === selectedElementId);
 
-    console.log(selectedElement);
 
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
@@ -45,11 +44,11 @@ const RightPanel = () => {
     }, [selectedElement]);
 
     // These useEffect hooks will log the new X and Y values whenever they change
-    useEffect(() => {
-        console.log('New X:', x);
-        console.log('New Y:', y);
-        console.log('New Opacity:', opacity);
-    }, [x, y, opacity]);
+    // useEffect(() => {
+    //     console.log('New X:', x);
+    //     console.log('New Y:', y);
+    //     console.log('New Opacity:', opacity);
+    // }, [x, y, opacity]);
 
     const handleXChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newX = Number(e.target.value);

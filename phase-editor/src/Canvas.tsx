@@ -6,6 +6,7 @@ import { Block } from "./components/styles/Block.styled";
 import { Element, Page } from "./interfaces";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { updateElementPosition } from "./redux/pagesSlice";
+import { useRef } from "react";
 
 
 const CanvasWrapper = styled.div`
@@ -17,6 +18,9 @@ const CanvasWrapper = styled.div`
 
 const Canvas = () => {
   const dispatch: AppDispatch = useDispatch();
+
+  const elementRef = useRef(null);
+
 
 
   const selectedPageId = useSelector((state: RootState) => state.pages.selectedPageId);
@@ -49,11 +53,13 @@ const Canvas = () => {
       {selectedPage?.elements.map((element: Element) => (
         <Draggable
           key={element.id}
+          nodeRef={elementRef} // This is for prevent error in react dragable
           onDrag={(e, ui) => handleElementDrag(e, ui, element.id)}
           position={{ x: element.x, y: element.y }}
         >
           <Block
-            // the X and Y are set in the Dragable component
+            ref={elementRef} // This is for prevent error in react dragable
+            // The X and Y are set in the Dragable component
             // x={element.x}
             // y={element.y}
             o={element.opacity}

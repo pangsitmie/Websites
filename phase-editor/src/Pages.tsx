@@ -63,7 +63,7 @@ const Pages = () => {
             {pages.map((page: Page) => (
                 <StyledPage
                     key={page.id}
-                    active={page.id === selectedPageId}
+                    className={page.id === selectedPageId ? 'active' : ''} // if the element is selected, add the active class
                     onClick={() => handlePageSelect(page.id)}
                     onDoubleClick={() => handlePageRename(page.id)}
                 >

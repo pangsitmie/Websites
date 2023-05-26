@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
-interface StyledElementProps {
-    active?: boolean;
-}
-
-export const StyledElement = styled.button<StyledElementProps>`
+export const StyledElement = styled.button`
     width: 100%;
     padding: 0.5rem 1rem;
     margin-bottom: 0.5rem;
@@ -14,12 +10,11 @@ export const StyledElement = styled.button<StyledElementProps>`
     border: 1px solid transparent;
     border-radius: 0.5rem;
 
-
     &:hover {
         border: 1px solid #5b53ff;
     }
     
-    ${(props) => props.active && `
+    &.active {
         border: 1px solid #5b53ff;
-    `}
+    }
 `

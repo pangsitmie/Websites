@@ -7,6 +7,7 @@ interface PagesState {
   selectedPageId: string | null;
 }
 
+
 const initialState: PagesState = {
   list: [
     {

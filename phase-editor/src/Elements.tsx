@@ -21,11 +21,15 @@ const ElementsWrapper = styled.div`
 const Elements = () => {
     const dispatch: AppDispatch = useDispatch();
 
-    const selectedPageId = useSelector((state: RootState) => state.pages.selectedPageId);
     const pages = useSelector((state: RootState) => state.pages.list);
 
     // Get the currently selected page
+    const selectedPageId = useSelector((state: RootState) => state.pages.selectedPageId);
     const selectedPage = pages.find((page: Page) => page.id === selectedPageId);
+
+    // Get the currently selected element
+    const selectedElementId = useSelector((state: RootState) => state.elements.selectedElementId) || null;
+
 
     // If there's no selected page, render a message
     if (!selectedPage) {
@@ -58,14 +62,9 @@ const Elements = () => {
         }
     };
 
-
     const handleElementNameBlur = () => {
         setEditingElementId(null); // Clear the editing state when blurring the input field
     };
-
-
-    const selectedElementId = useSelector((state: RootState) => state.elements.selectedElementId) || null;
-    console.log(selectedElementId);
 
     return (
         <ElementsWrapper>
@@ -81,7 +80,7 @@ const Elements = () => {
             {selectedPage.elements.map((element: Element) => (
                 <StyledElement
                     key={element.id}
-                    active={element.id === selectedElementId}
+                    className={element.id === selectedElementId ? 'active' : ''} // if the element is selected, add the active class
                     onClick={() => handleElementSelect(element.id)}
                     onDoubleClick={() => handleElementRename(element.id)}
                 >
