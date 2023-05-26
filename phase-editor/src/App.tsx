@@ -17,8 +17,8 @@ const App = () => {
   return (
     <AppWrapper>
       <LeftPanel />
-      {/* <Canvas /> */}
-      {/* <RightPanel /> */}
+      <Canvas />
+      <RightPanel />
     </AppWrapper>
   );
 };

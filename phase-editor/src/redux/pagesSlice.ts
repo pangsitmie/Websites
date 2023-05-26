@@ -7,7 +7,7 @@ interface PagesState {
   entities: {
     [key: string]: Page;
   };
-  selectedPageId: string | null; // add this line
+  selectedPageId: string | null;
 }
 
 
@@ -24,7 +24,7 @@ const initialState: PagesState = {
       elements: ["element3"]
     }
   },
-  selectedPageId: null, // add this line
+  selectedPageId: null,
 };
 
 
@@ -38,6 +38,9 @@ const pagesSlice = createSlice({
     },
     createPage: (state, action: PayloadAction<Page>) => {
       state.entities[action.payload.id] = action.payload;
+
+      //set the selected page to the newly created page
+      state.selectedPageId = action.payload.id;
     },
     updatePage: (state, action: PayloadAction<Page>) => {
       const { id } = action.payload;
@@ -60,6 +63,13 @@ const pagesSlice = createSlice({
         state.entities[pageId].elements = state.entities[pageId].elements.filter(id => id !== elementId);
       }
     },
+    renamePage: (state, action: PayloadAction<{ pageId: string; name: string }>) => {
+      const { pageId, name } = action.payload;
+      if (state.entities[pageId]) {
+        state.entities[pageId].name = name;
+      }
+    },
+
 
     // additional reducers...
   },
@@ -72,6 +82,7 @@ export const {
   deletePage,
   addElementToPage,
   removeElementFromPage,
+  renamePage,
 } = pagesSlice.actions;
 
 export default pagesSlice.reducer;

@@ -2,12 +2,13 @@
 
 import styled from "styled-components";
 import ColorPicker from "./components/ColorPicker";
-import { AppDispatch, RootState } from "./redux/store";
+import { AppDispatch } from "./redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { StyledInput } from "./components/styles/Input.styled";
-import { updateElementColor, updateElementOpacity, updateElementX, updateElementY } from "./redux/pagesSlice";
 import { H4 } from "./components/styles/H4.styled";
+import { RootState } from "./redux/reducers";
+import { updateElementColor, updateElementOpacity, updateElementX, updateElementY } from "./redux/elementsSlice";
 
 const RightPanelWrapper = styled.div`
     position: relative;
@@ -24,11 +25,11 @@ const Label = styled.label`
 const RightPanel = () => {
     const dispatch: AppDispatch = useDispatch();
 
-    const selectedElementId = useSelector((state: RootState) => state.elements.selectedElementId);
-    const selectedPageId = useSelector((state: RootState) => state.pages.selectedPageId);
 
-    const selectedPage = useSelector((state: RootState) => state.pages.list.find(page => page.id === selectedPageId));
-    const selectedElement = selectedPage?.elements.find(element => element.id === selectedElementId);
+    // const selectedElement = selectedPage?.elements.find(element => element.id === selectedElementId);
+    const elements = useSelector((state: RootState) => Object.values(state.elements.entities));
+    const selectedElementId = useSelector((state: RootState) => state.elements.selectedElementId);
+    const selectedElement = elements.find((element) => element.id === selectedElementId);
 
 
     const [x, setX] = useState(0);
@@ -54,8 +55,8 @@ const RightPanel = () => {
         const newX = Number(e.target.value);
         setX(newX);  // Update local state
 
-        if (selectedElement && selectedPageId) {
-            dispatch(updateElementX({ pageId: selectedPageId, elementId: selectedElement.id, x: newX }));
+        if (selectedElement) {
+            dispatch(updateElementX({ elementId: selectedElement.id, x: newX }));
         }
     };
 
@@ -63,14 +64,14 @@ const RightPanel = () => {
         const newY = Number(e.target.value);
         setY(newY);  // Update local state
 
-        if (selectedElement && selectedPageId) {
-            dispatch(updateElementY({ pageId: selectedPageId, elementId: selectedElement.id, y: newY }));
+        if (selectedElement) {
+            dispatch(updateElementY({ elementId: selectedElement.id, y: newY }));
         }
     };
 
     const handleColorChange = (color: string) => {
-        if (selectedElement && selectedPageId) {
-            dispatch(updateElementColor({ pageId: selectedPageId, elementId: selectedElement.id, color }));
+        if (selectedElement) {
+            dispatch(updateElementColor({ elementId: selectedElement.id, color }));
         }
     };
 
@@ -78,8 +79,8 @@ const RightPanel = () => {
         const newOpacity = Number(e.target.value) / 100;  // Convert to 0-1 range
         setOpacity(newOpacity);  // Update local state
 
-        if (selectedElement && selectedPageId) {
-            dispatch(updateElementOpacity({ pageId: selectedPageId, elementId: selectedElement.id, opacity: newOpacity }));
+        if (selectedElement) {
+            dispatch(updateElementOpacity({ elementId: selectedElement.id, opacity: newOpacity }));
         }
     };
 
@@ -101,12 +102,14 @@ const RightPanel = () => {
             <div className="mb-4">
                 <H4 className="mb-4">Position</H4>
                 <div className="mb-3 flex items-center justify-between">
-                    <Label>
-                        X <StyledInput type="number" min={0} max={999} value={x} onChange={handleXChange} />
-                    </Label>
-                    <Label>
-                        Y <StyledInput type="number" min={0} max={999} value={y} onChange={handleYChange} />
-                    </Label>
+                    <div className="mb-3 flex items-center justify-between">
+                        <span className="mr-2">X</span>
+                        <StyledInput type="number" min={0} max={999} value={x} onChange={handleXChange} />
+                    </div>
+                    <div className="mb-3 flex items-center justify-between">
+                        <span className="mr-2">Y</span>
+                        <StyledInput type="number" min={0} max={999} value={y} onChange={handleYChange} />
+                    </div>
                 </div>
                 <hr />
             </div>
@@ -116,7 +119,6 @@ const RightPanel = () => {
                 <div className="mb-3 flex items-center justify-between">
                     <span className="mr-2">Fill:</span>
                     <ColorPicker color={selectedElement.color} onColorChange={handleColorChange} />
-
                 </div>
             </div>
 

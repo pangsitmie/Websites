@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-redux": "^7.1.25",
+    "@types/uuid": "^9.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
@@ -20,7 +21,8 @@
     "react-router-dom": "^6.11.2",
     "redux": "^4.2.1",
     "save": "^2.9.0",
-    "styled-components": "^6.0.0-rc.2"
+    "styled-components": "^6.0.0-rc.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
