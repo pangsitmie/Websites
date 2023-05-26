@@ -15,12 +15,6 @@ const RightPanelWrapper = styled.div`
     padding: 12px;
 `;
 
-const Label = styled.label`
-    display: grid;
-    margin-bottom: 8px;
-    grid-template-columns: 16px auto minmax(0, 1fr);
-    grid-gap: 10px;
-`;
 
 const RightPanel = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -44,12 +38,6 @@ const RightPanel = () => {
         }
     }, [selectedElement]);
 
-    // These useEffect hooks will log the new X and Y values whenever they change
-    // useEffect(() => {
-    //     console.log('New X:', x);
-    //     console.log('New Y:', y);
-    //     console.log('New Opacity:', opacity);
-    // }, [x, y, opacity]);
 
     const handleXChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newX = Number(e.target.value);
