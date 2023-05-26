@@ -1,12 +1,13 @@
 // RightPanel.tsx
 
 import styled from "styled-components";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "./components/ColorPicker";
 import { AppDispatch, RootState } from "./redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { StyledInput } from "./components/styles/Input.styled";
 import { updateElementColor, updateElementOpacity, updateElementX, updateElementY } from "./redux/pagesSlice";
+import { H4 } from "./components/styles/H4.styled";
 
 const RightPanelWrapper = styled.div`
     position: relative;
@@ -39,6 +40,7 @@ const RightPanel = () => {
         if (selectedElement) {
             setX(selectedElement.x);
             setY(selectedElement.y);
+            setOpacity(selectedElement.opacity);
         }
     }, [selectedElement]);
 
@@ -51,12 +53,9 @@ const RightPanel = () => {
 
     const handleXChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newX = Number(e.target.value);
-        console.log('NewX' + newX);
-
         setX(newX);  // Update local state
 
         if (selectedElement && selectedPageId) {
-            console.log('selectedElement.id' + selectedElement.id)
             dispatch(updateElementX({ pageId: selectedPageId, elementId: selectedElement.id, x: newX }));
         }
     };
@@ -94,24 +93,27 @@ const RightPanel = () => {
     return (
         <RightPanelWrapper>
             <div className="mb-4">
-                <p className="mb-2 text-[#cecece]">Design</p>
-                <hr />
+                <div className="flex justify-between">
+                    <p className="mb-2 text-[#cecece]">Design</p>
+                    <p className="mb-2 text-[#cecece]">Jeriel Isaiah</p>
+                </div>
+                <hr className="border-[#3A3A3A]" />
             </div>
             <div className="mb-4">
-                <p className="mb-3">Position</p>
+                <H4 className="mb-4">Position</H4>
                 <div className="mb-3 flex items-center justify-between">
                     <Label>
-                        X <StyledInput type="number" min={0} max={999} value={x} onChange={handleXChange} className="bg-black" />
+                        X <StyledInput type="number" min={0} max={999} value={x} onChange={handleXChange} />
                     </Label>
                     <Label>
-                        Y <StyledInput type="number" min={0} max={999} value={y} onChange={handleYChange} className="bg-black" />
+                        Y <StyledInput type="number" min={0} max={999} value={y} onChange={handleYChange} />
                     </Label>
                 </div>
                 <hr />
             </div>
 
             <div className="">
-                <p className="mb-3">Color</p>
+                <H4 className="mb-4">Color</H4>
                 <div className="mb-3 flex items-center justify-between">
                     <span className="mr-2">Fill:</span>
                     <ColorPicker color={selectedElement.color} onColorChange={handleColorChange} />
@@ -122,7 +124,7 @@ const RightPanel = () => {
             <div>
                 <div className="mb-3 flex items-center justify-between">
                     <span className="mr-[30%]">Opacity:</span>
-                    <StyledInput type="number" min={0} max={100} value={opacity * 100} onChange={handleOpacityChange} className='bg-black' />
+                    <StyledInput type="number" min={0} max={100} value={opacity * 100} onChange={handleOpacityChange} />
                 </div>
 
 

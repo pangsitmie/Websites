@@ -6,12 +6,13 @@ interface StyledElementProps {
 
 export const StyledElement = styled.button<StyledElementProps>`
     width: 100%;
-    padding: 0.4rem .5rem;
+    padding: 0.5rem 1rem;
     margin-bottom: 0.5rem;
     text-align: left;
     backgroundColor: transparent;
-    border: 1px solid transparent;
     cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
 
 
     &:hover {
@@ -19,7 +20,6 @@ export const StyledElement = styled.button<StyledElementProps>`
     }
     
     ${(props) => props.active && `
-        outline: 1px solid #5b53ff;
+        border: 1px solid #5b53ff;
     `}
-
 `

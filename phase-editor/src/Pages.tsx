@@ -7,6 +7,8 @@ import { H4 } from "./components/styles/H4.styled";
 import { StyledPage } from "./components/styles/Page.styled";
 import { useState } from "react";
 import { StyledInput } from "./components/styles/Input.styled";
+import { Page } from "./interfaces";
+import { CgHashtag } from 'react-icons/cg';
 
 
 const PagesWrapper = styled.div`
@@ -14,20 +16,10 @@ const PagesWrapper = styled.div`
   padding-bottom: 16px;
 `;
 
-
-
-
 const Pages = () => {
     const pages = useSelector((state: RootState) => state.pages.list);
     const selectedPageId = useSelector((state: RootState) => state.pages.selectedPageId);
     const dispatch: AppDispatch = useDispatch();
-
-    // const handlePageSelect = (pageId: string) => {
-    //     // dispatch(selectPage(pageId));
-    //     dispatch(selectPageAndFirstElement(pageId));
-
-    //     console.log(`Current page ID in Redux: ${pageId}`);
-    // }
 
     const handleCreatePage = () => {
         const newPageName = `Page ${pages.length + 1}`;
@@ -68,7 +60,7 @@ const Pages = () => {
             </div>
 
 
-            {pages.map(page => (
+            {pages.map((page: Page) => (
                 <StyledPage
                     key={page.id}
                     active={page.id === selectedPageId}
@@ -82,11 +74,23 @@ const Pages = () => {
                             autoFocus
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePageNameChange(e, page.id)}
                             onBlur={handlePageNameBlur}
+                            onKeyDown={(e: React.KeyboardEvent) => {
+                                if (e.key === 'Enter') {
+                                    // Check if the target is an input field and blur it
+                                    if (e.currentTarget instanceof HTMLInputElement) {
+                                        e.currentTarget.blur();
+                                    }
+                                }
+                            }}
                         />
                     ) : (
-                        <>
-                            {page.id === selectedPageId ? <strong>{page.name}</strong> : page.name}
-                        </>
+                        <div className="flex items-center justify-left">
+                            <CgHashtag className="mr-2" />
+                            <span>
+                                {page.id === selectedPageId ? <strong>{page.name}</strong> : page.name}
+                            </span>
+
+                        </div>
                     )}
                 </StyledPage>
             ))}

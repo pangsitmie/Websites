@@ -15,9 +15,15 @@ export interface Element {
 }
 
 export interface BlockProps {
-    x: number;
-    y: number;
+    x?: number;
+    y?: number;
     o: number;
     selected?: boolean;
     color: string;
+}
+
+export interface UpdateElementPalyload {
+    id: string;
+    x: number;
+    y: number;
 }

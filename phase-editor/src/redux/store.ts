@@ -36,7 +36,7 @@ export const selectPageAndFirstElement = (pageId: string) => (dispatch: AppDispa
 };
 
 export const createElementAndSelect = (pageId: string) => (dispatch: AppDispatch, getState: () => RootState) => {
-    dispatch(createElement({ pageId: pageId, color: 'black' }));  // Assuming default color is black
+    dispatch(createElement({ pageId: pageId, color: '#FFFFFF' }));  // Assuming default color is black
     const state = getState();
     const page = state.pages.list.find(page => page.id === pageId);
     if (page && page.elements.length > 0) {

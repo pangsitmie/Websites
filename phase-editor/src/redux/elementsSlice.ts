@@ -28,16 +28,6 @@ const elementsSlice = createSlice({
                 state.list[index] = action.payload;
             }
         },
-        // updateElementX: (state, action: PayloadAction<{ id: string, x: number }>) => {
-        //     const page = state.list.find(page => page.elements.some(element => element.id === action.payload.id));
-        //     if (page) {
-        //         const element = page.elements.find(element => element.id === action.payload.id);
-        //         if (element) {
-        //             element.x = action.payload.x;
-        //         }
-        //     }
-        // },
-
         // additional reducers...
     },
 });

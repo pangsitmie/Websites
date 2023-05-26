@@ -14,17 +14,17 @@ const initialState: PagesState = {
       name: 'Page 1',
       elements: [
         { id: '1', name: "Element 1", x: 100, y: 100, opacity: 1, color: '#ccd5ae' },
-        { id: '2', name: "Element 2", x: 200, y: 200, opacity: 0.5, color: '#fefae0' },
+        { id: '2', name: "Element 2", x: 250, y: 250, opacity: 0.5, color: '#fefae0' },
       ]
     },
     {
       id: '2',
       name: 'Page 2',
       elements: [
-        { id: '3', name: "Element 1", x: 100, y: 30, opacity: 1, color: 'green' },
-        { id: '4', name: "Element 2", x: 150, y: 200, opacity: 0.8, color: 'yellow' },
-        { id: '5', name: "Element 3", x: 450, y: 50, opacity: 1, color: 'purple' },
-        { id: '6', name: "Element 4", x: 90, y: 250, opacity: 0.6, color: 'orange' },
+        { id: '3', name: "Element 1", x: 100, y: 100, opacity: 1, color: '#fb8500' },
+        { id: '4', name: "Element 2", x: 220, y: 100, opacity: 0.8, color: '#e63946' },
+        { id: '5', name: "Element 3", x: 100, y: 220, opacity: 1, color: '#457b9d' },
+        { id: '6', name: "Element 4", x: 220, y: 220, opacity: 0.6, color: '#e3d5ca' },
       ]
     },
   ],
@@ -58,7 +58,7 @@ const pagesSlice = createSlice({
         const newElement = {
           id: (state.list[pageIndex].elements.length + 1).toString(),
           name: `Element ${state.list[pageIndex].elements.length + 1}`,
-          x: 100 + state.list[pageIndex].elements.length * 60,
+          x: 100,
           y: 100,
           opacity: 1,
           color: action.payload.color,
@@ -70,6 +70,15 @@ const pagesSlice = createSlice({
       const page = state.list.find(page => page.id === action.payload.id);
       if (page) {
         page.name = action.payload.name;
+      }
+    },
+    updateElementName: (state, action: PayloadAction<{ pageId: string, elementId: string, name: string }>) => {
+      const page = state.list.find(page => page.id === action.payload.pageId);
+      if (page) {
+        const element = page.elements.find(element => element.id === action.payload.elementId);
+        if (element) {
+          element.name = action.payload.name;
+        }
       }
     },
     updateElementX: (state, action: PayloadAction<{ pageId: string, elementId: string, x: number }>) => {
@@ -108,8 +117,16 @@ const pagesSlice = createSlice({
         }
       }
     },
-
-
+    updateElementPosition: (state, action: PayloadAction<{ pageId: string, elementId: string, x: number, y: number }>) => {
+      const page = state.list.find(page => page.id === action.payload.pageId);
+      if (page) {
+        const element = page.elements.find(element => element.id === action.payload.elementId);
+        if (element) {
+          element.x = action.payload.x;
+          element.y = action.payload.y;
+        }
+      }
+    },
     // additional reducers...
   },
 });
@@ -120,9 +137,11 @@ export const {
   createPage,
   createElement,
   updatePageName,
+  updateElementName,
   updateElementX,
   updateElementY,
   updateElementColor,
-  updateElementOpacity
+  updateElementOpacity,
+  updateElementPosition,
 } = pagesSlice.actions;
 export default pagesSlice.reducer;

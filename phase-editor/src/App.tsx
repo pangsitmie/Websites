@@ -10,6 +10,7 @@ const AppWrapper = styled.div`
   background: #232323;
   height: 100vh;
   color: white;
+  overflow: hidden;
 `;
 
 const App = () => {
