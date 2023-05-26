@@ -12,6 +12,13 @@ const LeftPanelWrapper = styled.div`
 `;
 
 const LeftPanel = () => {
+    // const selectedPageId = useSelector((state: RootState) => state.pages.selectedPageId);
+    // const selectedPage = useSelector((state: RootState) => state.pages.list.find((page: Page) => page.id === selectedPageId));
+
+    // const selectedElementId = useSelector((state: RootState) => state.elements.selectedElementId) || null;
+    // const selectedElement = selectedPage?.elements.find((element: Element) => element.id === selectedElementId);
+
+
     return (
         <LeftPanelWrapper>
             <div className="mb-4">

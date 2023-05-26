@@ -1,7 +1,7 @@
 export interface Page {
     id: string;
     name: string;
-    elements: string[]; // IDs of elements
+    elements: Element[];
 }
 
 export interface Element {
@@ -11,9 +11,8 @@ export interface Element {
     y: number;
     opacity: number;
     color: string;
-    children?: string[]; // IDs of child elements
+    children?: Element[];
 }
-
 
 export interface BlockProps {
     x?: number;
