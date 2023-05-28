@@ -12,6 +12,9 @@ export const Block = styled.div<BlockProps>`
   opacity: ${(props) => props.o};
   background: ${(props) => props.color};
   outline: ${(props) => (props.selected ? '2px solid #5b53ff' : 'none')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 // left: ${(props) => props.x}px;

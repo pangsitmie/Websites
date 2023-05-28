@@ -1,12 +1,8 @@
 import styled from "styled-components";
 
-// interface StyledElementProps {
-//     active?: boolean;
-// }
-
 export const StyledPage = styled.div`
     width: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     margin-bottom: 0.5rem;
     text-align: left;
     background-color: transparent;

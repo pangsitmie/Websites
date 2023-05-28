@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 
-export const StyledAddButton = styled.button`
+export const StyledIconButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     background-color: transparent;
     padding-bottom: 0.2rem;
     border-radius: 50%;

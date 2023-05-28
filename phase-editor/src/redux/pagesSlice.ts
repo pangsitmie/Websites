@@ -2,6 +2,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Page } from '../interfaces';
 import { RootState } from './reducers';
+import { deleteElement } from './elementsSlice';
 
 interface PagesState {
   entities: {
@@ -49,7 +50,14 @@ const pagesSlice = createSlice({
       }
     },
     deletePage: (state, action: PayloadAction<string>) => {
-      delete state.entities[action.payload];
+      const pageId = action.payload;
+      if (state.entities[pageId]) {
+        // Dispatch actions to delete all elements of the page
+        state.entities[pageId].elements.forEach(elementId => {
+          deleteElement(elementId);
+        });
+        delete state.entities[pageId];
+      }
     },
     addElementToPage: (state, action: PayloadAction<{ pageId: string; elementId: string }>) => {
       const { pageId, elementId } = action.payload;

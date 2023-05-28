@@ -18,7 +18,8 @@ const initialState: ElementsState = {
             y: 100,
             opacity: 1,
             color: "#626267",
-            children: ["child1"]
+            children: ["child1"],
+            pageId: "page1", // parent page
         },
         "element2": {
             id: "element2",
@@ -27,6 +28,7 @@ const initialState: ElementsState = {
             y: 100,
             opacity: 1,
             color: "#e16036",
+            pageId: "page1", // parent page
         },
         "element3": {
             id: "element3",
@@ -35,6 +37,7 @@ const initialState: ElementsState = {
             y: 300,
             opacity: 1,
             color: "#ecfeaa",
+            pageId: "page2", // parent page
         },
         "child1": {
             id: "child1",
@@ -43,10 +46,13 @@ const initialState: ElementsState = {
             y: 250,
             opacity: 1,
             color: "#ff785a",
+            parentId: "element1", // parent element
+            pageId: "page1", // parent page
         }
     },
     selectedElementId: null,
 };
+
 
 
 const elementsSlice = createSlice({
@@ -56,12 +62,42 @@ const elementsSlice = createSlice({
         selectElement: (state, action: PayloadAction<string>) => {
             state.selectedElementId = action.payload;
         },
-        createElement: (state, action: PayloadAction<Element>) => {
-            state.entities[action.payload.id] = action.payload;
+        createElement: (state, action: PayloadAction<{ newElement: Element, parentId?: string }>) => {
+            const { newElement, parentId } = action.payload;
+            state.entities[newElement.id] = newElement;
+
+            // If parentId exists, add new element to parent's children array
+            if (parentId) {
+                const parentElement = state.entities[parentId];
+                if (parentElement) {
+                    parentElement.children = [...(parentElement.children || []), newElement.id];
+                }
+            }
         },
         deleteElement: (state, action: PayloadAction<string>) => {
-            delete state.entities[action.payload];
+            const elementId = action.payload;
+            if (state.entities[elementId]) {
+                // Recursively delete all child elements
+                if (state.entities[elementId].children) {
+                    const { children } = state.entities[elementId];
+                    if (children) {
+                        children.forEach(childId => {
+                            deleteElement(childId);
+                        });
+                    }
+                }
+
+                // Remove elementId from parent's children list
+                const parentId = state.entities[elementId].parentId;
+                if (parentId && state.entities[parentId]) {
+                    state.entities[parentId].children = state.entities[parentId]?.children?.filter(id => id !== elementId);
+                }
+
+                // Delete the element
+                delete state.entities[elementId];
+            }
         },
+
         addChildElement: (state, action: PayloadAction<{ parentId: string; childId: string }>) => {
             const { parentId, childId } = action.payload;
             if (state.entities[parentId]) {
@@ -117,6 +153,17 @@ const elementsSlice = createSlice({
         },
     },
 });
+
+const deleteElementAndChildren = (state: ElementsState, elementId: string) => {
+    const element = state.entities[elementId];
+    if (!element) return;
+
+    // if there are children, delete them recursively
+    element.children?.forEach(childId => deleteElementAndChildren(state, childId));
+
+    // delete the element itself
+    delete state.entities[elementId];
+}
 
 export const {
     selectElement,

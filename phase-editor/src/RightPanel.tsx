@@ -13,6 +13,8 @@ import { updateElementColor, updateElementOpacity, updateElementX, updateElement
 const RightPanelWrapper = styled.div`
     position: relative;
     padding: 12px;
+    z-index: 1;
+    background-color: #232323;
 `;
 
 
@@ -71,6 +73,7 @@ const RightPanel = () => {
             dispatch(updateElementOpacity({ elementId: selectedElement.id, opacity: newOpacity }));
         }
     };
+
 
 
 

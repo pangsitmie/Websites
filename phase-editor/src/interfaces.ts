@@ -12,6 +12,8 @@ export interface Element {
     opacity: number;
     color: string;
     children?: string[]; // IDs of child elements
+    parentId?: string;  // Parent element ID
+    pageId?: string;   // Page ID the element is located on
 }
 
 
