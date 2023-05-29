@@ -3,7 +3,6 @@ export interface Page {
     name: string;
     elements: string[]; // IDs of elements
 }
-
 export interface Element {
     id: string;
     name: string;
@@ -15,8 +14,6 @@ export interface Element {
     parentId?: string;  // Parent element ID
     pageId?: string;   // Page ID the element is located on
 }
-
-
 export interface BlockProps {
     x?: number;
     y?: number;
@@ -24,7 +21,6 @@ export interface BlockProps {
     selected?: boolean;
     color: string;
 }
-
 export interface UpdateElementPalyload {
     id: string;
     x: number;

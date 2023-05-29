@@ -1,4 +1,3 @@
-// src/redux/elementsSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Element } from '../interfaces';
 
@@ -74,6 +73,7 @@ const elementsSlice = createSlice({
                 }
             }
         },
+        // Delete element also has recursion check to delete all child elements
         deleteElement: (state, action: PayloadAction<string>) => {
             const elementId = action.payload;
             if (state.entities[elementId]) {
@@ -97,25 +97,13 @@ const elementsSlice = createSlice({
                 delete state.entities[elementId];
             }
         },
-
-        addChildElement: (state, action: PayloadAction<{ parentId: string; childId: string }>) => {
-            const { parentId, childId } = action.payload;
-            if (state.entities[parentId]) {
-                state.entities[parentId].children = [...(state.entities[parentId].children || []), childId];
-            }
-        },
-        removeChildElement: (state, action: PayloadAction<{ parentId: string; childId: string }>) => {
-            const { parentId, childId } = action.payload;
-            if (state.entities[parentId]) {
-                state.entities[parentId].children = (state.entities[parentId].children || []).filter(id => id !== childId);
-            }
-        },
         renameElement: (state, action: PayloadAction<{ elementId: string; name: string }>) => {
             const { elementId, name } = action.payload;
             if (state.entities[elementId]) {
                 state.entities[elementId].name = name;
             }
         },
+        // Update is used when dragging the element
         updateElement: (state, action: PayloadAction<{ id: string, x: number, y: number }>) => {
             const { id, x, y } = action.payload;
             if (state.entities[id]) {
@@ -151,27 +139,15 @@ const elementsSlice = createSlice({
                 element.opacity = opacity;
             }
         },
+        // more reducers here
     },
 });
-
-const deleteElementAndChildren = (state: ElementsState, elementId: string) => {
-    const element = state.entities[elementId];
-    if (!element) return;
-
-    // if there are children, delete them recursively
-    element.children?.forEach(childId => deleteElementAndChildren(state, childId));
-
-    // delete the element itself
-    delete state.entities[elementId];
-}
 
 export const {
     selectElement,
     createElement,
     updateElement,
     deleteElement,
-    addChildElement,
-    removeChildElement,
     renameElement,
     updateElementX,
     updateElementY,

@@ -1,4 +1,3 @@
-// src/redux/pagesSlice.ts
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Page } from '../interfaces';
 import { RootState } from './reducers';
@@ -43,12 +42,6 @@ const pagesSlice = createSlice({
       //set the selected page to the newly created page
       state.selectedPageId = action.payload.id;
     },
-    updatePage: (state, action: PayloadAction<Page>) => {
-      const { id } = action.payload;
-      if (state.entities[id]) {
-        state.entities[id] = { ...state.entities[id], ...action.payload };
-      }
-    },
     deletePage: (state, action: PayloadAction<string>) => {
       const pageId = action.payload;
       if (state.entities[pageId]) {
@@ -77,16 +70,13 @@ const pagesSlice = createSlice({
         state.entities[pageId].name = name;
       }
     },
-
-
-    // additional reducers...
+    // more reducers here
   },
 });
 
 export const {
   selectPage,
   createPage,
-  updatePage,
   deletePage,
   addElementToPage,
   removeElementFromPage,
