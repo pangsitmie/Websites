@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import { BlockProps } from "../../interfaces";
 
-
-//the x and y property is not used in this component
-// we render the x and y in react dragable component
+// The x and y property is not used in this component
+// We render the x and y in react dragable component
 
 export const Block = styled.div<BlockProps>`
   position: absolute;
@@ -15,7 +14,5 @@ export const Block = styled.div<BlockProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: grab;
 `;
-
-// left: ${(props) => props.x}px;
-// top: ${(props) => props.y}px;
