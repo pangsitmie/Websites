@@ -11,7 +11,7 @@ const ProblemSolutionCard = ({ title, content, color }: Props) => {
   return (
     <StyledProblemSolutionCard color={color}>
       <h2>{title}</h2>
-      <p>{content}</p>
+      <p style={{ whiteSpace: "pre-wrap" }}>{content}</p>
     </StyledProblemSolutionCard>
   );
 };

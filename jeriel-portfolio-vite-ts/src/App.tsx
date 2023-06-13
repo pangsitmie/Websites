@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { SelectedPage } from "./shared/types";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Gamepay from "./pages/gamepay/Gamepay";
+import Bearpay from "./pages/bearpay/Bearpay";
 import Alliance from "./pages/alliance/Alliance";
 import CloudProgramming from "./pages/cloudProgramming/CloudProgragramming";
 import About from "./pages/about/About";
@@ -15,6 +15,7 @@ import Work from "./pages/work/Work";
 import BehindTheScene from "./pages/behindTheScene/BehindTheScene";
 import NotFound from "./pages/404/NotFound";
 import XStateDemo from "./pages/xStateDemo/XStateDemo";
+import Editor from "./pages/editor/Editor";
 
 function App() {
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(
@@ -52,7 +53,8 @@ function App() {
             <Route path="/about" element={<About />} />
 
             {/* WORKS */}
-            <Route path="/work/gamepay" element={<Gamepay />} />
+            <Route path="/work/gamepay" element={<Bearpay />} />
+            <Route path="/work/editor" element={<Editor />} />
             <Route path="/work/alliance" element={<Alliance />} />
             <Route path="/work/behind-the-scene" element={<BehindTheScene />} />
             <Route

@@ -47,3 +47,7 @@ small {
 span {
   @apply text-primary-100;
 }
+
+a:hover {
+  opacity: 0.85;
+}

@@ -76,7 +76,7 @@ const Work = (props: Props) => {
         <StyledWorkContainer backgroundImage={PATTERN1}>
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-6 font-medium	 leading-tight text-white">
-              Game Pay
+              Bear <br /> Pay
             </H1>
             <ButtonStorke
               text="View Project"

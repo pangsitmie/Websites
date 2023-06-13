@@ -1,6 +1,6 @@
 import PortfolioCard from "@/components/PortfolioCard";
 import React from "react";
-import { BiLinkExternal } from "react-icons/bi";
+import { BiLinkExternal, } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
 
 import GAMEPAY1 from "@/assets/gamepay1.png";
@@ -15,10 +15,12 @@ import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
 import { H3 } from "@/components/styles/H3.styled";
+import { FaAppStoreIos } from "react-icons/fa";
+// import BiLogoPlayStore from "react-icons/bi";
 
 type Props = {};
 
-const Gamepay = (props: Props) => {
+const Bearpay = (props: Props) => {
   const { ref, inView } = useInView({ trackVisibility: true, delay: 100 });
   const { ref: ref1, inView: inView1 } = useInView({
     trackVisibility: true,
@@ -42,8 +44,8 @@ const Gamepay = (props: Props) => {
       <WorkHero
         title="SaaS+IoT that helps claw machine stores manage their
           business."
-        subtitle1="GAME PAY"
-        subtitle2="WEB APP"
+        subtitle1="BEAR PAY - WEB APP"
+        subtitle2="#40 ENTERTAINMENT APP STORE (JUNE 2023)"
       />
 
       {/* CURVE DIV */}
@@ -59,22 +61,37 @@ const Gamepay = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
+            <Flex className="gap-20 py-20">
               <h4 className="mt-4">INTRO</h4>
-              <H2>
-                Game Pay is a
-                <span>
-                  {" "}
-                  mobile payment solution for playing claw machines.{" "}
-                </span>
-                While business owners can also manage and analyse their business
-                more efficiently through our <span>SaaS web app.</span>
-                <a href="https://market-test-backstage.cloudprogrammingonline.com/">
-                  <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
-                    Visit website <BiLinkExternal />
-                  </h4>
-                </a>
-              </H2>
+              <div>
+                <H2>
+                  Bear Pay is a
+                  <span>
+                    {" "}
+                    mobile payment solution for playing claw machines.{" "}
+                  </span>
+                  While business owners can also manage and analyse their business
+                  more efficiently through our <span>SaaS web app.</span>
+                </H2>
+
+                <div className="flex gap-8 items-center">
+                  <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                    <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
+                      IOS
+                    </h4>
+                  </a>
+                  <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                    <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
+                      Android
+                    </h4>
+                  </a>
+                  <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                    <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
+                      Web App
+                    </h4>
+                  </a>
+                </div>
+              </div>
             </Flex>
           </motion.div>
 
@@ -206,8 +223,8 @@ const Gamepay = (props: Props) => {
           </h4>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
-export default Gamepay;
+export default Bearpay;
