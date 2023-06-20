@@ -3,7 +3,7 @@ import React from "react";
 import { BiLinkExternal, } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
 
-import GAMEPAY1 from "@/assets/gamepay1.png";
+import EDITOR1 from "@/assets/editor1.png";
 import GAMEPAY2 from "@/assets/gamepay2.png";
 import GAMEPAY3 from "@/assets/gamepay3.jpg";
 import GAMEPAY4 from "@/assets/gamepay4.png";
@@ -97,18 +97,14 @@ const Editor = (props: Props) => {
                         <div>
                             <div className="mb-4">
                                 <PortfolioCard
-                                    image={GAMEPAY1}
+                                    image={EDITOR1}
                                     title={
-                                        "In this project, I developed this admin webapp system for our company, brands, and stores to manage their datas"
+                                        "I used Normalization approach to manage the state of the elements, and used Redux to manage the state of the pages, and elements in the canvas"
                                     }
                                 />
                             </div>
-                            <PortfolioCard
-                                image={GAMEPAY3}
-                                title={
-                                    "I also created a user-friendly interface for a statistic and graph feature, which enables users to easily analyze and comprehend their store and machine performance, revenue, and expenses."
-                                }
-                            />
+
+
                         </div>
                         {/* col2 */}
                         <div className="flex flex-col gap-4">
@@ -147,13 +143,11 @@ const Editor = (props: Props) => {
                             transition={{ duration: 0.5 }}
                         >
                             <H2 className="mb-10 text-black">
-                                I start the developemtn by using
-                                <span className="font-bold text-indigo-300"> Figma</span> for
-                                design,{" "}
-                                <span className="font-bold text-indigo-300"> React.js</span> for
-                                front-end development, and Apollo
-                                <span className="font-bold text-indigo-300"> GraphQL</span> for
-                                seamless client-server communication.
+                                Tech stack: {" "}
+                                <span className="font-bold text-indigo-300"> React TS & Vite</span> for
+                                development,
+                                <span className="font-bold text-indigo-300"> Tailwind & Styled-Componenets</span> for
+                                styling and design. Utilizing <span className="font-bold text-indigo-300"> Redux</span> for state management, <span className="font-bold text-indigo-300">Jest & Babel </span> for testing.
                             </H2>
                         </motion.div>
 
@@ -165,41 +159,27 @@ const Editor = (props: Props) => {
                             variants={variants}
                             transition={{ duration: 0.5 }}
                         >
-                            <Flex className="items-center gap-10">
+                            <Flex className="items-center gap-10 mt-28">
                                 <PortfolioCard
                                     image={GAMEPAY4}
-                                    title={"Statistics Page (Light Mode)"}
+                                    title={"The biggest difficulty i faced was keeping track of nested elements and their parent-child relationships. "}
                                 />
                                 <div>
-                                    <H3 className="text-black">
-                                        While also utilizing
-                                        <span className="font-bold text-indigo-300">
-                                            {" "}
-                                            React MUI
-                                        </span>{" "}
-                                        for efficient layouting and styling, resulting in a
-                                        professional and visually appealing user interface.
-                                    </H3>
-                                </div>
-                            </Flex>
-                        </motion.div>
+                                    <p className="text-black">
+                                        With this single <span className="font-bold text-indigo-300">PageSlice</span> approach, it became incredibly difficult to determine which element was the parent or child of another element.
+                                        This also cause chanllenges when trying to delete elements, particularly those with child elements.
+                                        <br />
+                                        <br />
+                                        To overcome these challenges, I decided to explore a different solution: <span className="font-bold text-indigo-300">Normalization </span>
 
-                        <motion.div
-                            className="show"
-                            ref={ref3}
-                            initial="hidden"
-                            animate={inView3 ? "visible" : "hidden"}
-                            variants={variants}
-                            transition={{ duration: 0.5 }}
-                        >
-                            <Flex className="mt-10 items-center gap-10">
-                                <div>
-                                    <H3 className="text-black">
-                                        This web app is also optimized for mobile device and tablet,
-                                        and is fully responsive.
-                                    </H3>
+                                        This approach involved restructuring the data using separate entities for pages and elements, each with its own Redux slice (<span className="font-bold text-indigo-300">PageSlice</span> and <span className="font-bold text-indigo-300">ElementSlice</span>).
+
+                                        <br />
+                                        <br />
+                                        By adopting this normalization approach, I was able to resolve the difficulties I faced earlier.
+                                        In normalization, data is organized into separate entities or tables, and relationships between entities are represented using keys.
+                                    </p>
                                 </div>
-                                <PortfolioCard image={GAMEPAY5} title={"Mobile Version"} />
                             </Flex>
                         </motion.div>
                     </div>
