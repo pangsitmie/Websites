@@ -4,10 +4,6 @@ import { BiLinkExternal, } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
 
 import EDITOR1 from "@/assets/editor1.png";
-import GAMEPAY2 from "@/assets/gamepay2.png";
-import GAMEPAY3 from "@/assets/gamepay3.jpg";
-import GAMEPAY4 from "@/assets/gamepay4.png";
-import GAMEPAY5 from "@/assets/gamepay5.png";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
 import WorkHero from "@/pages/about/WorkHero";
@@ -42,7 +38,9 @@ const Editor = (props: Props) => {
     return (
         <div>
             <WorkHero
-                title="Figma editor clone, complex state management with nested elements"
+                title_1="Figma editor clone with"
+                title_2="complex state manage"
+                title_3="& nested elements"
                 subtitle1="DESIGN EDITOR"
                 subtitle2="WEB APP"
             />
@@ -51,7 +49,7 @@ const Editor = (props: Props) => {
             <div className="relative h-full w-full overflow-hidden px-4 py-28">
                 <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
                 {/* this is the content container */}
-                <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
+                <div className="xl:p-16 2xl:p-20 p-6 md:px-[12%]">
                     <motion.div
                         className="show"
                         ref={ref}
@@ -60,8 +58,8 @@ const Editor = (props: Props) => {
                         variants={variants}
                         transition={{ duration: 0.5 }}
                     >
-                        <Flex className="gap-20 py-20">
-                            <h4 className="mt-4">INTRO</h4>
+                        <div className="gap-20 py-20">
+                            <h4 className="mb-4">INTRO</h4>
                             <div>
                                 <H2>
                                     This project is a test project that I've done for a company.
@@ -71,10 +69,10 @@ const Editor = (props: Props) => {
 
                                 </H2>
 
-                                <div className="flex gap-8 items-center">
+                                <div className="flex gap-8 items-center mt-6">
                                     <a href="https://codesandbox.io/p/github/pangsitmie/phase-editor/">
                                         <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
-                                            Code Sandbox
+                                            Sandbox
                                         </h4>
                                     </a>
                                     <a href="https://github.com/pangsitmie/phase-editor">
@@ -89,7 +87,7 @@ const Editor = (props: Props) => {
                                     </a>
                                 </div>
                             </div>
-                        </Flex>
+                        </div>
                     </motion.div>
 
                     <Flex className="gap-4">
@@ -129,9 +127,8 @@ const Editor = (props: Props) => {
                 <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
             </div>
             {/* curve end */}
-            <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
+            <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[1rem] sm:pb-20">
                 <Flex className="flex gap-4">
-                    <h4 className="mt-4 text-black">PROCESS</h4>
 
                     <div>
                         <motion.div
@@ -142,8 +139,9 @@ const Editor = (props: Props) => {
                             variants={variants}
                             transition={{ duration: 0.5 }}
                         >
+                            <h4 className="mb-4 text-black">TECH STACK</h4>
+
                             <H2 className="mb-10 text-black">
-                                Tech stack: {" "}
                                 <span className="font-bold text-indigo-300"> React TS & Vite</span> for
                                 development,
                                 <span className="font-bold text-indigo-300"> Tailwind & Styled-Componenets</span> for
@@ -160,16 +158,11 @@ const Editor = (props: Props) => {
                             transition={{ duration: 0.5 }}
                         >
                             <Flex className="items-center gap-10 mt-28">
-                                <PortfolioCard
-                                    image={GAMEPAY4}
-                                    title={"The biggest difficulty i faced was keeping track of nested elements and their parent-child relationships. "}
-                                />
+
                                 <div>
                                     <p className="text-black">
                                         With this single <span className="font-bold text-indigo-300">PageSlice</span> approach, it became incredibly difficult to determine which element was the parent or child of another element.
                                         This also cause chanllenges when trying to delete elements, particularly those with child elements.
-                                        <br />
-                                        <br />
                                         To overcome these challenges, I decided to explore a different solution: <span className="font-bold text-indigo-300">Normalization </span>
 
                                         This approach involved restructuring the data using separate entities for pages and elements, each with its own Redux slice (<span className="font-bold text-indigo-300">PageSlice</span> and <span className="font-bold text-indigo-300">ElementSlice</span>).

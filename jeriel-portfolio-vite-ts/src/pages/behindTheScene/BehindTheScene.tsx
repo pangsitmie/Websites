@@ -35,7 +35,9 @@ const BehindTheScene = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="How this portfolio was made."
+        title_1="Take a deep dive into"
+        title_2="How this portfolio"
+        title_3="was made from scratch"
         subtitle1="JERIEL ISAIAH"
         subtitle2="PORTFOLIO"
       />
@@ -44,7 +46,7 @@ const BehindTheScene = (props: Props) => {
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
         <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
         {/* this is the content container */}
-        <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
+        <div className="xl:p-16 2xl:p-20 p-6 md:p-[12%]">
           <motion.div
             className="show"
             ref={ref}
@@ -53,7 +55,7 @@ const BehindTheScene = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
+            <div className="gap-20 py-20">
               <h4 className="mt-4">INTRO</h4>
               <H2>
                 Introducing a minimalistic portfolio website powered by
@@ -67,7 +69,7 @@ const BehindTheScene = (props: Props) => {
                   </h4>
                 </a>
               </H2>
-            </Flex>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">
@@ -119,7 +121,7 @@ const BehindTheScene = (props: Props) => {
       </div>
       {/* curve end */}
 
-      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white md:p-[10%]">
         <Flex className="flex gap-4">
           <div>
             <motion.div

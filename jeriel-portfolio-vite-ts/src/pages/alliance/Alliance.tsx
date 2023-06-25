@@ -40,7 +40,9 @@ const Alliance = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="Discover claw machine spots and explore nearby travel destination."
+        title_1="Discover claw machine"
+        title_2="spots and explore"
+        title_3="nearby travel destination"
         subtitle1="CLAW MACHINE ALLIANCE"
         subtitle2="WEBSITE"
       />
@@ -49,7 +51,7 @@ const Alliance = (props: Props) => {
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
         <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
         {/* this is the content container */}
-        <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
+        <div className="xl:p-16 2xl:p-20 p-6 md:p-[12%]">
           <motion.div
             className="show"
             ref={ref}
@@ -58,8 +60,8 @@ const Alliance = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
-              <h4 className="mt-4">INTRO</h4>
+            <div className="gap-20 py-20">
+              <h4 className="mb-4">INTRO</h4>
               <H2>
                 Expanding audience by creating a website that enables users to
                 search for nearby or desired claw machine stores through our
@@ -70,7 +72,7 @@ const Alliance = (props: Props) => {
                   </h4>
                 </a>
               </H2>
-            </Flex>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">

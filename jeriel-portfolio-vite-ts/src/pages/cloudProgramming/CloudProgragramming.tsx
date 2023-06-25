@@ -35,8 +35,9 @@ const CloudProgramming = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="Redesign of Cloud Programming Online
-         website."
+        title_1="Reimagine & redesign"
+        title_2="Cloud Programming Online"
+        title_3="website & branding."
         subtitle1="雲程在線"
         subtitle2="WEBSITE"
       />
@@ -45,7 +46,7 @@ const CloudProgramming = (props: Props) => {
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
         <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
         {/* this is the content container */}
-        <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
+        <div className="xl:p-16 2xl:p-20 p-6 md:px-[12%]">
           <motion.div
             className="show"
             ref={ref}
@@ -54,8 +55,8 @@ const CloudProgramming = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
-              <h4 className="mt-4">INTRO</h4>
+            <div className="gap-20 py-20">
+              <h4 className="mb-4">INTRO</h4>
               <H2>
                 As the lead designer and developer, I was tasked with the
                 complete overhaul of our company website, which was previously
@@ -66,7 +67,7 @@ const CloudProgramming = (props: Props) => {
                   </h4>
                 </a>
               </H2>
-            </Flex>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">
@@ -117,10 +118,8 @@ const CloudProgramming = (props: Props) => {
         <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
       </div>
       {/* curve end */}
-
-      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[1rem] sm:pb-20">
         <Flex className="flex gap-4 pt-12">
-          <h4 className="mt-4 text-black">PROCESS</h4>
 
           <div>
             <motion.div
@@ -131,6 +130,8 @@ const CloudProgramming = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
+              <h4 className="mb-4 text-black">PROCESS</h4>
+
               <H2 className="mb-10 text-black">
                 Throughout the redesign process, I paid close attention to every
                 detail, from the website's color scheme and typography to the

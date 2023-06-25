@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const H2 = styled.h2`
-    font-size: 3.5rem;
+    font-size: 3rem;
     line-height: 1.2;
 
 

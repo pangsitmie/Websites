@@ -9,7 +9,8 @@ import PATTERN1 from "@/assets/pattern1.png";
 import PATTERN2 from "@/assets/pattern2.svg";
 import PATTERN3 from "@/assets/pattern3.svg";
 import PATTERN4 from "@/assets/pattern4.png";
-// import PATTERN4 from "@/assets/pattern4.gif";
+import PATTERN5 from "@/assets/pattern5.png";
+
 import { ScrollAlertContainer } from "@/components/styles/ScrollAlertContainer.styled";
 import { BsChevronRight } from "react-icons/bs";
 
@@ -80,7 +81,19 @@ const Work = (props: Props) => {
             </H1>
             <ButtonStorke
               text="View Project"
-              link="/work/gamepay"
+              link="/work/bearpay"
+              className="h-[65px] w-[200px]"
+            />
+          </div>
+        </StyledWorkContainer>
+        <StyledWorkContainer backgroundImage={PATTERN5}>
+          <div className="backgrod flex h-full flex-col justify-center">
+            <H1 className="mb-6 font-medium	 leading-tight text-white">
+              Design <br /> Editor
+            </H1>
+            <ButtonStorke
+              text="View Project"
+              link="/work/editor"
               className="h-[65px] w-[200px]"
             />
           </div>

@@ -42,8 +42,9 @@ const Bearpay = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="SaaS+IoT that helps claw machine stores manage their
-          business."
+        title_1="SaaS+IoT that helps "
+        title_2="claw machine stores "
+        title_3="manage their business"
         subtitle1="BEAR PAY - WEB APP"
         subtitle2="#40 ENTERTAINMENT APP STORE (JUNE 2023)"
       />
@@ -52,7 +53,7 @@ const Bearpay = (props: Props) => {
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
         <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
         {/* this is the content container */}
-        <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
+        <div className="xl:p-16 2xl:p-20 md:p-[12%]">
           <motion.div
             className="show"
             ref={ref}
@@ -61,8 +62,8 @@ const Bearpay = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-20 py-20">
-              <h4 className="mt-4">INTRO</h4>
+            <div className="gap-20 py-20">
+              <h4 className="mb-4">INTRO</h4>
               <div>
                 <H2>
                   Bear Pay is a
@@ -92,7 +93,7 @@ const Bearpay = (props: Props) => {
                   </a>
                 </div>
               </div>
-            </Flex>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">
@@ -143,9 +144,8 @@ const Bearpay = (props: Props) => {
         <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
       </div>
       {/* curve end */}
-      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%]">
         <Flex className="flex gap-4">
-          <h4 className="mt-4 text-black">PROCESS</h4>
 
           <div>
             <motion.div
@@ -156,8 +156,10 @@ const Bearpay = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
+              <h4 className="mt-4 text-black">PROCESS</h4>
+
               <H2 className="mb-10 text-black">
-                I start the developemtn by using
+                I start the development by using
                 <span className="font-bold text-indigo-300"> Figma</span> for
                 design,{" "}
                 <span className="font-bold text-indigo-300"> React.js</span> for
