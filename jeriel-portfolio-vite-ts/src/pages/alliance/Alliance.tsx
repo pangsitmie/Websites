@@ -14,6 +14,10 @@ import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
 import { H3 } from "@/components/styles/H3.styled";
+import { CurveTop } from "@/components/styles/container/CurveTop.styled";
+import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
+import { CurveBottom } from "@/components/styles/container/CurveBottom.styled";
+import { P } from "@/components/styles/typography/typography.styled";
 
 type Props = {};
 
@@ -49,9 +53,9 @@ const Alliance = (props: Props) => {
 
       {/* CURVE DIV */}
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
-        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        <CurveTop />
         {/* this is the content container */}
-        <div className="xl:p-16 2xl:p-20 p-6 md:p-[12%]">
+        <CurveContainer>
           <motion.div
             className="show"
             ref={ref}
@@ -119,13 +123,12 @@ const Alliance = (props: Props) => {
               </Flex>
             </div>
           </Flex>
-        </div>
-        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        </CurveContainer>
+        <CurveBottom />
       </div>
       {/* curve end */}
-      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white md:p-[10%] sm:p-[5%] sm:pb-20">
         <Flex className="flex gap-4 pt-12">
-          <h4 className="mt-4 text-black">PROCESS</h4>
           <div>
             <motion.div
               className="show"
@@ -135,12 +138,12 @@ const Alliance = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
+              <h4 className="mb-4 text-black">PROCESS</h4>
+
               <H2 className="mb-10 text-black">
-                By collaborating with various claw machine brands and stores, I
-                was able to develop a dynamic and user-friendly website that
-                aims to raise awareness about the exciting world of claw machine
-                gaming.
+                Collaborating with various claw machine brands and stores.
               </H2>
+
             </motion.div>
 
             <motion.div
@@ -153,8 +156,10 @@ const Alliance = (props: Props) => {
             >
               <Flex className="items-center gap-10">
                 <div>
-                  <H3 className="text-black">
-                    With our interactive functionalities such as an intuitive
+                  <P className="text-black">
+                    I was able to develop a dynamic and user-friendly website that
+                    aims to raise awareness about the exciting world of claw machine
+                    gaming. And with our interactive functionalities such as an intuitive
                     map that locates nearby claw machine stores and popular
                     brand partner locations.
                     <a href="https://alliance.cloudprogrammingonline.com/exhibition/2023">
@@ -162,7 +167,7 @@ const Alliance = (props: Props) => {
                         View Page <BiLinkExternal />
                       </h4>
                     </a>
-                  </H3>
+                  </P>
                 </div>
                 <PortfolioCard
                   image={ALLIANCE4}
@@ -182,11 +187,11 @@ const Alliance = (props: Props) => {
               <Flex className="mt-10 items-center gap-10">
                 <PortfolioCard image={ALLIANCE5} title={"Exhibition Topics"} />
                 <div>
-                  <H3 className="text-black">
+                  <P className="text-black">
                     To promote claw machine awareness and tourism, we presented
                     the project to Taichung's local government to refine our
                     website data for users.
-                  </H3>
+                  </P>
                 </div>
               </Flex>
             </motion.div>

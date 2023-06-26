@@ -16,6 +16,9 @@ import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
 import { H3 } from "@/components/styles/H3.styled";
 import { FaAppStoreIos } from "react-icons/fa";
+import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
+import { CurveTop } from "@/components/styles/container/CurveTop.styled";
+import { CurveBottom } from "@/components/styles/container/CurveBottom.styled";
 // import BiLogoPlayStore from "react-icons/bi";
 
 type Props = {};
@@ -50,10 +53,10 @@ const Bearpay = (props: Props) => {
       />
 
       {/* CURVE DIV */}
-      <div className="relative h-full w-full overflow-hidden px-4 py-28">
-        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+      <div className="relative h-full w-full overflow-hidden px-[5%] py-28">
+        <CurveTop />
         {/* this is the content container */}
-        <div className="xl:p-16 2xl:p-20 md:p-[12%]">
+        <CurveContainer>
           <motion.div
             className="show"
             ref={ref}
@@ -140,13 +143,13 @@ const Bearpay = (props: Props) => {
               </Flex>
             </div>
           </Flex>
-        </div>
-        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        </CurveContainer>
+        <CurveBottom />
+        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white">S</div>
       </div>
       {/* curve end */}
-      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[5%] sm:pb-20">
         <Flex className="flex gap-4">
-
           <div>
             <motion.div
               className="show"

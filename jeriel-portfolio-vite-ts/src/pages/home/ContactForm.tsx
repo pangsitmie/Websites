@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import ButtonFill from "../../components/button/ButtonFill";
 import { Flex } from "@/components/styles/Flex.styled";
 import { H1 } from "@/components/styles/H1.styled";
+import { H2 } from "@/components/styles/H2.styled";
 
 type Props = {};
 
@@ -38,11 +39,11 @@ const ContactForm = (props: Props) => {
   // };
 
   return (
-    <div id="contact" className="p-4 md:container md:mx-auto">
+    <div id="contact" className="p-[5%] md:container md:mx-auto">
       <h5 className="text-center text-2xl text-primary-100">
         Get In Touch
       </h5>
-      <H1 className="text-center">Contact Me</H1>
+      <H2 className="text-center">Contact Me</H2>
 
       <Flex className="mt-20 gap-12">
         <div className="flex flex-col items-center justify-center rounded-2xl bg-secondary-100 px-16 py-8">

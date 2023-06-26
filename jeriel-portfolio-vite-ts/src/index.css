@@ -36,7 +36,6 @@ body,
 p {
   font-size: 1.2rem;
   line-height: 1.5;
-  @apply text-gray-400;
 }
 
 small {

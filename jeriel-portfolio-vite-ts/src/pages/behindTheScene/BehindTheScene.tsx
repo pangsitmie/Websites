@@ -14,6 +14,10 @@ import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
 import { H3 } from "@/components/styles/H3.styled";
+import { CurveTop } from "@/components/styles/container/CurveTop.styled";
+import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
+import { CurveBottom } from "@/components/styles/container/CurveBottom.styled";
+import { P } from "@/components/styles/typography/typography.styled";
 
 type Props = {};
 
@@ -44,9 +48,9 @@ const BehindTheScene = (props: Props) => {
 
       {/* CURVE DIV */}
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
-        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        <CurveTop />
         {/* this is the content container */}
-        <div className="xl:p-16 2xl:p-20 p-6 md:p-[12%]">
+        <CurveContainer>
           <motion.div
             className="show"
             ref={ref}
@@ -58,7 +62,7 @@ const BehindTheScene = (props: Props) => {
             <div className="gap-20 py-20">
               <h4 className="mt-4">INTRO</h4>
               <H2>
-                Introducing a minimalistic portfolio website powered by
+                My project portfolio website powered by
                 <span> React Typescript </span> and <span> Vite </span> for a
                 faster and more reliable experience, styled with
                 <span> Tailwind CSS + Styled Componenets</span> for a clean,
@@ -116,12 +120,12 @@ const BehindTheScene = (props: Props) => {
               </Flex>
             </div>
           </Flex>
-        </div>
-        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        </CurveContainer>
+        <CurveBottom />
       </div>
       {/* curve end */}
 
-      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white md:p-[10%] sm:p-[5%] sm:pb-20">
         <Flex className="flex gap-4">
           <div>
             <motion.div
@@ -132,10 +136,8 @@ const BehindTheScene = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
-              <H2 className="mb-10 text-center text-black">
-                By combining these technologies, I was able to create reusable
-                and dynamic components while maintaining a consistent design
-                throughout the site.
+              <H2 className="mb-10 text-black">
+                With improved tech stack
               </H2>
             </motion.div>
             <motion.div
@@ -146,10 +148,13 @@ const BehindTheScene = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
-              <H2 className="text-center text-black">
+              <P className=" text-black">
+                I am able to create reusable
+                and dynamic components while maintaining a consistent design
+                throughout the site.
                 With this portfolio, I am excited to showcase my skills and
                 abilities to potential clients and employers.
-              </H2>
+              </P>
             </motion.div>
           </div>
         </Flex>

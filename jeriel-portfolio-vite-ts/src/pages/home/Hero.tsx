@@ -10,12 +10,12 @@ import { BsArrowDown, BsArrowRight } from "react-icons/bs";
 import PortfolioCard from "../../components/PortfolioCard";
 // import IMG1 from "@/assets/this.gif";
 import IMG1 from "@/assets/gamepay.png";
-import IMG2 from "@/assets/alliance.png";
-import IMG3 from "@/assets/yuncheng.png";
+import IMG_ALLIANCE from "@/assets/alliance.png";
+import IMG_EDITOR from "@/assets/editor2.png";
 import { Flex } from "@/components/styles/Flex.styled";
 import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
-import CV from "../../assets/Resume_26_MAR_2023.pdf";
 import { H1 } from "@/components/styles/H1.styled";
+import CV from "../../assets/JERIEL_RESUME_25_JUN_2023.pdf";
 
 type Props = {};
 
@@ -29,7 +29,7 @@ const Hero = (props: Props) => {
 
   return (
     <div
-      className={`flex-item-center flex flex-col pt-[20%] pb-80 md:container md:mx-auto `}
+      className={`flex-item-center flex flex-col pt-[20%] pb-64 md:container md:mx-auto `}
     >
       <motion.div
         className="show"
@@ -48,8 +48,9 @@ const Hero = (props: Props) => {
         </h2>
         <HeroSocials />
         <div className="mt-10 flex justify-center gap-5">
-          <ButtonStorke text="Resume" link={CV} />
           <ButtonFill text="Contact" link="#contact" />
+          <ButtonStorke text="Resume" link={CV} />
+
         </div>
         <StyledMediaContainerGone>
           <a
@@ -63,21 +64,21 @@ const Hero = (props: Props) => {
       </motion.div>
 
       {/* portfolio 3 grid cards */}
-      <Flex className="mt-20 gap-5 p-4">
+      <Flex className="mt-20 gap-5 p-[5%]">
         <PortfolioCard
-          title={"Game Pay"}
+          title={"Bearpay"}
           image={IMG1}
           redirect={"/work/gamepay"}
         />
         <PortfolioCard
-          title={"Claw Machine Alliance"}
-          image={IMG2}
-          redirect={"/work/alliance"}
+          title={"Design Editor"}
+          image={IMG_EDITOR}
+          redirect={"/work/editor"}
         />
         <PortfolioCard
-          title={"雲程在線"}
-          image={IMG3}
-          redirect={"/work/cloudProgramming"}
+          title={"Claw Machine Alliance"}
+          image={IMG_ALLIANCE}
+          redirect={"/work/alliance"}
         />
       </Flex>
       {/* </div> */}

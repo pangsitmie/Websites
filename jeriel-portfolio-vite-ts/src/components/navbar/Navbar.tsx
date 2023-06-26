@@ -4,7 +4,7 @@ import LOGO_WHITE from "@/assets/logo_white.png";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ButtonStorke from "../button/ButtonStroke";
-import CV from "../../assets/Resume_26_MAR_2023.pdf";
+import CV from "../../assets/JERIEL_RESUME_25_JUN_2023.pdf";
 import { useLocation } from "react-router-dom";
 
 type Props = {

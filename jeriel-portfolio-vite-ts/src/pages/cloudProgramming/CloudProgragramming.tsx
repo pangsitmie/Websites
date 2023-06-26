@@ -14,6 +14,10 @@ import { Flex } from "@/components/styles/Flex.styled";
 import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
 import { H3 } from "@/components/styles/H3.styled";
+import { CurveBottom } from "@/components/styles/container/CurveBottom.styled";
+import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
+import { CurveTop } from "@/components/styles/container/CurveTop.styled";
+import { P } from "@/components/styles/typography/typography.styled";
 
 type Props = {};
 
@@ -44,9 +48,9 @@ const CloudProgramming = (props: Props) => {
 
       {/* CURVE DIV */}
       <div className="relative h-full w-full overflow-hidden px-4 py-28">
-        <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        <CurveTop />
         {/* this is the content container */}
-        <div className="xl:p-16 2xl:p-20 p-6 md:px-[12%]">
+        <CurveContainer>
           <motion.div
             className="show"
             ref={ref}
@@ -114,11 +118,11 @@ const CloudProgramming = (props: Props) => {
               </Flex>
             </div>
           </Flex>
-        </div>
-        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+        </CurveContainer>
+        <CurveBottom />
       </div>
       {/* curve end */}
-      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[1rem] sm:pb-20">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white md:p-[10%] sm:p-[5%] sm:pb-20">
         <Flex className="flex gap-4 pt-12">
 
           <div>
@@ -133,9 +137,7 @@ const CloudProgramming = (props: Props) => {
               <h4 className="mb-4 text-black">PROCESS</h4>
 
               <H2 className="mb-10 text-black">
-                Throughout the redesign process, I paid close attention to every
-                detail, from the website's color scheme and typography to the
-                placement of call-to-action buttons and the overall layout.
+                Throughout the redesign process, attention to details is the main focus.
               </H2>
             </motion.div>
             <motion.div
@@ -146,11 +148,13 @@ const CloudProgramming = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
-              <H2 className="text-black">
+              <P className="text-black">
+                From the website's color scheme and typography to the
+                placement of call-to-action buttons and the overall layout.
                 The end result is a website that not only looks great but also
                 delivers a clear message to our target audience and encourages
                 them to engage with our business.
-              </H2>
+              </P>
             </motion.div>
           </div>
         </Flex>

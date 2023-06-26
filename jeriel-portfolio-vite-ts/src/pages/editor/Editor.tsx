@@ -4,6 +4,7 @@ import { BiLinkExternal, } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
 
 import EDITOR1 from "@/assets/editor1.png";
+import EDITOR2 from "@/assets/editor2.png";
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
 import { Container } from "@/components/styles/Container.styled";
 import WorkHero from "@/pages/about/WorkHero";
@@ -12,6 +13,10 @@ import { H2 } from "@/components/styles/H2.styled";
 import { motion } from "framer-motion";
 import { H3 } from "@/components/styles/H3.styled";
 import { FaAppStoreIos } from "react-icons/fa";
+import { CurveTop } from "@/components/styles/container/CurveTop.styled";
+import { CurveBottom } from "@/components/styles/container/CurveBottom.styled";
+import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
+import { P } from "@/components/styles/typography/typography.styled";
 // import BiLogoPlayStore from "react-icons/bi";
 
 type Props = {};
@@ -46,10 +51,10 @@ const Editor = (props: Props) => {
             />
 
             {/* CURVE DIV */}
-            <div className="relative h-full w-full overflow-hidden px-4 py-28">
-                <div className="absolute left-[-50%] right-0 bottom-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+            <div className="relative h-full w-full overflow-hidden px-[5%] py-28">
+                <CurveTop />
                 {/* this is the content container */}
-                <div className="xl:p-16 2xl:p-20 p-6 md:px-[12%]">
+                <CurveContainer>
                     <motion.div
                         className="show"
                         ref={ref}
@@ -101,6 +106,14 @@ const Editor = (props: Props) => {
                                     }
                                 />
                             </div>
+                            <div className="mb-4">
+                                <PortfolioCard
+                                    image={EDITOR2}
+                                    title={
+                                        "This approach significantly improved the project's ability to handle nested child elements. By restructuring the data into separate entities and leveraging the benefits of normalization, the project now operates more efficiently and effectively."
+                                    }
+                                />
+                            </div>
 
 
                         </div>
@@ -117,19 +130,19 @@ const Editor = (props: Props) => {
 
                                 <ProblemSolutionCard
                                     title={"Checklist"}
-                                    content={`1. Implement Page switching\n\n2. Implement Element selection\n   * in Element section in LeftPanel\n   * in Canvas\n\n3. Update the Element based on property changes in RightPanel\n\n4. Implement moving or dragging Elements on the Canvas (drag-and-drop)\n\n5. Implement double-click to rename for Elements in Element list section and Pages in Page list section\n\n6. [Bonus] Implement nested Element list (where elements can contain other elements)`}
+                                    content={`1. Page switching\n\n2. Element selection\n* In Element section (LeftPanel)\n* In Canvas\n\n3. Update the Element based on property changes in RightPanel\n\n4. Moving or dragging Elements on the Canvas (drag-and-drop)\n\n5. Double-click to rename for Elements in Element list section and Pages in Page list section\n\n6. [Bonus] Implement nested Element list (where elements can contain other elements)`}
                                     color={"#0063e3"}
                                 />
                             </Flex>
                         </div>
                     </Flex>
-                </div>
-                <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
+                </CurveContainer>
+                <CurveBottom />
+
             </div>
             {/* curve end */}
-            <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[1rem] sm:pb-20">
+            <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white md:p-[10%] sm:p-[5%] sm:pb-20">
                 <Flex className="flex gap-4">
-
                     <div>
                         <motion.div
                             className="show"
@@ -158,9 +171,8 @@ const Editor = (props: Props) => {
                             transition={{ duration: 0.5 }}
                         >
                             <Flex className="items-center gap-10 mt-28">
-
                                 <div>
-                                    <p className="text-black">
+                                    <P className="text-black">
                                         With this single <span className="font-bold text-indigo-300">PageSlice</span> approach, it became incredibly difficult to determine which element was the parent or child of another element.
                                         This also cause chanllenges when trying to delete elements, particularly those with child elements.
                                         To overcome these challenges, I decided to explore a different solution: <span className="font-bold text-indigo-300">Normalization </span>
@@ -171,7 +183,7 @@ const Editor = (props: Props) => {
                                         <br />
                                         By adopting this normalization approach, I was able to resolve the difficulties I faced earlier.
                                         In normalization, data is organized into separate entities or tables, and relationships between entities are represented using keys.
-                                    </p>
+                                    </P>
                                 </div>
                             </Flex>
                         </motion.div>
