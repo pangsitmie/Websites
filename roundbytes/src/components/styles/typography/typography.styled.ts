@@ -27,30 +27,32 @@ export const H2 = styled.h2`
     font-weight: 500;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 1.5rem;
+        font-size: 3rem;
     }
 `
 
 export const H3 = styled.h3`
-    font-size: 1.8rem;
+    font-size: 3.2rem;
     line-height: 1.4;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 5vw;
+        font-size: 2rem;
     }
 `
 
 export const H4 = styled.h4`
     font-size: 1.5rem;
+
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 4vw;
+        font-size: 1.2rem;
     }
 `
 
 
 export const P = styled.p`
     font-size: 1.35rem;
+
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 3vw;
+        font-size: 1.1rem;
     }
 `
