@@ -59,3 +59,23 @@ span {
 .slick-list {
   margin: 0 -20px;
 }
+
+
+/* aws carousel */
+
+/* .aws-btn {
+
+  --slider-height-percentage: 56%;
+  --slider-transition-duration: 597ms;
+  --organic-arrow-thickness: 2px;
+  --organic-arrow-border-radius: 0px;
+  --organic-arrow-height: 17px;
+  --organic-arrow-color: #ffffff;
+  --control-button-width: 8%;
+  --control-button-height: 25%;
+  --control-button-background: transparent;
+  --control-bullet-color: #ffffff;
+  --control-bullet-active-color: #afc3de;
+  --loader-bar-color: #ffffff;
+  --loader-bar-height: 4px;
+} */

@@ -64,11 +64,6 @@ const Hero = (props: Props) => {
               </div>
             </div>
 
-
-
-
-
-
             {/* blob */}
             <div className=" w-[40%]">
               <Canvas camera={{ position: [0.0, 0.0, 8.0] }}>

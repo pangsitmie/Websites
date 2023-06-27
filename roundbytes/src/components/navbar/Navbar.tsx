@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import LOGO_BLACK from "../../assets/logo_black.png";
+import LOGO_WHITE from "../../assets/logo_white.png";
 import { SelectedPage } from "@/shared/types";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ButtonStorke from "../button/ButtonStroke";
 import { StyledButtonUnderline } from "../styles/button/ButtonUnderline.styled";
 import { Link } from 'react-scroll';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { P } from "../styles/typography/typography.styled";
 
 type Props = {
   selectedPage: SelectedPage;
@@ -19,6 +21,13 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
 
 
+  // const [isDarkBackground, setIsDarkBackground] = useState<boolean>(false);
+
+  const location = useLocation();
+  const isProjectPath = (location.pathname === '/projects');
+
+
+
   return (
     <nav>
       <div
@@ -28,14 +37,18 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
           <div className={`${flexBetween} w-full gap-16`}>
             {/* LEFT SIDE */}
             <a href="/">
-              <img alt="logo" width={"40px"} src={LOGO_BLACK} />
+              {isProjectPath ?
+                (<img alt="logo" width={"40px"} src={LOGO_WHITE} />) :
+                (<img alt="logo" width={"40px"} src={LOGO_BLACK} />)
+              }
             </a>
 
             {/* RIGHT SIDE */}
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 `}></div>
-                <div className={`${flexBetween} gap-16 font-semibold`}>
+                <div className={`${flexBetween} gap-16 font-semibold ${isProjectPath ? 'text-white' : 'text-black'}`}>
+
                   <StyledButtonUnderline>
                     <a href="/projects" className="text-[16px]">
                       Projects

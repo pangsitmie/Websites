@@ -4,14 +4,15 @@ export const StyledProjectCard = styled.div`
 border-radius: 25px;
 height: 450px;
 width: 350px;
-transition: 0.5s ease-in-out;
 cursor: pointer;
 position: relative;
+margin: 1rem;
+box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
 
 &:hover {
-    box-shadow: 0 0 10px #DADADA;
-}
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);}
 
 
 &:hover::before {
@@ -56,16 +57,6 @@ position: relative;
     opacity: 1;
 }
 
-
-  
-.portfolio__item-image img {
-    border-radius: 25px;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-transform-origin: center center;
 
 @media(max-width: ${({ theme }) => theme.mobile}) {
     text-align: center;

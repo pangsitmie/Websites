@@ -47,7 +47,6 @@ const ProjectCarosel = ({ data, onItemSelected }: Props) => {
         ]
     };
 
-
     return (
         <>
             <Slider {...settings} >

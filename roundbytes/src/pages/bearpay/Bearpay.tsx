@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import { H2, H3 } from "@/components/styles/typography/typography.styled";
 import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
+import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
 
 type Props = {};
 
@@ -41,18 +42,16 @@ const Bearpay = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="SaaS+IoT that helps claw machine stores manage their
-          business."
-        subtitle1="GAME PAY"
-        subtitle2="WEB APP"
+        title="SaaS+IoT that helps claw machine stores manage their business"
+        subtitle1="BEAR PAY - WEB APP"
+        subtitle2="#40 ENTERTAINMENT APP STORE (JUNE 2023)"
       />
 
       {/* CURVE DIV */}
-      <div className="relative h-full w-full overflow-hidden  py-28 bg-black text-white">
+      <div className="relative h-full w-full overflow-hidden px-[5%] py-28 bg-black text-white">
         <SyteledCurveTop />
-
         {/* this is the content container */}
-        <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
+        <CurveContainer>
           <motion.div
             className="show"
             ref={ref}
@@ -61,23 +60,38 @@ const Bearpay = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
-              <h4 className="mt-4">INTRO</h4>
-              <H2>
-                Game Pay is a
-                <span>
-                  {" "}
-                  mobile payment solution for playing claw machines.{" "}
-                </span>
-                While business owners can also manage and analyse their business
-                more efficiently through our <span>SaaS web app.</span>
-                <a href="https://market-test-backstage.cloudprogrammingonline.com/">
-                  <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
-                    Visit website <BiLinkExternal />
-                  </h4>
-                </a>
-              </H2>
-            </Flex>
+            <div className="gap-20 py-20">
+              <h4 className="mb-4">INTRO</h4>
+              <div>
+                <H2>
+                  Bear Pay is a
+                  <span>
+                    {" "}
+                    mobile payment solution for playing claw machines.{" "}
+                  </span>
+                  While business owners can also manage and analyse their business
+                  more efficiently through our <span>SaaS web app.</span>
+                </H2>
+
+                <div className="flex gap-8 items-center">
+                  <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                    <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
+                      IOS
+                    </h4>
+                  </a>
+                  <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                    <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
+                      Android
+                    </h4>
+                  </a>
+                  <a href="https://market-test-backstage.cloudprogrammingonline.com/">
+                    <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
+                      Web App
+                    </h4>
+                  </a>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">
@@ -87,7 +101,7 @@ const Bearpay = (props: Props) => {
                 <PortfolioCard
                   image={GAMEPAY1}
                   title={
-                    "In this project, We developed this admin webapp system for our company, brands, and stores to manage their datas"
+                    "In this project, we developed this admin webapp system for our company, brands, and stores to manage their datas"
                   }
                 />
               </div>
@@ -103,7 +117,7 @@ const Bearpay = (props: Props) => {
               <PortfolioCard
                 image={GAMEPAY2}
                 title={
-                  "By using React's Redux and Apollo GQL for state management, we separated features for different entities."
+                  "By using React's Redux and Apollo GQL for state management, We successfully separated features for different entities."
                 }
               />
               <Flex className="gap-4">
@@ -124,15 +138,13 @@ const Bearpay = (props: Props) => {
               </Flex>
             </div>
           </Flex>
-        </div>
-
+        </CurveContainer>
         <SyteledCurveBottom />
+        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white">S</div>
       </div>
       {/* curve end */}
-      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
+      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[5%] sm:pb-20">
         <Flex className="flex gap-4">
-          <h4 className="mt-4 text-black">PROCESS</h4>
-
           <div>
             <motion.div
               className="show"
@@ -142,8 +154,10 @@ const Bearpay = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
+              <h4 className="mt-4 text-black">PROCESS</h4>
+
               <H2 className="mb-10 text-black">
-                We start the developemtn by using
+                I start the development by using
                 <span className="font-bold text-indigo-300"> Figma</span> for
                 design,{" "}
                 <span className="font-bold text-indigo-300"> React.js</span> for
@@ -209,7 +223,7 @@ const Bearpay = (props: Props) => {
           </h4>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

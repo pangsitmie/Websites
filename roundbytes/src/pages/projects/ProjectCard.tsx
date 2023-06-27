@@ -12,7 +12,6 @@ const ProjectCard = ({ title, subtitle, cardImage, onClick }: Props) => {
     const cardStyle = {
         backgroundImage: `url(${cardImage})`,
         backgroundSize: 'cover',
-
     };
 
     const titleLines = title.split('\n');
@@ -20,11 +19,10 @@ const ProjectCard = ({ title, subtitle, cardImage, onClick }: Props) => {
 
     return (
         <StyledProjectCard
-            className="backgroundimage flex flex-col p-5 justify-between"
+            className="flex flex-col p-5 justify-between"
             style={cardStyle}
             onClick={onClick}>
-            <div>
-            </div>
+            <div></div>
             <div>
                 <P className='text-white mb-2'>{subtitle}</P>
                 {/* Render each line of the title */}

@@ -6,7 +6,6 @@ border: none;
 background: none;
 position: relative;
 cursor: pointer;
-color: #111111;
 
 &::after {
     content: "";

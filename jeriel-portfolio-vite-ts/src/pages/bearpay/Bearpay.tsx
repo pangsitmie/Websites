@@ -145,7 +145,7 @@ const Bearpay = (props: Props) => {
           </Flex>
         </CurveContainer>
         <CurveBottom />
-        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white">S</div>
+        <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white"></div>
       </div>
       {/* curve end */}
       <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[5%] sm:pb-20">
