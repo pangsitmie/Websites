@@ -1,3 +1,8 @@
+import BEARPAY_VID from '@/assets/bearpay_vid.mp4';
+import ALLIANCE_VID from '@/assets/alliance_vid.mp4';
+import BEHIND_THE_SCENE_VID from '@/assets/alliance_vid.mp4';
+
+
 export const projectData = [
     {
         id: 0,
@@ -5,8 +10,8 @@ export const projectData = [
         subtitle: 'Mobile App / Web App',
         description: 'Reimagine the way people play claw machines through IoT & SaaS technology',
         link: '/projects/bearpay',
-        cardImage: 'src/assets/bearpay_card.jpg',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        cardImage: 'assets/bearpay_card.jpg',
+        backgroundImage: BEARPAY_VID,
     },
     {
         id: 1,
@@ -14,8 +19,8 @@ export const projectData = [
         subtitle: 'Website',
         description: 'Discover claw machine spots and explore nearby travel destination',
         link: '/projects/alliance',
-        cardImage: 'src/assets/alliance_card.jpg',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        cardImage: 'assets/alliance_card.jpg',
+        backgroundImage: ALLIANCE_VID,
     },
     {
         id: 2,
@@ -23,8 +28,8 @@ export const projectData = [
         subtitle: 'Company Portfolio',
         description: 'One of Taiwan’s leading cloud companies who provides cloud computing services and solutions.',
         link: '/projects/cloudprogramming',
-        cardImage: 'src/assets/yuncheng_card.jpg',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        cardImage: 'assets/yuncheng_card.jpg',
+        backgroundImage: BEHIND_THE_SCENE_VID,
     },
     {
         id: 3,
@@ -32,8 +37,8 @@ export const projectData = [
         subtitle: 'Website',
         description: 'See how we build this website from scratch',
         link: '/projects/behind-the-scene',
-        cardImage: 'src/assets/yuncheng_card.jpg',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        cardImage: 'assets/behind_the_scene_vid.mp4',
+        backgroundImage: BEHIND_THE_SCENE_VID,
     },
     {
         id: 4,
@@ -41,8 +46,8 @@ export const projectData = [
         subtitle: 'Website',
         description: 'Film making education, production, and community',
         link: '/projects/pahamfilm',
-        cardImage: 'src/assets/pahamfilm_card.png',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        cardImage: 'assets/pahamfilm_card.png',
+        backgroundImage: ALLIANCE_VID,
     },
     {
         id: 5,
@@ -51,7 +56,7 @@ export const projectData = [
         description: 'Reach out to more customers through online presence',
         link: '/projects/twindo',
         cardImage: 'src/assets/twindo_card.jpg',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        backgroundImage: '',
     },
     {
         id: 6,
@@ -60,7 +65,7 @@ export const projectData = [
         description: 'Showcase the best of your work through a website',
         link: '/projects/rafa',
         cardImage: 'src/assets/rafa_card.jpg',
-        backgroundImage: 'src/assets/bearpay_wallpaper.webm',
+        backgroundImage: ALLIANCE_VID,
     },
 ]
 

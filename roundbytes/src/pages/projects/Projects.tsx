@@ -8,6 +8,7 @@ import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 import ProjectCard from './ProjectCard'
+import ButtonStorke from '@/components/button/ButtonStroke'
 
 
 type Props = {}
@@ -64,9 +65,6 @@ const Projects = (props: Props) => {
     // react awesome slider
 
 
-
-
-
     return (
         <AwesomeSlider
             animation={'cubeAnimation'}
@@ -75,36 +73,39 @@ const Projects = (props: Props) => {
             organicArrows={true}
         >
             {data.map((item) => (
-                <div className='flex items-center justify-center overflow-y-hidden h-screen w-screen bg-black px-[10%]'>
+                <div className='flex items-center justify-center overflow-y-hidden h-screen w-screen px-[10%] relative'>
+                    {/* this is the background video */}
+                    <video autoPlay muted loop className='absolute top-0 left-0 w-full h-full object-cover '>
+                        <source src={item.backgroundImage} type="video/mp4" />
+                    </video>
+
                     {/* this is the text on left */}
-                    <div className='text-white text-center mb-8'>
-                        <H4 className='text-gray-400 mb-4'>
-                            {item.subtitle.toUpperCase()}
-                        </H4>
+                    <div className='text-white text-center mb-8 z-0'>
                         <H0 className=''>
                             {item.title}
                         </H0>
-                        <H4 className='my-10'>
+                        <H4 className='my-4'>
                             {item.description}
                         </H4>
                     </div>
 
-                    <div className='absolute bottom-12'>
-                        <ButtonFill
+                    <div className='absolute bottom-[8%] z-index-0'>
+                        <ButtonStorke
+                            color='white'
                             text='View Project'
                             link={item.link}
-                            className={"bg-white text-black"}
                         />
                     </div>
 
-
+                    <div className='absolute bottom-[2%] right-[2%] z-index-0'>
+                        <P className='text-white mb-2'>
+                            {item.subtitle.toUpperCase()}
+                        </P>
+                    </div>
                 </div>
             ))}
-
-
-
-
         </AwesomeSlider>
+
     );
 }
 

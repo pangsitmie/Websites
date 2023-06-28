@@ -6,12 +6,16 @@ interface Props {
   link?: string;
   onClick?: () => void;
   className?: string;
+  color?: string;
 }
 
-export default function ButtonStorke({ text, link, className, onClick }: Props) {
+export default function ButtonStorke({ color, text, link, className, onClick }: Props) {
   return (
     <a href={link}>
-      <StyledButtonStroke onClick={onClick} className={`btn ${className}`}>
+      <StyledButtonStroke
+        color={color}
+        onClick={onClick}
+        className={`btn ${className}`}>
         {text}
       </StyledButtonStroke>
     </a>
