@@ -86,7 +86,7 @@ const Work = (props: Props) => {
             />
           </div>
         </StyledWorkContainer>
-        <StyledWorkContainer backgroundImage={PATTERN5}>
+        {/* <StyledWorkContainer backgroundImage={PATTERN5}>
           <div className="backgrod flex h-full flex-col justify-center">
             <H1 className="mb-6 font-medium	 leading-tight text-white">
               Design <br /> Editor
@@ -97,7 +97,7 @@ const Work = (props: Props) => {
               className="h-[65px] w-[200px]"
             />
           </div>
-        </StyledWorkContainer>
+        </StyledWorkContainer> */}
         <StyledWorkContainer backgroundImage={PATTERN4}>
           <div className=" flex h-full flex-col justify-center">
             <H1 className="mb-10 font-medium leading-tight text-white ">

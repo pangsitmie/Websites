@@ -71,9 +71,9 @@ const Hero = (props: Props) => {
           redirect={"/work/gamepay"}
         />
         <PortfolioCard
-          title={"Design Editor"}
+          title={"Behind The Scene"}
           image={IMG_EDITOR}
-          redirect={"/work/editor"}
+          redirect={"/work/behind-the-scene"}
         />
         <PortfolioCard
           title={"Claw Machine Alliance"}

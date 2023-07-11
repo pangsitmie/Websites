@@ -54,7 +54,7 @@ function App() {
 
             {/* WORKS */}
             <Route path="/work/bearpay" element={<Bearpay />} />
-            <Route path="/work/editor" element={<Editor />} />
+            {/* <Route path="/work/editor" element={<Editor />} /> */}
             <Route path="/work/alliance" element={<Alliance />} />
             <Route path="/work/behind-the-scene" element={<BehindTheScene />} />
             <Route
