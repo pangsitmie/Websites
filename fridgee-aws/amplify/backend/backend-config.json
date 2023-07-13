@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "fridgee3085e1bf": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_fridgee3085e1bf_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "fridgee3085e1bf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_fridgee3085e1bf_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "fridgee3085e1bf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_fridgee3085e1bf_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "fridgee3085e1bf"
+        }
+      ]
+    },
+    "AMPLIFY_auth_fridgee3085e1bf_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "fridgee3085e1bf"
+        }
+      ]
+    }
+  }
+}

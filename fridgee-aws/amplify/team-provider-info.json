@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fridgee-dev-123327-authRole",
+      "UnauthRoleArn": "arn:aws:iam::611428044827:role/amplify-fridgee-dev-123327-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::611428044827:role/amplify-fridgee-dev-123327-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-fridgee-dev-123327-deployment",
+      "UnauthRoleName": "amplify-fridgee-dev-123327-unauthRole",
+      "StackName": "amplify-fridgee-dev-123327",
+      "StackId": "arn:aws:cloudformation:us-east-1:611428044827:stack/amplify-fridgee-dev-123327/6c7ebd60-2136-11ee-a99e-122383804391",
+      "AmplifyAppId": "d16qax0pnk75a"
+    },
+    "categories": {
+      "auth": {
+        "fridgee3085e1bf": {
+          "userPoolId": "us-east-1_f51WLN6go",
+          "userPoolName": "fridgee9769fa4e_userpool_9769fa4e-dev",
+          "webClientId": "5homunrdje4h2kc5ovfq3ji5dq",
+          "nativeClientId": "1k8a7vmg5ig4gsr35fifkdq5bu"
+        }
+      }
+    }
+  }
+}
