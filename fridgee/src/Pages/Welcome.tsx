@@ -20,12 +20,12 @@ const Welcome = (props: Props) => {
 
     return (
         <div
-            className='grid grid-cols-2 items-center h-screen p-4 bg-white'
+            className='grid grid-cols-2 items-center py-4 px-[5%]'
         >
             <div className='flex items-center justify-center'>
-                <img src={WELCOME_IMG} alt="" className='rounded-2xl h-[90vh]' />
+                <img src={WELCOME_IMG} alt="" className='rounded-2xl h-[80vh]' />
             </div>
-            <div className='bg-[#fff]'>
+            <div className=''>
                 {isRegister ? (
                     <Register navigateLogin={navigateLogin} />
                 ) : (

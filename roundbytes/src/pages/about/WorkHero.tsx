@@ -10,7 +10,7 @@ const WorkHero = ({ title, subtitle1, subtitle2 }: Props) => {
   return (
     <StyledWorkHero>
       <div>
-        <H0 className="leading-tight">{title}</H0>
+        <H0 className="leading-tight mb-14">{title}</H0>
         <h4 className="text-right">{subtitle1}</h4>
         <h5 className="text-right text-indigo-300">{subtitle2}</h5>
       </div>

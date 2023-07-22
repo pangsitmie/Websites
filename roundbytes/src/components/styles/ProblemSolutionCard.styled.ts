@@ -8,17 +8,4 @@ export const StyledProblemSolutionCard = styled.div<{ color: string }>`
     display: flex;
     flex-direction: column;
     
-
-    & > h2 {
-        font-size: 1.7rem;
-        font-weight: 600;
-        color: #FFFFFF;
-        margin-bottom: 1rem;
-    }
-
-    & > p {
-        font-size: 1rem;
-        font-weight: 400;
-        color: #FFFFFF;
-    }
 `

@@ -84,16 +84,13 @@ const Register = ({ navigateLogin }: Props) => {
             <div className={`${isMobile ? 'p-[2%]' : 'p-[5%]'}  items-center z-10`}>
                 <div>
                     <div className="pb-4">
-                        <H2>
+                        <H2 className="text-center">
                             Sign up for free to start cooking.
                         </H2>
                     </div>
 
                     {/* form */}
                     <div>
-
-
-
                         <div className="flex justify-between gap-4">
                             <StyledButtonStroke
                                 type="submit"

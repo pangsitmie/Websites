@@ -96,7 +96,7 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
 
           {/* MENU ITEMS */}
           <div className="ml-[18%] flex flex-col gap-10 text-2xl">
-            <a href="/work">Work</a>
+            <a href="/projects">Projects</a>
             <a href="/about">About</a>
             <a href="/contact" className="text-primary-100">
               Contact

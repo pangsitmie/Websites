@@ -8,11 +8,10 @@ import THIS2 from "@/assets/this2.jpg";
 import THIS3 from "@/assets/this3.webp";
 
 import ProblemSolutionCard from "@/components/ProblemSolutionCard";
-import { Container } from "@/components/styles/container/Container.styled";
 import WorkHero from "@/pages/about/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { motion } from "framer-motion";
-import { H2 } from "@/components/styles/typography/typography.styled";
+import { H2, H4, P } from "@/components/styles/typography/typography.styled";
 import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 
@@ -36,8 +35,8 @@ const BehindTheScene = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="How this portfolio was made."
-        subtitle1="JERIEL ISAIAH"
+        title="How this website was made from scratch."
+        subtitle1="ROUND BYTES"
         subtitle2="PORTFOLIO"
       />
 
@@ -131,11 +130,11 @@ const BehindTheScene = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
-              <H2 className="mb-10 text-center text-black">
+              <H4 className="mb-10 text-center text-black">
                 By combining these technologies, We was able to create reusable
                 and dynamic components while maintaining a consistent design
                 throughout the site.
-              </H2>
+              </H4>
             </motion.div>
             <motion.div
               className="show"
@@ -145,10 +144,10 @@ const BehindTheScene = (props: Props) => {
               variants={variants}
               transition={{ duration: 0.5 }}
             >
-              <H2 className="text-center text-black">
-                With this portfolio, I am excited to showcase my skills and
-                abilities to potential clients and employers.
-              </H2>
+              <P className="text-center text-black">
+                With this portfolio, we are excited to showcase our skills and
+                abilities to potential you.
+              </P>
             </motion.div>
           </div>
         </Flex>

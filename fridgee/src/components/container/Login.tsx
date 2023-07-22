@@ -11,8 +11,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { StyledButtonStroke } from "../styles/ButtonStroke.styled";
 import { FcGoogle } from 'react-icons/fc';
 import { BsApple } from 'react-icons/bs';
-
-
+import ButtonFill from "../button/ButtonFill";
 
 
 const checkoutSchema = yup.object().shape({
@@ -149,11 +148,11 @@ const Login = ({ navigateRegister }: Props) => {
                                             </div>
                                         </div>
 
-                                        <StyledButtonFill
-                                            type="submit"
-                                        >
-                                            Log In
-                                        </StyledButtonFill>
+                                        <ButtonFill
+                                            text="Log In"
+                                            className="w-full"
+                                        />
+
 
                                         <div className="my-4">
                                             <hr />

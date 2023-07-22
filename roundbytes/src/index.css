@@ -35,9 +35,6 @@ body,
   transform: translateY(0);
 }
 
-p {
-  @apply text-gray-300;
-}
 
 small {
   font-size: 0.7rem;

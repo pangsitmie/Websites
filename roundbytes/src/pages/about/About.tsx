@@ -52,7 +52,7 @@ const About = (props: Props) => {
   ];
 
   return (
-    <div className="">
+    <div className="md:px-[10%] px-[5%] pb-20">
       <div className="flex h-[90vh] w-full items-center justify-center">
         <div>
           <H1 className="text-center font-semibold leading-tight">About us.</H1>

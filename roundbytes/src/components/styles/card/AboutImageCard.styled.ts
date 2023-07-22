@@ -5,7 +5,7 @@ export const StyledAboutImageCard = styled.div`
     width: 100%;
     height: fit-content;
     border-radius: 2rem;
-    background: linear-gradient(45deg, transparent, #61F8D4, transparent);
+    background: linear-gradient(45deg, transparent, #111111, transparent);
     display: grid;
     place-items: center;
 

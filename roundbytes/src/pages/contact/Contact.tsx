@@ -5,7 +5,7 @@ import { FiUsers } from "react-icons/fi";
 import { VscFolderLibrary } from "react-icons/vsc";
 import { BiCheck } from "react-icons/bi";
 
-import { H1, H2, H3 } from "@/components/styles/typography/typography.styled";
+import { H1, H2, H3, H4, P } from "@/components/styles/typography/typography.styled";
 import ContactForm from "../home/ContactForm";
 
 type Props = {};
@@ -50,12 +50,12 @@ const Contact = (props: Props) => {
   ];
 
   return (
-    <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 px-[10%]">
+    <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 px-[10%] pb-24">
       <div className="flex h-[90vh] w-full items-center justify-center">
         <div>
           <H1 className="text-center font-semibold leading-tight">Tell us about.</H1>
-          <H2 className="text-right">Your great</H2>
-          <H2 className="text-right">Ideas...</H2>
+          <P className="text-right">Your great</P>
+          <P className="text-right">Ideas...</P>
         </div>
       </div>
 
@@ -63,10 +63,9 @@ const Contact = (props: Props) => {
 
       {/* EXPERTISE */}
 
-      <div className="flex w-full items-center text-center">
+      <div className="flex w-full items-center">
         <div>
-          <H1 className="font-semibold leading-tight ">Contact Us.</H1>
-          <H3 className="text- pl-1 pt-3 text-left">For further informations</H3>
+          <H3 className="font-semibold leading-tight ">Feel free to ask us anything.</H3>
         </div>
       </div>
       <ContactForm />

@@ -14,9 +14,9 @@ const HeroSocials = (props: Props) => {
       >
         <BsLinkedin className={"text-gray-400  hover:text-primary-100"} />
       </a>
-      <a href="https://github.com/pangsitmie" target="_blank" rel="noreferrer">
+      {/* <a href="https://github.com/pangsitmie" target="_blank" rel="noreferrer">
         <BsGithub className={"text-gray-400 hover:text-primary-100"} />
-      </a>
+      </a> */}
       <a href="/#" target="_blank" rel="noreferrer">
         <BsDribbble className={"text-gray-400  hover:text-primary-100"} />
       </a>

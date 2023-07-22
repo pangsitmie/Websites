@@ -14,6 +14,7 @@ cursor: pointer;
     left: 50%;
     transform: translateX(-50%);
     height: 2px;
+    margin-bottom: -5px;
     width: 0;
     background-color: #111;
     transition: width 0.3s ease;

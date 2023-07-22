@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
 export const StyledButtonFill = styled.button`
-    width: 100%;
     border-radius: 52px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
-    padding: 1rem 2rem;
+    padding: .9rem 2.5rem;
     background-color: #0070F4;
     color: #fff;
     transition: all 0.3s ease-in-out;

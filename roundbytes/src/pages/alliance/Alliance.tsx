@@ -12,7 +12,7 @@ import { Container } from "@/components/styles/container/Container.styled";
 import WorkHero from "@/pages/about/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { motion } from "framer-motion";
-import { H2, H3 } from "@/components/styles/typography/typography.styled";
+import { H2, H3, P } from "@/components/styles/typography/typography.styled";
 import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 
@@ -42,7 +42,7 @@ const Alliance = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="Discover claw machine spots and explore nearby travel destination."
+        title="Discover claw machine spots and nearby travel destination."
         subtitle1="CLAW MACHINE ALLIANCE"
         subtitle2="WEBSITE"
       />
@@ -60,19 +60,20 @@ const Alliance = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
-              <h4 className="mt-4">INTRO</h4>
-              <H2>
+            <div className="py-20">
+              <h4 className="mb-4">INTRO</h4>
+
+              <H2 className="mt-4">
                 Expanding audience by creating a website that enables users to
                 search for nearby or desired claw machine stores through our
                 interactive map feature.
                 <a href="https://alliance.cloudprogrammingonline.com/map">
-                  <h4 className="align-center mt-5 flex gap-2 text-xl text-primary-100">
+                  <h4 className="align-center mt-5 flex gap-2 text-xl text-indigo-300">
                     Visit website <BiLinkExternal />
                   </h4>
                 </a>
               </H2>
-            </Flex>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">
@@ -123,24 +124,27 @@ const Alliance = (props: Props) => {
         <SyteledCurveBottom />
       </div>
       {/* curve end */}
-      <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
-        <Flex className="flex gap-4 pt-12">
+
+
+
+      <div className="bg-white md:p-[10%] p-[5%]">
+        <div >
           <h4 className="mt-4 text-black">PROCESS</h4>
           <div>
             <motion.div
-              className="show"
+              className="show mt-4 mb-10"
               ref={ref1}
               initial="hidden"
               animate={inView1 ? "visible" : "hidden"}
               variants={variants}
               transition={{ duration: 0.5 }}
             >
-              <H2 className="mb-10 text-black">
+              <H3 className="mb-10 text-black">
                 By collaborating with various claw machine brands and stores, I
                 was able to develop a dynamic and user-friendly website that
                 aims to raise awareness about the exciting world of claw machine
                 gaming.
-              </H2>
+              </H3>
             </motion.div>
 
             <motion.div
@@ -153,7 +157,7 @@ const Alliance = (props: Props) => {
             >
               <Flex className="items-center gap-10">
                 <div>
-                  <H3 className="text-black">
+                  <P className="text-black">
                     With our interactive functionalities such as an intuitive
                     map that locates nearby claw machine stores and popular
                     brand partner locations.
@@ -162,7 +166,7 @@ const Alliance = (props: Props) => {
                         View Page <BiLinkExternal />
                       </h4>
                     </a>
-                  </H3>
+                  </P>
                 </div>
                 <PortfolioCard
                   image={ALLIANCE4}
@@ -182,16 +186,16 @@ const Alliance = (props: Props) => {
               <Flex className="mt-10 items-center gap-10">
                 <PortfolioCard image={ALLIANCE5} title={"Exhibition Topics"} />
                 <div>
-                  <H3 className="text-black">
+                  <P className="text-black">
                     To promote claw machine awareness and tourism, we presented
                     the project to Taichung's local government to refine our
                     website data for users.
-                  </H3>
+                  </P>
                 </div>
               </Flex>
             </motion.div>
           </div>
-        </Flex>
+        </div>
         <div>
           <H3 className="mt-28 text-center font-bold text-gray-300">
             PROJECT IS STILL IN PROGRESS

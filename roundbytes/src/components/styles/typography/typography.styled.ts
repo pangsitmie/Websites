@@ -1,17 +1,16 @@
 import styled from 'styled-components'
 
 export const H0 = styled.h1`
-    font-size: 8rem;
-    line-height: 1.2;
+    font-size: 6rem;
+    line-height: 1.25;
     font-weight: 600;
-
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
         font-size: 10vw;
     }
 `
 export const H1 = styled.h1`
-    font-size: 6rem;
+    font-size: 5rem;
     line-height: 1.2;
     font-weight: bold;
 
@@ -22,26 +21,27 @@ export const H1 = styled.h1`
 `
 
 export const H2 = styled.h2`
-    font-size: 4rem;
-    line-height: 1.1;
+    font-size: 3.5rem;
+    line-height: 1.2;
     font-weight: 500;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 3rem;
+        font-size: 7vw;
+
     }
 `
 
 export const H3 = styled.h3`
-    font-size: 3.2rem;
+    font-size: 2.8rem;
     line-height: 1.4;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 2rem;
+        font-size: 6vw;
     }
 `
 
 export const H4 = styled.h4`
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
         font-size: 1.2rem;
@@ -50,7 +50,7 @@ export const H4 = styled.h4`
 
 
 export const P = styled.p`
-    font-size: 1.35rem;
+    font-size: 1.3rem;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
         font-size: 1.1rem;

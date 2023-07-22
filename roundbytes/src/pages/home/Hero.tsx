@@ -35,7 +35,7 @@ const Hero = (props: Props) => {
 
   return (
     <motion.div
-      className={`show ${isMobile ? 'px-[5%]' : 'px-[5%]'} pt-[8%] pb-[18vh] relative`}
+      className={`show ${isMobile ? 'px-[5%]' : 'px-[8%]'} pt-[8%] pb-[18vh] relative`}
       ref={ref}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
@@ -61,7 +61,7 @@ const Hero = (props: Props) => {
         </div>
 
         {/* blob */}
-        <div className={`${isMobile ? 'absolute top-0 left-0 right-0 z-[-1]' : 'static w-[50%]'}`}>
+        <div className={`${isMobile ? 'absolute top-[-50%] left-0 right-0 z-[-1] h-[100%]' : 'static w-[50%]'}`}>
           <Canvas camera={{ position: [0.0, 0.0, 8.0] }}>
             <Blob />
           </Canvas>

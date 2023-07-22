@@ -1,6 +1,8 @@
-import BEARPAY_VID from '@/assets/bearpay_vid.mp4';
-import ALLIANCE_VID from '@/assets/alliance_vid.mp4';
-import BEHIND_THE_SCENE_VID from '@/assets/alliance_vid.mp4';
+import BEARPAY_VID from '@/assets/bearpay_vid.gif';
+import ALLIANCE_VID from '@/assets/alliance_vid.gif';
+import YUNCHENG_BG from '@/assets/behind_the_scene.jpg';
+import TWINDO_BG from '@/assets/twindo_furniture.jpg';
+import BEHIND_THE_SCENE_BG from '@/assets/behind_the_scene_bg.gif';
 
 
 export const projectData = [
@@ -29,7 +31,7 @@ export const projectData = [
         description: 'One of Taiwan’s leading cloud companies who provides cloud computing services and solutions.',
         link: '/projects/cloudprogramming',
         cardImage: 'assets/yuncheng_card.jpg',
-        backgroundImage: BEHIND_THE_SCENE_VID,
+        backgroundImage: YUNCHENG_BG,
     },
     {
         id: 3,
@@ -38,7 +40,7 @@ export const projectData = [
         description: 'See how we build this website from scratch',
         link: '/projects/behind-the-scene',
         cardImage: 'assets/behind_the_scene_vid.mp4',
-        backgroundImage: BEHIND_THE_SCENE_VID,
+        backgroundImage: BEHIND_THE_SCENE_BG,
     },
     {
         id: 4,
@@ -56,7 +58,7 @@ export const projectData = [
         description: 'Reach out to more customers through online presence',
         link: '/projects/twindo',
         cardImage: 'src/assets/twindo_card.jpg',
-        backgroundImage: '',
+        backgroundImage: TWINDO_BG,
     },
     {
         id: 6,
@@ -65,7 +67,7 @@ export const projectData = [
         description: 'Showcase the best of your work through a website',
         link: '/projects/rafa',
         cardImage: 'src/assets/rafa_card.jpg',
-        backgroundImage: ALLIANCE_VID,
+        backgroundImage: YUNCHENG_BG,
     },
 ]
 

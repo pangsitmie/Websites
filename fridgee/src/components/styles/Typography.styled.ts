@@ -26,3 +26,23 @@ export const H3 = styled.h3`
         font-size: 6vw;
     }
 `
+
+export const H4 = styled.h4`
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    @media(max-width: ${({ theme }) => theme.mobile}) {
+        font-size: 5vw;
+    }
+`
+
+export const P = styled.p`
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #9f9f9f;
+
+    @media(max-width: ${({ theme }) => theme.mobile}) {
+        font-size: 4vw;
+    }
+`

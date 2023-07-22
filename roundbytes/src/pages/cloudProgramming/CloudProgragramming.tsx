@@ -13,7 +13,7 @@ import WorkHero from "@/pages/about/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { motion } from "framer-motion";
 
-import { H2, H3 } from "@/components/styles/typography/typography.styled";
+import { H2, H3, P } from "@/components/styles/typography/typography.styled";
 import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 
@@ -57,8 +57,8 @@ const CloudProgramming = (props: Props) => {
             variants={variants}
             transition={{ duration: 0.5 }}
           >
-            <Flex className="gap-8 py-12">
-              <h4 className="mt-4">INTRO</h4>
+            <div className="gap-20 py-20">
+              <h4 className="mb-4">INTRO</h4>
               <H2>
                 we were trusted to do a
                 complete overhaul of our company website, which was previously
@@ -69,7 +69,7 @@ const CloudProgramming = (props: Props) => {
                   </h4>
                 </a>
               </H2>
-            </Flex>
+            </div>
           </motion.div>
 
           <Flex className="gap-4">
@@ -123,49 +123,49 @@ const CloudProgramming = (props: Props) => {
       {/* curve end */}
 
       <div className="lg:p-12 xl:p-16 2xl:p-20 bg-white p-6 md:p-[10%]">
-        <Flex className="flex gap-4 pt-12">
-          <h4 className="mt-4 text-black">PROCESS</h4>
 
-          <div>
-            <motion.div
-              className="show"
-              ref={ref1}
-              initial="hidden"
-              animate={inView1 ? "visible" : "hidden"}
-              variants={variants}
-              transition={{ duration: 0.5 }}
-            >
-              <H2 className="mb-10 text-black">
-                Throughout the redesign process, We paid close attention to every
-                detail, from the website's color scheme and typography to the
-                placement of call-to-action buttons and the overall layout.
-              </H2>
-            </motion.div>
-            <motion.div
-              className="show"
-              ref={ref2}
-              initial="hidden"
-              animate={inView2 ? "visible" : "hidden"}
-              variants={variants}
-              transition={{ duration: 0.5 }}
-            >
-              <H2 className="text-black">
-                The end result is a website that not only looks great but also
-                delivers a clear message to our target audience and encourages
-                them to engage with our business.
-              </H2>
-            </motion.div>
-          </div>
-        </Flex>
+        <h4 className="mt-4 text-black">PROCESS</h4>
 
-        <div>
+        <motion.div
+          className="show mt-8"
+          ref={ref1}
+          initial="hidden"
+          animate={inView1 ? "visible" : "hidden"}
+          variants={variants}
+          transition={{ duration: 0.5 }}
+        >
+
+          <H3 className="mb-10 text-black">
+            Throughout the redesign process, We paid close attention to every
+            detail.
+          </H3>
+        </motion.div>
+        <motion.div
+          className="show"
+          ref={ref2}
+          initial="hidden"
+          animate={inView2 ? "visible" : "hidden"}
+          variants={variants}
+          transition={{ duration: 0.5 }}
+        >
+          <P className="text-black">
+            From the website's color scheme and typography to the
+            placement of call-to-action buttons and the overall layout.
+            <br />
+            The end result is a website that not only looks great but also
+            delivers a clear message to our target audience and encourages
+            them to engage with our business.
+          </P>
+        </motion.div>
+
+        {/* <div>
           <H3 className="mt-28 text-center font-bold text-gray-300">
             PROJECT IS STILL IN PROGRESS
           </H3>
           <h4 className="mt-4 text-center text-gray-300">
             Contact me for more details
           </h4>
-        </div>
+        </div> */}
       </div>
     </div>
   );

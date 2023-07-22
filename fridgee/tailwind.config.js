@@ -10,7 +10,7 @@ module.exports = {
         "white": "#FFF",
         "black": "#111",
         "background": "#111",
-        "primary-100": "#7CE978",
+        "primary-100": "#0070F4",
         "primary-300": "#EEEEEE",
         "secondary-100": "#1B1B1B",
         "secondary-300": "#FFC132",

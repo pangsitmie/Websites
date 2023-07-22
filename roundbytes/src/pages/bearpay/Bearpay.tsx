@@ -13,7 +13,7 @@ import { Container } from "@/components/styles/container/Container.styled";
 import WorkHero from "@/pages/about/WorkHero";
 import { Flex } from "@/components/styles/Flex.styled";
 import { motion } from "framer-motion";
-import { H2, H3 } from "@/components/styles/typography/typography.styled";
+import { H2, H3, P } from "@/components/styles/typography/typography.styled";
 import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
 import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 import { CurveContainer } from "@/components/styles/container/CurveContainer.styled";
@@ -42,13 +42,13 @@ const Bearpay = (props: Props) => {
   return (
     <div>
       <WorkHero
-        title="SaaS+IoT that helps claw machine stores manage their business"
+        title="Say goodbye to carrying coins and hello to mobile payment."
         subtitle1="BEAR PAY - WEB APP"
         subtitle2="#40 ENTERTAINMENT APP STORE (JUNE 2023)"
       />
 
       {/* CURVE DIV */}
-      <div className="relative h-full w-full overflow-hidden px-[5%] py-28 bg-black text-white">
+      <div className="relative h-full w-full overflow-hidden  py-28 bg-black text-white">
         <SyteledCurveTop />
         {/* this is the content container */}
         <CurveContainer>
@@ -143,7 +143,11 @@ const Bearpay = (props: Props) => {
         <div className="absolute left-[-50%] right-0 top-[95%] h-[500px] w-[200%] rounded-circle bg-white">S</div>
       </div>
       {/* curve end */}
-      <div className="lg:p-18 xl:p-16 2xl:p-20 bg-white  md:p-[10%] sm:p-[5%] sm:pb-20">
+
+
+
+
+      <div className="bg-white md:p-[10%] p-[5%]">
         <Flex className="flex gap-4">
           <div>
             <motion.div
@@ -157,10 +161,10 @@ const Bearpay = (props: Props) => {
               <h4 className="mt-4 text-black">PROCESS</h4>
 
               <H2 className="mb-10 text-black">
-                I start the development by using
+                Developement was done using{" "}
                 <span className="font-bold text-indigo-300"> Figma</span> for
                 design,{" "}
-                <span className="font-bold text-indigo-300"> React.js</span> for
+                <span className="font-bold text-indigo-300"> React TypeScript</span> for
                 front-end development, and Apollo
                 <span className="font-bold text-indigo-300"> GraphQL</span> for
                 seamless client-server communication.
@@ -181,7 +185,7 @@ const Bearpay = (props: Props) => {
                   title={"Statistics Page (Light Mode)"}
                 />
                 <div>
-                  <H3 className="text-black">
+                  <P className="text-black">
                     While also utilizing
                     <span className="font-bold text-indigo-300">
                       {" "}
@@ -189,7 +193,7 @@ const Bearpay = (props: Props) => {
                     </span>{" "}
                     for efficient layouting and styling, resulting in a
                     professional and visually appealing user interface.
-                  </H3>
+                  </P>
                 </div>
               </Flex>
             </motion.div>
@@ -204,10 +208,10 @@ const Bearpay = (props: Props) => {
             >
               <Flex className="mt-10 items-center gap-10">
                 <div>
-                  <H3 className="text-black">
+                  <P className="text-black">
                     This web app is also optimized for mobile device and tablet,
                     and is fully responsive.
-                  </H3>
+                  </P>
                 </div>
                 <PortfolioCard image={GAMEPAY5} title={"Mobile Version"} />
               </Flex>

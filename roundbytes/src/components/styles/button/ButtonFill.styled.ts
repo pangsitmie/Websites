@@ -15,6 +15,6 @@ export const StyledButtonFill = styled.button`
 
     &:hover {
         transform: scale(1.05);
-        box-shadow: 0 0 10px #61F8D4;
+        box-shadow: 0 0 10px #cecece;
     }
 `
