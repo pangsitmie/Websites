@@ -4,16 +4,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "gray-20": "#F8F4EB",
-        "gray-50": "#EFE6E6",
-        "gray-100": "#DFCCCC",
         "white": "#FFF",
-        "black": "#111",
-        "background": "#111",
-        "primary-100": "#0070F4",
-        "primary-300": "#EEEEEE",
-        "secondary-100": "#1B1B1B",
-        "secondary-300": "#FFC132",
+        "black": "#0F0D18",
+        "background": "#0F0D18",
+        "primary": "#3F1AE0",
+        "secondary": "#D9D1F9",
+        "border": "#C0B8E0",
+        "orange": "#EE6C4F",
+        "orange-secondary": "#F0D5CF"
       },
       borderRadius: {
         'circle': '50%',

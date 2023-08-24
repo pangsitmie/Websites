@@ -23,6 +23,6 @@
     /* Other */
     "esModuleInterop": true,
   },
-  "include": ["src", "server.js"],
+  "include": ["src", "server.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

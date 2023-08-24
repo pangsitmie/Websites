@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ButtonProps {
   /**
    * Is this the principal call to action on the page?
@@ -20,6 +18,9 @@ interface ButtonProps {
   /**
    * Optional click handler
    */
+  icon?: React.ReactNode;
+  disabled?: boolean;
+
   onClick?: () => void;
 }
 
@@ -28,18 +29,22 @@ export const Button = ({
   size = 'medium',
   backgroundColor,
   label,
+  icon,
+  disabled,
   ...props
 }: ButtonProps) => {
-  const mode = primary ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-900 shadow-inner';
+  const mode = primary ? 'bg-primary text-white' : 'bg-transparent text-gray-900 border border-border hover:border-primary';
   const sizeClass = size === 'small' ? 'py-2 px-4 text-sm' : size === 'medium' ? 'py-3 px-5 text-base' : 'py-4 px-6 text-lg';
 
   return (
     <button
+      disabled={disabled}
       type="button"
-      className={`font-bold border-0 rounded-full cursor-pointer inline-block ${sizeClass} ${mode}`}
+      className={`flex items-center justify-center w-full font-bold rounded-full cursor-pointer  ${sizeClass} ${mode}`}
       style={{ backgroundColor }}
       {...props}
     >
+      {icon && <span className="mr-2">{icon}</span>}
       {label}
     </button>
   );

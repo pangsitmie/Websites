@@ -12,6 +12,7 @@ import { StyledButtonStroke } from "../styles/ButtonStroke.styled";
 import { FcGoogle } from 'react-icons/fc';
 import { BsApple } from 'react-icons/bs';
 import ButtonFill from "../button/ButtonFill";
+import { Button } from "../../stories/Button";
 
 
 const checkoutSchema = yup.object().shape({
@@ -95,7 +96,7 @@ const Login = ({ navigateRegister }: Props) => {
 
                             <button
                                 onClick={navigateRegister}>
-                                <span className="text-[#0070F4]">
+                                <span className="text-primary">
                                     Sign up for free
                                 </span>
                             </button>
@@ -119,7 +120,7 @@ const Login = ({ navigateRegister }: Props) => {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <div className="mb-10">
+                                        <div className="mb-16">
                                             <TextField
                                                 type="text"
                                                 label="Email"
@@ -148,10 +149,13 @@ const Login = ({ navigateRegister }: Props) => {
                                             </div>
                                         </div>
 
-                                        <ButtonFill
-                                            text="Log In"
-                                            className="w-full"
-                                        />
+                                        <div className="w-full">
+                                            <Button
+                                                label="Login"
+                                                onClick={() => { }}
+                                                primary
+                                            />
+                                        </div>
 
 
                                         <div className="my-4">
@@ -159,30 +163,18 @@ const Login = ({ navigateRegister }: Props) => {
                                         </div>
 
                                         <div className="flex justify-between gap-4">
-                                            <StyledButtonStroke
-                                                type="submit"
+                                            <Button
+                                                label="Continue With Google"
+                                                icon={<FcGoogle />}
                                                 onClick={SignInWithGoogle}
                                                 disabled={authing}
-                                                className="w-full"
-                                            >
-                                                <div className="flex gap-4 items-center justify-center">
-                                                    <FcGoogle className="text-xl" />
-                                                    Continue With Google
-                                                </div>
-                                            </StyledButtonStroke>
-
-                                            <StyledButtonStroke
-                                                type="submit"
+                                            />
+                                            <Button
+                                                label="Continue With Apple"
+                                                icon={<BsApple />}
                                                 onClick={SignInWithGoogle}
                                                 disabled={authing}
-                                                className="w-full"
-
-                                            >
-                                                <div className="flex gap-4 items-center justify-center">
-                                                    <BsApple className="text-xl" />
-                                                    Continue With Apple
-                                                </div>
-                                            </StyledButtonStroke>
+                                            />
                                         </div>
 
                                     </form>

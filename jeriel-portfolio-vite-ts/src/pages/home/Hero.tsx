@@ -15,7 +15,8 @@ import IMG_EDITOR from "@/assets/editor2.png";
 import { Flex } from "@/components/styles/Flex.styled";
 import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
 import { H1 } from "@/components/styles/H1.styled";
-import CV from "../../assets/JERIEL_RESUME_25_JUN_2023.pdf";
+// import CV from "../../assets/JERIEL_RESUME_25_JUN_2023.pdf";
+import CV from "../../assets/JERIEL_RESUME_24_AUG_2023.pdf";
 
 type Props = {};
 

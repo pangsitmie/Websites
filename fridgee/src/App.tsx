@@ -7,6 +7,11 @@ import { firebaseConfig } from './config/firebaseConfig';
 import AuthRoute from './components/AuthRoute';
 import Navbar from './components/navbar/Navbar';
 import { SelectedPage } from './shared/types';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './Theme';
+
+
+
 
 initializeApp(firebaseConfig)
 
@@ -17,24 +22,25 @@ function App() {
 
   return (
     <>
-
-      <Router basename="/">
-        <Navbar
-          selectedPage={selectedPage}
-          setSelectedPage={setSelectedPage}
-        />
-        <Routes>
-          <Route path="/"
-            element={
-              <AuthRoute>
-                <Home />
-              </AuthRoute>
-            }
+      <ThemeProvider theme={theme}>
+        <Router basename="/">
+          <Navbar
+            selectedPage={selectedPage}
+            setSelectedPage={setSelectedPage}
           />
-          {/* <Route path="*" element={<Home />} /> */}
-          <Route path="/welcome" element={<Welcome />} />
-        </Routes>
-      </Router>
+          <Routes>
+            <Route path="/"
+              element={
+                <AuthRoute>
+                  <Home />
+                </AuthRoute>
+              }
+            />
+            {/* <Route path="*" element={<Home />} /> */}
+            <Route path="/welcome" element={<Welcome />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
     </>
   )
 }

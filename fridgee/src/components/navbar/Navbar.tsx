@@ -9,6 +9,7 @@ import { SelectedPage } from "../../shared/types";
 import { StyledButtonUnderline } from "../button/ButtonUnderline.styled";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import { StyledButtonFill } from "../styles/ButtonFill.styled";
+import { Button } from "../../stories/Button";
 
 type Props = {
   selectedPage: SelectedPage;
@@ -50,31 +51,27 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
               <div className={`flex gap-10 font-semibold justify-end items-center`}>
 
                 <StyledButtonUnderline>
-                  <a href="/recepies" className="text-[16px] text-black">
+                  <a href="/recepies" >
                     CookTail
                   </a>
                 </StyledButtonUnderline>
                 <StyledButtonUnderline>
-                  <a href="/recepies" className="text-[16px] text-black">
+                  <a href="/recepies">
                     Recepies
                   </a>
                 </StyledButtonUnderline>
                 <StyledButtonUnderline>
-                  <a href="/about" className="text-[16px] text-black">
+                  <a href="/about">
                     About
-                  </a>
-                </StyledButtonUnderline>
-                <StyledButtonUnderline>
-                  <a href="/contact" className="text-[16px] text-black">
-                    Contact
                   </a>
                 </StyledButtonUnderline>
 
                 <div>
-                  <StyledButtonFill
-                  >
-                    Log In
-                  </StyledButtonFill>
+                  <Button
+                    label="Login"
+                    onClick={() => { }}
+                    primary
+                  />
                 </div>
               </div>
             </div>

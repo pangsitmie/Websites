@@ -6,11 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import TextField from "../TextField";
 import { H1, H2 } from "../styles/Typography.styled";
-import { StyledButtonFill } from "../styles/ButtonFill.styled";
-import { StyledButtonStroke } from "../styles/ButtonStroke.styled";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FcGoogle } from 'react-icons/fc';
 import { BsApple } from 'react-icons/bs';
+import { Button } from "../../stories/Button";
 
 const checkoutSchema = yup.object().shape({
     account: yup.string().required("required"),
@@ -81,42 +80,40 @@ const Register = ({ navigateLogin }: Props) => {
 
     return (
         <div className="">
-            <div className={`${isMobile ? 'p-[2%]' : 'p-[5%]'}  items-center z-10`}>
+            <div className={`${isMobile ? 'p-[2%]' : 'px-[5%]'}  items-center z-10`}>
                 <div>
-                    <div className="pb-4">
+                    <div className="">
                         <H2 className="text-center">
-                            Sign up for free to start cooking.
+                            Let's start cooking.
                         </H2>
                     </div>
 
                     {/* form */}
                     <div>
-                        <div className="flex justify-between gap-4">
-                            <StyledButtonStroke
-                                type="submit"
-                                onClick={SignInWithGoogle}
-                                disabled={authing}
-                                className="w-full"
-                            >
-                                <div className="flex gap-4 items-center justify-center">
-                                    <FcGoogle className="text-xl" />
-                                    Continue With Google
-                                </div>
-                            </StyledButtonStroke>
-
-                            <StyledButtonStroke
-                                type="submit"
-                                onClick={SignInWithGoogle}
-                                disabled={authing}
-                                className="w-full"
-
-                            >
-                                <div className="flex gap-4 items-center justify-center">
-                                    <BsApple className="text-xl" />
-                                    Continue With Apple
-                                </div>
-                            </StyledButtonStroke>
+                        <div className="pb-4 w-full flex justify-center">
+                            <button
+                                onClick={navigateLogin}>
+                                <span className="text-primary text-center">
+                                    Already have an account?
+                                </span>
+                            </button>
                         </div>
+                        <div className="flex justify-between gap-4">
+                            <Button
+                                label="Continue With Google"
+                                icon={<FcGoogle />}
+                                onClick={SignInWithGoogle}
+                                disabled={authing}
+                            />
+                            <Button
+                                label="Continue With Apple"
+                                icon={<BsApple />}
+                                onClick={SignInWithGoogle}
+                                disabled={authing}
+                            />
+
+                        </div>
+
 
                         <div className="my-4">
                             <hr />
@@ -182,21 +179,14 @@ const Register = ({ navigateLogin }: Props) => {
                                                 error={!!(touched.confirmPassword && errors.confirmPassword)} // Convert to boolean
                                                 helperText={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : ""}
                                             />
-                                            <div className="">
-                                                <button
-                                                    onClick={navigateLogin}>
-                                                    <span className="text-[#0070F4]">
-                                                        Already have an account?
-                                                    </span>
-                                                </button>
-                                            </div>
+
                                         </div>
 
-                                        <StyledButtonFill
-                                            type="submit"
-                                        >
-                                            Register
-                                        </StyledButtonFill>
+                                        <Button
+                                            label="Register"
+                                            onClick={() => { }}
+                                            primary
+                                        />
                                     </form>
                                 )}
                             </Formik>

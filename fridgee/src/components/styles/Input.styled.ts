@@ -10,7 +10,7 @@ export const StyledInput = styled.input`
   width: 100%;
   padding: .8rem;
   background-color: transparent;
-  border: 1px solid #3A3A3A;
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
   position: relative;
   cursor: text;

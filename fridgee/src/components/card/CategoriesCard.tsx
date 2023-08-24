@@ -13,9 +13,12 @@ const CategoriesCard = ({ name, icon: Icon }: Props) => {
         <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`rounded-[24px] cursor-pointer w-[100px] h-[100px] bg-white hover:bg-black flex flex-col items-center justify-center transition-colors duration-200 ${isHovered ? 'text-white' : 'text-black'}`}
+            className={`rounded-[24px] cursor-pointer w-[100px] h-[100px] bg-white hover:bg-orange flex flex-col items-center justify-center transition-colors duration-200 ${isHovered ? 'text-white' : 'text-black'}`}
         >
-            <Icon size={24} color={isHovered ? 'white' : 'black'} /> {/* Render the icon component */}
+            <Icon
+                size={24}
+                className={isHovered ? 'text-white' : 'text-black'}
+            />
             <p className='mt-3 text-sm'>{name}</p>
         </div>
     );

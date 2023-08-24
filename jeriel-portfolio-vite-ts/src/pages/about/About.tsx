@@ -6,20 +6,23 @@ import AboutCard from "./AboutCard";
 import { FaAward } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { VscFolderLibrary } from "react-icons/vsc";
-import { BiCheck } from "react-icons/bi";
 import ExpertiseCard from "./ExpertiseCard";
 import ExperienceCard from "./ExperienceCard";
-import { H2 } from "@/components/styles/H2.styled";
 
 type Props = {};
 const About = (props: Props) => {
+
+
+
   const FrontEndData = [
     { name: "HTML & CSS", level: "Experienced" },
     { name: "React", level: "Experienced" },
     { name: "JavaScript", level: "Experienced" },
-    { name: "TypeScript", level: "Beginner" },
-    { name: "Tailwind", level: "Beginner" },
-    { name: "GraphQL", level: "Experienced" },
+    { name: "TypeScript", level: "Experienced" },
+    { name: "Tailwind", level: "Experienced" },
+    { name: "GraphQL", level: "Intermediate" },
+    { name: "Storybook", level: "Experienced" },
+    { name: "Strapi CMS", level: "Experienced" },
   ];
 
   const AndroidData = [
@@ -31,12 +34,18 @@ const About = (props: Props) => {
     { name: "Live Data", level: "Intermediate" },
   ];
 
+  const PhaseData = [
+    "Implemented Responsive UI: Utilized React, TypeScript, and Tailwind CSS to craft pixel-perfect, responsive interfaces, and developed reusable component libraries.",
+    "Enhanced Visual Testing: Developed Storybook stories, elevating design team's visual test efficiency and enriching component documentation.",
+    "Strapi CMS Integration: Efficiently integrated front-end applications with Strapi headless CMS, enabling dynamic content delivery and streamlining collaboration with content teams.",
+  ]
+
   const FrontEndExperienceData = [
-    "Developed a comprehensive admin webapp to facilitate data & performance management for claw machine brands.",
+    "Developed the admin infrastructure for BearPay (小熊Pay) - a top-40 Entertainment App on the App Store.",
     "Utilized Vite, Tailwind CSS and Styled Components to build highly scalable and reusable components, resulting in an efficient and easily maintainable codebase.",
     "Implemented GraphQL as the primary API provider, optimizing its usage to achieve a substantial 50% improvement in loading time",
     "Employed advanced React state management techniques, including Redux, to effectively segregate features and functionalities across multiple entities within the web application.",
-    "Leveraged the React Material-UI (MUI) component library to ensure consistency and ease-of-use across the entire application, delivering a streamlined user experience.",
+    "Leveraged the React Material-UI (MUI) component library to ensure consistency and ease-of-use across the entire application.",
   ];
 
   const AndroidDeveloperExperienceData = [
@@ -45,16 +54,16 @@ const About = (props: Props) => {
     "Developed a demo app for selling expiring foods to reduce waste, successfully funded by National Yunlin University, highlighting my skills in social impact app development.",
   ];
 
-  const WordpressDeveloperExperienceData = [
-    "Pahamfilm.com",
-    "Twindofurniture.com",
-    "Rafahl.com",
-    "Others",
-  ];
+  // const WordpressDeveloperExperienceData = [
+  //   "Pahamfilm.com",
+  //   "Twindofurniture.com",
+  //   "Rafahl.com",
+  //   "Others",
+  // ];
 
   return (
-    <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 md:p-[10%]">
-      <div className="flex h-[90vh] w-full items-center justify-center pt-8">
+    <div className="px-[10%]">
+      <div className="flex h-[85vh] w-full items-center justify-center pt-8">
         <div>
           <H1 className="text-center font-semibold leading-tight">About me.</H1>
           <h4 className="text-right">MY EXPERIENCES</h4>
@@ -62,7 +71,7 @@ const About = (props: Props) => {
         </div>
       </div>
 
-      <Flex className="gap-28 overflow-hidden">
+      <Flex className="gap-52 items-center overflow-hidden">
         <AboutImageCard img={JERIEL_IMG} />
         <div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
@@ -93,6 +102,7 @@ const About = (props: Props) => {
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <span>React</span>
                 <span>TypeScript</span>
+                <span>NextJS</span>
                 <span>Tailwind</span>
                 <span>GraphQL</span>
                 <span>Styled Componenets</span>
@@ -117,14 +127,14 @@ const About = (props: Props) => {
 
       {/* WORK EXPERIENCE */}
       <Flex className="mt-10 gap-8">
-        <ExperienceCard title="陸豪科技" data={FrontEndExperienceData} />
+        <ExperienceCard
+          title="Phase - UI Engineer"
+          data={PhaseData}
+        />
+        <ExperienceCard title="LUHAO - Frontend Engineer" data={FrontEndExperienceData} />
         <ExperienceCard
           title="Android Developer"
           data={AndroidDeveloperExperienceData}
-        />
-        <ExperienceCard
-          title="WordPress Engineer"
-          data={WordpressDeveloperExperienceData}
         />
       </Flex>
     </div>
