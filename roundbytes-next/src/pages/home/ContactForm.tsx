@@ -5,7 +5,6 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import ButtonFill from "../../components/button/ButtonFill";
 import { Flex } from "@/components/styles/Flex.styled";
-import { H2, H3 } from "@/components/styles/typography/typography.styled";
 import { StyledButtonUnderline } from "@/components/styles/button/ButtonUnderline.styled";
 
 type Props = {};
@@ -41,7 +40,7 @@ const ContactForm = (props: Props) => {
     <div id="contact" className="">
       <Flex className="mt-10 gap-12">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-black border-opacity-100 border-solid px-16 h-full">
+          <div className="flex flex-col items-center justify-center rounded-16 border border-gray border-opacity-100 border-solid px-16 h-full">
             <MdOutlineEmail className="text- mb-4 text-center text-[24px]" />
             <h4 className="text-center text-xl">Email</h4>
             <h5 className="text-center">admin@roundbytes.com</h5>
@@ -66,20 +65,20 @@ const ContactForm = (props: Props) => {
             name="name"
             placeholder="Name"
             required
-            className="w-[100%] rounded-2xl border border-black py-4 px-5 text-black"
+            className="w-[100%] rounded-8 border border-gray py-12 px-16 text-black"
           />
           <input
             type="email"
             name="email"
             placeholder="Email"
             required
-            className="w-[100%] rounded-2xl border border-black py-4 px-5 text-black"
+            className="w-[100%] rounded-8 border border-gray py-12 px-16 text-black"
           />
           <textarea
             name="message"
             rows={2}
             placeholder="Your Message"
-            className="w-[100%] rounded-2xl border border-black py-4 px-5 text-black"
+            className="w-[100%] rounded-8 border border-gray py-12 px-16 text-black"
           />
           <ButtonFill className="bg-black text-white" text="Send Message" type="submit" />
         </form>

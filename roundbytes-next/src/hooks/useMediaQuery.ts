@@ -1,19 +1,35 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
 
-const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false);
+import screenConfig from '../screen.config';
+
+export const useMediaQuery = () => {
+  const [mediaQuery, setMediaQuery] = useState({
+    isMobile: false,
+    isSmallTabletAndSmaller: false,
+    isLargeTabletAndSmaller: false,
+    isDesktop: false,
+  });
 
   useEffect(() => {
-    const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
-    const listener = () => setMatches(media.matches);
-    window.addEventListener("resize", listener);
-    return () => window.removeEventListener("resize", listener);
-  }, [matches, query]);
+    const handleResize = () => {
+      setMediaQuery({
+        isMobile: document.body.clientWidth <= screenConfig.sm,
+        isSmallTabletAndSmaller: document.body.clientWidth <= screenConfig.md,
+        isLargeTabletAndSmaller: document.body.clientWidth <= screenConfig.lg,
+        isDesktop: document.body.clientWidth > screenConfig.lg,
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  return matches;
+  return {
+    isMobile: mediaQuery.isMobile,
+    isSmallTabletAndSmaller: mediaQuery.isSmallTabletAndSmaller,
+    isSmallTablet: mediaQuery.isSmallTabletAndSmaller && !mediaQuery.isMobile,
+    isLargeTabletAndSmaller: mediaQuery.isLargeTabletAndSmaller,
+    isLargeTablet: mediaQuery.isLargeTabletAndSmaller && !mediaQuery.isSmallTabletAndSmaller,
+    isDesktop: mediaQuery.isDesktop,
+  };
 };
-
-export default useMediaQuery;

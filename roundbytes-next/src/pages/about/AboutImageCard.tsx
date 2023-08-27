@@ -1,13 +1,16 @@
 import { StyledAboutImageCard } from "@/components/styles/card/AboutImageCard.styled";
+import Image from "next/image";
 
 type Props = {
-  img: string;
+  src: string;
 };
-const AboutImageCard = ({ img }: Props) => {
+const AboutImageCard = ({ src }: Props) => {
   return (
     <StyledAboutImageCard>
       <div>
-        <img src={img} alt="" />
+        {/* <img src={img} alt="" /> */}
+        <img alt="roundbytes" src={src} />
+
       </div>
     </StyledAboutImageCard>
   );

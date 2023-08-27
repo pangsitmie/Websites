@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.0.16",
     "@react-spring/web": "^9.7.2",
     "@react-three/fiber": "^8.13.0",
+    "@types/lodash.throttle": "^4.1.7",
     "@types/node": "20.5.4",
     "@types/react": "18.2.21",
     "@types/react-anchor-link-smooth-scroll": "^1.0.2",
@@ -28,6 +29,8 @@
     "eslint-config-next": "13.4.19",
     "framer-motion": "^10.5.0",
     "gsap": "^3.12.1",
+    "lodash": "^4.17.21",
+    "lodash.throttle": "^4.1.1",
     "next": "13.4.19",
     "postcss": "8.4.28",
     "react": "18.2.0",
@@ -46,5 +49,9 @@
     "three": "^0.152.2",
     "typescript": "5.1.6",
     "xstate": "^4.37.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.197",
+    "babel-plugin-styled-components": "^2.1.4"
   }
 }

@@ -1,5 +1,4 @@
 import AboutImageCard from "./AboutImageCard";
-import JERIEL_IMG from "@/assets/jeriel_img.jpg";
 import { Flex } from "@/components/styles/Flex.styled";
 import AboutCard from "./AboutCard";
 import { FaAward } from "react-icons/fa";
@@ -8,7 +7,8 @@ import { VscFolderLibrary } from "react-icons/vsc";
 import { BiCheck } from "react-icons/bi";
 import ExpertiseCard from "./ExpertiseCard";
 import ExperienceCard from "./ExperienceCard";
-import { H1 } from "@/components/styles/typography/typography.styled";
+import Image from "next/image";
+import Container from "@/components/container";
 
 type Props = {};
 const About = (props: Props) => {
@@ -52,54 +52,21 @@ const About = (props: Props) => {
   ];
 
   return (
-    <div className="md:px-[10%] px-[5%] pb-20">
-      <div className="flex h-[90vh] w-full items-center justify-center">
+    <div>
+      <Container className="flex h-[80vh] w-full items-center justify-center">
         <div>
-          <H1 className="text-center font-semibold leading-tight">About us.</H1>
+          <h1 className="text-web-h0 md:text-mobile-h1 text-center font-semibold leading-tight">About Us.</h1>
           <h4 className="text-right">EXPERIENCES</h4>
           <h5 className="text-right">& EXPERTISE</h5>
         </div>
+      </Container>
+
+
+      <div className="bg-black">
+        <Image alt='' src="/images/about-us.jpg" width={1920} height={1080} />
+
       </div>
 
-      <Flex className="gap-28 overflow-hidden">
-        <AboutImageCard img={JERIEL_IMG} />
-        <div>
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            <AboutCard icon={FaAward} title="Expericence" subtitle="2+ Years" />
-            <AboutCard icon={FiUsers} title="Websites" subtitle="6+ Managed" />
-            <AboutCard
-              icon={VscFolderLibrary}
-              title="Projects"
-              subtitle="10+ Completed"
-            />
-          </div>
-          <div className="mt-10">
-            <p>
-              As a web developer, I specialize in creating visually appealing
-              and highly scalable digital products and experiences. I have
-              gained valuable experience through an internship at a well-known
-              company and by freelancing in the field, where I have honed my
-              skills in building beautiful and accessible products for clients.
-              <br />
-              <br />
-              I am committed to delivering high-quality work and innovative
-              websites and mobile apps. I also help clients establish a strong
-              and engaging online presence.
-              <br />
-              <br />
-              Recently, I have been working with various cutting-edge
-              technologies such as
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <span>React</span>
-                <span>TypeScript</span>
-                <span>Tailwind</span>
-                <span>GraphQL</span>
-                <span>Styled Componenets</span>
-              </div>
-            </p>
-          </div>
-        </div>
-      </Flex>
 
       {/* EXPERTISE */}
       <Flex className="mt-[15%] gap-8">
@@ -109,7 +76,7 @@ const About = (props: Props) => {
 
       <div className="flex w-full items-center  pt-[20%]">
         <div>
-          <H1 className="font-semibold leading-tight">Experience.</H1>
+          <h1 className="text-h1 font-semibold leading-tight">Experience.</h1>
           <h4 className="text- pl-1 pt-3 text-left">WHERE I'VE WORKED</h4>
         </div>
       </div>

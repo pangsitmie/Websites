@@ -5,7 +5,6 @@ import { FiUsers } from "react-icons/fi";
 import { VscFolderLibrary } from "react-icons/vsc";
 import { BiCheck } from "react-icons/bi";
 
-import { H1, H2, H3, H4, P } from "@/components/styles/typography/typography.styled";
 import ContactForm from "../home/ContactForm";
 
 type Props = {};
@@ -53,9 +52,9 @@ const Contact = (props: Props) => {
     <div className="lg:p-12 xl:p-16 2xl:p-20 p-6 px-[10%] pb-24">
       <div className="flex h-[90vh] w-full items-center justify-center">
         <div>
-          <H1 className="text-center font-semibold leading-tight">Tell us about.</H1>
-          <P className="text-right">Your great</P>
-          <P className="text-right">Ideas...</P>
+          <h1 className="text-web-h0 md:text-mobile-h1 text-center font-semibold leading-tight">Tell us about.</h1>
+          <p className="text-right">Your great</p>
+          <p className="text-right">Ideas...</p>
         </div>
       </div>
 
@@ -65,7 +64,7 @@ const Contact = (props: Props) => {
 
       <div className="flex w-full items-center">
         <div>
-          <H3 className="font-semibold leading-tight ">Feel free to ask us anything.</H3>
+          <h3 className="font-semibold leading-tight ">Feel free to ask us anything.</h3>
         </div>
       </div>
       <ContactForm />

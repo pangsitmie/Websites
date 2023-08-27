@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from 'react';
+import { SelectedPage } from '@/shared/types';
+import { StyledButtonUnderline } from '../styles/button/ButtonUnderline.styled';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import LOGO_BLACK from "../../assets/logo_black.png";
-import LOGO_WHITE from "../../assets/logo_white.png";
-import { SelectedPage } from "@/shared/types";
-import useMediaQuery from "@/hooks/useMediaQuery";
-import ButtonStorke from "../button/ButtonStroke";
-import { StyledButtonUnderline } from "../styles/button/ButtonUnderline.styled";
-import { Link } from 'react-scroll';
-import { useLocation, useNavigate } from "react-router-dom";
-import { P } from "../styles/typography/typography.styled";
 
 type Props = {
   selectedPage: SelectedPage;
@@ -16,68 +13,62 @@ type Props = {
 };
 
 const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
-  const flexBetween = "flex items-center justify-between";
+  const flexBetween = 'flex items-center justify-between';
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
-  const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
+  // const isAboveMediumScreens = useMediaQuery('(min-width: 1060px)');
 
+  const { isDesktop } = useMediaQuery();
 
-  // const [isDarkBackground, setIsDarkBackground] = useState<boolean>(false);
-
-  const location = useLocation();
-  const isProjectPath = (location.pathname === '/projects');
-
-
+  const router = useRouter();
+  const isProjectPath = router.pathname.startsWith('/projects');
 
   return (
     <nav>
-      <div
-        className={`${flexBetween} relative z-30 py-6`}
-      >
+      <div className={`${flexBetween} relative z-30  py-36`}>
         <div className={`${flexBetween} mx-auto w-5/6`}>
           <div className={`${flexBetween} w-full gap-16`}>
             {/* LEFT SIDE */}
-            <a href="/">
-              {isProjectPath ?
-                (<img alt="logo" width={"40px"} src={LOGO_WHITE} />) :
-                (<img alt="logo" width={"40px"} src={LOGO_BLACK} />)
-              }
-            </a>
-
+            <Link href="/" passHref>
+              {isProjectPath ? (
+                <Image alt="logo" width={40} height={40} src="/images/logo_white.png" priority={true} />
+              ) : (
+                <Image alt="logo" width={40} height={40} src={"/images/logo_black.png"} priority={true} />
+              )}
+            </Link>
             {/* RIGHT SIDE */}
-            {isAboveMediumScreens ? (
+            {isDesktop ? (
               <div className={`${flexBetween} w-full`}>
-                <div className={`${flexBetween} gap-8 `}></div>
-                <div className={`${flexBetween} gap-16 font-semibold ${isProjectPath ? 'text-white' : 'text-black'}`}>
-
-                  <StyledButtonUnderline>
-                    <a href="/projects" className="text-[16px]">
+                <div className={`${flexBetween} `}></div>
+                <div className={`${flexBetween} gap-36 font-semibold ${isProjectPath ? 'text-white' : 'text-black'}`}>
+                  <Link href="/projects" passHref>
+                    <StyledButtonUnderline className="text-[16px]">
                       Projects
-                    </a>
-                  </StyledButtonUnderline>
-                  <StyledButtonUnderline>
-                    <a href="/about" className="text-[16px]">
+                    </StyledButtonUnderline>
+                  </Link>
+                  <Link href="/about" passHref>
+                    <StyledButtonUnderline className="text-[16px]">
                       About Us
-                    </a>
-                  </StyledButtonUnderline>
-                  <StyledButtonUnderline>
-                    <a href="/parnership" className="text-[16px]">
-                      Partnerships
-                    </a>
-                  </StyledButtonUnderline>
-                  <StyledButtonUnderline>
-                    <a href="/contact" className="text-[16px]">
-                      Contact Us
-                    </a>
-                  </StyledButtonUnderline>
-                  {/* <ButtonStorke text="Contact us" className="text-xl" link={"/contact"} /> */}
+                    </StyledButtonUnderline>
+                  </Link>
+                  <Link href="/partnerships" passHref>
+                    <StyledButtonUnderline className="text-[16px]">
+                      Partnership
+                    </StyledButtonUnderline>
+                  </Link>
+                  <Link href="/contact" passHref>
+                    <StyledButtonUnderline className="text-[16px]">
+                      Contact
+                    </StyledButtonUnderline>
+                  </Link>
+                  {/* Add other links here */}
                 </div>
               </div>
             ) : (
               <button
-                className="rounded-full p-2"
+                className="rounded-full"
                 onClick={() => setIsMenuToggled(!isMenuToggled)}
               >
-                <Bars3Icon className="h-6 w-6 text-black" />
+                <Bars3Icon className="h-24 w-24 text-black" />
               </button>
             )}
           </div>
@@ -85,22 +76,27 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
       </div>
 
       {/* MOBILE MENU MODAL */}
-      {!isAboveMediumScreens && isMenuToggled && (
-        <div className="fixed right-0 bottom-0 z-40 h-full w-[280px] bg-white drop-shadow-xl">
+      {!isDesktop && isMenuToggled && (
+        <div className="fixed right-0 bottom-0 z-40 h-full w-[250px] bg-white drop-shadow-xl">
           {/* CLOSE ICON */}
-          <div className="flex justify-end p-9">
+          <div className="flex justify-end p-24">
             <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
-              <XMarkIcon className="h-6 w-6 text-gray-400" />
+              <XMarkIcon className="h-24 w-24 text-gray" />
             </button>
           </div>
 
           {/* MENU ITEMS */}
-          <div className="ml-[18%] flex flex-col gap-10 text-2xl">
-            <a href="/projects">Projects</a>
-            <a href="/about">About</a>
-            <a href="/contact" className="text-primary-100">
+          <div className="ml-[18%] mt-24 flex flex-col gap-24 text-mobile-body-18">
+            <Link href="/projects" passHref className='active:text-blue'>
+              Projects
+            </Link>
+            <Link href="/about" className='active:text-blue' passHref>
+              About
+            </Link>
+            <Link href="/contact" className='active:text-blue' passHref>
               Contact
-            </a>
+            </Link>
+            {/* Add other mobile menu links here */}
           </div>
         </div>
       )}

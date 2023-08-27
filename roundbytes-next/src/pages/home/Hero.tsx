@@ -1,67 +1,55 @@
 import { useInView } from "react-intersection-observer";
-import { batch, FadeIn, StickyIn, ZoomIn } from "react-scroll-motion";
+// import { batch, FadeIn, StickyIn, ZoomIn } from "react-scroll-motion";
 import { motion } from "framer-motion";
 import HeroSocials from "./HeroSocials";
-import { BsArrowDown, BsArrowRight } from "react-icons/bs";
-import PortfolioCard from "../../components/PortfolioCard";
-import IMG1 from "@/assets/gamepay.png";
-import IMG2 from "@/assets/alliance.png";
-import IMG3 from "@/assets/yuncheng.png";
-import { Flex } from "@/components/styles/Flex.styled";
+import { BsArrowRight } from "react-icons/bs";
 import { StyledMediaContainerGone } from "@/components/styles/MediaContainerGone.styled";
-import CV from "../../assets/Resume_26_MAR_2023.pdf";
-import { H1, H2, H3, H4 } from "@/components/styles/typography/typography.styled";
-import { SyteledCurveTop } from "@/components/styles/container/CurveTop.styled";
-import { SyteledCurveBottom } from "@/components/styles/container/CurveBottom.styled";
 import TrailText from "@/components/TrailText";
-const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
-
+// const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
 import { Canvas } from "@react-three/fiber";
 import Blob from "@/components/blob/Blob";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-type Props = {};
+const variants = {
+  hidden: { y: 50, opacity: 0 },
+  visible: { y: 0, opacity: 1 },
+};
 
-const Hero = (props: Props) => {
+
+const Hero = () => {
   const { ref, inView } = useInView({ trackVisibility: true, delay: 100 });
-
-  const variants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
-
-
-  const isMobile = useMediaQuery('(max-width: 767px)');
+  const { isMobile } = useMediaQuery();
 
   return (
     <motion.div
-      className={`show ${isMobile ? 'px-[5%]' : 'px-[8%]'} pt-[8%] pb-[18vh] relative`}
+      className={`h-[80vh] show ${isMobile ? 'px-[5%]' : 'px-[8%]'} pt-[3%] pb-[18vh] relative`}
       ref={ref}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={variants}
       transition={{ duration: 0.5 }}
     >
-      <div className={`${isMobile ? 'block text-center' : 'flex'}`}>
+      <div className={`${isMobile ? 'block text-center' : 'flex items-center justify-between'}`}>
         {/* left */}
-        <div className={`${isMobile ? 'mt-16' : 'w-1/2'}`}>
+        <div className={`${isMobile ? 'mt-24' : ''}`}>
           <TrailText open={true} className="">
-            <span className="text-black">We Make</span>
-            <span className="text-black">Anything</span>
-            <span className="text-black">Look Good</span>
+            {/* Clay is a global branding and UX design agency */}
+            <span className="text-black">Round Bytes</span>
+            <span className="text-black">Helps you with</span>
+            <span className="text-black">Digital solutions</span>
           </TrailText>
 
-          <H4 className="text-primary-100 font-semibold my-6">
+          <h4 className="text-web-h4 md:text-mobile-h4 text-blue font-semibold my-36">
             WEB DEVELOPMENT / BRANDING / UI / UX
-          </H4>
+          </h4>
 
-          <div className={"pl-1 mt-10"}>
+          <div className={"pl-1"}>
             <HeroSocials />
           </div>
         </div>
 
         {/* blob */}
-        <div className={`${isMobile ? 'absolute top-[-50%] left-0 right-0 z-[-1] h-[100%]' : 'static w-[50%]'}`}>
+        <div className={`${isMobile ? ' absolute h-[150%] w-full top-[-70%] left-0 right-0 z-[-1]' : 'w-1/2 h-[512px]'}`}>
           <Canvas camera={{ position: [0.0, 0.0, 8.0] }}>
             <Blob />
           </Canvas>
@@ -70,16 +58,13 @@ const Hero = (props: Props) => {
         <StyledMediaContainerGone>
           <a
             href="/projects/behind-the-scene"
-            className="font-weight-300 align-center absolute top-[40%] right-0 flex rotate-90 items-center justify-between gap-2 text-gray-400"
+            className="font-weight-300 align-center absolute top-[40%] right-0 flex rotate-90 items-center justify-between gap-2 text-gray md:hidden"
           >
             Behind The Scene
             <BsArrowRight />
           </a>
         </StyledMediaContainerGone>
       </div>
-
-
-
     </motion.div>
   );
 };

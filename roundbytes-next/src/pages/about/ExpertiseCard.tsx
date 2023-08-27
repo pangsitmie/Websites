@@ -2,7 +2,6 @@ import { StyledExpertiseCard } from "@/components/styles/card/ExpertiseCard.styl
 import { BsPatchCheckFill } from "react-icons/bs";
 
 import React from "react";
-import { H3 } from "@/components/styles/typography/typography.styled";
 
 type Props = {
   title: string;
@@ -12,7 +11,7 @@ type Props = {
 const ExpertiseCard = ({ title, data }: Props) => {
   return (
     <StyledExpertiseCard>
-      <H3 className="mb-8 text-center">{title}</H3>
+      <h3 className="text-h3 mb-8 text-center">{title}</h3>
       <div className="grid grid-cols-2 gap-2">
         {data.map((item, index) => (
           <div className="flex gap-2" key={index}>

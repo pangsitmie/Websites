@@ -1,18 +1,17 @@
 import styled from "styled-components";
 
-export const StyledProjectCard = styled.div`
-border-radius: 25px;
-height: 450px;
-width: 350px;
+export const StyledImageHover = styled.div`
+height: 500px;
+width: 500px;
 cursor: pointer;
 position: relative;
-margin: 1rem;
-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
 
 &:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);}
+    box-shadow: 0 14px 28px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.1);
+    transform: scale(1.01);
+}
 
 
 &:hover::before {
@@ -22,8 +21,7 @@ transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 &:hover h4 {
